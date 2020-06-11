@@ -1,15 +1,14 @@
-# Introduction
-
 <center>
   <br>
   </br>
   <h1>
-    Machine Learning Algorithm Handbook
+    Machine Learning from Scratch
   </h1>
   <h4>
-    Concepts, Constructions, and Code
+    Concepts, Constructions, and Code Under the Hood
   </h4>
 </center>
+
 
 
 ```{figure} ../logo.png
