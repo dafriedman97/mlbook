@@ -1,0 +1,47 @@
+# Book settings
+title: 
+author: Danny Friedman
+logo: titlelogo.png
+
+latex:
+  latex_documents:
+    targetname: book.tex
+
+execute:
+  execute_notebooks         : 'off'
+
+repository: 
+  url: https://github.com/dafriedman97/book
+
+html:
+  favicon: logo.png
+  home_page_in_navbar: false
+  use_edit_page_button: true
+
+exclude_patterns: ["FLD_graphs.ipynb"]
+
+sphinx:
+  extra_extensions          : ""
+  config                    :
+    mathjax_config          :
+      TeX                   :
+        Macros              :
+          "sumN"            : "\\sum_{n = 1}^N"
+          "sumn"            : "\\sum_{n}"
+          "prodN"           : "\\prod_{n = 1}^N"
+          "bx"              : "\\mathbf{x}"
+          "by"              : "\\mathbf{y}"
+          "bX"              : "\\mathbf{X}"
+          "bY"              : "\\mathbf{Y}"
+          "bT"              : "\\mathbf{T}"
+          "bbeta"           : "\\boldsymbol{\\beta}"
+          "btheta"          : "\\boldsymbol{\\theta}"
+          "bmu"             : "\\boldsymbol{\\mu}"
+          "bSigma"          : "\\boldsymbol{\\Sigma}"
+          "btheta"          : "\\boldsymbol{\\hat{\\theta}}}"
+          "bbetahat"        : "\\boldsymbol{\\hat{\\beta}}"
+          "bbR"             : "\\mathbb{R}"
+          "iid"             : "\\overset{\\small{\\text{i.i.d.}}}{\\sim}}"
+          "dadb"            : ["{\\frac{\\partial #1}{\\partial #2}}",2]
+          "testing"         : "\\TeX"
+
