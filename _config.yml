@@ -45,3 +45,5 @@ sphinx:
           "dadb"            : ["{\\frac{\\partial #1}{\\partial #2}}",2]
           "testing"         : "\\TeX"
 
+
+theme: jekyll-theme-time-machine
