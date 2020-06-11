@@ -1,0 +1,2 @@
+jupyter-book>=0.7.0b
+idna==2.6
