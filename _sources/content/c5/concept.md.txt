@@ -1,1 +1,3 @@
 # Concept
+
+When splitting a predictor having q possible unordered values, there are 2q−1 − 1 possible partitions of the q values into two groups, and the com- putations become prohibitive for large q. However, with a 0 − 1 outcome, this computation simplifies. We order the predictor classes according to the proportion falling in outcome class 1. Then we split this predictor as if it were an ordered predictor. One can show this gives the optimal split, in terms of cross-entropy or Gini index, among all possible 2q−1 −1 splits. This result also holds for a quantitative outcome and square error loss—the cat- egories are ordered by increasing mean of the outcome.

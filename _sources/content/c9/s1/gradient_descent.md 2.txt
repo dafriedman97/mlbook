@@ -1,2 +1,0 @@
-# Gradient Descent
-
