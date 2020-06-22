@@ -29,10 +29,12 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.18.0/dist/embed-amd.js"></script>
     <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <script type="text/x-mathjax-config">MathJax.Hub.Config({"TeX": {"Macros": {"sumN": "\\sum_{n = 1}^N", "sumn": "\\sum_{n}", "prodN": "\\prod_{n = 1}^N", "bx": "\\mathbf{x}", "by": "\\mathbf{y}", "bX": "\\mathbf{X}", "bY": "\\mathbf{Y}", "bT": "\\mathbf{T}", "bbeta": "\\boldsymbol{\\beta}", "btheta": "\\boldsymbol{\\hat{\\theta}}}", "bmu": "\\boldsymbol{\\mu}", "bSigma": "\\boldsymbol{\\Sigma}", "bbetahat": "\\boldsymbol{\\hat{\\beta}}", "bbR": "\\mathbb{R}", "iid": "\\overset{\\small{\\text{i.i.d.}}}{\\sim}}", "dadb": ["{\\frac{\\partial #1}{\\partial #2}}", 2], "testing": "\\TeX"}}})</script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"TeX": {"Macros": {"sumN": "\\sum_{n = 1}^N", "sumn": "\\sum_{n}", "prodN": "\\prod_{n = 1}^N", "bx": "\\mathbf{x}", "by": "\\mathbf{y}", "bX": "\\mathbf{X}", "bY": "\\mathbf{Y}", "bT": "\\mathbf{T}", "bbeta": "\\boldsymbol{\\beta}", "btheta": "\\boldsymbol{\\hat{\\theta}}}", "bmu": "\\boldsymbol{\\mu}", "bSigma": "\\boldsymbol{\\Sigma}", "bbetahat": "\\boldsymbol{\\hat{\\beta}}", "bbR": "\\mathbb{R}", "iid": "\\overset{\\small{\\text{i.i.d.}}}{\\sim}}", "dadb": ["{\\frac{\\partial #1}{\\partial #2}}", 2], "testing": "\\TeX", "R": "\\mathbb{R}"}}})</script>
     <link rel="shortcut icon" href="../../_static/logo.png"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Regression Trees" href="s2/regression_tree.html" />
+    <link rel="prev" title="Classification Trees" href="s1/classification_tree.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="docsearch:language" content="en">
@@ -117,6 +119,62 @@
   </li>
   <li class="">
     <a href="../c4/code.html">Code</a>
+  </li>
+<li class="navbar-special">
+<p class="margin-caption">5. Decision Trees</p>
+</li>
+  <li class="">
+    <a href="concept.html">Concept</a>
+  </li>
+  <li class="active">
+    <a href="">Construction</a>
+  <ul class="nav sidenav_l2">
+    <li class="">
+      <a href="s2/regression_tree.html">Regression Trees</a>
+    </li>
+    <li class="">
+      <a href="s2/classification_tree.html">Classification Trees</a>
+    </li>
+  </ul>
+  </li>
+  <li class="">
+    <a href="code.html">Code</a>
+  </li>
+<li class="navbar-special">
+<p class="margin-caption">6. Tree Ensemble Methods</p>
+</li>
+  <li class="">
+    <a href="../c6/concept.html">Concept</a>
+  </li>
+  <li class="">
+    <a href="../c6/construction.html">Construction</a>
+  </li>
+  <li class="">
+    <a href="../c6/code.html">Code</a>
+  </li>
+<li class="navbar-special">
+<p class="margin-caption">7. Neural Networks</p>
+</li>
+  <li class="">
+    <a href="../c7/concept.html">Concept</a>
+  </li>
+  <li class="">
+    <a href="../c7/construction.html">Construction</a>
+  </li>
+  <li class="">
+    <a href="../c7/code.html">Code</a>
+  </li>
+<li class="navbar-special">
+<p class="margin-caption">8. Unsupervised Learning</p>
+</li>
+  <li class="">
+    <a href="../c8/concept.html">Concept</a>
+  </li>
+  <li class="">
+    <a href="../c8/construction.html">Construction</a>
+  </li>
+  <li class="">
+    <a href="../c8/code.html">Code</a>
   </li>
 <li class="navbar-special">
 <p class="margin-caption">Common ML Methods</p>
@@ -231,117 +289,7 @@
                 
   <div class="section" id="construction">
 <h1>Construction<a class="headerlink" href="#construction" title="Permalink to this headline">¶</a></h1>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span> 
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
-<span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">datasets</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">tips</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">load_dataset</span><span class="p">(</span><span class="s1">&#39;tips&#39;</span><span class="p">)</span>
-<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">tips</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span> <span class="o">=</span> <span class="s1">&#39;tip&#39;</span><span class="p">))</span>
-<span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">tips</span><span class="p">[</span><span class="s1">&#39;tip&#39;</span><span class="p">])</span>
-</pre></div>
-</div>
-</div>
-</div>
-<p>Note: by default string is treated as categorical and integer/float as quantitative. Add option to change this?</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">RegressionTree</span><span class="p">:</span>
-
-        
-    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">N</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">D</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">dtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span><span class="n">d</span><span class="p">]))</span><span class="o">.</span><span class="n">dtype</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">D</span><span class="p">)]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">X</span> <span class="o">=</span> <span class="n">X</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">y</span>
-        
-        
-    <span class="k">def</span> <span class="nf">make_split</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Xsub</span><span class="p">,</span> <span class="n">ysub</span><span class="p">):</span>
-        
-        <span class="bp">self</span><span class="o">.</span><span class="n">best_d</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">best_v</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">best_rss</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span>
-        
-        <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">D</span><span class="p">):</span>
-            
-            <span class="n">Xsub_d</span> <span class="o">=</span> <span class="n">Xsub</span><span class="p">[:,</span><span class="n">d</span><span class="p">]</span>
-            
-            <span class="c1">## Quantitative Predictors</span>
-            <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dtypes</span><span class="p">[</span><span class="n">d</span><span class="p">]</span> <span class="o">==</span> <span class="nb">float</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dtypes</span><span class="p">[</span><span class="n">d</span><span class="p">]</span> <span class="o">==</span> <span class="nb">int</span><span class="p">):</span> 
-                <span class="n">Xsub_d_unique</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">Xsub_d</span><span class="p">)</span> 
-                <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">Xsub_d_unique</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
-                    <span class="n">Xsub_d_less</span> <span class="o">=</span> <span class="n">ysub</span><span class="p">[</span><span class="n">Xsub_d</span> <span class="o">&lt;=</span> <span class="n">v</span><span class="p">]</span>
-                    <span class="n">Xsub_d_greater</span> <span class="o">=</span> <span class="n">ysub</span><span class="p">[</span><span class="n">Xsub_d</span> <span class="o">&gt;</span> <span class="n">v</span><span class="p">]</span>
-                    <span class="n">rss</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rss</span><span class="p">(</span><span class="n">Xsub_d_less</span><span class="p">,</span> <span class="n">Xsub_d_greater</span><span class="p">)</span>
-                    <span class="k">if</span> <span class="n">rss</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">best_rss</span><span class="p">:</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">best_d</span> <span class="o">=</span> <span class="n">d</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">best_v</span> <span class="o">=</span> <span class="n">v</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">best_rss</span> <span class="o">=</span> <span class="n">rss</span>
-                        
-            <span class="c1">## Categorical Predictors</span>
-            <span class="k">else</span><span class="p">:</span> 
-                <span class="n">ordered_categories</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sort_by_outcome</span><span class="p">(</span><span class="n">Xsub_d</span><span class="p">,</span> <span class="n">ysub</span><span class="p">)</span>
-    
-        <span class="k">def</span> <span class="nf">rss</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
-            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">a</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">a</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">b</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">b</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
-
-        <span class="k">def</span> <span class="nf">sort_by_outcome</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Xsub_d</span><span class="p">,</span> <span class="n">ysub</span><span class="p">):</span>
-            <span class="n">Xsub_d</span> <span class="o">=</span> <span class="n">Xsub</span><span class="p">[:,</span><span class="n">d</span><span class="p">]</span>
-            <span class="n">categories</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">Xsub_d</span><span class="p">)</span>
-            <span class="n">rss_by_category</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">categories</span><span class="p">))</span>
-            <span class="n">SoRTit</span>
-            <span class="k">return</span> <span class="n">ordered_categories</span>
-        
-        
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">tree</span> <span class="o">=</span> <span class="n">RegressionTree</span><span class="p">()</span>
-<span class="n">tree</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
-<span class="n">tree</span><span class="o">.</span><span class="n">make_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
-<span class="n">tree</span><span class="o">.</span><span class="n">best_d</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>0
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>array([1, 0, 3, 2])
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">2</span><span class="p">])[</span><span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">2</span><span class="p">])]</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>array([0, 1, 2, 5])
-</pre></div>
-</div>
-</div>
+<div class="toctree-wrapper compound">
 </div>
 </div>
 
@@ -354,6 +302,8 @@
     
     <div class='prev-next-bottom'>
         
+    <a class='left-prev' id="prev-link" href="s1/classification_tree.html" title="previous page">Classification Trees</a>
+    <a class='right-next' id="next-link" href="s2/regression_tree.html" title="next page">Regression Trees</a>
 
     </div>
     <footer class="footer mt-5 mt-md-0">

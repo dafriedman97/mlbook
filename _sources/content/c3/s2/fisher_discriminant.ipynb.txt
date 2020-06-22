@@ -9,7 +9,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 77,
+   "execution_count": 21,
    "metadata": {},
    "outputs": [],
    "source": [
@@ -24,7 +24,7 @@
     "X = wine['data']\n",
     "y = wine['target']\n",
     "X_binary = X[y != 2].copy()\n",
-    "y_binary = y[y != 2].copy()"
+    "y_binary = y[y != 2].copy()\n"
    ]
   },
   {
@@ -45,7 +45,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 78,
+   "execution_count": 22,
    "metadata": {},
    "outputs": [],
    "source": [
@@ -83,7 +83,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 84,
+   "execution_count": 23,
    "metadata": {},
    "outputs": [],
    "source": [
@@ -100,7 +100,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 80,
+   "execution_count": 24,
    "metadata": {
     "tags": [
      "hide-input"

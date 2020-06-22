@@ -1,0 +1,66 @@
+# Classification Trees
+
+$$
+\newcommand{\sumN}{\sum_{n = 1}^N}
+\newcommand{\sumn}{\sum_n}
+\newcommand{\prodN}{\prod_{n = 1}^N}
+\newcommand{\by}{\mathbf{y}} \newcommand{\bX}{\mathbf{X}}
+\newcommand{\bx}{\mathbf{x}}
+\newcommand{\bbeta}{\boldsymbol{\beta}}
+\newcommand{\btheta}{\boldsymbol{\theta}}
+\newcommand{\bbetahat}{\boldsymbol{\hat{\beta}}}
+\newcommand{\bthetahat}{\boldsymbol{\hat{\theta}}}
+\newcommand{\bSigma}{\boldsymbol{\Sigma}}
+\newcommand{\bT}{\mathbf{T}}
+\newcommand{\dadb}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\iid}{\overset{\small{\text{i.i.d.}}}{\sim}}
+$$
+
+Building a classification tree is essentially identical to building a regression tree but optimizing a different loss function—one fitting for a categorical response variable. For that reason, this section only covers the details unique to classification trees, rather than demonstrating how one is built from scratch. To understand the tree-building process in general, see the {doc}` previous section <regression_tree>`.
+
+Suppose for the following that we have data $\{\bx_n, y_n\}_{n = 1}^N$ with predictor variables $\bx_n \in \R^D$ and a categorical response variable $y_n \in \{1, \dots, K\}$ . 
+
+
+
+## Building a Tree
+
+
+
+### The Objective
+
+Two common loss functions for a classification are the *Gini index* and the *cross-entropy*. Let $n \in \mathcal{N}_m$ be the collection of training observations that pass through node $m$ and let $\hat{y}_{mk}$ be the fraction of these observations in class $k$ for $k = 1, \dots, K$. The Gini index for $\mathcal{N}_m$ is defined as
+
+
+$$
+\mathcal{L}_{G}(\mathcal{N}_m) = \sum_{k = 1}^K \hat{p}_{mk}(1-\hat{p}_{mk}),
+$$
+
+
+and the *cross-entropy* is defined as 
+
+
+$$
+\mathcal{L}_{E}(\mathcal{N}_m) = -\sum_{k = 1}^K \hat{p}_{mk} \log\hat{p}_{mk}.
+$$
+
+
+The Gini index and cross-entropy are measures of *impurity*—they are higher for nodes with more equal representation of different classes and lower for nodes represented largely by a single class. As a node becomes more pure, these loss measures tend toward zero.  
+
+
+
+### Making Splits
+
+- The same but greatest reduction in impurity 
+
+
+
+### Making Predictions
+
+Classifying test observations with a fully-grown tree is very straightforward. First, run an observation through the tree and observe which leaf it lands in. Then classify it according to the most common class in that leaf. 
+
+For large enough leaves, we can also estimate the probability that the test observation belongs to any given class: if test observation $j$ lands in leaf $m$, we can estimate $p(y_j =  k)$ with $\hat{p}_{mk}$ for each $k$. 
+
+
+
+
+

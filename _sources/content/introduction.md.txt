@@ -7,9 +7,10 @@
     Machine Learning from Scratch
   </h1>
   <h4>
-    Concepts, Constructions, and Code Under the Hood
+    Derivations in Concept and Code
   </h4>
 </center>
+
 
 
 
