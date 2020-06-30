@@ -33,7 +33,7 @@
     <link rel="shortcut icon" href="../../_static/logo.png"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Construction" href="construction.html" />
+    <link rel="next" title="Bagging" href="s1/bagging.html" />
     <link rel="prev" title="Code" href="../c5/code.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -137,6 +137,17 @@
 </li>
   <li class="active">
     <a href="">Concept</a>
+  <ul class="nav sidenav_l2">
+    <li class="">
+      <a href="s1/bagging.html">Bagging</a>
+    </li>
+    <li class="">
+      <a href="s1/random_forests.html">Random Forests</a>
+    </li>
+    <li class="">
+      <a href="s1/boosting.html">Boosting</a>
+    </li>
+  </ul>
   </li>
   <li class="">
     <a href="construction.html">Construction</a>
@@ -270,6 +281,12 @@
                 
   <div class="section" id="concept">
 <h1>Concept<a class="headerlink" href="#concept" title="Permalink to this headline">¶</a></h1>
+<p>Due to their high variance, decision trees often fail to reach a level of precision comparable to other predictive algorithms. In the previous chapter, we introduced several ways to minimize the variance of a single decision tree, such as through pruning or direct size regulation. This chapter discusses another approach: <em>ensemble</em> methods. Ensemble methods combine the output of multiple simple models, often called “learners”, in order to create a final model with lower variance.</p>
+<p>We introduce ensemble methods in the context of tree-based learners though ensemble methods can be applied to a wide range of learning algorithms. That said, the structure of decision trees makes ensemble methods particularly valuable. Here we discuss three tree-based ensemble methods: <em>bagging</em>, <em>random forests</em>, and <em>boosting</em>.</p>
+<p>An example demonstrating the power of ensemble methods is given below. Using the <code class="docutils literal notranslate"><span class="pre">tips</span></code> dataset from <code class="docutils literal notranslate"><span class="pre">scikit-learn</span></code>, we build several tree-based learners. Then for <span class="math notranslate nohighlight">\(b = 1, 2,  \dots, 30\)</span>, we use bagging to average the results of the <span class="math notranslate nohighlight">\(b\)</span> learners. For each bagged model, we also calculate the out-of-sample <span class="math notranslate nohighlight">\(RSS\)</span>. The blue line below shows the <span class="math notranslate nohighlight">\(RSS\)</span> for each bagged model—which clearly decreases with <span class="math notranslate nohighlight">\(b\)</span>—and the red line shows the <span class="math notranslate nohighlight">\(RSS\)</span> for a single decision tree. By averaging many trees, rather than relying on a single one, we are able to improve the precision of our model.</p>
+<p><img alt="" src="../../_images/ensemble_accuracy.png" /></p>
+<div class="toctree-wrapper compound">
+</div>
 </div>
 
 
@@ -282,7 +299,7 @@
     <div class='prev-next-bottom'>
         
     <a class='left-prev' id="prev-link" href="../c5/code.html" title="previous page">Code</a>
-    <a class='right-next' id="next-link" href="construction.html" title="next page">Construction</a>
+    <a class='right-next' id="next-link" href="s1/bagging.html" title="next page">Bagging</a>
 
     </div>
     <footer class="footer mt-5 mt-md-0">

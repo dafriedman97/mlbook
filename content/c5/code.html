@@ -257,9 +257,20 @@
         
     </div>
     <div class="d-none d-md-block col-md-2 bd-toc show">
+<div class="tocsection onthispage pt-5 pb-3">
+    <i class="fas fa-list"></i> On this page
+</div>
 
 <nav id="bd-toc-nav">
     <ul class="nav section-nav flex-column">
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#regression-tree" class="nav-link">1. Regression Tree</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#classification-tree" class="nav-link">2. Classification Tree</a>
+        </li>
     
     </ul>
 </nav>
@@ -281,48 +292,116 @@
                 
   <div class="section" id="code">
 <h1>Code<a class="headerlink" href="#code" title="Permalink to this headline">¶</a></h1>
+<p>This section demonstrates how to fit regression and decision trees with <code class="docutils literal notranslate"><span class="pre">scikit-learn</span></code>. We will again use the <code class="docutils literal notranslate"><span class="pre">tips</span></code> dataset for the regression tree and the <code class="docutils literal notranslate"><span class="pre">penguins</span></code> dataset for the classification tree.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">## Import packages</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span> 
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">from</span> <span class="nn">sklearn.tree</span> <span class="kn">import</span> <span class="n">DecisionTreeClassifier</span><span class="p">,</span> <span class="n">plot_tree</span>
-
-
-<span class="n">penguins</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">load_dataset</span><span class="p">(</span><span class="s1">&#39;penguins&#39;</span><span class="p">)</span>
-<span class="n">penguins</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">inplace</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
-<span class="n">penguins</span><span class="p">[</span><span class="s1">&#39;male&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="o">*</span><span class="p">(</span><span class="n">penguins</span><span class="p">[</span><span class="s1">&#39;sex&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;MALE&#39;</span><span class="p">)</span>
-<span class="n">X_df</span> <span class="o">=</span> <span class="n">penguins</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;species&#39;</span><span class="p">,</span><span class="s1">&#39;island&#39;</span><span class="p">,</span><span class="s1">&#39;sex&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;culmen_length_mm&#39;</span><span class="p">:</span><span class="s1">&#39;bill_length&#39;</span><span class="p">,</span>
-                                                               <span class="s1">&#39;culmen_depth_mm&#39;</span><span class="p">:</span><span class="s1">&#39;bill_depth&#39;</span><span class="p">,</span>
-                                                               <span class="s1">&#39;body_mass_g&#39;</span><span class="p">:</span><span class="s1">&#39;body_mass&#39;</span><span class="p">,</span>
-                                                                            <span class="s1">&#39;flipper_length_mm&#39;</span><span class="p">:</span><span class="s1">&#39;flipper_length&#39;</span><span class="p">})</span>
-<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">X_df</span><span class="p">)</span>
-<span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">penguins</span><span class="p">[</span><span class="s1">&#39;species&#39;</span><span class="p">])</span>
-
-
-<span class="n">clf</span> <span class="o">=</span> <span class="n">DecisionTreeClassifier</span><span class="p">(</span><span class="n">max_depth</span> <span class="o">=</span> <span class="mi">2</span><span class="p">)</span>
-<span class="n">clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">);</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">datasets</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 </pre></div>
 </div>
 </div>
 </div>
+<div class="section" id="regression-tree">
+<h2>1. Regression Tree<a class="headerlink" href="#regression-tree" title="Permalink to this headline">¶</a></h2>
+<p>Let’s start by loading in the data. We’ll keep things as <code class="docutils literal notranslate"><span class="pre">pandas</span></code> dataframes rather than <code class="docutils literal notranslate"><span class="pre">numpy</span></code> arrays now.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">8</span><span class="p">))</span>
-<span class="n">plot_tree</span><span class="p">(</span><span class="n">clf</span><span class="p">,</span>
-          <span class="n">max_depth</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span>
-          <span class="n">feature_names</span> <span class="o">=</span> <span class="n">X_df</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span>
-          <span class="n">impurity</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-          <span class="n">class_names</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">y</span><span class="p">),</span>
-          <span class="n">rounded</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
-          <span class="n">fontsize</span> <span class="o">=</span> <span class="mi">14</span><span class="p">,</span>
-          <span class="n">filled</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
-         <span class="p">);</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">## Load tips data</span>
+<span class="n">tips</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">load_dataset</span><span class="p">(</span><span class="s1">&#39;tips&#39;</span><span class="p">)</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">tips</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span> <span class="o">=</span> <span class="s1">&#39;tip&#39;</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">tips</span><span class="p">[</span><span class="s1">&#39;tip&#39;</span><span class="p">]</span>
+
+<span class="c1">## Train-test split</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">test_frac</span> <span class="o">=</span> <span class="mf">0.25</span>
+<span class="n">test_size</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">)</span><span class="o">*</span><span class="n">test_frac</span><span class="p">)</span>
+<span class="n">test_idxs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">)),</span> <span class="n">test_size</span><span class="p">,</span> <span class="n">replace</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
+<span class="n">X_train</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">test_idxs</span><span class="p">)</span>
+<span class="n">y_train</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">test_idxs</span><span class="p">)</span>
+<span class="n">X_test</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">test_idxs</span><span class="p">]</span>
+<span class="n">y_test</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">test_idxs</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can then fit the regression tree with the <code class="docutils literal notranslate"><span class="pre">DecisionTreeRegressor</span></code> class. Unfortunately, <code class="docutils literal notranslate"><span class="pre">scikit-learn</span></code> does not currently support categorical predictors. Instead, we have to first convert to dummy variables. Note that this implies that splits of categorical variables can only separate one value from the rest. For instance, a variable with discrete values <span class="math notranslate nohighlight">\(a, b, c,\)</span> and <span class="math notranslate nohighlight">\(d\)</span> could not be split as <span class="math notranslate nohighlight">\(\{a, b\}\)</span> versus <span class="math notranslate nohighlight">\(\{c, d\}\)</span>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.tree</span> <span class="kn">import</span> <span class="n">DecisionTreeRegressor</span>
+
+<span class="c1">## Get dummies</span>
+<span class="n">X_train</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">get_dummies</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">drop_first</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+<span class="n">X_test</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">get_dummies</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">drop_first</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+
+<span class="c1">## Build model</span>
+<span class="n">dtr</span> <span class="o">=</span> <span class="n">DecisionTreeRegressor</span><span class="p">(</span><span class="n">max_depth</span> <span class="o">=</span> <span class="mi">7</span><span class="p">,</span> <span class="n">min_samples_split</span> <span class="o">=</span> <span class="mi">5</span><span class="p">)</span>
+<span class="n">dtr</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">y_test_hat</span> <span class="o">=</span> <span class="n">dtr</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+
+<span class="c1">## Visualize predictions</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">scatterplot</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_test_hat</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xlabel</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;$y$&#39;</span><span class="p">,</span> <span class="n">ylabel</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;$\hat</span><span class="si">{y}</span><span class="s1">$&#39;</span><span class="p">,</span> <span class="n">title</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;Test Sample $y$ vs. $\hat</span><span class="si">{y}</span><span class="s1">$&#39;</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/code_2_0.png" src="../../_images/code_2_0.png" />
+<img alt="../../_images/code_7_02.png" src="../../_images/code_7_02.png" />
+</div>
+</div>
+</div>
+<div class="section" id="classification-tree">
+<h2>2. Classification Tree<a class="headerlink" href="#classification-tree" title="Permalink to this headline">¶</a></h2>
+<p>The classification tree implementation in <code class="docutils literal notranslate"><span class="pre">scikit-learn</span></code> is nearly identical. The corresponding code is provided below.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">## Load penguins data</span>
+<span class="n">penguins</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">load_dataset</span><span class="p">(</span><span class="s1">&#39;penguins&#39;</span><span class="p">)</span>
+<span class="n">penguins</span> <span class="o">=</span> <span class="n">penguins</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">penguins</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span> <span class="o">=</span> <span class="s1">&#39;species&#39;</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">penguins</span><span class="p">[</span><span class="s1">&#39;species&#39;</span><span class="p">]</span>
+
+<span class="c1">## Train-test split</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">test_frac</span> <span class="o">=</span> <span class="mf">0.25</span>
+<span class="n">test_size</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">)</span><span class="o">*</span><span class="n">test_frac</span><span class="p">)</span>
+<span class="n">test_idxs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">)),</span> <span class="n">test_size</span><span class="p">,</span> <span class="n">replace</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
+<span class="n">X_train</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">test_idxs</span><span class="p">)</span>
+<span class="n">y_train</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">test_idxs</span><span class="p">)</span>
+<span class="n">X_test</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">test_idxs</span><span class="p">]</span>
+<span class="n">y_test</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">test_idxs</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.tree</span> <span class="kn">import</span> <span class="n">DecisionTreeClassifier</span>
+
+<span class="c1">## Get dummies</span>
+<span class="n">X_train</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">get_dummies</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">drop_first</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+<span class="n">X_test</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">get_dummies</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">drop_first</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+
+<span class="c1">## Build model</span>
+<span class="n">dtc</span> <span class="o">=</span> <span class="n">DecisionTreeClassifier</span><span class="p">(</span><span class="n">max_depth</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">min_samples_split</span> <span class="o">=</span> <span class="mi">10</span><span class="p">)</span>
+<span class="n">dtc</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">y_test_hat</span> <span class="o">=</span> <span class="n">dtc</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+
+<span class="c1">## Observe Accuracy</span>
+<span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">y_test_hat</span> <span class="o">==</span> <span class="n">y_test</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>0.9036144578313253
+</pre></div>
+</div>
+</div>
 </div>
 </div>
 </div>

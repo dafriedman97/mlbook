@@ -231,7 +231,7 @@ One potential pitfall of this method is that early splits might elicit small dec
 
 ### Pruning
 
-A third strategy to manage a decision tree's size is through *pruning*. To prune a tree, first intentionally overfit it by, for instance, setting a low minimum node size or a high maximum depth. Then, just like pruning a literal tree, we cut back the unnecessary branches. Specifically, one by one we undue the last splits in a tree by re-joining terminal leaves. At any given step, we undue the split that causes the least increase in $RSS_T$. 
+A third strategy to manage a decision tree's size is through *pruning*. To prune a tree, first intentionally overfit it by, for instance, setting a low minimum node size or a high maximum depth. Then, just like pruning a literal tree, we cut back the unnecessary branches. Specifically, one by one we undue the least helpful split by re-joining terminal leaves. At any given step, we undue the split that causes the least increase in $RSS_T$. 
 
 When pruning a tree, we want to balance tree size with residual error. Define the size of a tree (not to be confused with the size of a *node*) to equal its number of terminal leaves, denoted $|T|$ for tree $T$. The residual error for tree $T$ is defined by $RSS_T$. To compare possible trees when pruning, we use the following loss function
 
@@ -240,6 +240,7 @@ When pruning a tree, we want to balance tree size with residual error. Define th
 $$
 \mathcal{L}(T) = RSS_T +\lambda|T| ,
 $$
+
 
 
 where $\lambda$ is a regularization parameter. We choose the tree $T$ that minimizes $\mathcal{L}(T)$.

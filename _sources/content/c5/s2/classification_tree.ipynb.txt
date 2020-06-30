@@ -11,68 +11,67 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "Gini Impurity:\n",
+    "The construction of a classification tree is very similar to that of a regression tree. For a fuller description of the code below, please see the regression tree code on the previous page. "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "## Import packages\n",
+    "import numpy as np \n",
+    "from itertools import combinations\n",
+    "import matplotlib.pyplot as plt\n",
+    "import seaborn as sns\n",
     "\n",
-    "$$L(\\mathcal{R}_m) = \\sum_{k = 1}^K \\hat{p}_{mk}(1-\\hat{p}_{mk})$$\n",
+    "## Load data\n",
+    "penguins = sns.load_dataset('penguins')\n",
+    "penguins.dropna(inplace = True)\n",
+    "X = np.array(penguins.drop(columns = 'species'))\n",
+    "y = np.array(penguins['species'])\n",
     "\n",
-    "Cross entropy:\n",
-    "\n",
-    "$$L(\\mathcal{R}_m) = -\\sum_{k = 1}^K \\hat{p}_{mk}\\log_2(\\hat{p}_{mk}) $$\n",
-    "\n",
-    "Minimize weighted loss of children \n",
-    "\n",
-    "$$\n",
-    "\\frac{|\\mathcal{R}_{c1}|L(\\mathcal{R}_{c1}) + |\\mathcal{R}_{c2}|L(\\mathcal{R}_{c2})}{|\\mathcal{R}_{c1}| + |\\mathcal{R}_{c2}|}\n",
-    "$$"
+    "## Train-test split\n",
+    "np.random.seed(1)\n",
+    "test_frac = 0.25\n",
+    "test_size = int(len(y)*test_frac)\n",
+    "test_idxs = np.random.choice(np.arange(len(y)), test_size, replace = False)\n",
+    "X_train = np.delete(X, test_idxs, 0)\n",
+    "y_train = np.delete(y, test_idxs, 0)\n",
+    "X_test = X[test_idxs]\n",
+    "y_test = y[test_idxs]\n"
    ]
   },
   {
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "Note: one cheat--using `combinations` from `itertools`."
+    "We will build our classification tree on the {doc}`penguins </content/appendix/data>` dataset from `seaborn`. This dataset has a categorical response variable—penguin breed—with both quantitative and categorical predictors. "
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## 1. Helper Functions"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Let's first create our loss functions. The Gini index and cross-entropy calculate the loss for a single node while the `split_loss()` function creates the weighted loss of a split. "
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": null,
+   "execution_count": 2,
    "metadata": {},
    "outputs": [],
    "source": [
-    "TODO: have to make it a measure of reduction"
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": 75,
-   "metadata": {},
-   "outputs": [],
-   "source": [
-    "import numpy as np \n",
-    "from itertools import combinations\n",
-    "import matplotlib.pyplot as plt\n",
-    "import seaborn as sns\n"
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": 76,
-   "metadata": {},
-   "outputs": [],
-   "source": [
-    "penguins = sns.load_dataset('penguins')\n",
-    "penguins.dropna(inplace = True)\n",
-    "X = np.array(penguins.drop(columns = 'species'))\n",
-    "y = np.array(penguins['species'])"
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": 77,
-   "metadata": {},
-   "outputs": [],
-   "source": [
-    "def gini_impurity(y):\n",
+    "## Loss Functions\n",
+    "def gini_index(y):\n",
     "    size = len(y)\n",
     "    classes, counts = np.unique(y, return_counts = True)\n",
     "    pmk = counts/size\n",
@@ -89,57 +88,68 @@
    ]
   },
   {
-   "cell_type": "code",
-   "execution_count": 79,
-   "metadata": {
-    "tags": [
-     "hide-input"
-    ]
-   },
-   "outputs": [],
+   "cell_type": "markdown",
+   "metadata": {},
    "source": [
-    "def all_possible_splits(x):\n",
-    "    indices = []\n",
-    "    for i in range(1, 2**len(x)-1):\n",
-    "        list_ = [bool(int(j)) for j in bin(i)[2:]]\n",
-    "        falses = [False for j in range(len(x) - len(list_))]\n",
-    "        indices.append(falses + list_)\n",
-    "    return [np.array(x)[j] for j in indices]"
+    "Next, let's define a few miscellaneous helper functions. As in the regression tree construction, `all_rows_equal()` checks if all of a bud's rows (observations) are equal across all predictors. If this is the case, this bud will not be split and instead becomes a terminal leaf. The second function, `possible_splits()`, returns all possible ways divide the classes in a categorical predictor into two. Specifically, it returns all possible sets of values which can be used to funnel observations into the \"left\" child node. An example is given below for a predictor with four categories, $a$ through $d$. The set $\\{a, b\\}$, for instance, would imply observations where that predictor equals $a$ or $b$ go to the left child and other observations go to the right child. (Note that this function requires the `itertools` package). "
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 80,
+   "execution_count": 3,
    "metadata": {},
    "outputs": [
     {
      "data": {
       "text/plain": [
-       "[[1], [3], [4], [1, 3], [1, 4], [3, 4]]"
+       "[('a',),\n",
+       " ('b',),\n",
+       " ('c',),\n",
+       " ('d',),\n",
+       " ('a', 'b'),\n",
+       " ('a', 'c'),\n",
+       " ('a', 'd'),\n",
+       " ('b', 'c'),\n",
+       " ('b', 'd'),\n",
+       " ('c', 'd')]"
       ]
      },
-     "execution_count": 80,
+     "execution_count": 3,
      "metadata": {},
      "output_type": "execute_result"
     }
    ],
    "source": [
+    "## Helper Functions\n",
     "def all_rows_equal(X):\n",
     "    return (X == X[0]).all()\n",
     "\n",
-    "def all_possible_splits(x):\n",
+    "def possible_splits(x):\n",
     "    L_values = []\n",
-    "    for i in range(1, len(x)):\n",
-    "        for combo in combinations(x, i):\n",
-    "            L_values.append(list(combo))\n",
+    "    for i in range(1, int(np.floor(len(x)/2)) + 1):\n",
+    "        L_values.extend(list(combinations(x, i)))\n",
     "    return L_values\n",
     "\n",
-    "all_possible_splits([1,3,4])"
+    "possible_splits(['a','b','c','d'])"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## 2. Helper Classes"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Next, we define two classes to help our main decision tree classifier. These classes are essentially identical to those discussed in the regression tree page. The only difference is the loss function used to evaluate a split."
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 81,
+   "execution_count": 4,
    "metadata": {},
    "outputs": [],
    "source": [
@@ -159,19 +169,34 @@
     "    \n",
     "    def __init__(self):\n",
     "        self.loss = np.inf\n",
+    "        self.no_split = True\n",
     "        \n",
-    "    def replace_split(self, loss, parent_ID, d, dtype = 'quant', t = None, L_values = None):\n",
+    "    def replace_split(self, loss, d, dtype = 'quant', t = None, L_values = None):\n",
     "        self.loss = loss\n",
-    "        self.parent_ID = parent_ID\n",
     "        self.d = d\n",
     "        self.dtype = dtype\n",
     "        self.t = t\n",
-    "        self.L_values = L_values        "
+    "        self.L_values = L_values  \n",
+    "        self.no_split = False"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## 3. Main Class"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Finally, we create the main class for our classification tree. This again is essentially identical to the regression tree class. In addition to differing in the loss function used to evaluate splits, this tree differs from the regression tree in how it forms predictions. In regression trees, the fitted value for a test observation was the average outcome variable of the training observations landing in the same leaf. In the classification tree, since our outcome variable is categorical, we instead use the most common class among training observations landing in the same leaf. \n"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 82,
+   "execution_count": 5,
    "metadata": {},
    "outputs": [],
    "source": [
@@ -182,7 +207,7 @@
     "    #############################\n",
     "    \n",
     "    ######### FIT ##########\n",
-    "    def fit(self, X, y, loss_func = cross_entropy, max_depth = 100, min_size = 2):\n",
+    "    def fit(self, X, y, loss_func = cross_entropy, max_depth = 100, min_size = 2, C = None):\n",
     "        \n",
     "        ## Add data\n",
     "        self.X = X\n",
@@ -195,6 +220,7 @@
     "        self.loss_func = loss_func\n",
     "        self.max_depth = max_depth\n",
     "        self.min_size = min_size\n",
+    "        self.C = C\n",
     "        \n",
     "        ## Initialize nodes\n",
     "        self.nodes_dict = {}\n",
@@ -205,56 +231,80 @@
     "        \n",
     "        # Build\n",
     "        self.build()\n",
+    "\n",
+    "    ###### BUILD TREE ######\n",
+    "    def build(self):\n",
     "        \n",
-    "        # Calculate leaf modes\n",
-    "        self.get_leaf_modes()\n",
-    "     \n",
-    "    \n",
+    "        eligible_buds = self.nodes_dict \n",
+    "        for layer in range(self.max_depth):\n",
+    "            \n",
+    "            ## Find eligible nodes for layer iteration\n",
+    "            eligible_buds = {ID:node for (ID, node) in self.nodes_dict.items() if \n",
+    "                                (node.leaf == True) &\n",
+    "                                (node.size >= self.min_size) & \n",
+    "                                (~all_rows_equal(node.Xsub)) &\n",
+    "                                (len(np.unique(node.ysub)) > 1)}\n",
+    "            if len(eligible_buds) == 0:\n",
+    "                break\n",
+    "            \n",
+    "            ## split each eligible parent\n",
+    "            for ID, bud in eligible_buds.items():\n",
+    "                                \n",
+    "                ## Find split\n",
+    "                self.find_split(bud)\n",
+    "                \n",
+    "                ## Make split\n",
+    "                if not self.splitter.no_split:\n",
+    "                    self.make_split()\n",
+    "                \n",
     "    ###### FIND SPLIT ######\n",
-    "    def find_split(self, eligible_parents):\n",
+    "    def find_split(self, bud):\n",
     "        \n",
     "        ## Instantiate splitter\n",
     "        splitter = Splitter()\n",
+    "        splitter.bud_ID = bud.ID\n",
     "        \n",
-    "        ## For each eligible parent node...\n",
-    "        for parent_ID, parent in eligible_parents.items():\n",
-    "            ysub = parent.ysub\n",
-    "            \n",
-    "            ## For each predictor...\n",
-    "            for d in range(self.D):\n",
-    "                Xsub_d = parent.Xsub[:,d]\n",
-    "                dtype = self.dtypes[d]\n",
-    "                if len(np.unique(Xsub_d)) == 1:\n",
-    "                    continue\n",
-    "                    \n",
-    "                ## For each value...\n",
-    "                if dtype == 'quant':\n",
-    "                    for t in np.unique(Xsub_d)[:-1]:\n",
-    "                        ysub_L = ysub[Xsub_d <= t]\n",
-    "                        ysub_R = ysub[Xsub_d > t]\n",
-    "                        loss = split_loss(ysub_L, ysub_R, loss = self.loss_func)\n",
-    "                        if loss < splitter.loss:\n",
-    "                            splitter.replace_split(loss, parent_ID, d, 'quant', t = t)\n",
-    "                else:\n",
-    "                    for L_values in all_possible_splits(np.unique(Xsub_d)):\n",
-    "                        ysub_L = ysub[np.isin(Xsub_d, L_values)]\n",
-    "                        ysub_R = ysub[~np.isin(Xsub_d, L_values)]\n",
-    "                        loss = split_loss(ysub_L, ysub_R, loss = self.loss_func)\n",
-    "                        if loss < splitter.loss: \n",
-    "                            splitter.replace_split(loss, parent_ID, d, 'cat', L_values = L_values)\n",
+    "        ## For each (eligible) predictor...\n",
+    "        if self.C is None:\n",
+    "            eligible_predictors = np.arange(self.D)\n",
+    "        else:\n",
+    "            eligible_predictors = np.random.choice(np.arange(self.D), self.C, replace = False)\n",
+    "        for d in sorted(eligible_predictors):\n",
+    "            Xsub_d = bud.Xsub[:,d]\n",
+    "            dtype = self.dtypes[d]\n",
+    "            if len(np.unique(Xsub_d)) == 1:\n",
+    "                continue\n",
+    "\n",
+    "            ## For each value...\n",
+    "            if dtype == 'quant':\n",
+    "                for t in np.unique(Xsub_d)[:-1]:\n",
+    "                    ysub_L = bud.ysub[Xsub_d <= t]\n",
+    "                    ysub_R = bud.ysub[Xsub_d > t]\n",
+    "                    loss = split_loss(ysub_L, ysub_R, loss = self.loss_func)\n",
+    "                    if loss < splitter.loss:\n",
+    "                        splitter.replace_split(loss, d, 'quant', t = t)\n",
+    "            else:\n",
+    "                for L_values in possible_splits(np.unique(Xsub_d)):\n",
+    "                    ysub_L = bud.ysub[np.isin(Xsub_d, L_values)]\n",
+    "                    ysub_R = bud.ysub[~np.isin(Xsub_d, L_values)]\n",
+    "                    loss = split_loss(ysub_L, ysub_R, loss = self.loss_func)\n",
+    "                    if loss < splitter.loss: \n",
+    "                        splitter.replace_split(loss, d, 'cat', L_values = L_values)\n",
+    "                        \n",
     "        ## Save splitter\n",
     "        self.splitter = splitter\n",
     "    \n",
     "    ###### MAKE SPLIT ######\n",
     "    def make_split(self):\n",
-    "        ## Update parent nodes\n",
-    "        parent_node = self.nodes_dict[self.splitter.parent_ID]\n",
+    "        \n",
+    "        ## Update parent node\n",
+    "        parent_node = self.nodes_dict[self.splitter.bud_ID]\n",
     "        parent_node.leaf = False\n",
     "        parent_node.child_L = self.current_ID\n",
     "        parent_node.child_R = self.current_ID + 1\n",
     "        parent_node.d = self.splitter.d\n",
     "        parent_node.dtype = self.splitter.dtype\n",
-    "        parent_node.t = self.splitter.t\n",
+    "        parent_node.t = self.splitter.t        \n",
     "        parent_node.L_values = self.splitter.L_values\n",
     "        \n",
     "        ## Get X and y data for children\n",
@@ -267,8 +317,6 @@
     "        ychild_L = parent_node.ysub[L_condition]\n",
     "        Xchild_R = parent_node.Xsub[~L_condition]\n",
     "        ychild_R = parent_node.ysub[~L_condition]\n",
-    "\n",
-    "\n",
     "        \n",
     "        ## Create child nodes\n",
     "        child_node_L = Node(Xchild_L, ychild_L, depth = parent_node.depth + 1,\n",
@@ -278,45 +326,26 @@
     "        self.nodes_dict[self.current_ID] = child_node_L\n",
     "        self.nodes_dict[self.current_ID + 1] = child_node_R\n",
     "        self.current_ID += 2\n",
+    "                \n",
+    "            \n",
+    "    #############################\n",
+    "    ####### 2. PREDICTING #######\n",
+    "    #############################\n",
     "    \n",
-    "    ###### BUILD TREE ######\n",
-    "    def build(self):\n",
-    "        \n",
-    "        eligible_parents = self.nodes_dict\n",
-    "        while True:\n",
-    "                                    \n",
-    "            ## Find split among eligible parent nodes\n",
-    "            self.find_split(eligible_parents)\n",
-    "            \n",
-    "            ## Make split\n",
-    "            self.make_split()\n",
-    "            \n",
-    "            ## Find eligible nodes for next iteration\n",
-    "            eligible_parents = {ID:node for (ID, node) in self.nodes_dict.items() if \n",
-    "                                (node.leaf == True) &\n",
-    "                                (node.depth < self.max_depth) &\n",
-    "                                (node.size >= self.min_size) & \n",
-    "                                (~all_rows_equal(node.Xsub))}\n",
-    "            \n",
-    "            ## Quit if no more eligible parents\n",
-    "            if len(eligible_parents) == 0:\n",
-    "                break\n",
-    "                \n",
-    "                \n",
-    "    ###### LEAF MEANS ######\n",
+    "    ###### LEAF MODES ######\n",
     "    def get_leaf_modes(self):\n",
     "        self.leaf_modes = {}\n",
     "        for node_ID, node in self.nodes_dict.items():\n",
     "            if node.leaf:\n",
     "                values, counts = np.unique(node.ysub, return_counts=True)\n",
     "                self.leaf_modes[node_ID] = values[np.argmax(counts)]\n",
-    "            \n",
-    "    #############################\n",
-    "    ####### 2. PREDICTING #######\n",
-    "    #############################\n",
     "    \n",
     "    ####### PREDICT ########\n",
     "    def predict(self, X_test):\n",
+    "        \n",
+    "        # Calculate leaf modes\n",
+    "        self.get_leaf_modes()\n",
+    "        \n",
     "        yhat = []\n",
     "        for x in X_test:\n",
     "            node = self.nodes_dict[0] \n",
@@ -337,48 +366,35 @@
    ]
   },
   {
-   "cell_type": "code",
-   "execution_count": 83,
+   "cell_type": "markdown",
    "metadata": {},
-   "outputs": [],
    "source": [
-    "test_frac = 0.25\n",
-    "test_size = int(len(y)*test_frac)\n",
-    "test_idxs = np.random.choice(np.arange(len(y)), test_size, replace = False)\n",
-    "X_train = X[~test_idxs]\n",
-    "y_train = y[~test_idxs]\n",
-    "X_test = X[test_idxs]\n",
-    "y_test = y[test_idxs]\n"
+    "A classificaiton tree is built on the `penguins` dataset. We evaluate the predictions on a test set and find that roughly 90% of observations are correctly classified."
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 84,
-   "metadata": {},
-   "outputs": [],
-   "source": [
-    "tree = DecisionTreeClassifier()\n",
-    "tree.fit(X_train, y_train, max_depth = 10, min_size = 10)\n",
-    "y_test_hat = tree.predict(X_test)"
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": 85,
+   "execution_count": 9,
    "metadata": {},
    "outputs": [
     {
      "data": {
       "text/plain": [
-       "0.963855421686747"
+       "0.9036144578313253"
       ]
      },
-     "execution_count": 85,
+     "execution_count": 9,
      "metadata": {},
      "output_type": "execute_result"
     }
    ],
    "source": [
+    "## Build classifier \n",
+    "tree = DecisionTreeClassifier()\n",
+    "tree.fit(X_train, y_train, max_depth = 10, min_size = 10)\n",
+    "y_test_hat = tree.predict(X_test)\n",
+    "\n",
+    "## Evaluate on test data\n",
     "np.mean(y_test_hat == y_test)"
    ]
   }

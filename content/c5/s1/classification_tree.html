@@ -279,6 +279,24 @@
             </ul>
         </li>
     
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#choosing-hyperparameters" class="nav-link">Choosing Hyperparameters</a><ul class="nav section-nav flex-column">
+                
+        <li class="nav-item toc-entry toc-h3">
+            <a href="#size-regulation" class="nav-link">Size Regulation</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h3">
+            <a href="#maximum-split-loss" class="nav-link">Maximum Split Loss</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h3">
+            <a href="#pruning" class="nav-link">Pruning</a>
+        </li>
+    
+            </ul>
+        </li>
+    
     </ul>
 </nav>
 
@@ -332,17 +350,62 @@
 \mathcal{L}_{E}(\mathcal{N}_m) = -\sum_{k = 1}^K \hat{p}_{mk} \log\hat{p}_{mk}.
 \]</div>
 <p>The Gini index and cross-entropy are measures of <em>impurity</em>—they are higher for nodes with more equal representation of different classes and lower for nodes represented largely by a single class. As a node becomes more pure, these loss measures tend toward zero.</p>
+<p>In order to evaluate the purity of a split, we use the weighted Gini index or weighted cross-entropy. Consider a split <span class="math notranslate nohighlight">\(S_m\)</span> of bud <span class="math notranslate nohighlight">\(\mathcal{N}_m\)</span> which creates children <span class="math notranslate nohighlight">\(\mathcal{C}_m^L\)</span> and <span class="math notranslate nohighlight">\(\mathcal{C}_m^R\)</span>. Let the fraction of training observations going to <span class="math notranslate nohighlight">\(\mathcal{C}_m^L\)</span> be <span class="math notranslate nohighlight">\(f_L\)</span> and the fraction going to <span class="math notranslate nohighlight">\(\mathcal{C}_m^R\)</span> be <span class="math notranslate nohighlight">\(f_R\)</span>. The weighted loss (whether with the Gini index or the cross-entropy) is defined as</p>
+<div class="math notranslate nohighlight">
+\[
+\mathcal{L}(S_m) = f_L\cdot \mathcal{L}(\mathcal{C}_m^L) +  f_R\cdot \mathcal{L}(\mathcal{C}_m^R).
+\]</div>
+<p>The lower the weighted loss the better.</p>
 </div>
 <div class="section" id="making-splits">
 <h3>Making Splits<a class="headerlink" href="#making-splits" title="Permalink to this headline">¶</a></h3>
-<ul class="simple">
-<li><p>The same but greatest reduction in impurity</p></li>
-</ul>
+<p>As with regression trees, we will make splits one layer at a time. When splitting bud <span class="math notranslate nohighlight">\(m\)</span>, we use the same procedure as in regression trees: we calculate the loss from splitting the node at each value of each predictor and make the split with the lowest loss.</p>
+<p>For quantitative predictors, the procedure is identical to the regression tree procedure except we aim to minimize <span class="math notranslate nohighlight">\(\mathcal{L}(S_m)\)</span> rather than maximally reducing <span class="math notranslate nohighlight">\(RSS_m\)</span>. For categorical predictors, we cannot rank the categories according to the average value of the outcome variable as we did for regression trees because the outcome is not continuous! If our outcome is binary, we can rank the predictor’s categories according to the fraction of the corresponding outcome variables in class <span class="math notranslate nohighlight">\(1\)</span> versus class <span class="math notranslate nohighlight">\(0\)</span> and proceed in the same was as we did for regression trees.</p>
+<p>If the outcome is not binary, we are out of luck. One (potentially computationally-intensive) method is to try all possible binary groupings of the categorical value and see what grouping minimizes <span class="math notranslate nohighlight">\(\mathcal{L}(S_m)\)</span>. Another would be a one-versus-rest approach where we only consider isolating one category at a time from the rest. Suppose we had a predictor with four categories, <span class="math notranslate nohighlight">\(A, B, C,\)</span> and <span class="math notranslate nohighlight">\(D\)</span>. The first method requires the following 7 splits while the second method requires only the first four splits.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+A &amp;\text{ vs. } B, C, D \\
+B &amp;\text{ vs. } A, C, D \\
+C &amp;\text{ vs. } A, B, D \\
+D &amp;\text{ vs. } A, C, D\\
+A, B &amp;\text{ vs. }C, D \\
+A, C &amp;\text{ vs. }B, D \\
+A, D &amp;\text{ vs. }B, C \\
+\end{align*}
+\end{split}\]</div>
 </div>
 <div class="section" id="making-predictions">
 <h3>Making Predictions<a class="headerlink" href="#making-predictions" title="Permalink to this headline">¶</a></h3>
 <p>Classifying test observations with a fully-grown tree is very straightforward. First, run an observation through the tree and observe which leaf it lands in. Then classify it according to the most common class in that leaf.</p>
 <p>For large enough leaves, we can also estimate the probability that the test observation belongs to any given class: if test observation <span class="math notranslate nohighlight">\(j\)</span> lands in leaf <span class="math notranslate nohighlight">\(m\)</span>, we can estimate <span class="math notranslate nohighlight">\(p(y_j =  k)\)</span> with <span class="math notranslate nohighlight">\(\hat{p}_{mk}\)</span> for each <span class="math notranslate nohighlight">\(k\)</span>.</p>
+</div>
+</div>
+<div class="section" id="choosing-hyperparameters">
+<h2>Choosing Hyperparameters<a class="headerlink" href="#choosing-hyperparameters" title="Permalink to this headline">¶</a></h2>
+<p>In the regression tree section, we discussed three methods for managing a tree’s size to balance the bias-variance tradeoff. The same three methods can be used for classification trees with slight modifications, which we cover next. For a full overview on these methods, please review the regression tree section.</p>
+<div class="section" id="size-regulation">
+<h3>Size Regulation<a class="headerlink" href="#size-regulation" title="Permalink to this headline">¶</a></h3>
+<p>We can again use cross validation to fix the maximum depth of a tree or the minimum size of its terminal nodes. Unlike with regression trees, however, it is common to use a different loss function for cross validation than we do for building the tree. Specifically, we typically build classification trees with the Gini index or cross-entropy but use the <em>misclassification rate</em> to determine the hyperparameters with cross validation. The <em>misclassification rate</em> is simply the percent of observations we incorrectly classify. This is typically a more desirable metric to minimize than the Gini index or cross-entropy since it tells us more about our ultimate goal of correctly classifying test observations.</p>
+<p>To conduct cross validation, then, we would build the tree using the Gini index or cross-entropy for a set of hyperparameters, then pick the tree with the lowest misclassification rate on validation samples.</p>
+</div>
+<div class="section" id="maximum-split-loss">
+<h3>Maximum Split Loss<a class="headerlink" href="#maximum-split-loss" title="Permalink to this headline">¶</a></h3>
+<p>Another regularization method for regression trees was to require that each split reduce the <span class="math notranslate nohighlight">\(RSS\)</span> by a certain amount. An equivalent approach for classification trees is to require that each split have a weighted loss below some minimum threshold. This threshold should be chosen through cross validation, again likely with the misclassification rate as the loss function.</p>
+</div>
+<div class="section" id="pruning">
+<h3>Pruning<a class="headerlink" href="#pruning" title="Permalink to this headline">¶</a></h3>
+<p>To prune a regression tree, we first fit a large tree, then searched for a sub-tree that could achieve a low <span class="math notranslate nohighlight">\(RSS\)</span> without growing too large and possibly overfitting. Specifically, we looked for the sub-tree <span class="math notranslate nohighlight">\(T\)</span> that minimized the following loss function, where <span class="math notranslate nohighlight">\(|T|\)</span> gives the number of terminal leaves and <span class="math notranslate nohighlight">\(\lambda\)</span> is a regularization parameter:</p>
+<div class="math notranslate nohighlight">
+\[
+\mathcal{L}(T) = RSS_T + \lambda|T|.
+\]</div>
+<p>We prune a classification tree in a nearly-identical fashion. First, we grow an intentionally-overfit tree, <span class="math notranslate nohighlight">\(T_0\)</span>. We then consider all splits leading to terminal nodes and undue the one with the largest loss by re-joining its child nodes. We then repeat this process iteratively until we are left with the tree containing only the initial node. For each tree, we record its size (the number of terminal leaves) and its misclassification rate, <span class="math notranslate nohighlight">\(\mathcal{M}_T\)</span> We then choose the tree that minimizes</p>
+<div class="math notranslate nohighlight">
+\[
+\mathcal{L}(T) = \mathcal{M}_T + \lambda|T|, 
+\]</div>
+<p>where again <span class="math notranslate nohighlight">\(\lambda\)</span> is chosen through cross validation. For a fuller overview of how we use cross validation to choose <span class="math notranslate nohighlight">\(\lambda\)</span>, see the pruning section in the <a class="reference internal" href="regression_tree.html"><span class="doc">regression tree</span></a> page.</p>
 </div>
 </div>
 </div>
