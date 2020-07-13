@@ -42,7 +42,9 @@ The diagram below is a helpful representation of a basic neural network. Neural 
 Diagrams like the below are commonly used to represent neural networks. Note that these diagrams show only a single observation at a time. For instance, $x_0, \dots x_3$ represent four predictors within one observation, rather than four different observations.
 ```
 
-<img src="/Users/danielfriedman/Desktop/mlbook/content/c7/nn1.png" style="zoom:55%" />
+![](/content/c7/nn1.png)
+
+
 
 Each layer in a neural network consists of *neurons*, represented by the circles in the diagram above. Neurons are simply scalar values. In the *input layer*, each neuron represents a single predictor. In the above diagram, the input layer has four neurons, labeled $x_0$ through $x_3$, each representing a single predictor. The neurons in the input layer then determine the neurons in the first hidden layer, labeled $\super{z}{1}_0$ through $\super{z}{1}_2$. We will discuss *how* shortly, but for now note the lines running from the input layer's neurons to the first hidden layer's neurons in the diagram above. Once the neurons in the first hidden layer are set, they become predictors for the next layer, acting just as the input layer did. When the neurons in the final hidden layer are fixed, they act as predictors for the output layer. 
 
@@ -113,7 +115,9 @@ where $\epsilon_n$ is a noise term. Despite its simplicity, this relationship ca
 
 
 
-<img src="/Users/danielfriedman/Desktop/mlbook/content/c7/absgraph.png"/>
+![](/content/c7/absgraph.png)
+
+
 
 
 
@@ -141,7 +145,9 @@ How can such a simple function benefit a neural network? ReLU acts like a switch
 
 
 
-<img src="/Users/danielfriedman/Desktop/mlbook/content/c7/nn2.png"  style="zoom:50%"/>
+![](/content/c7/nn2.png)
+
+
 
 
 
