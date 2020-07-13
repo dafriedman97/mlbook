@@ -1,0 +1,452 @@
+
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Fisher’s Linear Discriminant &#8212; Machine Learning from Scratch</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
+    <link href="../../../_static/css/index.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../../_static/sphinx-book-theme.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/jupyter-sphinx.css" />
+    <script id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/sphinx-book-theme.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/language_data.js"></script>
+    <script src="../../../_static/togglebutton.js"></script>
+    <script src="../../../_static/clipboard.min.js"></script>
+    <script src="../../../_static/copybutton.js"></script>
+    <script src="../../../_static/mystnb.js"></script>
+    <script src="../../../_static/sphinx-book-theme.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .secondtoggle, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.18.0/dist/embed-amd.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"TeX": {"Macros": {"sumN": "\\sum_{n = 1}^N", "sumn": "\\sum_{n}", "prodN": "\\prod_{n = 1}^N", "bx": "\\mathbf{x}", "by": "\\mathbf{y}", "bX": "\\mathbf{X}", "bY": "\\mathbf{Y}", "bT": "\\mathbf{T}", "bbeta": "\\boldsymbol{\\beta}", "btheta": "\\boldsymbol{\\hat{\\theta}}}", "bmu": "\\boldsymbol{\\mu}", "bSigma": "\\boldsymbol{\\Sigma}", "bbetahat": "\\boldsymbol{\\hat{\\beta}}", "bbR": "\\mathbb{R}", "iid": "\\overset{\\small{\\text{i.i.d.}}}{\\sim}}", "dadb": ["{\\frac{\\partial #1}{\\partial #2}}", 2], "testing": "\\TeX", "R": "\\mathbb{R}"}}})</script>
+    <link rel="shortcut icon" href="../../../_static/logo.png"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Construction" href="../construction.html" />
+    <link rel="prev" title="The Perceptron Algorithm" href="perceptron.html" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="docsearch:language" content="en">
+
+
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+<a class="navbar-brand text-wrap" href="../../../index.html">
+  
+  <img src="../../../_static/logo.png" class="logo" alt="logo">
+  
+  
+  <h1 class="site-logo" id="site-title">Machine Learning from Scratch</h1>
+  
+</a>
+</div>
+
+<form class="bd-search d-flex align-items-center" action="../../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form>
+
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  
+  <ul class="nav sidenav_l1">
+  <li class="">
+    <a href="../../table_of_contents.html">Table of Contents</a>
+  </li>
+<li class="navbar-special">
+<p class="margin-caption">1. Ordinary Linear Regression</p>
+</li>
+  <li class="">
+    <a href="../../c1/concept.html">Concept</a>
+  </li>
+  <li class="">
+    <a href="../../c1/construction.html">Construction</a>
+  </li>
+  <li class="">
+    <a href="../../c1/code.html">Code</a>
+  </li>
+<li class="navbar-special">
+<p class="margin-caption">2. Linear Regression Extensions</p>
+</li>
+  <li class="">
+    <a href="../../c2/concept.html">Concept</a>
+  </li>
+  <li class="">
+    <a href="../../c2/construction.html">Construction</a>
+  </li>
+  <li class="">
+    <a href="../../c2/code.html">Code</a>
+  </li>
+<li class="navbar-special">
+<p class="margin-caption">3. Discriminative Classifiers (Logistic Regression)</p>
+</li>
+  <li class="active">
+    <a href="../concept.html">Concept</a>
+  <ul class="nav sidenav_l2">
+    <li class="">
+      <a href="logistic_regression.html">Logistic Regression</a>
+    </li>
+    <li class="">
+      <a href="perceptron.html">The Perceptron Algorithm</a>
+    </li>
+    <li class="active">
+      <a href="">Fisher’s Linear Discriminant</a>
+    </li>
+  </ul>
+  </li>
+  <li class="">
+    <a href="../construction.html">Construction</a>
+  </li>
+  <li class="">
+    <a href="../code.html">Code</a>
+  </li>
+<li class="navbar-special">
+<p class="margin-caption">4. Generative Classifiers (Naive Bayes)</p>
+</li>
+  <li class="">
+    <a href="../../c4/concept.html">Concept</a>
+  </li>
+  <li class="">
+    <a href="../../c4/construction.html">Construction</a>
+  </li>
+  <li class="">
+    <a href="../../c4/code.html">Code</a>
+  </li>
+<li class="navbar-special">
+<p class="margin-caption">5. Decision Trees</p>
+</li>
+  <li class="">
+    <a href="../../c5/concept.html">Concept</a>
+  </li>
+  <li class="">
+    <a href="../../c5/construction.html">Construction</a>
+  </li>
+  <li class="">
+    <a href="../../c5/code.html">Code</a>
+  </li>
+<li class="navbar-special">
+<p class="margin-caption">6. Tree Ensemble Methods</p>
+</li>
+  <li class="">
+    <a href="../../c6/concept.html">Concept</a>
+  </li>
+  <li class="">
+    <a href="../../c6/construction.html">Construction</a>
+  </li>
+  <li class="">
+    <a href="../../c6/code.html">Code</a>
+  </li>
+<li class="navbar-special">
+<p class="margin-caption">7. Neural Networks</p>
+</li>
+  <li class="">
+    <a href="../../c7/concept.html">Concept</a>
+  </li>
+  <li class="">
+    <a href="../../c7/construction.html">Construction</a>
+  </li>
+  <li class="">
+    <a href="../../c7/code.html">Code</a>
+  </li>
+<li class="navbar-special">
+<p class="margin-caption">8. Unsupervised Learning</p>
+</li>
+  <li class="">
+    <a href="../../c8/concept.html">Concept</a>
+  </li>
+  <li class="">
+    <a href="../../c8/construction.html">Construction</a>
+  </li>
+  <li class="">
+    <a href="../../c8/code.html">Code</a>
+  </li>
+<li class="navbar-special">
+<p class="margin-caption">Common ML Methods</p>
+</li>
+  <li class="">
+    <a href="../../c9/concept.html">Concept</a>
+  </li>
+  <li class="">
+    <a href="../../c9/construction.html">Construction</a>
+  </li>
+  <li class="">
+    <a href="../../c9/code.html">Code</a>
+  </li>
+<li class="navbar-special">
+<p class="margin-caption">Appendix</p>
+</li>
+  <li class="">
+    <a href="../../appendix/math.html">Math</a>
+  </li>
+  <li class="">
+    <a href="../../appendix/probability.html">Probability</a>
+  </li>
+  <li class="">
+    <a href="../../appendix/data.html">Data</a>
+  </li>
+</ul>
+</nav>
+
+ <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="row topbar fixed-top container-xl">
+    <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show">
+    </div>
+    <div class="col pl-2 topbar-main">
+        
+        <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse" data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu" aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation" title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+            <i class="fas fa-bars"></i>
+            <i class="fas fa-arrow-left"></i>
+            <i class="fas fa-arrow-up"></i>
+        </button>
+        
+        <div class="dropdown-buttons-trigger">
+            <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i class="fas fa-download"></i></button>
+
+            
+            <div class="dropdown-buttons">
+                <!-- ipynb file if we had a myst markdown file -->
+                
+                <!-- Download raw file -->
+                <a class="dropdown-buttons" href="../../../_sources/content/c3/s1/fisher_discriminant.md.txt"><button type="button" class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip" data-placement="left">.md</button></a>
+                <!-- Download PDF via print -->
+                <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF" onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+            </div>
+            
+        </div>
+
+        <!-- Edit this page -->
+        <a class="edit-button" href="https://github.com/dafriedman97/book/edit/master/content/c3/s1/fisher_discriminant.md"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="bottom" title="Edit this page"><i class="fas fa-pencil-alt"></i></button></a>
+
+        <!-- Full screen (wrap in <a> to have style consistency -->
+        <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="bottom" onclick="toggleFullScreen()" title="Fullscreen mode"><i class="fas fa-expand"></i></button></a>
+
+        <!-- Launch buttons -->
+        
+    </div>
+    <div class="d-none d-md-block col-md-2 bd-toc show">
+
+<nav id="bd-toc-nav">
+    <ul class="nav section-nav flex-column">
+    
+    </ul>
+</nav>
+
+
+
+<div class="tocsection editthispage">
+    <a href="https://github.com/dafriedman97/book/edit/master/content/c3/s1/fisher_discriminant.md">
+        <i class="fas fa-pencil-alt"></i> Edit this page
+    </a>
+</div>
+
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="fisher-s-linear-discriminant">
+<h1>Fisher’s Linear Discriminant<a class="headerlink" href="#fisher-s-linear-discriminant" title="Permalink to this headline">¶</a></h1>
+<div class="math notranslate nohighlight">
+\[
+\newcommand{\sumN}{\sum_{n = 1}^N}
+\newcommand{\sumn}{\sum_n}
+\newcommand{\prodN}{\prod_{n = 1}^N}
+\newcommand{\by}{\mathbf{y}} \newcommand{\bX}{\mathbf{X}}
+\newcommand{\bx}{\mathbf{x}}
+\newcommand{\bbeta}{\boldsymbol{\beta}}
+\newcommand{\btheta}{\boldsymbol{\theta}}
+\newcommand{\bbetahat}{\boldsymbol{\hat{\beta}}}
+\newcommand{\bthetahat}{\boldsymbol{\hat{\theta}}}
+\newcommand{\bmu}{\boldsymbol{\mu}}
+\newcommand{\bSigma}{\boldsymbol{\Sigma}}
+\newcommand{\bT}{\mathbf{T}}
+\newcommand{\dadb}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\iid}{\overset{\small{\text{i.i.d.}}}{\sim}}
+\]</div>
+<p>Intuitively, a good classifier is one that bunches together observations in the same class and separates observations between classes. <em>Fisher’s linear discriminant</em> attempts to do this through dimensionality reduction. Specifically, it projects data points onto a single dimension and classifies them according to their location along this dimension. As we will see, its goal is to find the projection that that maximizes the ratio of between-class variation to within-class variation. Fisher’s linear discriminant can be applied to multi-class tasks, but we’ll only review the binary case here.</p>
+</div>
+<div class="section" id="model-set-up">
+<h1>Model Set-Up<a class="headerlink" href="#model-set-up" title="Permalink to this headline">¶</a></h1>
+<p>As usual, suppose we have a vector of one or more predictors per observation, <span class="math notranslate nohighlight">\(\bx_n\)</span>. However we do <em>not</em> append a 1 to this vector. I.e., there is no bias term built into the vector of predictors. Then, we can project <span class="math notranslate nohighlight">\(\mathbf{x}_n\)</span> to one dimension with</p>
+<div class="math notranslate nohighlight">
+\[
+f(\mathbf{x}_n) = \bbeta^\top \bx_n.
+\]</div>
+<p>Once we’ve chosen our <span class="math notranslate nohighlight">\(\bbeta\)</span>, we can classify observation <span class="math notranslate nohighlight">\(n\)</span> according to whether <span class="math notranslate nohighlight">\(f(\bx_n)\)</span> is greater than some cutoff value. For instance, consider the data on the left below. Given the vector <span class="math notranslate nohighlight">\(\bbeta ^\top= \begin{bmatrix} 1 &amp;-1 \end{bmatrix}\)</span> (shown in red), we could classify observations as dark blue if <span class="math notranslate nohighlight">\(\bbeta^\top \bx_n \geq 2\)</span> and light blue otherwise. The image on the right shows the projections using <span class="math notranslate nohighlight">\(\bbeta\)</span>. Using the cutoff <span class="math notranslate nohighlight">\(\bbeta^\top \bx_n \geq 2\)</span>, we see that most cases are correctly classified though some are misclassified. We can improve the model in two ways: either changing <span class="math notranslate nohighlight">\(\bbeta\)</span> or changing the cutoff.</p>
+<p><img alt="download-2" src="../../../_images/img1.png" /></p>
+<p>In practice, the linear discriminant will tell us <span class="math notranslate nohighlight">\(\bbeta\)</span> but won’t tell us the cutoff value. Instead, the discriminant will rank the <span class="math notranslate nohighlight">\(f(\bx_n)\)</span> so that the classes are separated as much as possible. It is up to us to choose the cutoff value.</p>
+<div class="section" id="fisher-criterion">
+<h2>Fisher Criterion<a class="headerlink" href="#fisher-criterion" title="Permalink to this headline">¶</a></h2>
+<p>The <em>Fisher criterion</em> quantifies how well a parameter vector <span class="math notranslate nohighlight">\(\bbeta\)</span> classifies observations by rewarding between-class variation and penalizing within-class variation. The only variation it considers, however, is in the single dimension we project along. For each observation, we have</p>
+<div class="math notranslate nohighlight">
+\[
+f(\mathbf{x}_n) = \bbeta^\top \bx_n.
+\]</div>
+<p>Let <span class="math notranslate nohighlight">\(N_k\)</span> be the number of observations and <span class="math notranslate nohighlight">\(\mathcal{S}_k\)</span> be the set of observations in class <span class="math notranslate nohighlight">\(k\)</span> for <span class="math notranslate nohighlight">\(k \in \{0, 1\}\)</span>. Then let</p>
+<div class="math notranslate nohighlight">
+\[
+\bmu_k = \frac{1}{N_k}\sum_{n \in \mathcal{S}_k} \bx_n
+\]</div>
+<p>be the mean vector (also known as the <em>centroid</em>) of the predictors in class <span class="math notranslate nohighlight">\(k\)</span>. This class-mean is also projected along our single dimension with</p>
+<div class="math notranslate nohighlight">
+\[
+\mu_k = \bbeta^\top \bmu_k.
+\]</div>
+<p>A simple way to measure how well <span class="math notranslate nohighlight">\(\bbeta\)</span> separates classes is with the difference between <span class="math notranslate nohighlight">\(\mu_2\)</span> and <span class="math notranslate nohighlight">\(\mu_1\)</span>. To assess similarity within a class, we use</p>
+<div class="math notranslate nohighlight">
+\[
+\sigma_k^2 = \sum_{n \in \mathcal{S}_k} \left(f(\bx_n) - \mu_k \right)^2,
+\]</div>
+<p>the within-class sum of squared differences between the projections of the observations and the projection of the class-mean. We are then ready to introduce the Fisher criterion:</p>
+<div class="math notranslate nohighlight">
+\[
+F(\bbeta) = \frac{(\mu_2 - \mu_1)^2}{\sigma_1^2 + \sigma_2^2}.
+\]</div>
+<p>Intuitively, an increase in <span class="math notranslate nohighlight">\(F(\bbeta)\)</span> implies the between-class variation has increased relative to the within-class variation.</p>
+<p>Let’s write <span class="math notranslate nohighlight">\(F(\bbeta)\)</span> as an explicit function of <span class="math notranslate nohighlight">\(\bbeta\)</span>. Starting with the numerator, we have</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+(\mu_2 - \mu_1)^2 &amp;=  \left(\bbeta^\top(\bmu_2 - \bmu_1)\right)^2 
+\\
+&amp;= \left(\bbeta^\top(\bmu_2 - \bmu_1)\right)\cdot \left(\bbeta^\top(\bmu_2 - \bmu_1)\right)
+\\
+&amp;= \bbeta^\top(\bmu_2 - \bmu_1)(\bmu_2 - \bmu_1)^\top \bbeta 
+\\
+&amp;= \bbeta^\top \bSigma_b\bbeta,
+\end{align*}
+\end{split}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\bSigma_b = (\bmu_2 - \bmu_1)(\bmu_2 - \bmu_1)^\top\)</span> is the <em>between class</em> covariance matrix. Then for the denominator, we have</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+\sigma_1^2 + \sigma_2^2 &amp;= \sum_{n \in \mathcal{S}_1} \left(\bbeta^\top(\bx_n - \bmu_1) \right)^2 + \sum_{n \in \mathcal{S}_2} \left(\bbeta^\top(\bx_n - \bmu_2) \right)^2
+\\
+&amp;= \sum_{n \in \mathcal{S}_1} \bbeta^\top(\bx_n - \bmu_1)(\bx_n - \bmu_1)^\top \bbeta + \sum_{n \in \mathcal{S}_2}  \bbeta^\top(\bx_n - \bmu_2)(\bx_n - \bmu_2)^\top \bbeta 
+\\
+&amp;= \bbeta^\top \left(\sum_{n \in \mathcal{S}_1}(\bx_n - \bmu_1)(\bx_n - \bmu_1)^\top +  \sum_{n \in \mathcal{S}_2}(\bx_n - \bmu_2)(\bx_n - \bmu_2)^\top\right)\bbeta 
+\\
+&amp;= \bbeta^\top \bSigma_w\bbeta,
+\end{align*}
+\end{split}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\bSigma_w = \sum_{n \in \mathcal{S}_1}(\bx_n - \bmu_1)(\bx_n - \bmu_1)^\top +  \sum_{n \in \mathcal{S}_2}(\bx_n - \bmu_2)(\bx_n - \bmu_2)^\top\)</span> is the <em>within class</em> covariance matrix.  In total, then, we have</p>
+<div class="math notranslate nohighlight">
+\[
+F(\bbeta) = \frac{\bbeta^\top \bSigma_b\bbeta}{\bbeta^\top \bSigma_w \bbeta}.
+\]</div>
+</div>
+<div class="section" id="parameter-estimation">
+<h2>Parameter Estimation<a class="headerlink" href="#parameter-estimation" title="Permalink to this headline">¶</a></h2>
+<p>Finally, we can find the <span class="math notranslate nohighlight">\(\bbeta\)</span> to optimize <span class="math notranslate nohighlight">\(F(\bbeta)\)</span>. Importantly, note that the magnitude of <span class="math notranslate nohighlight">\(\bbeta\)</span> is unimportant since we simply want to rank the <span class="math notranslate nohighlight">\(f(\bx_n) = \bbeta^\top \bx_n\)</span> values.</p>
+<div class="admonition-math-note alert alert-info">
+<p class="admonition-title">Math Note</p>
+<p>For a symmetric matrix <span class="math notranslate nohighlight">\(\mathbf{W}\)</span> and a vector <span class="math notranslate nohighlight">\(\mathbf{s}\)</span>, we have</p>
+<div class="math notranslate nohighlight">
+\[
+\dadb{\mathbf{s}^\top \mathbf{W}\mathbf{s}}{\mathbf{s}} = 2 \mathbf{W}\mathbf{s}.
+\]</div>
+<p>Notice that <span class="math notranslate nohighlight">\(\bSigma_w\)</span> is symmetric since its <span class="math notranslate nohighlight">\((i, j)^\text{th}\)</span> element is</p>
+<div class="math notranslate nohighlight">
+\[
+\sum_{n \in \mathcal{S}_1} (x_{ni} - \mu_{1i})(x_{nj} - \mu_{1j}) + \sum_{n \in \mathcal{S}_2} (x_{ni} - \mu_{2i})(x_{nj} - \mu_{2j}),
+\]</div>
+<p>which is equivalent to its <span class="math notranslate nohighlight">\((j, i)^\text{th}\)</span> element.</p>
+</div>
+<p>By the quotient rule and the math note above,</p>
+<div class="math notranslate nohighlight">
+\[
+\begin{align*}
+\dadb{F(\bbeta)}{\bbeta} &amp;= \frac{2\bSigma_b\bbeta\left(\bbeta^\top \bSigma_w \bbeta\right) - 2\bSigma_w\bbeta\left(\bbeta^\top \bSigma_b \bbeta\right)}{(\bbeta^\top \bSigma_w\bbeta)^2}.
+\end{align*}
+\]</div>
+<p>We then set this equal to 0. Note that the denominator is just a scalar, so it goes away.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+\mathbf{0} &amp;=\bSigma_b\bbeta\left(\bbeta^\top \bSigma_w \bbeta\right) - \bSigma_w\bbeta\left(\bbeta^\top \bSigma_b \bbeta\right) \\
+\bSigma_w\bbeta\left(\bbeta^\top \bSigma_b \bbeta\right)  &amp;= \bSigma_b\bbeta\left(\bbeta^\top \bSigma_w \bbeta\right).
+\end{align*}
+\end{split}\]</div>
+<p>Since we only care about the direction of <span class="math notranslate nohighlight">\(\bbeta\)</span> and not its magnitude, we can make some simplifications. First, we can ignore <span class="math notranslate nohighlight">\(\bbeta^\top \bSigma_b \bbeta\)</span> and <span class="math notranslate nohighlight">\(\bbeta^\top \bSigma_b \bbeta\)</span> since they are just constants. Second, we can note that <span class="math notranslate nohighlight">\(\bSigma_b \bbeta\)</span> is proportional to <span class="math notranslate nohighlight">\(\bmu_2 - \bmu_1\)</span>, as shown below</p>
+<div class="math notranslate nohighlight">
+\[
+\bSigma_b \bbeta = (\bmu_2 - \bmu_1)(\bmu_2 - \bmu_1)^\top\bbeta \propto (\bmu_2 - \bmu_1).
+\]</div>
+<p>Therefore, our solution becomes</p>
+<div class="math notranslate nohighlight">
+\[
+\bbetahat \propto \bSigma_w^{-1}(\bmu_2 - \bmu_1).
+\]</div>
+<p>The image below on the left shows the <span class="math notranslate nohighlight">\(\bbetahat\)</span> (in red) found by Fisher’s linear discriminant. On the right, we again see the projections of these datapoints from <span class="math notranslate nohighlight">\(\bbetahat\)</span>. The cutoff is chosen to be around 0.05. Note that this discriminator, unlike the one above, successfully separates the two classes!</p>
+<p><img alt="" src="../../../_images/img2.png" /></p>
+</div>
+</div>
+
+
+              </div>
+              
+        </div>
+    </div>
+    
+    
+    <div class='prev-next-bottom'>
+        
+    <a class='left-prev' id="prev-link" href="perceptron.html" title="previous page">The Perceptron Algorithm</a>
+    <a class='right-next' id="next-link" href="../construction.html" title="next page">Construction</a>
+
+    </div>
+    <footer class="footer mt-5 mt-md-0">
+    <div class="container">
+      <p>
+        
+          By Danny Friedman<br/>
+        
+            &copy; Copyright 2020.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+
+    <script src="../../../_static/js/index.js"></script>
+    
+  </body>
+</html>

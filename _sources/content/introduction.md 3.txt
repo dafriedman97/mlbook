@@ -1,0 +1,54 @@
+#  Introduction
+
+<center>
+  <br>
+  </br>
+  <h1>
+    Machine Learning from Scratch
+  </h1>
+  <h4>
+    Derivations in Concept and Code
+  </h4>
+</center>
+
+
+
+
+```{figure} ../logo.png
+---
+height: 150px
+---
+```
+
+
+
+
+
+<u>**What this book covers**</u>
+
+This book covers the building blocks of the most common methods in machine learning. This set of methods is like a toolbox for machine learning engineers. Those entering the field of machine learning should feel comfortable with this toolbox so that they have the right tool for a variety of tasks. 
+
+In my experience, the best way to become comfortable with these methods is to see them derived from scratch, both in theory and in code. The purpose of this book is to provide those derivations. Each chapter of this book contains three sections. The first section covers the respective algorithm conceptually. The second shows how to construct the algorithm from scratch using Python. The third demonstrates how to apply these algorithms using packages in Python like `sklearn` and `tensorflow`. 
+
+Each chapter corresponds to a single machine learning method or group of methods. In other words, each chapter focuses on a single tool within the ML toolbox. The last chapter, which reviews common practices in machine learning algorithms such as gradient descent and cross validation, is an exception.
+
+
+
+
+
+<u>**Why this book**</u>
+
+There are many great books on machine learning written by more knowledgeable authors and covering a broader range of topics. In particular, I would suggest [An Introduction to Statistical Learning](http://faculty.marshall.usc.edu/gareth-james/ISL/), [Elements of Statistical Learning](https://web.stanford.edu/~hastie/ElemStatLearn/), and [Pattern Recognition and Machine Learning](https://www.microsoft.com/en-us/research/publication/pattern-recognition-machine-learning/), all of which are available online for free. 
+
+While those books provide a conceptual overview of machine learning and the theory behind its methods, this book focuses on the bare bones of machine learning algorithms. Its main purpose is to provide readers with the ability to construct these algorithms independently. Rather than a textbook, this book is intended as a sort of cheat sheet that readers can review in order to refresh or develop their understanding of the most fundamental methods in machine learning.
+
+Continuing the toolbox analogy, this book is intended as a user guide: it is not designed to teach users broad practices of the field but rather how each tool works at a micro level.  
+
+
+
+<u>**Who this book is for**</u>
+
+This book is for readers looking looking to learn new machine learning algorithms or understand algorithms at a deeper level. Most parts require knowledge of calculus though some require probability theory and basic linear algebra. The first section of each chapter can be understood without any knowledge of programming though the second and third sections of each chapter use some basic Python, mostly with the `numpy` package. 
+
+This book will be most helpful for those with an existing knowledge and/or practice in model-building. It does not review best practices or discuss in depth when certain models are more appropriate than others but instead focuses on the elements of those models. 
+

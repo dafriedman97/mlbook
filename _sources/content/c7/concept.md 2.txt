@@ -127,7 +127,7 @@ There are many commonly-used activation functions and deciding which function to
 
 
 
-![](/content/c7/ReLU.png)
+<img src="/content/c7/ReLU.png"/>
 
 ReLU is a simple yet extremely common activation function. It is defined as 
 
