@@ -194,7 +194,7 @@ The image below on the left shows the $\bbetahat$ (in red) found by Fisher's lin
 
 
 
-![download-2](/content/c3/s1/img2.png)
+![](/content/c3/s1/img2.png)
 
 
 

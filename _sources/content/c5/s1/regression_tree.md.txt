@@ -17,9 +17,7 @@ $$
 \newcommand{\R}{\mathbb{R}}
 $$
 
-Before discussing decision trees, it's necessary to introduce some vocabulary. A few of the most important definitions are given below. 
-
-
+Decision trees are deeply rooted in tree-based terminology. Before discussing decision trees in depth, let's go over some of this vocabulary.
 
 - **Node**: A node is comprised of a sample of data and a decision.
 
@@ -170,8 +168,9 @@ For each layer (starting with only the initial node), we split with the followin
           \mathcal{R} = x_{nd} \in \mathcal{S}.
           $$
           
+  
   In words, we consider the set of categories corresponding to the lowest average outcome variable and split if the observation's $d^\text{th}$ predictor falls in this set. We then add one more category to this set and repeat.
-    
+  
   - Choose the predictor, and value (if quantitative) or set (if categorical) with the greatest reduction in $RSS_m$ and split accordingly.
 
 

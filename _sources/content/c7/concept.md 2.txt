@@ -141,7 +141,7 @@ How can such a simple function benefit a neural network? ReLU acts like a switch
 
 
 
-<img src="/Users/danielfriedman/Desktop/mlbook/content/c7/nn2.png"  style="zoom:50%"/>
+<img src="/Users/danielfriedman/Desktop/mlbook/content/c7/nn2.png"  style="zoom:65%"/>
 
 
 
@@ -177,37 +177,17 @@ $$
 
 So we will predict $y_n = |x_n| = c$, a sensible result! Similarly, if $x_n = -c$ we would again obtain the valid prediction $y_n = |x_n| = c$. ReLU is able to achieve this result by activating a different channel depending on the value of $x_n$: if $x_n$ is greater than 0, it activates $y_n = x_n$, and if $x_n$ is less than 0, it activates $y_n = -x_n$. 
 
-As we will see in the next section, fitting a neural network consists of taking gradients of our activation functions. Fortunately ReLU has a straightforward derivative: 
 
 
-$$
-\frac{\partial}{\partial x} \text{ReLU}(x) = \begin{cases} 1,  & x > 0 \\ 0, & x < 0. \end{cases}
-$$
 
 
-Note that this derivative is not technically defined at 0. In practice, it is very unlikely that we will be applying an activation function to 0 *exactly*, though in that case the convention is to set its derivative equal to 0. 
+TODO: derivative
 
 
 
 #### Sigmoid
 
-A second common activation function is the *logistic sigmoid function*, often referred to as just *the sigmoid function*. This function was introduced in {doc}`chapter 3 </content/c3/s1/logistic_regression>` in the context of the logistic regression. The sigmoid function is defined as 
-
-
-$$
-\sigma(x) = \frac{1}{1 + \exp(-x)}. 
-$$
-
-
-Note that the sigmoid function takes any real value and returns a value between 0 and 1. As a result, the sigmoid function is commonly applied to the last hidden layer in a network in order to return a probability estimate in the output layer. This makes it common in binary prediction problems. 
-
-As we saw in chapter 3, a convenient fact about the sigmoid function is that we can express its derivative in terms of itself. 
-
-
-$$
-\dadb{\sigma(x)}{x} = \frac{\exp(-x)}{\left( 1 + \exp(-x) \right)^2} = \frac{1}{1 + \exp(-x)} \cdot \frac{\exp(-x)}{1 + \exp(-x)} = \sigma(x)\left(1 - \sigma(x)\right).
-$$
-
+TODO: introduce sigmoid and its derivative 
 
 
 
@@ -215,5 +195,3 @@ $$
 
 
 
-- First choose parameters: number of hidden layers, size of hidden layers, activation function between every layer
-- Then need to decide on W and c

@@ -246,9 +246,44 @@
         
     </div>
     <div class="d-none d-md-block col-md-2 bd-toc show">
+<div class="tocsection onthispage pt-5 pb-3">
+    <i class="fas fa-list"></i> On this page
+</div>
 
 <nav id="bd-toc-nav">
     <ul class="nav section-nav flex-column">
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#model-structure" class="nav-link">Model Structure</a><ul class="nav section-nav flex-column">
+                
+        <li class="nav-item toc-entry toc-h3">
+            <a href="#an-overview" class="nav-link">An Overview</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h3">
+            <a href="#communication-between-layers" class="nav-link">Communication Between Layers</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h3">
+            <a href="#activation-functions" class="nav-link">Activation Functions</a><ul class="nav section-nav flex-column">
+                
+        <li class="nav-item toc-entry toc-h4">
+            <a href="#relu" class="nav-link">ReLU</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h4">
+            <a href="#sigmoid" class="nav-link">Sigmoid</a>
+        </li>
+    
+            </ul>
+        </li>
+    
+            </ul>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#optimization" class="nav-link">Optimization</a>
+        </li>
     
     </ul>
 </nav>
@@ -270,6 +305,150 @@
                 
   <div class="section" id="concept">
 <h1>Concept<a class="headerlink" href="#concept" title="Permalink to this headline">¶</a></h1>
+<div class="math notranslate nohighlight">
+\[
+\newcommand{\sumN}{\sum_{n = 1}^N}
+\newcommand{\sumn}{\sum_n}
+\newcommand{\prodN}{\prod_{n = 1}^N}
+\newcommand{\by}{\mathbf{y}} 
+\newcommand{\bX}{\mathbf{X}}
+\newcommand{\bx}{\mathbf{x}}
+\newcommand{\bz}{\mathbf{z}}
+\newcommand{\bw}{\mathbf{w}}
+\newcommand{\bbeta}{\boldsymbol{\beta}}
+\newcommand{\btheta}{\boldsymbol{\theta}}
+\newcommand{\bbetahat}{\boldsymbol{\hat{\beta}}}
+\newcommand{\bthetahat}{\boldsymbol{\hat{\theta}}}
+\newcommand{\bSigma}{\boldsymbol{\Sigma}}
+\newcommand{\bT}{\mathbf{T}}
+\newcommand{\dadb}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\iid}{\overset{\small{\text{i.i.d.}}}{\sim}}
+\newcommand{\super}[2]{#1^{(#2)}}
+\]</div>
+<p>The neural network is a highly powerful and versatile class of models that has become quite a hot topic in machine learning. While neural networks are often able to out-perform other popular model classes in terms of predictive accuracy, they are not terribly complex or mysterious. Rather, by optimizing a highly-parametric and nonlinear structure, neural networks are flexible enough to model subtle relationships that other models may struggle to detect.</p>
+<div class="alert alert-info">
+<p class="admonition-title">Note</p>
+<p>Neural networks come in a variety of forms intended to accomplish a variety of tasks. Recurrent neural networks, for instance, are designed to model time series data, and convolutional neural networks are designed to model image data. In this chapter, we only cover feedforward neural networks (FFNNs). FFNNs can be used for regression or classification tasks and serve as a natural introduction to other forms of neural networks.</p>
+</div>
+<div class="section" id="model-structure">
+<h2>Model Structure<a class="headerlink" href="#model-structure" title="Permalink to this headline">¶</a></h2>
+<p>Throughout this chapter, suppose we have training data <span class="math notranslate nohighlight">\(\{\bx_n, \by_n\}_{n = 1}^N\)</span> with <span class="math notranslate nohighlight">\(\bx_n \in \R^{D}\)</span>—which does <em>not</em> include an intercept term—and <span class="math notranslate nohighlight">\(\by_n \in \R^R\)</span>  for <span class="math notranslate nohighlight">\(n = 1, 2, \dots, N\)</span>. In other words, for each observation we have <span class="math notranslate nohighlight">\(D\)</span> predictors and <span class="math notranslate nohighlight">\(R\)</span> response variables. Note that unlike in previous chapters, we might now have a <em>vector</em> of response variables rather than a single value. If there is only one response variable per observation (i.e. <span class="math notranslate nohighlight">\(R = 1\)</span>), we will write it as <span class="math notranslate nohighlight">\(y_n\)</span>.</p>
+<div class="section" id="an-overview">
+<h3>An Overview<a class="headerlink" href="#an-overview" title="Permalink to this headline">¶</a></h3>
+<p>The diagram below is a helpful representation of a basic neural network. Neural networks operate in layers. The network starts of with an <em>input layer</em>, consisting of the vector of predictors for a single observation. This is shown by <span class="math notranslate nohighlight">\(x_0, \dots, x_3\)</span> in the diagram. The network then passes through one or more <em>hidden layers</em>. The first hidden layer is a function of the input layer and each following hidden layer is a function of the last. (We will discuss these functions in more detail later). The network below has two hidden layers. Finally, the network passes from the last hidden layer into an <em>output layer</em>, representing the response variable or variables. In the network below, the response variable is two-dimensional, so the layer is represented by the values <span class="math notranslate nohighlight">\(y_1\)</span> and <span class="math notranslate nohighlight">\(y_2\)</span>.</p>
+<div class="alert alert-info">
+<p class="admonition-title">Note</p>
+<p>Diagrams like the below are commonly used to represent neural networks. Note that these diagrams show only a single observation at a time. For instance, <span class="math notranslate nohighlight">\(x_0, \dots x_3\)</span> represent four predictors within one observation, rather than four different observations.</p>
+</div>
+<img src="/Users/danielfriedman/Desktop/mlbook/content/c7/nn1.png" style="zoom:55%" />
+<p>Each layer in a neural network consists of <em>neurons</em>, represented by the circles in the diagram above. Neurons are simply scalar values. In the <em>input layer</em>, each neuron represents a single predictor. In the above diagram, the input layer has four neurons, labeled <span class="math notranslate nohighlight">\(x_0\)</span> through <span class="math notranslate nohighlight">\(x_3\)</span>, each representing a single predictor. The neurons in the input layer then determine the neurons in the first hidden layer, labeled <span class="math notranslate nohighlight">\(\super{z}{1}_0\)</span> through <span class="math notranslate nohighlight">\(\super{z}{1}_2\)</span>. We will discuss <em>how</em> shortly, but for now note the lines running from the input layer’s neurons to the first hidden layer’s neurons in the diagram above. Once the neurons in the first hidden layer are set, they become predictors for the next layer, acting just as the input layer did. When the neurons in the final hidden layer are fixed, they act as predictors for the output layer.</p>
+<p>One natural question is how many layers our neural network should contain. There is no single answer to this question as the number of layers is chosen by the modeler. To consider the model a neural network, we need to have an input layer, an output layer, and at least one hidden layer. The neural network above has two hidden layers—note that the superscript indicates the hidden layer number, e.g. <span class="math notranslate nohighlight">\(z_{0}^{(1)}\)</span> through <span class="math notranslate nohighlight">\(z_2^{(1)}\)</span> are in the first hidden layer and <span class="math notranslate nohighlight">\(z_{0}^{(2)}\)</span> through <span class="math notranslate nohighlight">\(z_2^{(2)}\)</span> are in the second hidden layer. We could also consider the input layer as an exogenous “hidden layer” and represent it with <span class="math notranslate nohighlight">\(z_{0}^{(0)}\)</span> through <span class="math notranslate nohighlight">\(z_3^{(0)}\)</span>.</p>
+<p>Another natural question is how many neurons each layer should contain. This is in part chosen by the modeler and in part predetermined. If our predictor vectors are of length <span class="math notranslate nohighlight">\(D\)</span>, the input layer must have <span class="math notranslate nohighlight">\(D\)</span> neurons. Similarly, the output layer must have as many neurons as there are outcome variables. If, for instance, our model attempts to predict a store’s revenue and its costs (two outcomes) in a given month, our output layer would have two neurons. The sizes of the hidden layers are chosen by the modeler. Too few neurons may cause underfitting by preventing the network from picking up on important patterns while too many neurons may cause overfitting, allowing the network to select values that match the training data exactly.</p>
+</div>
+<div class="section" id="communication-between-layers">
+<h3>Communication Between Layers<a class="headerlink" href="#communication-between-layers" title="Permalink to this headline">¶</a></h3>
+<p>Let’s now turn to the process through which one layer communicates with the next. In this section, let <span class="math notranslate nohighlight">\(\bz^{(a)}\)</span> and <span class="math notranslate nohighlight">\(\super{\bz}{b}\)</span> represent the vector of neurons in any two consecutive layers. For instance, <span class="math notranslate nohighlight">\(\super{\bz}{a}\)</span> might be an input layer and <span class="math notranslate nohighlight">\(\super{\bz}{b}\)</span> the first hidden layer or <span class="math notranslate nohighlight">\(\super{\bz}{a}\)</span> might be a hidden layer and <span class="math notranslate nohighlight">\(\super{\bz}{a}\)</span> the following hidden layer. Suppose <span class="math notranslate nohighlight">\(\super{\bz}{a} \in \R^{n_a}\)</span> and <span class="math notranslate nohighlight">\(\super{\bz}{b} \in \R^{n_b}\)</span>.</p>
+<p>Each neuron in <span class="math notranslate nohighlight">\(\super{\bz}{b}\)</span> is a function of every neuron in <span class="math notranslate nohighlight">\(\super{\bz}{a}\)</span>. This function occurs in two stages: first a linear mapping of <span class="math notranslate nohighlight">\(\super{\bz}{a}\)</span> onto one dimension, then a non-linear function called an <em>activation function</em>. Let’s look at a single neuron within <span class="math notranslate nohighlight">\(\super{\bz}{b}\)</span>, <span class="math notranslate nohighlight">\(\super{z}{b}_i\)</span>. The transformation from <span class="math notranslate nohighlight">\(\super{\bz}{a}\)</span> to <span class="math notranslate nohighlight">\(\super{z}{b}_i\)</span> takes the form</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+\super{h}{b}_i &amp;= \bw_i^\top\super{\bz}{a} + c_i  \\
+\super{z}{b}_i &amp;= f(h_i),
+\end{align*}
+\end{split}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\bw_i \in \R^{n_b}\)</span> is a vector of weights, <span class="math notranslate nohighlight">\(c_i\)</span> is a constant, and <span class="math notranslate nohighlight">\(f()\)</span> is an activation function. Note that <span class="math notranslate nohighlight">\(\bw_i\)</span> and <span class="math notranslate nohighlight">\(c_i\)</span> are specific to the <span class="math notranslate nohighlight">\(i^\text{th}\)</span> neuron in <span class="math notranslate nohighlight">\(\super{\bz}{b}\)</span> while <span class="math notranslate nohighlight">\(f()\)</span> is typically common among neurons in <span class="math notranslate nohighlight">\(\super{\bz}{b}\)</span>. We can also write the function relating the two layers in vector form, as below.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+\super{\mathbf{h}}{b} &amp;= \mathbf{W}\super{\bz}{a} + \mathbf{c} \\\
+\super{\mathbf{z}}{b} &amp;= f(\super{\mathbf{h}}{b}),
+\end{align*}
+\end{split}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\mathbf{W} \in \R^{n_b \times n_a}\)</span>, <span class="math notranslate nohighlight">\(\mathbf{c} \in \R^{n_b}\)</span> and <span class="math notranslate nohighlight">\(f()\)</span> is applied element-wise.</p>
+<p>Once <span class="math notranslate nohighlight">\(\super{\bz}{b}\)</span> is fixed, we use the same process to create the next layer, <span class="math notranslate nohighlight">\(\super{\bz}{c}\)</span>. When discussing many layers at a time, it is helpful to add superscripts to <span class="math notranslate nohighlight">\(\mathbf{W}, \mathbf{c}\)</span>, and <span class="math notranslate nohighlight">\(f()\)</span> to indicate the layer. We can write the transmission of <span class="math notranslate nohighlight">\(\super{\bz}{a}\)</span> to <span class="math notranslate nohighlight">\(\super{\bz}{b}\)</span> followed by <span class="math notranslate nohighlight">\(\super{\bz}{b}\)</span> to <span class="math notranslate nohighlight">\(\super{\bz}{c}\)</span> as</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+\super{\bz}{a} &amp;= \super{f}{b}\left(\super{\mathbf{W}}{b}\super{\bz}{a} + \super{\mathbf{c}}{b} \right) \\
+\super{\bz}{c} &amp;= \super{f}{c}\left(\super{\mathbf{W}}{c}\super{\bz}{b} + \super{\mathbf{c}}{c} \right). \\
+\end{align*}
+\end{split}\]</div>
+<p>Note that we haven’t yet discussed <em>how</em> the weights in <span class="math notranslate nohighlight">\(\mathbf{W}\)</span> or <span class="math notranslate nohighlight">\(\mathbf{c}\)</span> are chosen. For now, simply note the structure of the model.</p>
+</div>
+<div class="section" id="activation-functions">
+<h3>Activation Functions<a class="headerlink" href="#activation-functions" title="Permalink to this headline">¶</a></h3>
+<p>As we have seen, we create a neuron in one layer by taking a linear mapping of the neurons in the previous layer and then applying some   <em>activation function</em>. What exactly is this activation function? An activation function is a non-linear function that allows the network to learn complex relationships between the predictors and the outcome variable(s).</p>
+<p>Suppose, for instance, the relationship between an outcome variable <span class="math notranslate nohighlight">\(y_n\)</span> and a predictor <span class="math notranslate nohighlight">\(x_n\)</span> is given by</p>
+<div class="math notranslate nohighlight">
+\[
+y_n = |x_n| + \epsilon_n,
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(\epsilon_n\)</span> is a noise term. Despite its simplicity, this relationship cannot be accurately fit by a linear model.</p>
+<img src="/Users/danielfriedman/Desktop/mlbook/content/c7/absgraph.png"/>
+<p>Ideally, we would apply some function to the predictor and use a different model depending on the result of this function. In the case above, <span class="math notranslate nohighlight">\(x_n &gt; 0\)</span> would “activate” the model <span class="math notranslate nohighlight">\(y_n \approx x_n\)</span>, and <span class="math notranslate nohighlight">\(x_n \leq 0\)</span> would “activate” the model <span class="math notranslate nohighlight">\(y_n \approx -x_n\)</span>. Hence the name “activation function”.</p>
+<p>There are many commonly-used activation functions and deciding which function to use is a major consideration in modeling a neural network. Here we will limit our discussion to two of the most common functions: the ReLU (Rectified Linear Unit) and sigmoid functions.</p>
+<div class="section" id="relu">
+<h4>ReLU<a class="headerlink" href="#relu" title="Permalink to this headline">¶</a></h4>
+<img src="/Users/danielfriedman/Desktop/mlbook/content/c7/ReLU.png"/>
+<p>ReLU is a simple yet extremely common activation function. It is defined as</p>
+<div class="math notranslate nohighlight">
+\[
+f(x) = \text{max}(x, 0).
+\]</div>
+<p>How can such a simple function benefit a neural network? ReLU acts like a switch, selectively turning channels on and off. Consider fitting a neural network to the dataset above generated with <span class="math notranslate nohighlight">\(y_n = |x_n| + \epsilon_n\)</span>. Let’s use a very simple network represented by the diagram below. This network has one predictor, a single hidden layer with two neurons, and one output variable.</p>
+<img src="/Users/danielfriedman/Desktop/mlbook/content/c7/nn2.png"  style="zoom:50%"/>
+<p>Now let’s say we decide to use <span class="math notranslate nohighlight">\(f(\bx) = \text{ReLU}(\bx)\)</span> and we land on the following parameters:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\super{\mathbf{W}}{1} = \begin{pmatrix} 1 \\ -1 \end{pmatrix}, \hspace{1mm} \super{\mathbf{c}}{1} = \begin{pmatrix} 0 \\ 0 \end{pmatrix}, \hspace{1mm}  \super{\mathbf{W}}{2} = \begin{pmatrix} 1 &amp; 1 \end{pmatrix}, \hspace{1mm}   \mathbf{c}^{(2)} = 0.
+\end{split}\]</div>
+<p>This is equivalent to the following complete model</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+\super{\bz}{1} &amp;= \text{ReLU}\left( \begin{pmatrix} 1 \\ -1 \end{pmatrix} x  \right) \\
+y &amp;= \begin{pmatrix} 1 &amp; 1 \end{pmatrix} \super{\bz}{1}.
+\end{align*}
+\end{split}\]</div>
+<p>Will this model be able to fit our dataset? Suppose <span class="math notranslate nohighlight">\(x_n = c\)</span> for some positive constant <span class="math notranslate nohighlight">\(c\)</span>. We will then get</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+\super{\bz}{1} &amp;= \text{ReLU}\left( \begin{pmatrix} c \\ -c \end{pmatrix} \right) = \begin{pmatrix} c \\ 0 \end{pmatrix} \\
+y &amp;= \begin{pmatrix} 1 &amp; 1 \end{pmatrix} \begin{pmatrix} c \\ 0 \end{pmatrix} = c.
+\end{align*}
+\end{split}\]</div>
+<p>So we will predict <span class="math notranslate nohighlight">\(y_n = |x_n| = c\)</span>, a sensible result! Similarly, if <span class="math notranslate nohighlight">\(x_n = -c\)</span> we would again obtain the valid prediction <span class="math notranslate nohighlight">\(y_n = |x_n| = c\)</span>. ReLU is able to achieve this result by activating a different channel depending on the value of <span class="math notranslate nohighlight">\(x_n\)</span>: if <span class="math notranslate nohighlight">\(x_n\)</span> is greater than 0, it activates <span class="math notranslate nohighlight">\(y_n = x_n\)</span>, and if <span class="math notranslate nohighlight">\(x_n\)</span> is less than 0, it activates <span class="math notranslate nohighlight">\(y_n = -x_n\)</span>.</p>
+<p>As we will see in the next section, fitting a neural network consists of taking gradients of our activation functions. Fortunately ReLU has a straightforward derivative:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\frac{\partial}{\partial x} \text{ReLU}(x) = \begin{cases} 1,  &amp; x &gt; 0 \\ 0, &amp; x &lt; 0. \end{cases}
+\end{split}\]</div>
+<p>Note that this derivative is not technically defined at 0. In practice, it is very unlikely that we will be applying an activation function to 0 <em>exactly</em>, though in that case the convention is to set its derivative equal to 0.</p>
+</div>
+<div class="section" id="sigmoid">
+<h4>Sigmoid<a class="headerlink" href="#sigmoid" title="Permalink to this headline">¶</a></h4>
+<p>A second common activation function is the <em>logistic sigmoid function</em>, often referred to as just <em>the sigmoid function</em>. This function was introduced in <a class="reference internal" href="../c3/s1/logistic_regression.html"><span class="doc">chapter 3</span></a> in the context of the logistic regression. The sigmoid function is defined as</p>
+<div class="math notranslate nohighlight">
+\[
+\sigma(x) = \frac{1}{1 + \exp(-x)}. 
+\]</div>
+<p>Note that the sigmoid function takes any real value and returns a value between 0 and 1. As a result, the sigmoid function is commonly applied to the last hidden layer in a network in order to return a probability estimate in the output layer. This makes it common in binary prediction problems.</p>
+<p>As we saw in chapter 3, a convenient fact about the sigmoid function is that we can express its derivative in terms of itself.</p>
+<div class="math notranslate nohighlight">
+\[
+\dadb{\sigma(x)}{x} = \frac{\exp(-x)}{\left( 1 + \exp(-x) \right)^2} = \frac{1}{1 + \exp(-x)} \cdot \frac{\exp(-x)}{1 + \exp(-x)} = \sigma(x)\left(1 - \sigma(x)\right).
+\]</div>
+</div>
+</div>
+</div>
+<div class="section" id="optimization">
+<h2>Optimization<a class="headerlink" href="#optimization" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>First choose parameters: number of hidden layers, size of hidden layers, activation function between every layer</p></li>
+<li><p>Then need to decide on W and c</p></li>
+</ul>
+</div>
 </div>
 
 

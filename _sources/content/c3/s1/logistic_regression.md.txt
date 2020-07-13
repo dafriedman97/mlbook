@@ -294,7 +294,7 @@ Note that we use $\mathbf{p}'$ rather than $\mathbf{p}$ since $\mathbf{p}_n$ was
 
  Then, we can write 
 
- 
+
 $$
 \dadb{}{\bbeta_j}\log L(\mathbf{B}; \{\by_n, \bx_n\}_{n = 1}^N)  = \bX^\top (\mathbf{i}_j - \mathbf{p}'_n).
 $$
