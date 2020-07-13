@@ -1,0 +1,219 @@
+# Concept
+
+$$
+\newcommand{\sumN}{\sum_{n = 1}^N}
+\newcommand{\sumn}{\sum_n}
+\newcommand{\prodN}{\prod_{n = 1}^N}
+\newcommand{\by}{\mathbf{y}} 
+\newcommand{\bX}{\mathbf{X}}
+\newcommand{\bx}{\mathbf{x}}
+\newcommand{\bz}{\mathbf{z}}
+\newcommand{\bw}{\mathbf{w}}
+\newcommand{\bbeta}{\boldsymbol{\beta}}
+\newcommand{\btheta}{\boldsymbol{\theta}}
+\newcommand{\bbetahat}{\boldsymbol{\hat{\beta}}}
+\newcommand{\bthetahat}{\boldsymbol{\hat{\theta}}}
+\newcommand{\bSigma}{\boldsymbol{\Sigma}}
+\newcommand{\bT}{\mathbf{T}}
+\newcommand{\dadb}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\iid}{\overset{\small{\text{i.i.d.}}}{\sim}}
+\newcommand{\super}[2]{#1^{(#2)}}
+$$
+
+The neural network is a highly powerful and versatile class of models that has become quite a hot topic in machine learning. While neural networks are often able to out-perform other popular model classes in terms of predictive accuracy, they are not terribly complex or mysterious. Rather, by optimizing a highly-parametric and nonlinear structure, neural networks are flexible enough to model subtle relationships that other models may struggle to detect.
+
+```{note}
+Neural networks come in a variety of forms intended to accomplish a variety of tasks. Recurrent neural networks, for instance, are designed to model time series data, and convolutional neural networks are designed to model image data. In this chapter, we only cover feedforward neural networks (FFNNs). FFNNs can be used for regression or classification tasks and serve as a natural introduction to other forms of neural networks. 
+```
+
+
+
+## Model Structure
+
+Throughout this chapter, suppose we have training data $\{\bx_n, \by_n\}_{n = 1}^N$ with $\bx_n \in \R^{D}$—which does *not* include an intercept term—and $\by_n \in \R^R$  for $n = 1, 2, \dots, N$. In other words, for each observation we have $D$ predictors and $R$ response variables. Note that unlike in previous chapters, we might now have a *vector* of response variables rather than a single value. If there is only one response variable per observation (i.e. $R = 1$), we will write it as $y_n$. 
+
+
+
+### An Overview
+
+The diagram below is a helpful representation of a basic neural network. Neural networks operate in layers. The network starts of with an *input layer*, consisting of the vector of predictors for a single observation. This is shown by $x_0, \dots, x_3$ in the diagram. The network then passes through one or more *hidden layers*. The first hidden layer is a function of the input layer and each following hidden layer is a function of the last. (We will discuss these functions in more detail later). The network below has two hidden layers. Finally, the network passes from the last hidden layer into an *output layer*, representing the response variable or variables. In the network below, the response variable is two-dimensional, so the layer is represented by the values $y_1$ and $y_2$.
+
+```{note}
+Diagrams like the below are commonly used to represent neural networks. Note that these diagrams show only a single observation at a time. For instance, $x_0, \dots x_3$ represent four predictors within one observation, rather than four different observations.
+```
+
+<img src="/Users/danielfriedman/Desktop/mlbook/content/c7/nn1.png" style="zoom:55%" />
+
+Each layer in a neural network consists of *neurons*, represented by the circles in the diagram above. Neurons are simply scalar values. In the *input layer*, each neuron represents a single predictor. In the above diagram, the input layer has four neurons, labeled $x_0$ through $x_3$, each representing a single predictor. The neurons in the input layer then determine the neurons in the first hidden layer, labeled $\super{z}{1}_0$ through $\super{z}{1}_2$. We will discuss *how* shortly, but for now note the lines running from the input layer's neurons to the first hidden layer's neurons in the diagram above. Once the neurons in the first hidden layer are set, they become predictors for the next layer, acting just as the input layer did. When the neurons in the final hidden layer are fixed, they act as predictors for the output layer. 
+
+One natural question is how many layers our neural network should contain. There is no single answer to this question as the number of layers is chosen by the modeler. To consider the model a neural network, we need to have an input layer, an output layer, and at least one hidden layer. The neural network above has two hidden layers—note that the superscript indicates the hidden layer number, e.g. $z_{0}^{(1)}$ through $z_2^{(1)}$ are in the first hidden layer and $z_{0}^{(2)}$ through $z_2^{(2)}$ are in the second hidden layer. We could also consider the input layer as an exogenous "hidden layer" and represent it with $z_{0}^{(0)}$ through $z_3^{(0)}$. 
+
+Another natural question is how many neurons each layer should contain. This is in part chosen by the modeler and in part predetermined. If our predictor vectors are of length $D$, the input layer must have $D$ neurons. Similarly, the output layer must have as many neurons as there are outcome variables. If, for instance, our model attempts to predict a store's revenue and its costs (two outcomes) in a given month, our output layer would have two neurons. The sizes of the hidden layers are chosen by the modeler. Too few neurons may cause underfitting by preventing the network from picking up on important patterns while too many neurons may cause overfitting, allowing the network to select values that match the training data exactly. 
+
+
+
+### Communication Between Layers
+
+Let's now turn to the process through which one layer communicates with the next. In this section, let $\bz^{(a)}$ and $\super{\bz}{b}$ represent the vector of neurons in any two consecutive layers. For instance, $\super{\bz}{a}$ might be an input layer and $\super{\bz}{b}$ the first hidden layer or $\super{\bz}{a}$ might be a hidden layer and $\super{\bz}{a}$ the following hidden layer. Suppose $\super{\bz}{a} \in \R^{n_a}$ and $\super{\bz}{b} \in \R^{n_b}$. 
+
+Each neuron in $\super{\bz}{b}$ is a function of every neuron in $\super{\bz}{a}$. This function occurs in two stages: first a linear mapping of $\super{\bz}{a}$ onto one dimension, then a non-linear function called an *activation function*. Let's look at a single neuron within $\super{\bz}{b}$, $\super{z}{b}_i$. The transformation from $\super{\bz}{a}$ to $\super{z}{b}_i$ takes the form
+
+
+$$
+\begin{align*}
+\super{h}{b}_i &= \bw_i^\top\super{\bz}{a} + c_i  \\
+\super{z}{b}_i &= f(h_i),
+\end{align*}
+$$
+
+
+where $\bw_i \in \R^{n_b}$ is a vector of weights, $c_i$ is a constant, and $f()$ is an activation function. Note that $\bw_i$ and $c_i$ are specific to the $i^\text{th}$ neuron in $\super{\bz}{b}$ while $f()$ is typically common among neurons in $\super{\bz}{b}$. We can also write the function relating the two layers in vector form, as below.
+
+
+$$
+\begin{align*}
+\super{\mathbf{h}}{b} &= \mathbf{W}\super{\bz}{a} + \mathbf{c} \\\
+\super{\mathbf{z}}{b} &= f(\super{\mathbf{h}}{b}),
+\end{align*}
+$$
+
+
+where $\mathbf{W} \in \R^{n_b \times n_a}$, $\mathbf{c} \in \R^{n_b}$ and $f()$ is applied element-wise. 
+
+Once $\super{\bz}{b}$ is fixed, we use the same process to create the next layer, $\super{\bz}{c}$. When discussing many layers at a time, it is helpful to add superscripts to $\mathbf{W}, \mathbf{c}$, and $f()$ to indicate the layer. We can write the transmission of $\super{\bz}{a}$ to $\super{\bz}{b}$ followed by $\super{\bz}{b}$ to $\super{\bz}{c}$ as
+
+
+$$
+\begin{align*}
+\super{\bz}{a} &= \super{f}{b}\left(\super{\mathbf{W}}{b}\super{\bz}{a} + \super{\mathbf{c}}{b} \right) \\
+\super{\bz}{c} &= \super{f}{c}\left(\super{\mathbf{W}}{c}\super{\bz}{b} + \super{\mathbf{c}}{c} \right). \\
+\end{align*}
+$$
+
+
+Note that we haven't yet discussed *how* the weights in $\mathbf{W}$ or $\mathbf{c}$ are chosen. For now, simply note the structure of the model. 
+
+
+
+### Activation Functions
+
+As we have seen, we create a neuron in one layer by taking a linear mapping of the neurons in the previous layer and then applying some   *activation function*. What exactly is this activation function? An activation function is a non-linear function that allows the network to learn complex relationships between the predictors and the outcome variable(s). 
+
+
+
+Suppose, for instance, the relationship between an outcome variable $y_n$ and a predictor $x_n$ is given by 
+
+
+$$
+y_n = |x_n| + \epsilon_n,
+$$
+
+
+where $\epsilon_n$ is a noise term. Despite its simplicity, this relationship cannot be accurately fit by a linear model.
+
+
+
+<img src="/Users/danielfriedman/Desktop/mlbook/content/c7/absgraph.png"/>
+
+
+
+Ideally, we would apply some function to the predictor and use a different model depending on the result of this function. In the case above, $x_n > 0$ would "activate" the model $y_n \approx x_n$, and $x_n \leq 0$ would "activate" the model $y_n \approx -x_n$. Hence the name "activation function". 
+
+There are many commonly-used activation functions and deciding which function to use is a major consideration in modeling a neural network. Here we will limit our discussion to two of the most common functions: the ReLU (Rectified Linear Unit) and sigmoid functions. 
+
+
+
+#### ReLU
+
+
+
+![](/content/c7/ReLU.png)
+
+ReLU is a simple yet extremely common activation function. It is defined as 
+
+
+$$
+f(x) = \text{max}(x, 0).
+$$
+
+
+How can such a simple function benefit a neural network? ReLU acts like a switch, selectively turning channels on and off. Consider fitting a neural network to the dataset above generated with $y_n = |x_n| + \epsilon_n$. Let's use a very simple network represented by the diagram below. This network has one predictor, a single hidden layer with two neurons, and one output variable. 
+
+
+
+<img src="/Users/danielfriedman/Desktop/mlbook/content/c7/nn2.png"  style="zoom:50%"/>
+
+
+
+Now let's say we decide to use $f(\bx) = \text{ReLU}(\bx)$ and we land on the following parameters: 
+
+
+$$
+\super{\mathbf{W}}{1} = \begin{pmatrix} 1 \\ -1 \end{pmatrix}, \hspace{1mm} \super{\mathbf{c}}{1} = \begin{pmatrix} 0 \\ 0 \end{pmatrix}, \hspace{1mm}  \super{\mathbf{W}}{2} = \begin{pmatrix} 1 & 1 \end{pmatrix}, \hspace{1mm}   \mathbf{c}^{(2)} = 0.
+$$
+
+
+This is equivalent to the following complete model
+
+
+$$
+\begin{align*}
+\super{\bz}{1} &= \text{ReLU}\left( \begin{pmatrix} 1 \\ -1 \end{pmatrix} x  \right) \\
+y &= \begin{pmatrix} 1 & 1 \end{pmatrix} \super{\bz}{1}.
+\end{align*}
+$$
+
+
+Will this model be able to fit our dataset? Suppose $x_n = c$ for some positive constant $c$. We will then get
+
+
+$$
+\begin{align*}
+\super{\bz}{1} &= \text{ReLU}\left( \begin{pmatrix} c \\ -c \end{pmatrix} \right) = \begin{pmatrix} c \\ 0 \end{pmatrix} \\
+y &= \begin{pmatrix} 1 & 1 \end{pmatrix} \begin{pmatrix} c \\ 0 \end{pmatrix} = c.
+\end{align*}
+$$
+
+
+So we will predict $y_n = |x_n| = c$, a sensible result! Similarly, if $x_n = -c$ we would again obtain the valid prediction $y_n = |x_n| = c$. ReLU is able to achieve this result by activating a different channel depending on the value of $x_n$: if $x_n$ is greater than 0, it activates $y_n = x_n$, and if $x_n$ is less than 0, it activates $y_n = -x_n$. 
+
+As we will see in the next section, fitting a neural network consists of taking gradients of our activation functions. Fortunately ReLU has a straightforward derivative: 
+
+
+$$
+\frac{\partial}{\partial x} \text{ReLU}(x) = \begin{cases} 1,  & x > 0 \\ 0, & x < 0. \end{cases}
+$$
+
+
+Note that this derivative is not technically defined at 0. In practice, it is very unlikely that we will be applying an activation function to 0 *exactly*, though in that case the convention is to set its derivative equal to 0. 
+
+
+
+#### Sigmoid
+
+A second common activation function is the *logistic sigmoid function*, often referred to as just *the sigmoid function*. This function was introduced in {doc}`chapter 3 </content/c3/s1/logistic_regression>` in the context of the logistic regression. The sigmoid function is defined as 
+
+
+$$
+\sigma(x) = \frac{1}{1 + \exp(-x)}. 
+$$
+
+
+Note that the sigmoid function takes any real value and returns a value between 0 and 1. As a result, the sigmoid function is commonly applied to the last hidden layer in a network in order to return a probability estimate in the output layer. This makes it common in binary prediction problems. 
+
+As we saw in chapter 3, a convenient fact about the sigmoid function is that we can express its derivative in terms of itself. 
+
+
+$$
+\dadb{\sigma(x)}{x} = \frac{\exp(-x)}{\left( 1 + \exp(-x) \right)^2} = \frac{1}{1 + \exp(-x)} \cdot \frac{\exp(-x)}{1 + \exp(-x)} = \sigma(x)\left(1 - \sigma(x)\right).
+$$
+
+
+
+
+## Optimization
+
+
+
+- First choose parameters: number of hidden layers, size of hidden layers, activation function between every layer
+- Then need to decide on W and c

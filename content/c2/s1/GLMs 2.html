@@ -1,0 +1,480 @@
+
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>GLMs &#8212; Machine Learning from Scratch</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
+    <link href="../../../_static/css/index.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../../_static/sphinx-book-theme.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/jupyter-sphinx.css" />
+    <script id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/sphinx-book-theme.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/language_data.js"></script>
+    <script src="../../../_static/togglebutton.js"></script>
+    <script src="../../../_static/clipboard.min.js"></script>
+    <script src="../../../_static/copybutton.js"></script>
+    <script src="../../../_static/mystnb.js"></script>
+    <script src="../../../_static/sphinx-book-theme.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .secondtoggle, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.18.0/dist/embed-amd.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"TeX": {"Macros": {"sumN": "\\sum_{n = 1}^N", "sumn": "\\sum_{n}", "prodN": "\\prod_{n = 1}^N", "bx": "\\mathbf{x}", "by": "\\mathbf{y}", "bX": "\\mathbf{X}", "bY": "\\mathbf{Y}", "bT": "\\mathbf{T}", "bbeta": "\\boldsymbol{\\beta}", "btheta": "\\boldsymbol{\\hat{\\theta}}}", "bmu": "\\boldsymbol{\\mu}", "bSigma": "\\boldsymbol{\\Sigma}", "bbetahat": "\\boldsymbol{\\hat{\\beta}}", "bbR": "\\mathbb{R}", "iid": "\\overset{\\small{\\text{i.i.d.}}}{\\sim}}", "dadb": ["{\\frac{\\partial #1}{\\partial #2}}", 2], "testing": "\\TeX", "R": "\\mathbb{R}"}}})</script>
+    <link rel="shortcut icon" href="../../../_static/logo.png"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Construction" href="../construction.html" />
+    <link rel="prev" title="Bayesian Regression" href="bayesian.html" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="docsearch:language" content="en">
+
+
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+<a class="navbar-brand text-wrap" href="../../../index.html">
+  
+  <img src="../../../_static/logo.png" class="logo" alt="logo">
+  
+  
+  <h1 class="site-logo" id="site-title">Machine Learning from Scratch</h1>
+  
+</a>
+</div>
+
+<form class="bd-search d-flex align-items-center" action="../../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form>
+
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  
+  <ul class="nav sidenav_l1">
+  <li class="">
+    <a href="../../table_of_contents.html">Table of Contents</a>
+  </li>
+<li class="navbar-special">
+<p class="margin-caption">1. Ordinary Linear Regression</p>
+</li>
+  <li class="">
+    <a href="../../c1/concept.html">Concept</a>
+  </li>
+  <li class="">
+    <a href="../../c1/construction.html">Construction</a>
+  </li>
+  <li class="">
+    <a href="../../c1/code.html">Code</a>
+  </li>
+<li class="navbar-special">
+<p class="margin-caption">2. Linear Regression Extensions</p>
+</li>
+  <li class="active">
+    <a href="../concept.html">Concept</a>
+  <ul class="nav sidenav_l2">
+    <li class="">
+      <a href="regularized.html">Regularized Regression</a>
+    </li>
+    <li class="">
+      <a href="bayesian.html">Bayesian Regression</a>
+    </li>
+    <li class="active">
+      <a href="">GLMs</a>
+    </li>
+  </ul>
+  </li>
+  <li class="">
+    <a href="../construction.html">Construction</a>
+  </li>
+  <li class="">
+    <a href="../code.html">Code</a>
+  </li>
+<li class="navbar-special">
+<p class="margin-caption">3. Discriminative Classifiers (Logistic Regression)</p>
+</li>
+  <li class="">
+    <a href="../../c3/concept.html">Concept</a>
+  </li>
+  <li class="">
+    <a href="../../c3/construction.html">Construction</a>
+  </li>
+  <li class="">
+    <a href="../../c3/code.html">Code</a>
+  </li>
+<li class="navbar-special">
+<p class="margin-caption">4. Generative Classifiers (Naive Bayes)</p>
+</li>
+  <li class="">
+    <a href="../../c4/concept.html">Concept</a>
+  </li>
+  <li class="">
+    <a href="../../c4/construction.html">Construction</a>
+  </li>
+  <li class="">
+    <a href="../../c4/code.html">Code</a>
+  </li>
+<li class="navbar-special">
+<p class="margin-caption">5. Decision Trees</p>
+</li>
+  <li class="">
+    <a href="../../c5/concept.html">Concept</a>
+  </li>
+  <li class="">
+    <a href="../../c5/construction.html">Construction</a>
+  </li>
+  <li class="">
+    <a href="../../c5/code.html">Code</a>
+  </li>
+<li class="navbar-special">
+<p class="margin-caption">6. Tree Ensemble Methods</p>
+</li>
+  <li class="">
+    <a href="../../c6/concept.html">Concept</a>
+  </li>
+  <li class="">
+    <a href="../../c6/construction.html">Construction</a>
+  </li>
+  <li class="">
+    <a href="../../c6/code.html">Code</a>
+  </li>
+<li class="navbar-special">
+<p class="margin-caption">7. Neural Networks</p>
+</li>
+  <li class="">
+    <a href="../../c7/concept.html">Concept</a>
+  </li>
+  <li class="">
+    <a href="../../c7/construction.html">Construction</a>
+  </li>
+  <li class="">
+    <a href="../../c7/code.html">Code</a>
+  </li>
+<li class="navbar-special">
+<p class="margin-caption">8. Unsupervised Learning</p>
+</li>
+  <li class="">
+    <a href="../../c8/concept.html">Concept</a>
+  </li>
+  <li class="">
+    <a href="../../c8/construction.html">Construction</a>
+  </li>
+  <li class="">
+    <a href="../../c8/code.html">Code</a>
+  </li>
+<li class="navbar-special">
+<p class="margin-caption">Common ML Methods</p>
+</li>
+  <li class="">
+    <a href="../../c9/concept.html">Concept</a>
+  </li>
+  <li class="">
+    <a href="../../c9/construction.html">Construction</a>
+  </li>
+  <li class="">
+    <a href="../../c9/code.html">Code</a>
+  </li>
+<li class="navbar-special">
+<p class="margin-caption">Appendix</p>
+</li>
+  <li class="">
+    <a href="../../appendix/math.html">Math</a>
+  </li>
+  <li class="">
+    <a href="../../appendix/probability.html">Probability</a>
+  </li>
+  <li class="">
+    <a href="../../appendix/data.html">Data</a>
+  </li>
+</ul>
+</nav>
+
+ <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="row topbar fixed-top container-xl">
+    <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show">
+    </div>
+    <div class="col pl-2 topbar-main">
+        
+        <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse" data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu" aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation" title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+            <i class="fas fa-bars"></i>
+            <i class="fas fa-arrow-left"></i>
+            <i class="fas fa-arrow-up"></i>
+        </button>
+        
+        <div class="dropdown-buttons-trigger">
+            <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i class="fas fa-download"></i></button>
+
+            
+            <div class="dropdown-buttons">
+                <!-- ipynb file if we had a myst markdown file -->
+                
+                <!-- Download raw file -->
+                <a class="dropdown-buttons" href="../../../_sources/content/c2/s1/GLMs.md.txt"><button type="button" class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip" data-placement="left">.md</button></a>
+                <!-- Download PDF via print -->
+                <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF" onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+            </div>
+            
+        </div>
+
+        <!-- Edit this page -->
+        <a class="edit-button" href="https://github.com/dafriedman97/book/edit/master/content/c2/s1/GLMs.md"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="bottom" title="Edit this page"><i class="fas fa-pencil-alt"></i></button></a>
+
+        <!-- Full screen (wrap in <a> to have style consistency -->
+        <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="bottom" onclick="toggleFullScreen()" title="Fullscreen mode"><i class="fas fa-expand"></i></button></a>
+
+        <!-- Launch buttons -->
+        
+    </div>
+    <div class="d-none d-md-block col-md-2 bd-toc show">
+<div class="tocsection onthispage pt-5 pb-3">
+    <i class="fas fa-list"></i> On this page
+</div>
+
+<nav id="bd-toc-nav">
+    <ul class="nav section-nav flex-column">
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#glm-structure" class="nav-link">GLM Structure</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#fitting-a-glm" class="nav-link">Fitting a GLM</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#example-poisson-regression" class="nav-link">Example: Poisson Regression</a>
+        </li>
+    
+    </ul>
+</nav>
+
+
+
+<div class="tocsection editthispage">
+    <a href="https://github.com/dafriedman97/book/edit/master/content/c2/s1/GLMs.md">
+        <i class="fas fa-pencil-alt"></i> Edit this page
+    </a>
+</div>
+
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="glms">
+<h1>GLMs<a class="headerlink" href="#glms" title="Permalink to this headline">¶</a></h1>
+<div class="math notranslate nohighlight">
+\[
+\newcommand{\sumN}{\sum_{n = 1}^N}
+\newcommand{\sumn}{\sum_n}
+\newcommand{\prodN}{\prod_{n = 1}^N}
+\newcommand{\by}{\mathbf{y}} \newcommand{\bX}{\mathbf{X}}
+\newcommand{\bx}{\mathbf{x}}
+\newcommand{\bbeta}{\boldsymbol{\beta}}
+\newcommand{\btheta}{\boldsymbol{\theta}}
+\newcommand{\blambda}{\boldsymbol{\lambda}}
+\newcommand{\bbetahat}{\boldsymbol{\hat{\beta}}}
+\newcommand{\bthetahat}{\boldsymbol{\hat{\theta}}}
+\newcommand{\bSigma}{\boldsymbol{\Sigma}}
+\newcommand{\bT}{\mathbf{T}}
+\newcommand{\dadb}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\iid}{\overset{\small{\text{i.i.d.}}}{\sim}}
+\]</div>
+<p>Ordinary linear regression comes with several assumptions that can be relaxed with a more flexible model class, generalized linear models (GLMs). Specifically, OLS assumes</p>
+<ol class="simple">
+<li><p>The outcome variable is a linear function of the input variables</p></li>
+<li><p>The errors are Normally distributed</p></li>
+<li><p>The variance of the errors is constant</p></li>
+</ol>
+<p>When these assumptions are violated, GLMs might be the answer.</p>
+<div class="section" id="glm-structure">
+<h2>GLM Structure<a class="headerlink" href="#glm-structure" title="Permalink to this headline">¶</a></h2>
+<p>A GLM consists of a <em>link function</em> and a <em>random component</em>. The <em>random component</em> identifies the distribution of the outcome variable <span class="math notranslate nohighlight">\(y_n\)</span> conditional on the input variables <span class="math notranslate nohighlight">\(\bx_n\)</span>. For instance, we might model <span class="math notranslate nohighlight">\(y_n\)</span> as a Poisson random variable where the rate parameter <span class="math notranslate nohighlight">\(\lambda_n\)</span> depends on <span class="math notranslate nohighlight">\(\bx_n\)</span>.</p>
+<p>The <em>link function</em> specifies how <span class="math notranslate nohighlight">\(\bx_n\)</span> relates to the expected value of the outcome variable, <span class="math notranslate nohighlight">\(\mu_n = E(y_n)\)</span>. Let <span class="math notranslate nohighlight">\(\eta\)</span> be a linear function of the input variables, i.e. <span class="math notranslate nohighlight">\(\eta_n = \bbeta^\top \bx_n\)</span> for some coefficients <span class="math notranslate nohighlight">\(\bbeta\)</span>. We then chose a non-linear link function to relate <span class="math notranslate nohighlight">\(\mu\)</span> to <span class="math notranslate nohighlight">\(\eta\)</span>. For link function <span class="math notranslate nohighlight">\(g\)</span> we have</p>
+<div class="math notranslate nohighlight">
+\[
+\eta_n = g(\mu_n).
+\]</div>
+<p>In a GLM, we calculate <span class="math notranslate nohighlight">\(\eta\)</span> <em>before</em> calculating <span class="math notranslate nohighlight">\(\mu\)</span>, so we often work with the inverse of <span class="math notranslate nohighlight">\(g\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+\mu_n = g^{-1}(\eta_n)
+\]</div>
+<div class="alert alert-info">
+<p class="admonition-title">Note</p>
+<p>Note that because <span class="math notranslate nohighlight">\(\eta_n\)</span> is a function of the data, it will vary for each observation (though the <span class="math notranslate nohighlight">\(\beta\)</span>s will not).</p>
+</div>
+<p>In total then, a GLM assumes</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+y_n &amp;\sim F_{\mu_n} \\
+\mu_n &amp;= g^{-1}(\eta_n) \\
+\eta_n &amp;= \bbeta^\top \bx_n,
+\end{aligned}
+\end{split}\]</div>
+<p>where <span class="math notranslate nohighlight">\(F\)</span> is some distribution with mean parameter <span class="math notranslate nohighlight">\(\mu_n\)</span>.</p>
+</div>
+<div class="section" id="fitting-a-glm">
+<h2>Fitting a GLM<a class="headerlink" href="#fitting-a-glm" title="Permalink to this headline">¶</a></h2>
+<p>“Fitting” a GLM, like fitting ordinary linear regression, really consists of estimating the coefficients, <span class="math notranslate nohighlight">\(\bbeta\)</span>. Once we know <span class="math notranslate nohighlight">\(\bbeta\)</span>, we have <span class="math notranslate nohighlight">\(\eta\)</span>. Once we have a link function, <span class="math notranslate nohighlight">\(\eta\)</span> gives us <span class="math notranslate nohighlight">\(\mu\)</span> through <span class="math notranslate nohighlight">\(g^{-1}\)</span>. A GLM can be fit in these four steps</p>
+<ol class="simple">
+<li><p>Specify the distribution of <span class="math notranslate nohighlight">\(y_n\)</span>, indexed by its mean parameter <span class="math notranslate nohighlight">\(\mu_n\)</span>.</p></li>
+<li><p>Specify the link function <span class="math notranslate nohighlight">\(\eta_n = g(\mu_n)\)</span>.</p></li>
+<li><p>Identify a loss function. This is typically the negative log-likelihood.</p></li>
+<li><p>Find the <span class="math notranslate nohighlight">\(\bbetahat\)</span> that minimize that loss function.</p></li>
+</ol>
+<p>Note that since <span class="math notranslate nohighlight">\(E(y_n) = \mu_n\)</span>, we estimate <span class="math notranslate nohighlight">\(y_n\)</span> with <span class="math notranslate nohighlight">\(\mu_n\)</span>. The negative log-likelihood is then</p>
+<div class="math notranslate nohighlight">
+\[
+\log L = \sumN \log L_n(y_n, \mu_n) = \sumN \log L_n(y_n, g^{-1}(\eta_n)) = \sumN \log L_n(y_n, g^{-1}(\bbeta^\top \bx_n)).
+\]</div>
+<p>This shows how the loss function depends on the parameters we want to estimate, <span class="math notranslate nohighlight">\(\bbeta\)</span>.</p>
+</div>
+<div class="section" id="example-poisson-regression">
+<h2>Example: Poisson Regression<a class="headerlink" href="#example-poisson-regression" title="Permalink to this headline">¶</a></h2>
+<p><u>Step 1</u></p>
+<p>Suppose we choose to model <span class="math notranslate nohighlight">\(y_n\)</span> conditional on <span class="math notranslate nohighlight">\(\bx_n\)</span> as a Poisson random variable with rate parameter (and therefore expected value) <span class="math notranslate nohighlight">\(\lambda_n\)</span>, i.e.,</p>
+<div class="math notranslate nohighlight">
+\[
+y_n|\bx_n \sim \text{Pois}(\lambda_n).
+\]</div>
+<p><u>Step 2</u></p>
+<p>To determine the link function, let’s think in terms of its inverse, <span class="math notranslate nohighlight">\(\lambda_n = g^{-1}(\eta_n)\)</span>.  We know that <span class="math notranslate nohighlight">\(\lambda_n\)</span> must be non-negative and <span class="math notranslate nohighlight">\(\eta_n\)</span> could be anywhere in the reals since it is a linear function of <span class="math notranslate nohighlight">\(\bx_n\)</span>. One function that works is</p>
+<div class="math notranslate nohighlight">
+\[
+\lambda_n = \exp(\eta_n),
+\]</div>
+<p>meaning</p>
+<div class="math notranslate nohighlight">
+\[
+\eta_n = g(\lambda_n) = \log(\lambda_n). 
+\]</div>
+<p>This is the “canonical link” function for Poisson regression. More on that <a class="reference external" href="https://en.wikipedia.org/wiki/Generalized_linear_model#Link_function">here</a>.</p>
+<p><u>Step 3</u></p>
+<p>Let’s derive the negative log-likelihood for the Poisson. Let <span class="math notranslate nohighlight">\(\blambda = \begin{bmatrix} \lambda_1, \dots, \lambda_N\end{bmatrix}^\top\)</span>.</p>
+<div class="admonition-math-note alert alert-info">
+<p class="admonition-title">Math Note</p>
+<p>The PMF for <span class="math notranslate nohighlight">\(z \sim \text{Pois}(\lambda)\)</span> is</p>
+<div class="math notranslate nohighlight">
+\[
+p(z) = \frac{e^{-\lambda}\lambda^z}{z!} \propto e^{-\lambda}\lambda^z.
+\]</div>
+</div>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+L(\blambda) &amp;= \prodN \exp(-\lambda_n) \lambda_n^{y_n}
+\\
+\log L(\blambda) &amp;= \sumN y_n\log\lambda_n - \lambda_n. 
+\end{align*}
+\end{split}\]</div>
+<p>Now let’s get our loss function, the negative log-likelihood. Recall that this should be in terms of <span class="math notranslate nohighlight">\(\bbeta\)</span> rather than <span class="math notranslate nohighlight">\(\blambda\)</span>.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align}
+\mathcal{L}_N(\bbeta) &amp;= -\left(\sumN y_n\log(\exp(\eta_n)) - \exp(\eta_n)\right)
+\\
+&amp;= \sumN \left(\exp(\eta_n) - y_n \eta_n \right)
+\\
+&amp;= \sumN \left(\exp(\bbeta^\top \bx_n) - y_n\bbeta^\top\bx_n\right).
+\end{align}
+\end{split}\]</div>
+<p><u>Step 4</u></p>
+<p>We obtain <span class="math notranslate nohighlight">\(\bbetahat\)</span> by minimizing this loss function. Let’s take the derivative of the loss function with respect to <span class="math notranslate nohighlight">\(\bbeta\)</span>.</p>
+<div class="math notranslate nohighlight">
+\[
+\dadb{\mathcal{L}_N(\bbeta)}{\bbeta} = \sumN\left(\exp(\bbeta^\top\bx_n)\bx_n - y_n\bx_n \right).
+\]</div>
+<p>Ideally, we would solve for <span class="math notranslate nohighlight">\(\bbetahat\)</span> by setting this gradient equal to 0. Unfortunately, there is no closed-form solution. Instead, we can approximate <span class="math notranslate nohighlight">\(\bbetahat\)</span> through <a class="reference internal" href="../../c9/s1/gradient_descent.html"><span class="doc">gradient descent</span></a>. This is done in the <a class="reference internal" href="../s2/GLMs.html"><span class="doc">construction</span></a> section.</p>
+<p>Since gradient descent calculates this gradient a large number of times, it’s important to calculate it efficiently. Let’s see if we can clean this expression up. First recall that
+<span class="math notranslate nohighlight">\($
+\hat{y}_n = \hat{\lambda}_n = \exp(\bbetahat^\top \bx_n).
+$\)</span></p>
+<p>The loss function can then be written as</p>
+<div class="math notranslate nohighlight">
+\[
+\dadb{\mathcal{L}_N(\bbetahat)}{\bbetahat} = \sumN\left(\hat{y}_n\bx_n - y_n\bx_n \right).
+\]</div>
+<p>Further, this can be written in matrix form as</p>
+<div class="math notranslate nohighlight">
+\[
+\dadb{\mathcal{L}_N(\bbetahat)}{\bbetahat} = \bX^\top(\hat{\by} - \by),
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(\hat{\by}\)</span> is the vector of fitted values. Finally note that this vector can be calculated as</p>
+<div class="math notranslate nohighlight">
+\[
+\hat{\by} = \exp(\bX \bbetahat),
+\]</div>
+<p>where the exponent is applied element-wise to each observation.</p>
+<hr class="docutils" />
+<p>Many other GLMs exist. One important example is logistic regression, the topic of the next chapter.</p>
+</div>
+</div>
+
+
+              </div>
+              
+        </div>
+    </div>
+    
+    
+    <div class='prev-next-bottom'>
+        
+    <a class='left-prev' id="prev-link" href="bayesian.html" title="previous page">Bayesian Regression</a>
+    <a class='right-next' id="next-link" href="../construction.html" title="next page">Construction</a>
+
+    </div>
+    <footer class="footer mt-5 mt-md-0">
+    <div class="container">
+      <p>
+        
+          By Danny Friedman<br/>
+        
+            &copy; Copyright 2020.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+
+    <script src="../../../_static/js/index.js"></script>
+    
+  </body>
+</html>
