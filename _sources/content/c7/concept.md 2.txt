@@ -239,11 +239,7 @@ We have now seen that a neural network operates through a series of linear mappi
 
 Suppose we choose some loss function $\mathcal{L}$ for our network to minimize. To find the optimal weights, we can conduct gradient descent, repeatedly taking the derivative of our loss function with respect to each weight and adjusting accordingly. As we will see, this involves finding the gradient of the network's final weights, then using the chain rule to find the gradient of the weights that came earlier. In this process, we move backward through the network, and hence the name "back propagation."
 
-
-
-![](/content/c7/nnmatrix2.png)
-
-
+TODO network
 
 Consider conducting gradient descent for the network above. Write the loss function as $\mathcal{L}(\hat{\by})$, where $\hat{\by}$ is the network's output. Let's start by writing out the derivative of $\mathcal{L}$ with respect to $\super{\mathbf{W}}{L}$, the final matrix of weights in our network. We can do this with the chain rule, as below. 
 

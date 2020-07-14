@@ -463,7 +463,7 @@ y &amp;= \begin{pmatrix} 1 &amp; 1 \end{pmatrix} \begin{pmatrix} c \\ 0 \end{pma
 <div class="section" id="back-propagation">
 <h3>Back Propagation<a class="headerlink" href="#back-propagation" title="Permalink to this headline">¶</a></h3>
 <p>Suppose we choose some loss function <span class="math notranslate nohighlight">\(\mathcal{L}\)</span> for our network to minimize. To find the optimal weights, we can conduct gradient descent, repeatedly taking the derivative of our loss function with respect to each weight and adjusting accordingly. As we will see, this involves finding the gradient of the network’s final weights, then using the chain rule to find the gradient of the weights that came earlier. In this process, we move backward through the network, and hence the name “back propagation.”</p>
-<p><img alt="" src="../../_images/nnmatrix2.png" /></p>
+<p>TODO network</p>
 <p>Consider conducting gradient descent for the network above. Write the loss function as <span class="math notranslate nohighlight">\(\mathcal{L}(\hat{\by})\)</span>, where <span class="math notranslate nohighlight">\(\hat{\by}\)</span> is the network’s output. Let’s start by writing out the derivative of <span class="math notranslate nohighlight">\(\mathcal{L}\)</span> with respect to <span class="math notranslate nohighlight">\(\super{\mathbf{W}}{L}\)</span>, the final matrix of weights in our network. We can do this with the chain rule, as below.</p>
 <div class="math notranslate nohighlight">
 \[
