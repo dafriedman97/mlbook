@@ -18,6 +18,7 @@ $$
 \newcommand{\dadb}[2]{\frac{\partial #1}{\partial #2}}
 \newcommand{\iid}{\overset{\small{\text{i.i.d.}}}{\sim}}
 \newcommand{\super}[2]{#1^{(#2)}}
+\newcommand{\superb}[2]{\mathbf{#1}^{(#2)}}
 $$
 
 The neural network is a highly powerful and versatile class of models that has become quite a hot topic in machine learning. While neural networks are often able to out-perform other popular model classes in terms of predictive accuracy, they are not terribly complex or mysterious. Rather, by optimizing a highly-parametric and nonlinear structure, neural networks are flexible enough to model subtle relationships that other models may struggle to detect.
@@ -91,7 +92,7 @@ Once $\super{\bz}{b}$ is fixed, we use the same process to create the next layer
 
 $$
 \begin{align*}
-\super{\bz}{a} &= \super{f}{b}\left(\super{\mathbf{W}}{b}\super{\bz}{a} + \super{\mathbf{c}}{b} \right) \\
+\super{\bz}{b} &= \super{f}{b}\left(\super{\mathbf{W}}{b}\super{\bz}{a} + \super{\mathbf{c}}{b} \right) \\
 \super{\bz}{c} &= \super{f}{c}\left(\super{\mathbf{W}}{c}\super{\bz}{b} + \super{\mathbf{c}}{c} \right). \\
 \end{align*}
 $$
@@ -225,13 +226,26 @@ $$
 $$
 
 
+
 (optimization)=
-
-
 
 ## Optimization
 
 We have now seen that a neural network operates through a series of linear mappings and activation functions. The linear mapping for layer $\ell$ is determined by the parameters in $\super{\mathbf{W}}{\ell}$ and $\super{\mathbf{c}}{\ell}$, also called the *weights*. This section discusses the process through which the parameters in a neural network are fit, called *back propagation*. 
+
+
+
+The rest of this page requires a good amount of matrix differentiation, which is introduced in the {doc}`math appendix </content/appendix/math>` for those not familiar. Note that we use the "numerator layout," meaning for $\by \in \R^m$ and $\bx \in \R^n$, we write $\partial\by/\partial\bx$ as 
+
+
+$$
+\dadb{\by}{\bx} = \begin{bmatrix}
+\dadb{y_1}{x_1} & \dots & \dadb{y_1}{x_n} \\
+& \dots & \\
+\dadb{y_m}{x_1} & \dots &  \dadb{y_m}{x_n}
+\end{bmatrix}
+$$
+
 
 
 
@@ -283,9 +297,157 @@ We continue this same process until we reach the first set of weights.
 
 ### Calculating Gradients
 
+In this section we will derive the gradients used in back propagation. For each iteration in this process we need to know the derivative of our loss function with respect to each weight in the entire network. For the network shown above, this requires calculating the following gradients:
 
 
-- Loss functions
-- Activation functions
-- matrices 
+$$
+\dadb{\mathcal{L}(\hat{\by})}{\superb{W}{1}}, \dadb{\mathcal{L}(\hat{\by})}{\superb{c}{1}}, \dots, \dadb{\mathcal{L}(\hat{\by})}{\superb{W}{L}}, \text{ and } \dadb{\mathcal{L}(\hat{\by})}{\superb{c}{L}}.
+$$
 
+
+Since we will find these with the chain rule, we will need to calculate other gradients along the way. All necessary gradients are derived below. Note that the three following sub-sections each cover stages within a single layer of a network in reverse order (as back propagation does). 
+
+
+
+```{note}
+Note that the following considers only one observation at a time. The vector $\by$, for instance, refers to the output variables for a single observation, rather than a vector of 1-dimensional output variables for several observations. Similarly, $\dadb{\mathcal{L}(\hat{\by})}{\hat{\by}}$ refers to the derivative of the loss with respect to a single observation's output. The final section discusses how to combine the derivatives from multiple observations.
+```
+
+#### Loss Functions and their Gradients
+
+Back propagation begins where the network ends: the loss function $\mathcal{L}(\hat{\by})$. Let's start by introducing some common loss functions and their derivatives with respect to our predictions, $\hat{\by}$. Later, using the chain rule, we will use these derivatives to calculate derivatives with respect to our network's weights.
+
+A common loss function for a quantitative output variable is the residual sum of squares. For a single observation, the loss is 
+
+
+$$
+\mathcal{L}_{RSS}(\hat{\by}) = (\by - \hat{\by})^2.
+$$
+
+
+Note that we have a vector of losses because there are multiple output variables and we consider the loss for each variable independently. Now for the first step in back propagation, we calculate the derivative of this loss with respect to $\hat{\by}$, which is simply given by
+
+
+$$
+\dadb{\mathcal{L}_{RSS}(\hat{\by})}{\hat{\by}} = -2(\by - \hat{\by}).
+$$
+
+
+For binary classification problems, a common loss function is the log loss or cross entropy, given by 
+
+
+$$
+\mathcal{L}_{Log}(\hat{\by}) = -\Big(\by\log \hat{\by} -(1-\by)\log(1-\hat{\by})\Big),
+$$
+
+
+where the $i^\text{th}$ entry in $\hat{\by}$ gives the estimated probability that the $i^\text{th}$ output variable equals 1. The derivative of this loss function with respect to $\hat{\by}$ is given by 
+
+
+$$
+\begin{align*}
+\dadb{\mathcal{L}_{Log}(\hat{\by})}{\hat{\by}} &= -\left(\frac{\by}{\hat{\by}} + \frac{1-\by}{1-\hat{\by}} \right)
+\end{align*}
+$$
+
+
+Once we calculate $\dadb{\mathcal{L}(\hat{\by})}{\hat{\by}}$, we can move further into the network. Since $\hat{\by}$ is the result of an activation function, the next step in back propagation is to calculate the derivative of our activation functions. 
+
+
+
+#### Activation Functions and their Gradients
+
+Recall that $\superb{z}{\ell}$, the output layer of $\ell$, is the result of an activation function applied to a linear projection $\superb{h}{\ell}$. This includes the output of the final layer, $\mathbf{\hat{y}}$.
+
+
+
+##### ReLU
+
+Suppose we have $\superb{z}{\ell} = \super{f}{\ell}(\superb{h}{\ell})$ where $\super{f}{\ell}$ is the ReLU function. We are interested in $\partial \superb{z}{\ell}/\partial \superb{h}{\ell}$. For $i \neq j$, we have 
+
+
+$$
+\frac{\partial \super{z}{\ell}_i}{\partial \super{h}{\ell}_j} = 0,
+$$
+
+
+since $\super{z}{\ell}_i$ is not a function of $\super{h}{\ell}_j$. Then using the ReLU derivative, we have 
+
+
+$$
+\dadb{\super{z}{\ell}_i}{\super{h}{\ell}_i} =
+\begin{cases}
+1,  & \super{h}{\ell}_i > 0 \\ 0, & \super{h}{\ell}_i \leq 0. 
+\end{cases}
+$$
+
+
+We can then compactly write the entire derivative as 
+
+
+$$
+\dadb{\superb{z}{\ell}}{\superb{h}{\ell}} = \text{diag}(\superb{h}{\ell} > 0).
+$$
+
+
+##### Sigmoid
+
+
+
+Now suppose we have $\superb{z}{\ell} = \super{f}{\ell}(\superb{h}{\ell})$ where $\super{f}{\ell}$ is the sigmoid function. Again, the partial derivative  $\partial \super{z}{\ell}_i/\partial \super{h}{\ell}_j $ is 0 for $i \neq j$. By the sigmoid derivative, we have 
+
+
+$$
+\dadb{\super{z}{\ell}_i}{\super{h}{\ell}_i} = \sigma(\super{h}{\ell}_i)(1-\sigma(\super{h}{\ell}_i)).
+$$
+
+
+We can again write the entire result compactly as 
+
+
+$$
+\begin{align*}
+\dadb{\superb{z}{\ell}}{\superb{h}{\ell}} &= \text{diag}\left(\sigma(\superb{h}{\ell})(1-\sigma(\superb{h}{\ell})\right).
+\end{align*}
+$$
+
+
+#### Other Gradients
+
+
+$$
+\begin{align*}
+\dadb{\super{\mathbf{h}}{\ell}}{\superb{c}{\ell}} &= I_{n_\ell} \\
+\dadb{\superb{h}{\ell}}{\super{W}{\ell}} &=
+\begin{bmatrix} \dadb{\super{h}{\ell}_1}{\super{W}{\ell}} \\ \\ \dots \\ \\ \dadb{\super{h}{\ell}_{n_\ell}}{\super{W}{\ell}}  \end{bmatrix} = 
+\begin{bmatrix} \begin{bmatrix} \superb{z}{\ell - 1})^\top \\ ... \\ \mathbf{0}^\top \end{bmatrix}\\ \dots \\ \begin{bmatrix} \mathbf{0}^\top  \\ \dots \\ (\superb{z}{\ell - 1})^\top\end{bmatrix}\end{bmatrix} \\
+\dadb{\superb{h}{\ell}}{\superb{z}{\ell - 1}} &= {\super{W}{\ell}}
+\end{align*}
+$$
+
+
+### Fitting The
+
+- we've seen the individual derivatives
+- Show how to combine it with chain rule 
+
+
+
+#### Summing over observations
+
+
+
+Multiple observations (maybe skip this until end)
+
+
+$$
+\begin{align*}
+\dadb{\mathcal{L}_{RSS}(\{\hat{\by}_n\}_{n = 1}^N)}{\{\hat{\by}_n\}_{n = 1}^N} &= -\sumN2(\by_n - \hat{\by}_n) \\
+\end{align*}
+$$
+
+$$
+\begin{align*}
+\dadb{\mathcal{L}_{Log}(\{\hat{\by}_n\}_{n = 1}^N)}{\{\hat{\by}_n\}_{n = 1}^N} &= -\sumN \left(\frac{\by_n}{\hat{\by}_n} + \frac{1-\by_n}{1-\hat{\by}_n} \right) \\
+\end{align*}
+$$

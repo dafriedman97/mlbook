@@ -289,7 +289,41 @@
         </li>
     
         <li class="nav-item toc-entry toc-h3">
-            <a href="#calculating-gradients" class="nav-link">Calculating Gradients</a>
+            <a href="#calculating-gradients" class="nav-link">Calculating Gradients</a><ul class="nav section-nav flex-column">
+                
+        <li class="nav-item toc-entry toc-h4">
+            <a href="#loss-functions-and-their-gradients" class="nav-link">Loss Functions and their Gradients</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h4">
+            <a href="#activation-functions-and-their-gradients" class="nav-link">Activation Functions and their Gradients</a><ul class="nav section-nav flex-column">
+                
+        <li class="nav-item toc-entry toc-h5">
+            <a href="#id1" class="nav-link">ReLU</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h5">
+            <a href="#id2" class="nav-link">Sigmoid</a>
+        </li>
+    
+            </ul>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h4">
+            <a href="#other-gradients" class="nav-link">Other Gradients</a>
+        </li>
+    
+            </ul>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h3">
+            <a href="#fitting-the" class="nav-link">Fitting The</a><ul class="nav section-nav flex-column">
+                
+        <li class="nav-item toc-entry toc-h4">
+            <a href="#summing-over-observations" class="nav-link">Summing over observations</a>
+        </li>
+    
+            </ul>
         </li>
     
             </ul>
@@ -334,6 +368,7 @@
 \newcommand{\dadb}[2]{\frac{\partial #1}{\partial #2}}
 \newcommand{\iid}{\overset{\small{\text{i.i.d.}}}{\sim}}
 \newcommand{\super}[2]{#1^{(#2)}}
+\newcommand{\superb}[2]{\mathbf{#1}^{(#2)}}
 \]</div>
 <p>The neural network is a highly powerful and versatile class of models that has become quite a hot topic in machine learning. While neural networks are often able to out-perform other popular model classes in terms of predictive accuracy, they are not terribly complex or mysterious. Rather, by optimizing a highly-parametric and nonlinear structure, neural networks are flexible enough to model subtle relationships that other models may struggle to detect.</p>
 <div class="alert alert-info">
@@ -383,7 +418,7 @@
 <div class="math notranslate nohighlight">
 \[\begin{split}
 \begin{align*}
-\super{\bz}{a} &amp;= \super{f}{b}\left(\super{\mathbf{W}}{b}\super{\bz}{a} + \super{\mathbf{c}}{b} \right) \\
+\super{\bz}{b} &amp;= \super{f}{b}\left(\super{\mathbf{W}}{b}\super{\bz}{a} + \super{\mathbf{c}}{b} \right) \\
 \super{\bz}{c} &amp;= \super{f}{c}\left(\super{\mathbf{W}}{c}\super{\bz}{b} + \super{\mathbf{c}}{c} \right). \\
 \end{align*}
 \end{split}\]</div>
@@ -460,6 +495,15 @@ y &amp;= \begin{pmatrix} 1 &amp; 1 \end{pmatrix} \begin{pmatrix} c \\ 0 \end{pma
 <div class="section" id="optimization">
 <h2>Optimization<a class="headerlink" href="#optimization" title="Permalink to this headline">¶</a></h2>
 <p>We have now seen that a neural network operates through a series of linear mappings and activation functions. The linear mapping for layer <span class="math notranslate nohighlight">\(\ell\)</span> is determined by the parameters in <span class="math notranslate nohighlight">\(\super{\mathbf{W}}{\ell}\)</span> and <span class="math notranslate nohighlight">\(\super{\mathbf{c}}{\ell}\)</span>, also called the <em>weights</em>. This section discusses the process through which the parameters in a neural network are fit, called <em>back propagation</em>.</p>
+<p>The rest of this page requires a good amount of matrix differentiation, which is introduced in the <a class="reference internal" href="../appendix/math.html"><span class="doc">math appendix</span></a> for those not familiar. Note that we use the “numerator layout,” meaning for <span class="math notranslate nohighlight">\(\by \in \R^m\)</span> and <span class="math notranslate nohighlight">\(\bx \in \R^n\)</span>, we write <span class="math notranslate nohighlight">\(\partial\by/\partial\bx\)</span> as</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\dadb{\by}{\bx} = \begin{bmatrix}
+\dadb{y_1}{x_1} &amp; \dots &amp; \dadb{y_1}{x_n} \\
+&amp; \dots &amp; \\
+\dadb{y_m}{x_1} &amp; \dots &amp;  \dadb{y_m}{x_n}
+\end{bmatrix}
+\end{split}\]</div>
 <div class="section" id="back-propagation">
 <h3>Back Propagation<a class="headerlink" href="#back-propagation" title="Permalink to this headline">¶</a></h3>
 <p>Suppose we choose some loss function <span class="math notranslate nohighlight">\(\mathcal{L}\)</span> for our network to minimize. To find the optimal weights, we can conduct gradient descent, repeatedly taking the derivative of our loss function with respect to each weight and adjusting accordingly. As we will see, this involves finding the gradient of the network’s final weights, then using the chain rule to find the gradient of the weights that came earlier. In this process, we move backward through the network, and hence the name “back propagation.”</p>
@@ -491,11 +535,119 @@ y &amp;= \begin{pmatrix} 1 &amp; 1 \end{pmatrix} \begin{pmatrix} c \\ 0 \end{pma
 </div>
 <div class="section" id="calculating-gradients">
 <h3>Calculating Gradients<a class="headerlink" href="#calculating-gradients" title="Permalink to this headline">¶</a></h3>
+<p>In this section we will derive the gradients used in back propagation. For each iteration in this process we need to know the derivative of our loss function with respect to each weight in the entire network. For the network shown above, this requires calculating the following gradients:</p>
+<div class="math notranslate nohighlight">
+\[
+\dadb{\mathcal{L}(\hat{\by})}{\superb{W}{1}}, \dadb{\mathcal{L}(\hat{\by})}{\superb{c}{1}}, \dots, \dadb{\mathcal{L}(\hat{\by})}{\superb{W}{L}}, \text{ and } \dadb{\mathcal{L}(\hat{\by})}{\superb{c}{L}}.
+\]</div>
+<p>Since we will find these with the chain rule, we will need to calculate other gradients along the way. All necessary gradients are derived below. Note that the three following sub-sections each cover stages within a single layer of a network in reverse order (as back propagation does).</p>
+<div class="alert alert-info">
+<p class="admonition-title">Note</p>
+<p>Note that the following considers only one observation at a time. The vector <span class="math notranslate nohighlight">\(\by\)</span>, for instance, refers to the output variables for a single observation, rather than a vector of 1-dimensional output variables for several observations. Similarly, <span class="math notranslate nohighlight">\(\dadb{\mathcal{L}(\hat{\by})}{\hat{\by}}\)</span> refers to the derivative of the loss with respect to a single observation’s output. The final section discusses how to combine the derivatives from multiple observations.</p>
+</div>
+<div class="section" id="loss-functions-and-their-gradients">
+<h4>Loss Functions and their Gradients<a class="headerlink" href="#loss-functions-and-their-gradients" title="Permalink to this headline">¶</a></h4>
+<p>Back propagation begins where the network ends: the loss function <span class="math notranslate nohighlight">\(\mathcal{L}(\hat{\by})\)</span>. Let’s start by introducing some common loss functions and their derivatives with respect to our predictions, <span class="math notranslate nohighlight">\(\hat{\by}\)</span>. Later, using the chain rule, we will use these derivatives to calculate derivatives with respect to our network’s weights.</p>
+<p>A common loss function for a quantitative output variable is the residual sum of squares. For a single observation, the loss is</p>
+<div class="math notranslate nohighlight">
+\[
+\mathcal{L}_{RSS}(\hat{\by}) = (\by - \hat{\by})^2.
+\]</div>
+<p>Note that we have a vector of losses because there are multiple output variables and we consider the loss for each variable independently. Now for the first step in back propagation, we calculate the derivative of this loss with respect to <span class="math notranslate nohighlight">\(\hat{\by}\)</span>, which is simply given by</p>
+<div class="math notranslate nohighlight">
+\[
+\dadb{\mathcal{L}_{RSS}(\hat{\by})}{\hat{\by}} = -2(\by - \hat{\by}).
+\]</div>
+<p>For binary classification problems, a common loss function is the log loss or cross entropy, given by</p>
+<div class="math notranslate nohighlight">
+\[
+\mathcal{L}_{Log}(\hat{\by}) = -\Big(\by\log \hat{\by} -(1-\by)\log(1-\hat{\by})\Big),
+\]</div>
+<p>where the <span class="math notranslate nohighlight">\(i^\text{th}\)</span> entry in <span class="math notranslate nohighlight">\(\hat{\by}\)</span> gives the estimated probability that the <span class="math notranslate nohighlight">\(i^\text{th}\)</span> output variable equals 1. The derivative of this loss function with respect to <span class="math notranslate nohighlight">\(\hat{\by}\)</span> is given by</p>
+<div class="math notranslate nohighlight">
+\[
+\begin{align*}
+\dadb{\mathcal{L}_{Log}(\hat{\by})}{\hat{\by}} &amp;= -\left(\frac{\by}{\hat{\by}} + \frac{1-\by}{1-\hat{\by}} \right)
+\end{align*}
+\]</div>
+<p>Once we calculate <span class="math notranslate nohighlight">\(\dadb{\mathcal{L}(\hat{\by})}{\hat{\by}}\)</span>, we can move further into the network. Since <span class="math notranslate nohighlight">\(\hat{\by}\)</span> is the result of an activation function, the next step in back propagation is to calculate the derivative of our activation functions.</p>
+</div>
+<div class="section" id="activation-functions-and-their-gradients">
+<h4>Activation Functions and their Gradients<a class="headerlink" href="#activation-functions-and-their-gradients" title="Permalink to this headline">¶</a></h4>
+<p>Recall that <span class="math notranslate nohighlight">\(\superb{z}{\ell}\)</span>, the output layer of <span class="math notranslate nohighlight">\(\ell\)</span>, is the result of an activation function applied to a linear projection <span class="math notranslate nohighlight">\(\superb{h}{\ell}\)</span>. This includes the output of the final layer, <span class="math notranslate nohighlight">\(\mathbf{\hat{y}}\)</span>.</p>
+<div class="section" id="id1">
+<h5>ReLU<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h5>
+<p>Suppose we have <span class="math notranslate nohighlight">\(\superb{z}{\ell} = \super{f}{\ell}(\superb{h}{\ell})\)</span> where <span class="math notranslate nohighlight">\(\super{f}{\ell}\)</span> is the ReLU function. We are interested in <span class="math notranslate nohighlight">\(\partial \superb{z}{\ell}/\partial \superb{h}{\ell}\)</span>. For <span class="math notranslate nohighlight">\(i \neq j\)</span>, we have</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{\partial \super{z}{\ell}_i}{\partial \super{h}{\ell}_j} = 0,
+\]</div>
+<p>since <span class="math notranslate nohighlight">\(\super{z}{\ell}_i\)</span> is not a function of <span class="math notranslate nohighlight">\(\super{h}{\ell}_j\)</span>. Then using the ReLU derivative, we have</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\dadb{\super{z}{\ell}_i}{\super{h}{\ell}_i} =
+\begin{cases}
+1,  &amp; \super{h}{\ell}_i &gt; 0 \\ 0, &amp; \super{h}{\ell}_i \leq 0. 
+\end{cases}
+\end{split}\]</div>
+<p>We can then compactly write the entire derivative as</p>
+<div class="math notranslate nohighlight">
+\[
+\dadb{\superb{z}{\ell}}{\superb{h}{\ell}} = \text{diag}(\superb{h}{\ell} &gt; 0).
+\]</div>
+</div>
+<div class="section" id="id2">
+<h5>Sigmoid<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h5>
+<p>Now suppose we have <span class="math notranslate nohighlight">\(\superb{z}{\ell} = \super{f}{\ell}(\superb{h}{\ell})\)</span> where <span class="math notranslate nohighlight">\(\super{f}{\ell}\)</span> is the sigmoid function. Again, the partial derivative  $\partial \super{z}{\ell}_i/\partial \super{h}{\ell}_j $ is 0 for <span class="math notranslate nohighlight">\(i \neq j\)</span>. By the sigmoid derivative, we have</p>
+<div class="math notranslate nohighlight">
+\[
+\dadb{\super{z}{\ell}_i}{\super{h}{\ell}_i} = \sigma(\super{h}{\ell}_i)(1-\sigma(\super{h}{\ell}_i)).
+\]</div>
+<p>We can again write the entire result compactly as</p>
+<div class="math notranslate nohighlight">
+\[
+\begin{align*}
+\dadb{\superb{z}{\ell}}{\superb{h}{\ell}} &amp;= \text{diag}\left(\sigma(\superb{h}{\ell})(1-\sigma(\superb{h}{\ell})\right).
+\end{align*}
+\]</div>
+</div>
+</div>
+<div class="section" id="other-gradients">
+<h4>Other Gradients<a class="headerlink" href="#other-gradients" title="Permalink to this headline">¶</a></h4>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+\dadb{\super{\mathbf{h}}{\ell}}{\superb{c}{\ell}} &amp;= I_{n_\ell} \\
+\dadb{\superb{h}{\ell}}{\super{W}{\ell}} &amp;=
+\begin{bmatrix} \dadb{\super{h}{\ell}_1}{\super{W}{\ell}} \\ \\ \dots \\ \\ \dadb{\super{h}{\ell}_{n_\ell}}{\super{W}{\ell}}  \end{bmatrix} = 
+\begin{bmatrix} \begin{bmatrix} \superb{z}{\ell - 1})^\top \\ ... \\ \mathbf{0}^\top \end{bmatrix}\\ \dots \\ \begin{bmatrix} \mathbf{0}^\top  \\ \dots \\ (\superb{z}{\ell - 1})^\top\end{bmatrix}\end{bmatrix} \\
+\dadb{\superb{h}{\ell}}{\superb{z}{\ell - 1}} &amp;= {\super{W}{\ell}}
+\end{align*}
+\end{split}\]</div>
+</div>
+</div>
+<div class="section" id="fitting-the">
+<h3>Fitting The<a class="headerlink" href="#fitting-the" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
-<li><p>Loss functions</p></li>
-<li><p>Activation functions</p></li>
-<li><p>matrices</p></li>
+<li><p>we’ve seen the individual derivatives</p></li>
+<li><p>Show how to combine it with chain rule</p></li>
 </ul>
+<div class="section" id="summing-over-observations">
+<h4>Summing over observations<a class="headerlink" href="#summing-over-observations" title="Permalink to this headline">¶</a></h4>
+<p>Multiple observations (maybe skip this until end)</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+\dadb{\mathcal{L}_{RSS}(\{\hat{\by}_n\}_{n = 1}^N)}{\{\hat{\by}_n\}_{n = 1}^N} &amp;= -\sumN2(\by_n - \hat{\by}_n) \\
+\end{align*}
+\end{split}\]</div>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+\dadb{\mathcal{L}_{Log}(\{\hat{\by}_n\}_{n = 1}^N)}{\{\hat{\by}_n\}_{n = 1}^N} &amp;= -\sumN \left(\frac{\by_n}{\hat{\by}_n} + \frac{1-\by_n}{1-\hat{\by}_n} \right) \\
+\end{align*}
+\end{split}\]</div>
+</div>
 </div>
 </div>
 </div>
