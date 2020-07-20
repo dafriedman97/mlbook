@@ -11,12 +11,12 @@ This section reviews the two most common methods for regularized regression: rid
 
 ## Ridge Regression
 
-Like ordinary linear regression, ridge regression estimates the coefficients by minimizing a loss function on the training data. Unlike ordinary linear regression, the loss function for ridge regression includes an extra penalty for the magnitude of the $\bbetahat$ estimates. Specifically, it uses
+Like ordinary linear regression, ridge regression estimates the coefficients by minimizing a loss function on the training data. Unlike ordinary linear regression, the loss function for ridge regression penalizes large values of the $\bbetahat$ estimates. Specifically, ridge regression minimizes the sum of the RSS and the L2 norm of $\bbetahat$:
 
 
 $$
 \begin{align*}
-L_\text{Ridge}(\bbetahat) &= \frac{1}{2}\left(\by - \bX\bbetahat \right)^\top
+\mathcal{L}_\text{Ridge}(\bbetahat) &= \frac{1}{2}\left(\by - \bX\bbetahat \right)^\top
 \left(\by - \bX\bbetahat \right) + \frac{\lambda}{2} \sum_{d = 1}^D\hat{\beta}_d ^2.
 \end{align*}
 $$
@@ -48,7 +48,7 @@ where $I'_D$ is the identity matrix of size $D$ *except* the first element is a 
 
 $$
 \begin{align*}
-\dadb{L_\text{Ridge}(\bbetahat)}{\bbetahat} &= - \bX^\top\left( \by - \bX \bbetahat \right) + \lambda I'_D\bbetahat.
+\dadb{\mathcal{L}_\text{Ridge}(\bbetahat)}{\bbetahat} &= - \bX^\top\left( \by - \bX \bbetahat \right) + \lambda I'_D\bbetahat.
 \end{align*}
 $$
 
@@ -72,7 +72,7 @@ Lasso regression differs from ridge regression in that its loss function uses th
 
 $$
 \begin{align*}
-L_\text{Lasso}(\bbetahat) &= \frac{1}{2}\left(\by - \bX\bbetahat \right)^\top
+\mathcal{L}_\text{Lasso}(\bbetahat) &= \frac{1}{2}\left(\by - \bX\bbetahat \right)^\top
 \left(\by - \bX\bbetahat \right) + \lambda \sum_{d = 1}^D|\beta_d|.
 \end{align*}
 $$
@@ -82,7 +82,7 @@ As usual, let's then calculate the gradient of the loss function with respect to
 
 
 $$
-\dadb{L(\bbetahat)}{\bbetahat} = - \bX^\top\left( \by - \bX \bbetahat \right) + \lambda I'_D\text{ sign}(\bbetahat),
+\dadb{\mathcal{L}(\bbetahat)}{\bbetahat} = - \bX^\top\left( \by - \bX \bbetahat \right) + \lambda I'_D\text{ sign}(\bbetahat),
 $$
 
 

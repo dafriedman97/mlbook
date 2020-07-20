@@ -306,40 +306,39 @@
 <div class="section" id="simple-linear-regression">
 <h2>Simple Linear Regression<a class="headerlink" href="#simple-linear-regression" title="Permalink to this headline">¶</a></h2>
 <p><strong><u>Model Structure</u></strong></p>
-<p><em>Simple linear regression</em> models the output variable, <span class="math notranslate nohighlight">\(y\)</span>, as a linear function of just one predictor variable, <span class="math notranslate nohighlight">\(x\)</span>, plus an error term, <span class="math notranslate nohighlight">\(\epsilon\)</span>. We can write the entire model for the <span class="math notranslate nohighlight">\(n^\text{th}\)</span> observation as</p>
-<div class="math notranslate nohighlight">
-\[
+<p><em>Simple linear regression</em> models the output variable, <span class="math notranslate nohighlight">\(y\)</span>, as a linear function of just one predictor variable, <span class="math notranslate nohighlight">\(x\)</span>, plus an error term, <span class="math notranslate nohighlight">\(\epsilon\)</span>. We can write the entire model for the <span class="math notranslate nohighlight">\(n^\text{th}\)</span> observation as
+<span class="math notranslate nohighlight">\($
 \begin{align*}
 y_n &amp;= \beta_0 + \beta_1 x_n + \epsilon_n.
 \end{align*}
-\]</div>
+$\)</span></p>
 <p>Fitting the model then consists of estimating two parameters: <span class="math notranslate nohighlight">\(\beta_0\)</span> and <span class="math notranslate nohighlight">\(\beta_1\)</span>. We call our estimates of these parameters <span class="math notranslate nohighlight">\(\hat{\beta}_0\)</span> and <span class="math notranslate nohighlight">\(\hat{\beta}_1\)</span>, respectively. Once we’ve made these estimates, we can form our prediction for any given <span class="math notranslate nohighlight">\(x_n\)</span> with</p>
 <div class="math notranslate nohighlight">
 \[
 \hat{y}_n = \hat{\beta}_0 + \hat{\beta}_1 x_n. 
 \]</div>
-<p>One way to find these estimates is by minimizing a loss function. Typically, this loss function is the squared error loss. This can be written as</p>
+<p>One way to find these estimates is by minimizing a loss function. Typically, this loss function is <em>residual sum of squares</em> (RSS). The RSS is calculated as follows</p>
 <div class="math notranslate nohighlight">
 \[
 \begin{align*}
-L(\hat{\beta}_0, \hat{\beta}_1) &amp;= \frac{1}{2}\sumN \left(y_n - \hat{y}_n\right)^2 
+\mathcal{L}(\hat{\beta}_0, \hat{\beta}_1) &amp;= \frac{1}{2}\sumN \left(y_n - \hat{y}_n\right)^2.
 \end{align*}
 \]</div>
-<p>We divide the sum of squared errors by 2 in order to simplify the math, as shown below. Note that doing this does not affect our estimates because it does not affect which <span class="math notranslate nohighlight">\(\hat{\beta}_0\)</span> and <span class="math notranslate nohighlight">\(\hat{\beta}_1\)</span> minimize the loss function.</p>
+<p>We divide the sum of squared errors by 2 in order to simplify the math, as shown below. Note that doing this does not affect our estimates because it does not affect which <span class="math notranslate nohighlight">\(\hat{\beta}_0\)</span> and <span class="math notranslate nohighlight">\(\hat{\beta}_1\)</span> minimize the RSS.</p>
 <p><strong><u>Parameter Estimation</u></strong></p>
 <p>Having chosen a loss function, we are ready to derive our estimates. First lets rewrite the loss function in terms of the estimates:</p>
-<div class="math notranslate nohighlight" id="equation-eq1">
-<span class="eqno">(1)<a class="headerlink" href="#equation-eq1" title="Permalink to this equation">¶</a></span>\[L(\hat{\beta}_0, \hat{\beta}_1) = \frac{1}{2}\sumN \left(y_n - \left(\hat{\beta}_0 + \hat{\beta}_1x_n\right)\right)^2.\]</div>
+<div class="math notranslate nohighlight">
+\[\mathcal{L}(\hat{\beta}_0, \hat{\beta}_1) = \frac{1}{2}\sumN \left(y_n - \left(\hat{\beta}_0 + \hat{\beta}_1x_n\right)\right)^2.\]</div>
 <p>To find the intercept estimate, first take the derivative of the loss function with respect to <span class="math notranslate nohighlight">\(\hat{\beta}_0\)</span>:</p>
 <div class="math notranslate nohighlight">
 \[
-\dadb{L(\hat{\beta}_0, \hat{\beta}_1)}{\hat{\beta}_0} = -\sumN \left(y_n - \hat{\beta}_0 - \hat{\beta}_1x_n\right).
+\dadb{\mathcal{L}(\hat{\beta}_0, \hat{\beta}_1)}{\hat{\beta}_0} = -\sumN \left(y_n - \hat{\beta}_0 - \hat{\beta}_1x_n\right).
 \]</div>
 <p>Then set that derivative equal to 0 and solve for <span class="math notranslate nohighlight">\(\hat{\beta}_0\)</span>.</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
 \begin{align*}
-N\hat{\beta}_0 &amp;= \sumN (y_n - \hat{\beta}_1x_n) 
+\hat{\beta}_0 &amp;= \sumN (y_n - \hat{\beta}_1x_n) 
 \\
 \hat{\beta}_0 &amp;= \bar{y} - \hat{\beta}_1\bar{x}.
 \end{align*}
@@ -347,7 +346,7 @@ N\hat{\beta}_0 &amp;= \sumN (y_n - \hat{\beta}_1x_n)
 <p>This gives our intercept estimate in terms of the slope estimate. To find the slope estimate, again start by taking its derivative:</p>
 <div class="math notranslate nohighlight">
 \[
-\dadb{L(\hat{\beta}_0, \hat{\beta}_1)}{\hat{\beta}_1} = - \sumN \left(y_n - \hat{\beta}_0 - \hat{\beta}_1 x_n\right)x_n.
+\dadb{\mathcal{L}(\hat{\beta}_0, \hat{\beta}_1)}{\hat{\beta}_1} = - \sumN \left(y_n - \hat{\beta}_0 - \hat{\beta}_1 x_n\right)x_n.
 \]</div>
 <p>Setting this equal to 0 and substituting for <span class="math notranslate nohighlight">\(\hat{\beta}_0\)</span>, we get</p>
 <div class="math notranslate nohighlight">
@@ -386,30 +385,32 @@ y_n &amp;= \beta_0 + \beta_1x_{n1} + \dots + \beta_D x_{nD} + \epsilon_n.
 \[
 y_n = \bbeta^\top\bx_n + \epsilon_n.
 \]</div>
-<p>As before, letting <span class="math notranslate nohighlight">\(\bbetahat\)</span> be the vector of parameter estimates, the loss function is given by</p>
+<p>We again want to find the vector of parameter estimates <span class="math notranslate nohighlight">\(\hat{\bbeta}\)</span> to minimize the RSS:</p>
 <div class="math notranslate nohighlight">
-\[L(\bbetahat) = \frac{1}{2}\sumN \left( y_n - \bbetahat^\top \bx_n\right)^2.\]</div>
-<p>It becomes easier to work with matrices rather than sums. Define <span class="math notranslate nohighlight">\(\by\)</span> and <span class="math notranslate nohighlight">\(\bX\)</span> with</p>
+\[
+\mathcal{L}(\bbetahat) = \frac{1}{2}\sumN \left( y_n - \bbetahat^\top \bx_n\right)^2,
+\]</div>
+<p>Minimizing this loss function is easier when working with matrices rather than sums. Define <span class="math notranslate nohighlight">\(\by\)</span> and <span class="math notranslate nohighlight">\(\bX\)</span> with</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
 \by = \begin{bmatrix}y_1 \\ \dots \\ y_N  \end{bmatrix} \in \mathbb{R}^{N}, \hspace{.25cm} \bX = \begin{bmatrix} \bx_1^\top \\ \dots \\ \bx_N^\top  \end{bmatrix} \in \mathbb{R}^{N \times D}
 \end{split}\]</div>
 <p>which gives <span class="math notranslate nohighlight">\(\hat{\by} = \bX\bbetahat \in \mathbb{R}^N\)</span>. Then, we can equivalently write the loss function as</p>
-<div class="math notranslate nohighlight" id="equation-eq2">
-<span class="eqno">(2)<a class="headerlink" href="#equation-eq2" title="Permalink to this equation">¶</a></span>\[L(\bbetahat) = \frac{1}{2}(\by - \bX\bbetahat)^\top(\by - \bX\bbetahat).\]</div>
+<div class="math notranslate nohighlight">
+\[\mathcal{L}(\bbetahat) = \frac{1}{2}(\by - \bX\bbetahat)^\top(\by - \bX\bbetahat).\]</div>
 <p><strong><u>Parameter Estimation</u></strong></p>
 <p>We can estimate the parameters in the same way, only this time calculating the derivative of the loss function with respect to the entire parameter vector. First, note the commonly-used matrix derivative below <a class="footnote-reference brackets" href="#ref1" id="id1">1</a>.</p>
 <div class="math notranslate nohighlight">
 \[
 \frac{\partial}{\partial \mathbf{s}}\left(\mathbf{q} - \mathbf{A}\mathbf{s} \right)^\top \mathbf{W} \left(\mathbf{q} - \mathbf{A}\mathbf{s}\right) = -2\mathbf{A}^\top\mathbf{W}\left(\mathbf{q} - \mathbf{A}\mathbf{s}\right),
 \]</div>
-<p>For a symmetric matrix <span class="math notranslate nohighlight">\(\mathbf{W}\)</span>. Applying this result, get the derivative of the loss function with respect to <span class="math notranslate nohighlight">\(\bbetahat\)</span> (note that the identity matrix takes the place of <span class="math notranslate nohighlight">\(\mathbf{W}\)</span>):</p>
+<p>For a symmetric matrix <span class="math notranslate nohighlight">\(\mathbf{W}\)</span>. Applying this result, get the derivative of the RSS loss function with respect to <span class="math notranslate nohighlight">\(\bbetahat\)</span> (note that the identity matrix takes the place of <span class="math notranslate nohighlight">\(\mathbf{W}\)</span>):</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
 \begin{align*}
-L(\bbetahat) &amp;= \frac{1}{2}(\by - \bX\bbetahat)^\top(\by - \bX\bbetahat) 
+\mathcal{L}(\bbetahat) &amp;= \frac{1}{2}(\by - \bX\bbetahat)^\top(\by - \bX\bbetahat) 
 \\
-\dadb{L(\bbetahat)}{\bbetahat} &amp;= - \bX^\top(\by - \bX\bbetahat).
+\dadb{\mathcal{L}(\bbetahat)}{\bbetahat} &amp;= - \bX^\top(\by - \bX\bbetahat).
 \end{align*}
 \end{split}\]</div>
 <p>We get our parameter estimates by setting this derivative equal to 0:</p>

@@ -68,16 +68,18 @@ L(\beta_0, \beta_1; \by) &= \prodN L(\beta_0, \beta_1; y_n)
 $$
 
 
-Our $\hat{\beta}_0$ and $\hat{\beta}_1$ estimates are the values that maximize the log-likelihood given above. Notice that this is equivalent to finding the $\hat{\beta}_0$ and $\hat{\beta}_1$ that minimize 
 
+Our $\hat{\beta}_0$ and $\hat{\beta}_1$ estimates are the values that maximize the log-likelihood given above. Notice that this is equivalent to finding the $\hat{\beta}_0$ and $\hat{\beta}_1$ that minimize the RSS, our loss function from the previous section. 
+
+ 
 
 $$
-\frac{1}{2}\sumN \left(y_n - \left(\hat{\beta}_0 + \hat{\beta}_1 x_n\right)\right)^2.
+\text{RSS} = \frac{1}{2}\sumN \left(y_n - \left(\hat{\beta}_0 + \hat{\beta}_1 x_n\right)\right)^2.
 $$
 
 
-This, in turn, is the same optimization problem as covered in the parameter estimation section of the loss minimization approach {eq}`eq1`. Since it's the same problem, it has the same solution! Therefore, as in the loss minimization approach, the parameter estimates from the likelihood maximization approach are 
 
+In other words, we are solving the same optimization problem we did in the {doc}`last section </content/c1/s1/loss_minimization>`. Since it's the same problem, it has the same solution! Therefore, as with the loss minimization approach, the parameter estimates from the likelihood maximization approach are 
 
 $$
 \begin{align*}
@@ -90,8 +92,6 @@ $$
 ## Multiple Regression
 
 
-
-**<u>Model Structure</u>**
 
 Still assuming Normally-distributed errors but adding more than one predictor, we have
 
@@ -106,13 +106,12 @@ We can then solve the same maximum likelihood problem. Calculating the log-likel
 
 $$
 \begin{aligned}
-\log L (\beta_0, \beta_1; \by) &= -\frac{1}{2\sigma^2}\sumN \left(y_n - \bbeta^\top \bx_n \right)^2.
+\log L (\beta_0, \beta_1; \by) &= -\frac{1}{2\sigma^2}\sumN \left(y_n - \bbeta^\top \bx_n \right)^2 \\
+&=-  \frac{1}{2\sigma^2}(\by - \bX\bbetahat)^\top(\by - \bX\bbetahat).
 \end{aligned}
 $$
 
-
-Again, this is the same optimization problem as in the multiple regression section under the loss minimization approach {eq}`eq2` and it therefore has the same solution. Specifically, we get
-
+Again, maximizing this quantity is the same as minimizing the RSS, as we did under the loss minimization approach. We therefore obtain the same solution:
 
 $$
 \bbetahat = (\bX^\top\bX)^\top\bX^\top \by.
@@ -127,8 +126,4 @@ $$
 \end{aligned}
 $$
 
-
-
-
-**<u>Parameter Estimation</u>**
 

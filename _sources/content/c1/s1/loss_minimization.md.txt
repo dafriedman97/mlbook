@@ -16,10 +16,11 @@ $$
 
 ## Simple Linear Regression
 
+
+
 **<u>Model Structure</u>**
 
 *Simple linear regression* models the output variable, $y$, as a linear function of just one predictor variable, $x$, plus an error term, $\epsilon$. We can write the entire model for the $n^\text{th}$ observation as 
-
 $$
 \begin{align*}
 y_n &= \beta_0 + \beta_1 x_n + \epsilon_n.
@@ -34,18 +35,18 @@ $$
 \hat{y}_n = \hat{\beta}_0 + \hat{\beta}_1 x_n. 
 $$
 
-One way to find these estimates is by minimizing a loss function. Typically, this loss function is the squared error loss. This can be written as
+One way to find these estimates is by minimizing a loss function. Typically, this loss function is *residual sum of squares* (RSS). The RSS is calculated as follows
 
 
 $$
 \begin{align*}
-L(\hat{\beta}_0, \hat{\beta}_1) &= \frac{1}{2}\sumN \left(y_n - \hat{y}_n\right)^2 
+\mathcal{L}(\hat{\beta}_0, \hat{\beta}_1) &= \frac{1}{2}\sumN \left(y_n - \hat{y}_n\right)^2.
 \end{align*}
 $$
 
 
 
-We divide the sum of squared errors by 2 in order to simplify the math, as shown below. Note that doing this does not affect our estimates because it does not affect which $\hat{\beta}_0$ and $\hat{\beta}_1$ minimize the loss function. 
+We divide the sum of squared errors by 2 in order to simplify the math, as shown below. Note that doing this does not affect our estimates because it does not affect which $\hat{\beta}_0$ and $\hat{\beta}_1$ minimize the RSS.
 
 
 
@@ -56,8 +57,7 @@ Having chosen a loss function, we are ready to derive our estimates. First lets 
 
 
 ```{math}
-:label: eq1
-L(\hat{\beta}_0, \hat{\beta}_1) = \frac{1}{2}\sumN \left(y_n - \left(\hat{\beta}_0 + \hat{\beta}_1x_n\right)\right)^2.
+\mathcal{L}(\hat{\beta}_0, \hat{\beta}_1) = \frac{1}{2}\sumN \left(y_n - \left(\hat{\beta}_0 + \hat{\beta}_1x_n\right)\right)^2.
 ```
 
 
@@ -66,7 +66,7 @@ To find the intercept estimate, first take the derivative of the loss function w
 
 
 $$
-\dadb{L(\hat{\beta}_0, \hat{\beta}_1)}{\hat{\beta}_0} = -\sumN \left(y_n - \hat{\beta}_0 - \hat{\beta}_1x_n\right).
+\dadb{\mathcal{L}(\hat{\beta}_0, \hat{\beta}_1)}{\hat{\beta}_0} = -\sumN \left(y_n - \hat{\beta}_0 - \hat{\beta}_1x_n\right).
 $$
 
 
@@ -74,7 +74,7 @@ Then set that derivative equal to 0 and solve for $\hat{\beta}_0$.
 
 $$
 \begin{align*}
-N\hat{\beta}_0 &= \sumN (y_n - \hat{\beta}_1x_n) 
+\hat{\beta}_0 &= \sumN (y_n - \hat{\beta}_1x_n) 
 \\
 \hat{\beta}_0 &= \bar{y} - \hat{\beta}_1\bar{x}.
 \end{align*}
@@ -84,7 +84,7 @@ This gives our intercept estimate in terms of the slope estimate. To find the sl
 
 
 $$
-\dadb{L(\hat{\beta}_0, \hat{\beta}_1)}{\hat{\beta}_1} = - \sumN \left(y_n - \hat{\beta}_0 - \hat{\beta}_1 x_n\right)x_n.
+\dadb{\mathcal{L}(\hat{\beta}_0, \hat{\beta}_1)}{\hat{\beta}_1} = - \sumN \left(y_n - \hat{\beta}_0 - \hat{\beta}_1 x_n\right)x_n.
 $$
 
 
@@ -139,18 +139,18 @@ $$
 y_n = \bbeta^\top\bx_n + \epsilon_n.
 $$
 
-As before, letting $\bbetahat$ be the vector of parameter estimates, the loss function is given by 
+
+
+We again want to find the vector of parameter estimates $\hat{\bbeta}$ to minimize the RSS: 
+
+
+$$
+\mathcal{L}(\bbetahat) = \frac{1}{2}\sumN \left( y_n - \bbetahat^\top \bx_n\right)^2,
+$$
 
 
 
-```{math}
-L(\bbetahat) = \frac{1}{2}\sumN \left( y_n - \bbetahat^\top \bx_n\right)^2.
-```
-
-
-
-
-It becomes easier to work with matrices rather than sums. Define $\by$ and $\bX$ with
+Minimizing this loss function is easier when working with matrices rather than sums. Define $\by$ and $\bX$ with
 
 
 $$
@@ -162,8 +162,7 @@ which gives $\hat{\by} = \bX\bbetahat \in \mathbb{R}^N$. Then, we can equivalent
 
 
 ```{math}
-:label: eq2
-L(\bbetahat) = \frac{1}{2}(\by - \bX\bbetahat)^\top(\by - \bX\bbetahat).
+\mathcal{L}(\bbetahat) = \frac{1}{2}(\by - \bX\bbetahat)^\top(\by - \bX\bbetahat).
 ```
 
 
@@ -178,14 +177,14 @@ $$
 $$
 
 
-For a symmetric matrix $\mathbf{W}$. Applying this result, get the derivative of the loss function with respect to $\bbetahat$ (note that the identity matrix takes the place of $\mathbf{W}$):
+For a symmetric matrix $\mathbf{W}$. Applying this result, get the derivative of the RSS loss function with respect to $\bbetahat$ (note that the identity matrix takes the place of $\mathbf{W}$):
 
 
 $$
 \begin{align*}
-L(\bbetahat) &= \frac{1}{2}(\by - \bX\bbetahat)^\top(\by - \bX\bbetahat) 
+\mathcal{L}(\bbetahat) &= \frac{1}{2}(\by - \bX\bbetahat)^\top(\by - \bX\bbetahat) 
 \\
-\dadb{L(\bbetahat)}{\bbetahat} &= - \bX^\top(\by - \bX\bbetahat).
+\dadb{\mathcal{L}(\bbetahat)}{\bbetahat} &= - \bX^\top(\by - \bX\bbetahat).
 \end{align*}
 $$
 

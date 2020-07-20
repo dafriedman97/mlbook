@@ -24,18 +24,34 @@ $$
 The neural network is a highly powerful and versatile class of models that has become quite a hot topic in machine learning. While neural networks are often able to out-perform other popular model classes in terms of predictive accuracy, they are not terribly complex or mysterious. Rather, by optimizing a highly-parametric and nonlinear structure, neural networks are flexible enough to model subtle relationships that other models may struggle to detect.
 
 ```{note}
-Neural networks come in a variety of forms intended to accomplish a variety of tasks. Recurrent neural networks, for instance, are designed to model time series data, and convolutional neural networks are designed to model image data. In this chapter, we only cover feedforward neural networks (FFNNs). FFNNs can be used for regression or classification tasks and serve as a natural introduction to other forms of neural networks. 
+Neural networks come in a variety of forms intended to accomplish a variety of tasks. Recurrent neural networks, for instance, are designed to model time series data, and convolutional neural networks are designed to model image data. In this chapter, we only cover feed-forward neural networks (FFNNs). FFNNs can be used for regression or classification tasks and serve as a natural introduction to other forms of neural networks. 
 ```
 
 
 
-## Model Structure
+This section is organized as follows.
+
+1. Model Structure
+   1. An Overview
+   2. Communication between Layers
+   3. Activation Functions
+2. Optimization
+   1. Back Propagation
+   2. Calculating Gradients
+   3. Combining Results with the Chain Rule
+3. Combining Observations
+   1. A New Representation
+   2. Gradients
+
+
+
+## 1. Model Structure
 
 Throughout this chapter, suppose we have training data $\{\bx_n, \by_n\}_{n = 1}^N$ with $\bx_n \in \R^{D}$—which does *not* include an intercept term—and $\by_n \in \R^R$  for $n = 1, 2, \dots, N$. In other words, for each observation we have $D$ predictors and $R$ response variables. Note that unlike in previous chapters, we might now have a *vector* of response variables rather than a single value. If there is only one response variable per observation (i.e. $R = 1$), we will write it as $y_n$. 
 
 
 
-### 1. An Overview
+### 1.1 An Overview
 
 The diagram below is a helpful representation of a basic neural network. Neural networks operate in layers. The network starts of with an *input layer*, consisting of the vector of predictors for a single observation. This is shown by $x_0, \dots, x_3$ in the diagram. The network then passes through one or more *hidden layers*. The first hidden layer is a function of the input layer and each following hidden layer is a function of the last. (We will discuss these functions in more detail later). The network below has two hidden layers. Finally, the network passes from the last hidden layer into an *output layer*, representing the response variable or variables. In the network below, the response variable is two-dimensional, so the layer is represented by the values $y_1$ and $y_2$.
 
@@ -55,7 +71,7 @@ Another natural question is how many neurons each layer should contain. This is 
 
 
 
-### 2. Communication Between Layers
+### 1.2 Communication between Layers
 
 Let's now turn to the process through which one layer communicates with the next. In this section, let $\bz^{(a)}$ and $\super{\bz}{b}$ represent the vector of neurons in any two consecutive layers. For instance, $\super{\bz}{a}$ might be an input layer and $\super{\bz}{b}$ the first hidden layer or $\super{\bz}{a}$ might be a hidden layer and $\super{\bz}{a}$ the following hidden layer. Suppose $\super{\bz}{a} \in \R^{n_a}$ and $\super{\bz}{b} \in \R^{n_b}$. 
 
@@ -112,7 +128,7 @@ A more mathematical representation of a neural network is given below. The netwo
 
 
 
-### 3. Activation Functions
+### 1.3 Activation Functions
 
 As we have seen, we create a neuron in one layer by taking a linear mapping of the neurons in the previous layer and then applying some   *activation function*. What exactly is this activation function? An activation function is a non-linear function that allows the network to learn complex relationships between the predictors and the outcome variable(s). 
 
@@ -231,7 +247,7 @@ $$
 
 
 
-## Optimization
+## 2. Optimization
 
 We have now seen that a neural network operates through a series of linear mappings and activation functions. The linear mapping for layer $\ell$ is determined by the parameters in $\super{\mathbf{W}}{\ell}$ and $\super{\mathbf{c}}{\ell}$, also called the *weights*. This section discusses the process through which the parameters in a neural network are fit, called *back propagation*. 
 
@@ -251,7 +267,7 @@ $$
 
 
 
-### 1. Back Propagation
+### 2.1 Back Propagation
 
 Suppose we choose some loss function $\mathcal{L}$ for our network to minimize. To find the optimal weights, we can conduct gradient descent, repeatedly taking the derivative of our loss function with respect to each weight and adjusting accordingly. As we will see, this involves finding the gradient of the network's final weights, then using the chain rule to find the gradient of the weights that came earlier. In this process, we move backward through the network, and hence the name "back propagation."
 
@@ -297,7 +313,7 @@ We continue this same process until we reach the first set of weights.
 
 
 
-### 2. Calculating Gradients
+### 2.2 Calculating Gradients
 
 In this section we will derive the gradients used in back propagation. For each iteration in this process we need to know the derivative of our loss function with respect to each weight in the entire network. For the network shown above, this requires calculating the following gradients:
 
@@ -312,7 +328,7 @@ Since we will find these with the chain rule, we will need to calculate other gr
 
 
 ```{note}
-Note that the following considers only one observation at a time. The vector $\by$, for instance, refers to the output variables for a single observation, rather than a vector of 1-dimensional output variables for several observations. Similarly, $\dadb{\mathcal{L}(\hat{\by})}{\hat{\by}}$ refers to the derivative of the loss with respect to a single observation's output. The final section discusses how to combine the derivatives from multiple observations.
+Note that the rest of this sectionc onsiders only one observation at a time. The vector $\by$, for instance, refers to the output variables for a single observation, rather than a vector of 1-dimensional output variables for several observations. Similarly, $\dadb{\mathcal{L}(\hat{\by})}{\hat{\by}}$ refers to the derivative of the loss with respect to a single observation's output. The final section discusses how to combine the derivatives from multiple observations.
 ```
 
 
@@ -321,7 +337,7 @@ For the following, let layer $\ell$ have size $n_\ell$. Also let the final layer
 
 
 
-#### 2.1 Loss Functions and their Gradients
+#### 2.2.1 Loss Functions and their Gradients
 
 ![](/content/c7/grad1.png)
 
@@ -349,7 +365,7 @@ For binary classification problems, a common loss function is the log loss or cr
 
 
 $$
-\mathcal{L}_{Log}(\hat{\by}) = -\Big(\by\log \hat{\by} -(1-\by)\log(1-\hat{\by})\Big),
+\mathcal{L}_{Log}(\hat{\by}) = -\Big(\by\log \hat{\by}+(1-\by)\log(1-\hat{\by})\Big),
 $$
 
 
@@ -358,7 +374,7 @@ where the $i^\text{th}$ entry in $\hat{\by}$ gives the estimated probability tha
 
 $$
 \begin{align*}
-\dadb{\mathcal{L}_{Log}(\hat{\by})}{\hat{\by}} &= -\left(\frac{\by}{\hat{\by}} + \frac{1-\by}{1-\hat{\by}} \right)^\top\in \R^{1 \times n_L}.
+\dadb{\mathcal{L}_{Log}(\hat{\by})}{\hat{\by}} &= \left(-\frac{\by}{\hat{\by}} + \frac{1-\by}{1-\hat{\by}} \right)^\top\in \R^{1 \times n_L}.
 \end{align*}
 $$
 
@@ -367,7 +383,7 @@ Once we calculate $\dadb{\mathcal{L}(\hat{\by})}{\hat{\by}}$, we can move furthe
 
 
 
-#### 2.2 Gradients of the Activation Functions
+#### 2.2.2 Gradients of the Activation Functions
 
 
 
@@ -410,7 +426,7 @@ $$
 
 ##### Sigmoid
 
-Now suppose we have $\superb{z}{\ell} = \super{f}{\ell}(\superb{h}{\ell})$ where $\super{f}{\ell}$ is the sigmoid function. Again, the partial derivative  $\partial \super{z}{\ell}_i/\partial \super{h}{\ell}_j $ is 0 for $i \neq j$. By the sigmoid derivative, we have 
+Now suppose we have $\superb{z}{\ell} = \super{f}{\ell}(\superb{h}{\ell})$ where $\super{f}{\ell}$ is the sigmoid function. Again, the partial derivative  $\partial \super{z}{\ell}_i/\partial \super{h}{\ell}_j$ is 0 for $i \neq j$. By the sigmoid derivative, we have 
 
 
 $$
@@ -428,7 +444,7 @@ $$
 $$
 
 
-#### 2.3 Gradients of the Weights
+#### 2.2.3 Gradients of the Weights
 
 ![](/content/c7/grad3.png)
 
@@ -458,12 +474,11 @@ $$
 \dadb{\superb{h}{\ell}}{\super{W}{\ell}} &=
 \begin{bmatrix} \dadb{\super{h}{\ell}_1}{\super{W}{\ell}} \\ \\ \dots \\ \\ \dadb{\super{h}{\ell}_{n_\ell}}{\super{W}{\ell}}  \end{bmatrix} = 
 \begin{bmatrix} \begin{bmatrix} \superb{z}{\ell - 1})^\top \\ ... \\ \mathbf{0}^\top \end{bmatrix}\\ \dots \\ \begin{bmatrix} \mathbf{0}^\top  \\ \dots \\ (\superb{z}{\ell - 1})^\top\end{bmatrix}\end{bmatrix}  \in \R^{n_\ell \times (n_\ell \times n_{\ell - 1})}
-
 \end{align*}
 $$
 
 
-#### 2.4 One Last Gradient
+#### 2.2.4 One Last Gradient
 
 We now have all the results necessary to calculate the derivative of the loss function with respect to the weights in the *final* layer. For instance, we can evaluate
 
@@ -485,11 +500,7 @@ Now that we have $\partial \superb{h}{\ell}/\partial \superb{z}{\ell - 1}$, we c
 
 
 
-### 3. Summing Up
-
-
-
-#### Combining results with the Chain Rule
+### 2.3 Combining Results with the Chain Rule
 
 ![](/content/c7/nnmatrix.png)
 
@@ -527,13 +538,127 @@ $$
 $$
 
 
-#### Summing over Observations
+### 3. Combining Observations 
 
-Throughout this section, we've considered the derivative of the loss function for a *single* observation. When training a network, we will of course want to consider the loss of the entire dataset. Since the loss over the entire dataset is the sum of the individual observation losses and the derivative of a sum is the sum of the derivatives, we can simply add the results above. For instance, 
+So far, we've only considered the derivative of the loss function for a *single* observation. When training a network, we will of course want to consider the entire dataset. One way to do so is to simply add the individual derivatives. Since the loss over the dataset is the sum of the individual observation losses and the derivative of a sum is the sum of the derivatives, we can simply add the results above. For instance, to find the derivative of the loss with respect to the final matrix of weights $\super{W}{L}$, we could loop through observations and sum the individual derivatives:
 
 
 $$
 \dadb{\mathcal{L}(\{\hat{\by}_n\}_{n = 1}^N))}{\super{W}{L}} = \dadb{\sumN \mathcal{L}(\hat{\by}_n)}{\super{W} {L}} = \sumN \dadb{\mathcal{L}(\hat{\by}_n)}{\super{W}{L}}.
 $$
 
+
+While straightforward, this approach is computationally inefficient. The rest of this section outlines a more complicated but *much* faster method. 
+
+
+
+#### 3.1 A New Representation
+
+So far, we've treated our predictors and outputs as vectors. The network starts with $\bx$ and outputs $\superb{z}{1}$. Then it predicts with $\superb{z}{1}$ and outputs $\superb{z}{2}$. It repeats this process until $\superb{z}{L-1}$ outputs $\mathbf{\hat{y}}$. To incorporate multiple observations, we can turn these vectors into matrices. Again suppose our dataset consists of $N$ observations with $\bx_n \in \R^{D}$ and $\by_n \in \R^R$. We start with $\bX \in \R^{N \times D}$, whose $n^\text{th}$ row is $\bx_n$. Note that in $\bX$, $\bx_n$ is a row vector; to keep consistent with our previous sections, we want it to be a column vector. So, we'll work with $\bX^\top$ rather than $\bX$. 
+
+
+
+![](/content/c7/nnmatrix3.png)
+
+
+
+Rather than feeding each observation through the network at once, we will feed all observations together and give each observation its own column. Each column in $\bX^\top$ represents an observation's predictors. We then multiply this matrix by $\superb{W}{1}$ and add $\superb{c}{1}$ *element-wise* to get $\superb{H}{1}$. Each column in $\superb{H}{1}$ represents a vector of linear combinations of the corresponding column in $\bX^\top$.  We then pass $\superb{H}{1}$ through an activation function to obtain $\superb{Z}{1}$. Similarly, each column in $\superb{Z}{1}$ represents the output vector for the corresponding observation in $\bX^\top$. We then repeat, with $\superb{Z}{1}$ acting as the matrix of predictors for the next layer. Ultimately, we will obtain a matrix $\hat{\mathbf{Y}}^\top \in \R^{R \times N}$ whose $n^\text{th}$ column represents the vector of fitted values for the $n^\text{th}$ observation. 
+
+
+
+#### 3.2 Gradients 
+
+While this new representation is more efficient, it also makes the gradients more complicated since we are taking derivatives with respect to matrices rather than vectors. Ordinarily, the derivative of one matrix with respect to another would be a four-dimensional tensor. Luckily, there's a shortcut. 
+
+For each parameter $\theta$ in our network, we will find its gradient by asking "which parameters does $\theta$ affect in the next layer". Supposing the answer is some set $\{\psi_1, \psi_2, \dots, \psi_X\},$ we will calculate the derivative of the loss function with respect to $\theta$ as
+
+ 
+$$
+\dadb{\mathcal{L}}{\theta} = \sum_{i = 1}^X \dadb{L}{\psi_i}\cdot \dadb{\psi_i}{\theta}.
+$$
+
+
+![](/content/c7/nnmatrix4.png)
+
+
+
+Recall that our loss function is a vector $\bf{\mathcal{L}}$ of size $R$ since we have $R$ output variables. This loss vector is a *row-wise* function of the prediction matrix, $\hat{\mathbf{Y}}^\top$, meaning the $r^\text{th}$ entry in $\mathbf{\mathcal{L}}$ is a function of only the $r^\text{th}$ row of $\hat{\mathbf{Y}}^\top$ (which represents the fitted values for the $r^\text{th}$ output variable across observations). For the $(i, r)^\text{th}$ entry in $\hat{\mathbf{Y}}^\top$, then, we only need to consider the derivative of the $r^\text{th}$ entry in $\mathbf{\mathcal{L}}$. We can then use the following gradient in place of a four-dimensional tensor.
+
+
+$$
+\dadb{\mathbf{\mathcal{L}}}{\mathbf{\hat{Y}}^\top} = 
+\begin{bmatrix} 
+\dadb{\mathcal{L}_{1}}{\mathbf{\hat{Y}}^\top_{1,1}} & ... & \dadb{\mathcal{L}_{1}}{\mathbf{\hat{Y}}^\top_{1,N}} \\ & ... & \\  
+\dadb{\mathcal{L}_{R}}{\mathbf{\hat{Y}}^\top_{R,1}} & ... & \dadb{\mathcal{L}_{R}}{\mathbf{\hat{Y}}^\top_{R,N}}\end{bmatrix}
+$$
+
+
+Next, we consider the derivative of $\mathbf{\hat{Y}}^\top$ with respect to $\superb{H}{L}$. Note that $\mathbf{\hat{Y}}^\top$ is an *element-wise* function of $\superb{H}{L}$. This means we only need to consider the gradient of each element in the former with respect to its corresponding element in the latter. This gives us 
+
+
+$$
+\dadb{\mathbf{\hat{Y}}^\top}{\superb{H}{L}} = 
+\begin{bmatrix} 
+\dadb{\mathbf{\hat{Y}}^\top_{1,1}}{\superb{H}{L}_{1,1}} & ... & \dadb{\mathbf{\hat{Y}}^\top_{1,N}}{\superb{H}{L}_{1,N}}
+\\ & ... & \\  
+\dadb{\mathbf{\hat{Y}}^\top_{R,1}}{\superb{H}{1}_{R,1}} & ... & \dadb{\mathbf{\hat{Y}}^\top_{R,N}}{\superb{L}{L}_{R,N}}
+\end{bmatrix}.
+$$
+
+
+Now let's use the shortcut described above. Since each element in $\superb{H}{L}$ only affects the corresponding element in $\mathbf{\hat{Y}}^\top$, we calculate $\partial \mathcal{L}/\partial \superb{H}{L}$ by multiplying the two gradients above *element-wise*. I.e., 
+
+
+$$
+\dadb{\mathcal{L}}{\superb{H}{L}} = \dadb{\mathbf{\mathcal{L}}}{\mathbf{\hat{Y}}^\top} \circ \dadb{\mathbf{\hat{Y}}^\top}{\superb{H}{L}},
+$$
+
+
+where $\circ$ is the element-wise multiplication operator, also known as the *Hadamard product*. 
+
+
+
+Next up is $\superb{c}{L}$. Whereas each element in $\superb{H}{L}$ affected only one element in $\mathbf{\hat{Y}}$, each element in $\superb{c}{L}$ affects $N$ elements in $\superb{H}{L}$—every element in its corresponding row. Consider the first entry in $\superb{c}{L}$. Since this entry affects each entry in the first row of $\superb{H}{L}$, the chain rule gives us 
+
+
+$$
+\dadb{\mathcal{L}}{\super{c}{L}_1} = \sumN \dadb{\mathcal{L}}{\superb{H}{L}_{1,n}}\cdot\dadb{\superb{H}{L}_{1,n}}{\super{c}{L}_1}.
+$$
+
+
+Fortunately $\partial \superb{H}{L}_{1,n}/\partial \super{c}{L}_1$ is just 1 since $\super{c}{L}_1$ is an intercept term. This implies that the derivative of the loss function with respect to $\superb{c}{1}$ is just the row sum of $\partial\mathcal{L}/\partial \superb{H}{L}$, or
+
+
+$$
+\dadb{\mathcal{L}}{\super{c}{L}_i} = \sumN \dadb{\mathcal{L}}{\superb{H}{L}_{i,n}}.
+$$
+
+
+Next, we have $\superb{W}{L}$. Using our shortcut, we ask "which values does the $(i, j)^\text{th}$ entry in $\superb{W}{L}$ affect?" Since $\superb{H}{L} = \superb{W}{L}\superb{Z}{L-1}$, we have that 
+
+
+$$
+\superb{H}{L}_{i,n} = \superb{W}{L}_{i, j} \superb{Z}{L-1}_{j,n} \hspace{1mm} \forall \hspace{1mm}  n \in \{1, \dots, N\}.
+$$
+
+
+This tells us that $\superb{W}{L}_{i,j}$ affects each entry in the $i^\text{th}$ row of $\superb{H}{L}$ and gives us the derivative $\partial{\superb{H}{L}_{i, n}}/\partial \superb{W}{L}_{i, j} = \superb{Z}{L-1}_{j, n}.$ Therefore,
+
+
+$$
+\dadb{\mathcal{L}}{\superb{W}{L}_{i, j}} = \sumN \dadb{\mathcal{L}}{\superb{H}{L}_{i, n}}\cdot\dadb{\superb{H}{L}_{i, n}}{\superb{W}{L}_{i, j}} = \sumN (\nabla \superb{H}{L})_{i, n}\cdot{\superb{Z}{L-1}_{j,n}},
+$$
+
+
+where $\nabla \superb{H}{L}$ is the matrix representing $\partial \mathcal{L}/\partial\superb{H}{L}$. This can be computed for each element in $\superb{W}{L}$ using a tensor dot product, which will be covered in the construction section. 
+
+Finally, we have $\superb{Z}{L-1}$. This case is symmetric to $\superb{W}{L}$, and the same approach gives us the result 
+
+
+$$
+\dadb{\mathcal{L}}{\superb{Z}{L-1}_{i, n}} = \sum_{r = 1}^R \dadb{\mathcal{L}}{\superb{H}{L}_{r,n}}\cdot\dadb{\superb{H}{L}_{r, n}}{\superb{Z}{L-1}_{i, n}} = \sum_{r = 1}^R {(\nabla \superb{H}{L})}_{r, n}\cdot{\superb{W}{L}_{r,i}}.
+$$
+
+
+Again, the derivative for all of $\superb{Z}{L-1}$ can be calculated at once using a tensor dot product.
 

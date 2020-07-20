@@ -296,11 +296,11 @@
 <p>This section reviews the two most common methods for regularized regression: ridge and lasso.</p>
 <div class="section" id="ridge-regression">
 <h2>Ridge Regression<a class="headerlink" href="#ridge-regression" title="Permalink to this headline">¶</a></h2>
-<p>Like ordinary linear regression, ridge regression estimates the coefficients by minimizing a loss function on the training data. Unlike ordinary linear regression, the loss function for ridge regression includes an extra penalty for the magnitude of the <span class="math notranslate nohighlight">\(\bbetahat\)</span> estimates. Specifically, it uses</p>
+<p>Like ordinary linear regression, ridge regression estimates the coefficients by minimizing a loss function on the training data. Unlike ordinary linear regression, the loss function for ridge regression penalizes large values of the <span class="math notranslate nohighlight">\(\bbetahat\)</span> estimates. Specifically, ridge regression minimizes the sum of the RSS and the L2 norm of <span class="math notranslate nohighlight">\(\bbetahat\)</span>:</p>
 <div class="math notranslate nohighlight">
 \[
 \begin{align*}
-L_\text{Ridge}(\bbetahat) &amp;= \frac{1}{2}\left(\by - \bX\bbetahat \right)^\top
+\mathcal{L}_\text{Ridge}(\bbetahat) &amp;= \frac{1}{2}\left(\by - \bX\bbetahat \right)^\top
 \left(\by - \bX\bbetahat \right) + \frac{\lambda}{2} \sum_{d = 1}^D\hat{\beta}_d ^2.
 \end{align*}
 \]</div>
@@ -321,7 +321,7 @@ L_\text{Ridge}(\bbetahat) &amp;= \frac{1}{2}\left(\by - \bX\bbetahat \right)^\to
 <div class="math notranslate nohighlight">
 \[
 \begin{align*}
-\dadb{L_\text{Ridge}(\bbetahat)}{\bbetahat} &amp;= - \bX^\top\left( \by - \bX \bbetahat \right) + \lambda I'_D\bbetahat.
+\dadb{\mathcal{L}_\text{Ridge}(\bbetahat)}{\bbetahat} &amp;= - \bX^\top\left( \by - \bX \bbetahat \right) + \lambda I'_D\bbetahat.
 \end{align*}
 \]</div>
 <p>Setting this equal to 0 and solving for <span class="math notranslate nohighlight">\(\bbetahat\)</span>, we get our estimates:</p>
@@ -340,14 +340,14 @@ L_\text{Ridge}(\bbetahat) &amp;= \frac{1}{2}\left(\by - \bX\bbetahat \right)^\to
 <div class="math notranslate nohighlight">
 \[
 \begin{align*}
-L_\text{Lasso}(\bbetahat) &amp;= \frac{1}{2}\left(\by - \bX\bbetahat \right)^\top
+\mathcal{L}_\text{Lasso}(\bbetahat) &amp;= \frac{1}{2}\left(\by - \bX\bbetahat \right)^\top
 \left(\by - \bX\bbetahat \right) + \lambda \sum_{d = 1}^D|\beta_d|.
 \end{align*}
 \]</div>
 <p>As usual, let’s then calculate the gradient of the loss function with respect to <span class="math notranslate nohighlight">\(\bbetahat\)</span>:</p>
 <div class="math notranslate nohighlight">
 \[
-\dadb{L(\bbetahat)}{\bbetahat} = - \bX^\top\left( \by - \bX \bbetahat \right) + \lambda I'_D\text{ sign}(\bbetahat),
+\dadb{\mathcal{L}(\bbetahat)}{\bbetahat} = - \bX^\top\left( \by - \bX \bbetahat \right) + \lambda I'_D\text{ sign}(\bbetahat),
 \]</div>
 <p>where again we use <span class="math notranslate nohighlight">\(I'_D\)</span> rather than <span class="math notranslate nohighlight">\(I_D\)</span> since the magnitude of the intercept estimate <span class="math notranslate nohighlight">\(\hat{\beta}_0\)</span> is not penalized.</p>
 <p>Unfortunately, we cannot find a closed-form solution for the <span class="math notranslate nohighlight">\(\bbetahat\)</span> that minimize the lasso loss. Numerous methods exist for estimating the <span class="math notranslate nohighlight">\(\bbetahat\)</span>, though using the gradient calculated above we could easily reach an estimate through <a class="reference internal" href="../../c9/s1/gradient_descent.html"><span class="doc">gradient descent</span></a>. The <a class="reference internal" href="../s2/regularized.html"><span class="doc">construction</span></a> in the next section uses this approach.</p>
