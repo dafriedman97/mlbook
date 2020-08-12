@@ -1,3 +1,8 @@
 # Math
 
-TODO
+For a book of mathematical derivations, knowledge of relatively few mathematical methods is assumed.
+
+- Derivatives
+- matrix operations 
+- matrix derivatives 
+

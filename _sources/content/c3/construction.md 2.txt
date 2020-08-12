@@ -1,0 +1,6 @@
+# Construction
+
+In this section, we construct the three classifiers covered in the previous section. Binary and multiclass {doc}`logistic regression <s2/logistic_regression>` are covered first, followed by the {doc}`perceptron algorithm <s2/perceptron>`, and finally {doc}`Fisher's linear discriminant <s2/fisher_discriminant>`.
+
+Each construction is tested on the `wine` dataset from `sklearn.datasets`. This dataset has 13 quantitative predictors and one categorical outcome variable with three distinct classes, representing three different types of wine. For binary tasks, we will drop the third class so we have a binary outcome. More information on the dataset can be found [here](https://archive.ics.uci.edu/ml/datasets/wine).
+
