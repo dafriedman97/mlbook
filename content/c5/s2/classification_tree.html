@@ -72,6 +72,9 @@
   <li class="">
     <a href="../../table_of_contents.html">Table of Contents</a>
   </li>
+  <li class="">
+    <a href="../../conventions_notation.html">Conventions and Notation</a>
+  </li>
 <li class="navbar-special">
 <p class="margin-caption">1. Ordinary Linear Regression</p>
 </li>
@@ -311,7 +314,7 @@
 </div>
 </div>
 </div>
-<p>We will build our classification tree on the <a class="reference internal" href="../../appendix/data.html"><span class="doc">penguins</span></a> dataset from <code class="docutils literal notranslate"><span class="pre">seaborn</span></code>. This dataset has a categorical response variable—penguin breed—with both quantitative and categorical predictors.</p>
+<p>We will build our classification tree on the <a class="reference internal" href="../../appendix/data.html"><span class="doc">penguins</span></a> dataset from <code class="docutils literal notranslate"><span class="pre">seaborn</span></code>. This dataset has a categorical target variable—penguin breed—with both quantitative and categorical predictors.</p>
 <div class="section" id="helper-functions">
 <h2>1. Helper Functions<a class="headerlink" href="#helper-functions" title="Permalink to this headline">¶</a></h2>
 <p>Let’s first create our loss functions. The Gini index and cross-entropy calculate the loss for a single node while the <code class="docutils literal notranslate"><span class="pre">split_loss()</span></code> function creates the weighted loss of a split.</p>
@@ -393,7 +396,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">loss</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">no_split</span> <span class="o">=</span> <span class="kc">True</span>
         
-    <span class="k">def</span> <span class="nf">replace_split</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Xsub_d</span><span class="p">,</span> <span class="n">loss</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">dtype</span> <span class="o">=</span> <span class="s1">&#39;quant&#39;</span><span class="p">,</span> <span class="n">t</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">L_values</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_replace_split</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Xsub_d</span><span class="p">,</span> <span class="n">loss</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">dtype</span> <span class="o">=</span> <span class="s1">&#39;quant&#39;</span><span class="p">,</span> <span class="n">t</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">L_values</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">loss</span> <span class="o">=</span> <span class="n">loss</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">d</span> <span class="o">=</span> <span class="n">d</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">dtype</span> <span class="o">=</span> <span class="n">dtype</span>
@@ -414,7 +417,7 @@
 </div>
 <div class="section" id="main-class">
 <h2>3. Main Class<a class="headerlink" href="#main-class" title="Permalink to this headline">¶</a></h2>
-<p>Finally, we create the main class for our classification tree. This again is essentially identical to the regression tree class. In addition to differing in the loss function used to evaluate splits, this tree differs from the regression tree in how it forms predictions. In regression trees, the fitted value for a test observation was the average outcome variable of the training observations landing in the same leaf. In the classification tree, since our outcome variable is categorical, we instead use the most common class among training observations landing in the same leaf.</p>
+<p>Finally, we create the main class for our classification tree. This again is essentially identical to the regression tree class. In addition to differing in the loss function used to evaluate splits, this tree differs from the regression tree in how it forms predictions. In regression trees, the fitted value for a test observation was the average target variable of the training observations landing in the same leaf. In the classification tree, since our target variable is categorical, we instead use the most common class among training observations landing in the same leaf.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">DecisionTreeClassifier</span><span class="p">:</span>
@@ -447,10 +450,10 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">current_ID</span> <span class="o">+=</span> <span class="mi">1</span>
         
         <span class="c1"># Build</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">build</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_build</span><span class="p">()</span>
 
     <span class="c1">###### BUILD TREE ######</span>
-    <span class="k">def</span> <span class="nf">build</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_build</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         
         <span class="n">eligible_buds</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes_dict</span> 
         <span class="k">for</span> <span class="n">layer</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">max_depth</span><span class="p">):</span>
@@ -468,14 +471,14 @@
             <span class="k">for</span> <span class="n">ID</span><span class="p">,</span> <span class="n">bud</span> <span class="ow">in</span> <span class="n">eligible_buds</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
                                 
                 <span class="c1">## Find split</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">find_split</span><span class="p">(</span><span class="n">bud</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_find_split</span><span class="p">(</span><span class="n">bud</span><span class="p">)</span>
                 
                 <span class="c1">## Make split</span>
                 <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">splitter</span><span class="o">.</span><span class="n">no_split</span><span class="p">:</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">make_split</span><span class="p">()</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_make_split</span><span class="p">()</span>
                 
     <span class="c1">###### FIND SPLIT ######</span>
-    <span class="k">def</span> <span class="nf">find_split</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bud</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_find_split</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bud</span><span class="p">):</span>
         
         <span class="c1">## Instantiate splitter</span>
         <span class="n">splitter</span> <span class="o">=</span> <span class="n">Splitter</span><span class="p">()</span>
@@ -500,20 +503,20 @@
                     <span class="n">ysub_R</span> <span class="o">=</span> <span class="n">bud</span><span class="o">.</span><span class="n">ysub</span><span class="p">[</span><span class="n">Xsub_d</span> <span class="o">&gt;</span> <span class="n">t</span><span class="p">]</span>
                     <span class="n">loss</span> <span class="o">=</span> <span class="n">split_loss</span><span class="p">(</span><span class="n">ysub_L</span><span class="p">,</span> <span class="n">ysub_R</span><span class="p">,</span> <span class="n">loss</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">loss_func</span><span class="p">)</span>
                     <span class="k">if</span> <span class="n">loss</span> <span class="o">&lt;</span> <span class="n">splitter</span><span class="o">.</span><span class="n">loss</span><span class="p">:</span>
-                        <span class="n">splitter</span><span class="o">.</span><span class="n">replace_split</span><span class="p">(</span><span class="n">Xsub_d</span><span class="p">,</span> <span class="n">loss</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="s1">&#39;quant&#39;</span><span class="p">,</span> <span class="n">t</span> <span class="o">=</span> <span class="n">t</span><span class="p">)</span>
+                        <span class="n">splitter</span><span class="o">.</span><span class="n">_replace_split</span><span class="p">(</span><span class="n">Xsub_d</span><span class="p">,</span> <span class="n">loss</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="s1">&#39;quant&#39;</span><span class="p">,</span> <span class="n">t</span> <span class="o">=</span> <span class="n">t</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">for</span> <span class="n">L_values</span> <span class="ow">in</span> <span class="n">possible_splits</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">Xsub_d</span><span class="p">)):</span>
                     <span class="n">ysub_L</span> <span class="o">=</span> <span class="n">bud</span><span class="o">.</span><span class="n">ysub</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">Xsub_d</span><span class="p">,</span> <span class="n">L_values</span><span class="p">)]</span>
                     <span class="n">ysub_R</span> <span class="o">=</span> <span class="n">bud</span><span class="o">.</span><span class="n">ysub</span><span class="p">[</span><span class="o">~</span><span class="n">np</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">Xsub_d</span><span class="p">,</span> <span class="n">L_values</span><span class="p">)]</span>
                     <span class="n">loss</span> <span class="o">=</span> <span class="n">split_loss</span><span class="p">(</span><span class="n">ysub_L</span><span class="p">,</span> <span class="n">ysub_R</span><span class="p">,</span> <span class="n">loss</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">loss_func</span><span class="p">)</span>
                     <span class="k">if</span> <span class="n">loss</span> <span class="o">&lt;</span> <span class="n">splitter</span><span class="o">.</span><span class="n">loss</span><span class="p">:</span> 
-                        <span class="n">splitter</span><span class="o">.</span><span class="n">replace_split</span><span class="p">(</span><span class="n">Xsub_d</span><span class="p">,</span> <span class="n">loss</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="s1">&#39;cat&#39;</span><span class="p">,</span> <span class="n">L_values</span> <span class="o">=</span> <span class="n">L_values</span><span class="p">)</span>
+                        <span class="n">splitter</span><span class="o">.</span><span class="n">_replace_split</span><span class="p">(</span><span class="n">Xsub_d</span><span class="p">,</span> <span class="n">loss</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="s1">&#39;cat&#39;</span><span class="p">,</span> <span class="n">L_values</span> <span class="o">=</span> <span class="n">L_values</span><span class="p">)</span>
                         
         <span class="c1">## Save splitter</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">splitter</span> <span class="o">=</span> <span class="n">splitter</span>
     
     <span class="c1">###### MAKE SPLIT ######</span>
-    <span class="k">def</span> <span class="nf">make_split</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_make_split</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         
         <span class="c1">## Update parent node</span>
         <span class="n">parent_node</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes_dict</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">splitter</span><span class="o">.</span><span class="n">bud_ID</span><span class="p">]</span>
@@ -551,7 +554,7 @@
     <span class="c1">#############################</span>
     
     <span class="c1">###### LEAF MODES ######</span>
-    <span class="k">def</span> <span class="nf">get_leaf_modes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_get_leaf_modes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">leaf_modes</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">for</span> <span class="n">node_ID</span><span class="p">,</span> <span class="n">node</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">leaf</span><span class="p">:</span>
@@ -562,7 +565,7 @@
     <span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X_test</span><span class="p">):</span>
         
         <span class="c1"># Calculate leaf modes</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">get_leaf_modes</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_get_leaf_modes</span><span class="p">()</span>
         
         <span class="n">yhat</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">X_test</span><span class="p">:</span>
@@ -585,7 +588,7 @@
 </div>
 </div>
 </div>
-<p>A classificaiton tree is built on the <code class="docutils literal notranslate"><span class="pre">penguins</span></code> dataset. We evaluate the predictions on a test set and find that roughly 95% of observations are correctly classified.</p>
+<p>A classificaiton tree is built on the <a class="reference internal" href="../../appendix/data.html"><span class="doc">penguins</span></a> dataset. We evaluate the predictions on a test set and find that roughly 95% of observations are correctly classified.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">## Build classifier </span>

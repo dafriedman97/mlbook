@@ -34,7 +34,7 @@
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="Approach 1: Minimizing Loss" href="s1/loss_minimization.html" />
-    <link rel="prev" title="Table of Contents" href="../table_of_contents.html" />
+    <link rel="prev" title="Conventions and Notation" href="../conventions_notation.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="docsearch:language" content="en">
@@ -71,6 +71,9 @@
   <ul class="nav sidenav_l1">
   <li class="">
     <a href="../table_of_contents.html">Table of Contents</a>
+  </li>
+  <li class="">
+    <a href="../conventions_notation.html">Conventions and Notation</a>
   </li>
 <li class="navbar-special">
 <p class="margin-caption">1. Ordinary Linear Regression</p>
@@ -283,7 +286,7 @@
 \]</div>
 <p><strong><u>Model Structure</u></strong></p>
 <p><em>Linear regression</em> is a relatively simple method that is both extremely widely-used and a stepping stone for many more sophisticated methods. This makes it a natural algorithm to study first.</p>
-<p>In linear regression, the outcome variable <span class="math notranslate nohighlight">\(y\)</span> is assumed to follow a linear function of one or more input variables, <span class="math notranslate nohighlight">\(x_1, \dots, x_D\)</span>, plus some error. Specifically, we assume the model for the <span class="math notranslate nohighlight">\(n^\text{th}\)</span> observation in our sample is of the form</p>
+<p>In linear regression, the target variable <span class="math notranslate nohighlight">\(y\)</span> is assumed to follow a linear function of one or more input variables, <span class="math notranslate nohighlight">\(x_1, \dots, x_D\)</span>, plus some error. Specifically, we assume the model for the <span class="math notranslate nohighlight">\(n^\text{th}\)</span> observation in our sample is of the form</p>
 <div class="math notranslate nohighlight">
 \[
 y_n = \beta_0 + \beta_1 x_{n1} + \dots + \beta_Dx_{nD} + \epsilon_n. 
@@ -294,7 +297,7 @@ y_n = \beta_0 + \beta_1 x_{n1} + \dots + \beta_Dx_{nD} + \epsilon_n.
 \[
 y_n = \bbeta^\top \bx_n + \epsilon_n.
 \]</div>
-<p>Below is an example of a dataset designed for linear regression. The input variable is generated randomly and the outcome variable is generated as a linear combination of that input variable plus an error term.</p>
+<p>Below is an example of a dataset designed for linear regression. The input variable is generated randomly and the target variable is generated as a linear combination of that input variable plus an error term.</p>
 <div class="cell tag_hide-input docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -329,9 +332,9 @@ y_n = \bbeta^\top \bx_n + \epsilon_n.
 </div>
 </div>
 <p><strong><u>Parameter Estimation</u></strong></p>
-<p>The above covers the entire structure we assume our data follows in linear regression. The machine learning task is then to estimate the parameters, <span class="math notranslate nohighlight">\(\bbeta\)</span>. These estimates are represented by <span class="math notranslate nohighlight">\(\hat{\beta}_0, \dots, \hat{\beta}_D\)</span> or <span class="math notranslate nohighlight">\(\bbetahat\)</span>. The estimates give us <em>fitted values</em> for our outcome variable, represented by <span class="math notranslate nohighlight">\(\hat{y}_n\)</span>.</p>
+<p>The above covers the entire structure we assume our data follows in linear regression. The machine learning task is then to estimate the parameters, <span class="math notranslate nohighlight">\(\bbeta\)</span>. These estimates are represented by <span class="math notranslate nohighlight">\(\hat{\beta}_0, \dots, \hat{\beta}_D\)</span> or <span class="math notranslate nohighlight">\(\bbetahat\)</span>. The estimates give us <em>fitted values</em> for our target variable, represented by <span class="math notranslate nohighlight">\(\hat{y}_n\)</span>.</p>
 <p>This task can be accomplished in two ways which, though slightly different conceptually, are identical mathematically. The first approach is through the lens of <em>minimizing loss</em>. A common practice in machine learning is to choose a loss function that defines how well a model with a given set of parameter estimates approximates the observed data. The most common loss function for linear regression is squared error loss. This says the <em>loss</em> of our model is proportional to the sum of squared differences between the true <span class="math notranslate nohighlight">\(y_n\)</span> values and the fitted values <span class="math notranslate nohighlight">\(\hat{y}_n\)</span>. We then <em>fit</em> the model by finding the estimates <span class="math notranslate nohighlight">\(\bbetahat\)</span> that minimize this loss function. This approach is covered in the subsection <a class="reference internal" href="s1/loss_minimization.html"><span class="doc">Approach 1: Minimizing Loss</span></a>.</p>
-<p>The second approach is through the lens of <em>maximizing likelihood</em>. Another common practice in machine learning is to model the outcome <span class="math notranslate nohighlight">\(y_n\)</span> as a random variable indexed by one or more parameters and then find the parameters that maximize its likelihood. The most common model for <span class="math notranslate nohighlight">\(y_n\)</span> in linear regression is a Normal random variable with mean <span class="math notranslate nohighlight">\(\bbeta^\top \bx_n\)</span>. That is, we assume</p>
+<p>The second approach is through the lens of <em>maximizing likelihood</em>. Another common practice in machine learning is to model the target <span class="math notranslate nohighlight">\(y_n\)</span> as a random variable indexed by one or more parameters and then find the parameters that maximize its likelihood. The most common model for <span class="math notranslate nohighlight">\(y_n\)</span> in linear regression is a Normal random variable with mean <span class="math notranslate nohighlight">\(\bbeta^\top \bx_n\)</span>. That is, we assume</p>
 <div class="math notranslate nohighlight">
 \[
 y_n|\bx_n \sim \mathcal{N}(\bbeta^\top \bx_n, \sigma^2),
@@ -388,7 +391,7 @@ y_n|\bx_n \sim \mathcal{N}(\bbeta^\top \bx_n, \sigma^2),
     
     <div class='prev-next-bottom'>
         
-    <a class='left-prev' id="prev-link" href="../table_of_contents.html" title="previous page">Table of Contents</a>
+    <a class='left-prev' id="prev-link" href="../conventions_notation.html" title="previous page">Conventions and Notation</a>
     <a class='right-next' id="next-link" href="s1/loss_minimization.html" title="next page">Approach 1: Minimizing Loss</a>
 
     </div>

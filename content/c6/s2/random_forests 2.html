@@ -72,6 +72,9 @@
   <li class="">
     <a href="../../table_of_contents.html">Table of Contents</a>
   </li>
+  <li class="">
+    <a href="../../conventions_notation.html">Conventions and Notation</a>
+  </li>
 <li class="navbar-special">
 <p class="margin-caption">1. Ordinary Linear Regression</p>
 </li>
@@ -272,7 +275,7 @@
   <div class="section" id="random-forests">
 <h1>Random Forests<a class="headerlink" href="#random-forests" title="Permalink to this headline">¶</a></h1>
 <p>Fitting the random forest is essentially identical to fitting the bagging model with one exception: we tell the decision trees to consider only a subset of the predictors at each split. The code to do this is actually written in the <a class="reference internal" href="../../c5/construction.html"><span class="doc">decision tree</span></a> construction section.</p>
-<p>As in the bagging model, let’s import the regression tree construction and load the tips dataset. This is done in the hidden code cell below.</p>
+<p>As in the bagging model, let’s import the regression tree construction and load the <a class="reference internal" href="../../appendix/data.html"><span class="doc">tips</span></a> dataset. This is done in the hidden code cell below.</p>
 <div class="cell tag_hide-input docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">## Import decision trees</span>
@@ -299,6 +302,11 @@
 <span class="n">y_train</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">test_idxs</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
 <span class="n">X_test</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">test_idxs</span><span class="p">]</span>
 <span class="n">y_test</span> <span class="o">=</span> <span class="n">y</span><span class="p">[</span><span class="n">test_idxs</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>importing Jupyter notebook from regression_tree.ipynb
 </pre></div>
 </div>
 </div>

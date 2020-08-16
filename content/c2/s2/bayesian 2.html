@@ -72,6 +72,9 @@
   <li class="">
     <a href="../../table_of_contents.html">Table of Contents</a>
   </li>
+  <li class="">
+    <a href="../../conventions_notation.html">Conventions and Notation</a>
+  </li>
 <li class="navbar-special">
 <p class="margin-caption">1. Ordinary Linear Regression</p>
 </li>
@@ -299,9 +302,6 @@
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">BayesianRegression</span><span class="p">:</span>
     
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
-    
     <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">sigma_squared</span><span class="p">,</span> <span class="n">tau</span><span class="p">,</span> <span class="n">add_intercept</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
         
         <span class="c1"># record info</span>
@@ -326,6 +326,7 @@
 </div>
 </div>
 </div>
+<p>Let’s fit a Bayesian regression model on the <a class="reference internal" href="../../appendix/data.html"><span class="doc">Boston housing</span></a> dataset. We’ll use <span class="math notranslate nohighlight">\(\sigma^2 = 11.8\)</span> and <span class="math notranslate nohighlight">\(\tau = 10\)</span>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sigma_squared</span> <span class="o">=</span> <span class="mf">11.8</span>
@@ -358,7 +359,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../../_images/bayesian_6_0.png" src="../../../_images/bayesian_6_0.png" />
+<img alt="../../../_images/bayesian_7_0.png" src="../../../_images/bayesian_7_0.png" />
 </div>
 </div>
 </div>

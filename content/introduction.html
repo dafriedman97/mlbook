@@ -71,6 +71,9 @@
   <li class="">
     <a href="table_of_contents.html">Table of Contents</a>
   </li>
+  <li class="">
+    <a href="conventions_notation.html">Conventions and Notation</a>
+  </li>
 <li class="navbar-special">
 <p class="margin-caption">1. Ordinary Linear Regression</p>
 </li>
@@ -262,29 +265,17 @@
 <a class="reference internal image-reference" href="../_images/logo.png"><img alt="../_images/logo.png" src="../_images/logo.png" style="height: 150px;" /></a>
 </div>
 <p><u><strong>What this book covers</strong></u></p>
-<p>This book covers the building blocks of the most common methods in machine learning. This set of methods is like a toolbox for machine learning engineers. Those entering the field of machine learning should feel comfortable with this toolbox so that they have the right tool for a variety of tasks.</p>
-<p>In my experience, the best way to become comfortable with these methods is to see them derived from scratch, both in theory and in code. The purpose of this book is to provide those derivations. Each chapter of this book contains three sections. The first section covers the respective algorithm conceptually. The second shows how to construct the algorithm from scratch using Python. The third demonstrates how to apply these algorithms using packages in Python like <code class="docutils literal notranslate"><span class="pre">scikit-learn</span></code>, <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code>, and <code class="docutils literal notranslate"><span class="pre">tensorflow</span></code>.</p>
-<p>Each chapter corresponds to a single machine learning method or group of methods. In other words, each chapter focuses on a single tool within the ML toolbox.</p>
+<p>This book covers the building blocks of the most common methods in machine learning. This set of methods is like a toolbox for machine learning engineers. Those entering the field of machine learning should feel comfortable with this toolbox so they have the right tool for a variety of tasks. Each chapter in this book corresponds to a single machine learning method or group of methods. In other words, each chapter focuses on a single tool within the ML toolbox.</p>
+<p>In my experience, the best way to become comfortable with these methods is to see them derived from scratch, both in theory and in code. The purpose of this book is to provide those derivations. Each chapter is broken into three sections. The first section introduces the method conceptually and derives its results mathematically. The second shows how to construct the method from scratch using Python. The third demonstrates how to apply the method using packages in Python like <code class="docutils literal notranslate"><span class="pre">scikit-learn</span></code>, <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code>, and <code class="docutils literal notranslate"><span class="pre">tensorflow</span></code>.</p>
 <p><u><strong>Why this book</strong></u></p>
 <p>There are many great books on machine learning written by more knowledgeable authors and covering a broader range of topics. In particular, I would suggest <a class="reference external" href="http://faculty.marshall.usc.edu/gareth-james/ISL/">An Introduction to Statistical Learning</a>, <a class="reference external" href="https://web.stanford.edu/~hastie/ElemStatLearn/">Elements of Statistical Learning</a>, and <a class="reference external" href="https://www.microsoft.com/en-us/research/publication/pattern-recognition-machine-learning/">Pattern Recognition and Machine Learning</a>, all of which are available online for free.</p>
 <p>While those books provide a conceptual overview of machine learning and the theory behind its methods, this book focuses on the bare bones of machine learning algorithms. Its main purpose is to provide readers with the ability to construct these algorithms independently. Continuing the toolbox analogy, this book is intended as a user guide: it is not designed to teach users broad practices of the field but rather how each tool works at a micro level.</p>
 <p><u><strong>Who this book is for</strong></u></p>
-<p>TODO make about audience</p>
-<p>This book is for readers looking looking to learn new machine learning algorithms or understand algorithms at a deeper level. Most parts require knowledge of calculus though some require probability theory and basic linear algebra. The first section of each chapter can be understood without any knowledge of programming though the second and third sections of each chapter use some basic Python, mostly with the <code class="docutils literal notranslate"><span class="pre">numpy</span></code> package.</p>
-<p>This book will be most helpful for those with an existing knowledge and/or practice in model-building. It does not review best practices or discuss in depth when certain models are more appropriate than others but instead focuses on the elements of those models.</p>
+<p>This book is for readers looking to learn new machine learning algorithms or understand algorithms at a deeper level. Specifically, it is intended for readers interested in seeing machine learning algorithms derived from start to finish. Seeing these derivations might help a reader previously unfamiliar with common algorithms understand how they work intuitively. Or, seeing these derivations might help a reader experienced in modeling understand how different algorithms create the models they do and the advantages and disadvantages of each one.</p>
+<p>This book will be most helpful for those with practice in basic modeling. It does not review best practices—such as feature engineering or balancing response variables—or discuss in depth when certain models are more appropriate than others. Instead, it focuses on the elements of those models.</p>
 <p><strong><u>What readers should know</u></strong></p>
-<p>TODO describe this</p>
-<ul class="simple">
-<li><p>calculus</p></li>
-<li><p>probability theory</p></li>
-<li><p>basic linear algebra (think matrix operations and dot products)</p></li>
-<li><p>python (constructing functions and classes)</p></li>
-<li><p>Common ML methods</p>
-<ul>
-<li><p>But this is reviewed in the last thing</p></li>
-</ul>
-</li>
-</ul>
+<p>The <em>concept</em> sections of this book primarily require knowledge of calculus, though some require an understanding of probability (think maximum likelihood and Bayes’ Rule) and basic linear algebra (think matrix operations and dot products). The appendix reviews the <a class="reference internal" href="appendix/methods.html"><span class="doc">math</span></a> and <a class="reference internal" href="appendix/methods.html"><span class="doc">probability</span></a>needed to understand this book. The concept sections also reference a few common machine learning <a class="reference internal" href="appendix/methods.html"><span class="doc">methods</span></a>, which are introduced in the appendix as well. The concept sections do not require any knowledge of programming.</p>
+<p>The <em>construction</em> and <em>code</em> sections of this book use some basic Python. The construction sections require understanding of the corresponding content sections and familiarity creating functions and classes in Python. The code sections require neither.</p>
 <div class="toctree-wrapper compound">
 </div>
 <div class="toctree-wrapper compound">

@@ -11,7 +11,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "This section shows how the linear regression extensions discussed in the chapter are typically fit in Python. First let's import the Boston housing dataset."
+    "This section shows how the linear regression extensions discussed in the chapter are typically fit in Python. First let's import the {doc}`Boston housing</content/appendix/data>` dataset."
    ]
   },
   {

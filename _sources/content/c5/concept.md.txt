@@ -2,7 +2,7 @@
 
 
 
-A decision tree is an interpretable machine learning method for regression and classification. Trees iteratively split samples of the training data based on the value of a chosen predictor; the goal of each split is to create two sub-samples, or "children," with greater *purity* of the outcome variable than their "parent". For classification tasks, this means the first child should have observations primarily of one class and the second should have observations primarily of another. For regression tasks, this means the first child should have observations with high values of the outcome variable and the second should have observations with low values. 
+A decision tree is an interpretable machine learning method for regression and classification. Trees iteratively split samples of the training data based on the value of a chosen predictor; the goal of each split is to create two sub-samples, or "children," with greater *purity* of the target variable than their "parent". For classification tasks, this means the first child should have observations primarily of one class and the second should have observations primarily of another. For regression tasks, this means the first child should have observations with high values of the target variable and the second should have observations with low values. 
 
 
 
@@ -18,4 +18,4 @@ Once we've reached the bottom of the tree, we make our predictions. For instance
 
 
 
-This chapter demonstrates how decision trees are built. The {doc}`first <s1/regression_tree>` section covers regression tasks, where the output variable is quantitative, and the {doc}`second <s1/classification_tree>` covers classification tasks, where the output variable is categorical. 
+This chapter demonstrates how decision trees are built. The {doc}`first <s1/regression_tree>` section covers regression tasks, where the target variable is quantitative, and the {doc}`second <s1/classification_tree>` covers classification tasks, where the target variable is categorical. 

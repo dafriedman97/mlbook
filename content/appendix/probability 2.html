@@ -72,6 +72,9 @@
   <li class="">
     <a href="../table_of_contents.html">Table of Contents</a>
   </li>
+  <li class="">
+    <a href="../conventions_notation.html">Conventions and Notation</a>
+  </li>
 <li class="navbar-special">
 <p class="margin-caption">1. Ordinary Linear Regression</p>
 </li>
@@ -225,9 +228,38 @@
         
     </div>
     <div class="d-none d-md-block col-md-2 bd-toc show">
+<div class="tocsection onthispage pt-5 pb-3">
+    <i class="fas fa-list"></i> On this page
+</div>
 
 <nav id="bd-toc-nav">
     <ul class="nav section-nav flex-column">
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#random-variables-and-distributions" class="nav-link">1. Random Variables and Distributions</a><ul class="nav section-nav flex-column">
+                
+        <li class="nav-item toc-entry toc-h3">
+            <a href="#random-variables" class="nav-link">Random Variables</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h3">
+            <a href="#density-functions" class="nav-link">Density Functions</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h3">
+            <a href="#distributions" class="nav-link">Distributions</a>
+        </li>
+    
+            </ul>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#maximum-likelihood-estimation" class="nav-link">2. Maximum Likelihood Estimation</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#conditional-probability" class="nav-link">3. Conditional Probability</a>
+        </li>
     
     </ul>
 </nav>
@@ -249,7 +281,51 @@
                 
   <div class="section" id="probability">
 <h1>Probability<a class="headerlink" href="#probability" title="Permalink to this headline">¶</a></h1>
-<p>TODO</p>
+<p>Many machine learning methods are rooted in probability theory. Probabilistic methods in this book include <a class="reference internal" href="../c1/concept.html"><span class="doc">linear regression</span></a>, <a class="reference internal" href="../c2/s1/bayesian.html"><span class="doc">Bayesian regression</span></a>, and <a class="reference internal" href="../c4/concept.html"><span class="doc">generative classifiers</span></a>. This section covers the probability theory needed to understand those methods.</p>
+<div class="section" id="random-variables-and-distributions">
+<h2>1. Random Variables and Distributions<a class="headerlink" href="#random-variables-and-distributions" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="random-variables">
+<h3>Random Variables<a class="headerlink" href="#random-variables" title="Permalink to this headline">¶</a></h3>
+<p>A <strong>random variable</strong> is a variable whose value is randomly determined. The set of possible values a random variable can take on is called the variable’s <strong>support</strong>. An example of a random variable is the value on a die. This variable’s support is <span class="math notranslate nohighlight">\(\{1, 2, 3, 4, 5, 6\}\)</span>. Random variables will be represented with uppercase letters and values in their support with lowercase letters. For instance <span class="math notranslate nohighlight">\(X = x\)</span> implies that a random variable <span class="math notranslate nohighlight">\(X\)</span> happened to take on value <span class="math notranslate nohighlight">\(x\)</span>. Letting <span class="math notranslate nohighlight">\(X\)</span> be the value of a die roll, <span class="math notranslate nohighlight">\(X = 4\)</span> indicates implies that the die landed on 4.</p>
+</div>
+<div class="section" id="density-functions">
+<h3>Density Functions<a class="headerlink" href="#density-functions" title="Permalink to this headline">¶</a></h3>
+<p>The likelihood that a random variable takes on a given value is determined through its density function. For a discrete random variable (one that can take on a finite set of values), this density function is called the <strong>probability mass function</strong> <strong>(PMF)</strong>. The PMF of a random variable <span class="math notranslate nohighlight">\(X\)</span> gives the probability <span class="math notranslate nohighlight">\(X\)</span> will equal some value <span class="math notranslate nohighlight">\(x\)</span>. We write it as <span class="math notranslate nohighlight">\(f_X(x)\)</span> or just <span class="math notranslate nohighlight">\(f(x)\)</span>, and it is defined as</p>
+<div class="math notranslate nohighlight">
+\[
+f(x) = P(X = x).
+\]</div>
+<p>For a continuous random variable (one that can take on infinitely many values), the density function is called the <strong>probability density function (PDF)</strong>. The PDF <span class="math notranslate nohighlight">\(f(x)\)</span> of a continuous random variable <span class="math notranslate nohighlight">\(X\)</span> does not give <span class="math notranslate nohighlight">\(P(X = x)\)</span> but it does determine the probability that <span class="math notranslate nohighlight">\(X\)</span> is in a certain range. Specifically,</p>
+<div class="math notranslate nohighlight">
+\[
+P(a \leq X \leq b) = \int_{x = a}^b f(x) dx. 
+\]</div>
+<p>That is, integrating <span class="math notranslate nohighlight">\(f(x)\)</span> over a certain range gives the probability of <span class="math notranslate nohighlight">\(X\)</span> being in that range. While <span class="math notranslate nohighlight">\(f(x)\)</span> does not give the probability that <span class="math notranslate nohighlight">\(X\)</span> will equal a certain value, it does indicate the relative likelihood that it will be <em>around</em> that value. E.g. if <span class="math notranslate nohighlight">\(f(a) &gt; f(b)\)</span>, we can say <span class="math notranslate nohighlight">\(X\)</span> is more likely to be in an arbitrarily small area around the value <span class="math notranslate nohighlight">\(a\)</span> than around the value <span class="math notranslate nohighlight">\(b\)</span>.</p>
+</div>
+<div class="section" id="distributions">
+<h3>Distributions<a class="headerlink" href="#distributions" title="Permalink to this headline">¶</a></h3>
+<p>A random variable’s <strong>distribution</strong> is determined by its density function. Variables with the same density functions come from the same distributions. Certain families of distributions are very common in probability and machine learning. Two examples are given below.</p>
+<p>The <strong>Bernoulli</strong> distribution is the most simple probability distribution and it describes the likelihood of the outcomes of a binary event. Let <span class="math notranslate nohighlight">\(X\)</span> be a random variable that equals 1 (representing “success”) with probability <span class="math notranslate nohighlight">\(p\)</span> and 0 (representing “failure”) with probability <span class="math notranslate nohighlight">\(1-p\)</span>. Then, <span class="math notranslate nohighlight">\(X\)</span> is said to follow the Bernoulli distribution with probability parameter <span class="math notranslate nohighlight">\(p\)</span>, written <span class="math notranslate nohighlight">\(X \sim \text{Bern}(p)\)</span>, and its PMF is given by</p>
+<div class="math notranslate nohighlight">
+\[
+f(x) = p^x(1-p)^{(1-x)}.
+\]</div>
+<p>We can check to see that for any valid value <span class="math notranslate nohighlight">\(x\)</span> in the support of <span class="math notranslate nohighlight">\(X\)</span>—i.e., 1 or 0—, <span class="math notranslate nohighlight">\(f(x)\)</span> gives <span class="math notranslate nohighlight">\(P(X = x)\)</span>.</p>
+<p>The <strong>Normal</strong> distribution is extremely common and will be used throughout this book. A random variable <span class="math notranslate nohighlight">\(X\)</span> follows the Normal distribution with mean parameter <span class="math notranslate nohighlight">\(\mu \in \R\)</span> and variance parameter <span class="math notranslate nohighlight">\(\sigma^2 &gt; 0\)</span>, written <span class="math notranslate nohighlight">\(X \sim \mathcal{N}(\mu, \sigma^2)\)</span>, if its PDF is defined as</p>
+<div class="math notranslate nohighlight">
+\[
+f(x) = \frac{1}{\sqrt{2\pi\sigma^2}}e^{-\frac{(x-\mu)^2}{2\sigma^2}}.
+\]</div>
+<p>The density of a Normal random variable gives this distribution the name “the bell curve”, as shown below. Values closest to <span class="math notranslate nohighlight">\(\mu\)</span> are most likely and the density is symmetric around <span class="math notranslate nohighlight">\(\mu\)</span>.</p>
+<p><img alt="normal" src="../../_images/normal.png" /></p>
+</div>
+</div>
+<div class="section" id="maximum-likelihood-estimation">
+<h2>2. Maximum Likelihood Estimation<a class="headerlink" href="#maximum-likelihood-estimation" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="conditional-probability">
+<h2>3. Conditional Probability<a class="headerlink" href="#conditional-probability" title="Permalink to this headline">¶</a></h2>
+</div>
 </div>
 
 

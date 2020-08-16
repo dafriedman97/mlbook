@@ -72,6 +72,9 @@
   <li class="">
     <a href="../table_of_contents.html">Table of Contents</a>
   </li>
+  <li class="">
+    <a href="../conventions_notation.html">Conventions and Notation</a>
+  </li>
 <li class="navbar-special">
 <p class="margin-caption">1. Ordinary Linear Regression</p>
 </li>
@@ -272,7 +275,7 @@
   <div class="section" id="code">
 <h1>Code<a class="headerlink" href="#code" title="Permalink to this headline">¶</a></h1>
 <p>This section demonstrates how to fit a regression model in Python in practice. The two most common packages for fitting regression models in Python are <code class="docutils literal notranslate"><span class="pre">scikit-learn</span></code> and <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code>. Both methods are shown before.</p>
-<p>First, let’s import the data and necessary packages. We’ll again be using the Boston housing dataset from <code class="docutils literal notranslate"><span class="pre">sklearn.datasets</span></code>.</p>
+<p>First, let’s import the data and necessary packages. We’ll again be using the <a class="reference internal" href="../appendix/data.html"><span class="doc">Boston housing</span></a> dataset from <code class="docutils literal notranslate"><span class="pre">sklearn.datasets</span></code>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
@@ -356,10 +359,10 @@ INDUS: 0.021
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">columns</span> <span class="o">=</span> <span class="n">boston</span><span class="p">[</span><span class="s1">&#39;feature_names&#39;</span><span class="p">])</span>
-<span class="n">df</span><span class="p">[</span><span class="s1">&#39;outcome&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">y_train</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;target&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">y_train</span>
 <span class="n">display</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
 
-<span class="n">formula</span> <span class="o">=</span> <span class="s1">&#39;outcome ~ &#39;</span> <span class="o">+</span> <span class="s1">&#39; + &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">boston</span><span class="p">[</span><span class="s1">&#39;feature_names&#39;</span><span class="p">])</span>
+<span class="n">formula</span> <span class="o">=</span> <span class="s1">&#39;target ~ &#39;</span> <span class="o">+</span> <span class="s1">&#39; + &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">boston</span><span class="p">[</span><span class="s1">&#39;feature_names&#39;</span><span class="p">])</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;formula:&#39;</span><span class="p">,</span> <span class="n">formula</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -396,7 +399,7 @@ INDUS: 0.021
       <th>PTRATIO</th>
       <th>B</th>
       <th>LSTAT</th>
-      <th>outcome</th>
+      <th>target</th>
     </tr>
   </thead>
   <tbody>
@@ -487,7 +490,7 @@ INDUS: 0.021
     </tr>
   </tbody>
 </table>
-</div></div><div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>formula: outcome ~ CRIM + ZN + INDUS + CHAS + NOX + RM + AGE + DIS + RAD + TAX + PTRATIO + B + LSTAT
+</div></div><div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>formula: target ~ CRIM + ZN + INDUS + CHAS + NOX + RM + AGE + DIS + RAD + TAX + PTRATIO + B + LSTAT
 </pre></div>
 </div>
 </div>

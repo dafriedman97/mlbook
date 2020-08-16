@@ -47,13 +47,13 @@ This section is organized as follows.
 
 ## 1. Model Structure
 
-Throughout this chapter, suppose we have training data $\{\bx_n, \by_n\}_{n = 1}^N$ with $\bx_n \in \R^{D}$—which does *not* include an intercept term—and $\by_n \in \R^R$  for $n = 1, 2, \dots, N$. In other words, for each observation we have $D$ predictors and $R$ response variables. Note that unlike in previous chapters, we might now have a *vector* of response variables rather than a single value. If there is only one response variable per observation (i.e. $R = 1$), we will write it as $y_n$. 
+Throughout this chapter, suppose we have training data $\{\bx_n, \by_n\}_{n = 1}^N$ with $\bx_n \in \R^{D}$—which does *not* include an intercept term—and $\by_n \in \R^R$ for $n = 1, 2, \dots, N$. In other words, for each observation we have $D$ predictors and $R$ target variables. In this chapter, these will primarily be referred to as *input* and *output* variables, respectively. Note that unlike in previous chapters, we might now have a *vector* of target variables rather than a single value. If there is only one target variable per observation (i.e. $R = 1$), we will write it as $y_n$. 
 
 
 
 ### 1.1 An Overview
 
-The diagram below is a helpful representation of a basic neural network. Neural networks operate in layers. The network starts of with an *input layer*, consisting of the vector of predictors for a single observation. This is shown by $x_0, \dots, x_3$ in the diagram. The network then passes through one or more *hidden layers*. The first hidden layer is a function of the input layer and each following hidden layer is a function of the last. (We will discuss these functions in more detail later). The network below has two hidden layers. Finally, the network passes from the last hidden layer into an *output layer*, representing the response variable or variables. In the network below, the response variable is two-dimensional, so the layer is represented by the values $y_1$ and $y_2$.
+The diagram below is a helpful representation of a basic neural network. Neural networks operate in layers. The network starts of with an *input layer*, consisting of the vector of predictors for a single observation. This is shown by $x_0, \dots, x_3$ in the diagram. The network then passes through one or more *hidden layers*. The first hidden layer is a function of the input layer and each following hidden layer is a function of the last. (We will discuss these functions in more detail later). The network below has two hidden layers. Finally, the network passes from the last hidden layer into an *output layer*, representing the target variable or variables. In the network below, the target variable is two-dimensional, so the layer is represented by the values $y_1$ and $y_2$.
 
 ```{note}
 Diagrams like the below are commonly used to represent neural networks. Note that these diagrams show only a single observation at a time. For instance, $x_0, \dots x_3$ represent four predictors within one observation, rather than four different observations.
@@ -67,7 +67,7 @@ Each layer in a neural network consists of *neurons*, represented by the circles
 
 One natural question is how many layers our neural network should contain. There is no single answer to this question as the number of layers is chosen by the modeler. To consider the model a neural network, we need to have an input layer, an output layer, and at least one hidden layer. The neural network above has two hidden layers—note that the superscript indicates the hidden layer number, e.g. $z_{0}^{(1)}$ through $z_2^{(1)}$ are in the first hidden layer and $z_{0}^{(2)}$ through $z_2^{(2)}$ are in the second hidden layer. We could also consider the input layer as an exogenous "hidden layer" and represent it with $z_{0}^{(0)}$ through $z_3^{(0)}$. 
 
-Another natural question is how many neurons each layer should contain. This is in part chosen by the modeler and in part predetermined. If our predictor vectors are of length $D$, the input layer must have $D$ neurons. Similarly, the output layer must have as many neurons as there are outcome variables. If, for instance, our model attempts to predict a store's revenue and its costs (two outcomes) in a given month, our output layer would have two neurons. The sizes of the hidden layers are chosen by the modeler. Too few neurons may cause underfitting by preventing the network from picking up on important patterns while too many neurons may cause overfitting, allowing the network to select values that match the training data exactly. 
+Another natural question is how many neurons each layer should contain. This is in part chosen by the modeler and in part predetermined. If our predictor vectors are of length $D$, the input layer must have $D$ neurons. Similarly, the output layer must have as many neurons as there are target variables. If, for instance, our model attempts to predict a store's revenue and its costs (two targets) in a given month, our output layer would have two neurons. The sizes of the hidden layers are chosen by the modeler. Too few neurons may cause underfitting by preventing the network from picking up on important patterns while too many neurons may cause overfitting, allowing the network to select values that match the training data exactly. 
 
 
 
@@ -75,7 +75,7 @@ Another natural question is how many neurons each layer should contain. This is 
 
 Let's now turn to the process through which one layer communicates with the next. In this section, let $\bz^{(a)}$ and $\super{\bz}{b}$ represent the vector of neurons in any two consecutive layers. For instance, $\super{\bz}{a}$ might be an input layer and $\super{\bz}{b}$ the first hidden layer or $\super{\bz}{a}$ might be a hidden layer and $\super{\bz}{a}$ the following hidden layer. Suppose $\super{\bz}{a} \in \R^{n_a}$ and $\super{\bz}{b} \in \R^{n_b}$. 
 
-Each neuron in $\super{\bz}{b}$ is a function of every neuron in $\super{\bz}{a}$. This function occurs in two stages: first a linear mapping of $\super{\bz}{a}$ onto one dimension, then a non-linear function called an *activation function*. Let's look at a single neuron within $\super{\bz}{b}$, $\super{z}{b}_i$. The transformation from $\super{\bz}{a}$ to $\super{z}{b}_i$ takes the form
+Each neuron in $\super{\bz}{b}$ is a function of every neuron in $\super{\bz}{a}$. This function occurs in two stages: first a linear mapping of $\super{\bz}{a}$ onto one dimension, then a nonlinear function called an *activation function*. Let's look at a single neuron within $\super{\bz}{b}$, $\super{z}{b}_i$. The transformation from $\super{\bz}{a}$ to $\super{z}{b}_i$ takes the form
 
 
 
@@ -130,11 +130,11 @@ A more mathematical representation of a neural network is given below. The netwo
 
 ### 1.3 Activation Functions
 
-As we have seen, we create a neuron in one layer by taking a linear mapping of the neurons in the previous layer and then applying some   *activation function*. What exactly is this activation function? An activation function is a non-linear function that allows the network to learn complex relationships between the predictors and the outcome variable(s). 
+As we have seen, we create a neuron in one layer by taking a linear mapping of the neurons in the previous layer and then applying some *activation function*. What exactly is this activation function? An activation function is a (typically) nonlinear function that allows the network to learn complex relationships between the predictors and the target variable(s). 
 
 
 
-Suppose, for instance, the relationship between an outcome variable $y_n$ and a predictor $x_n$ is given by 
+Suppose, for instance, the relationship between a target variable $y_n$ and a predictor $x_n$ is given by 
 
 
 $$
@@ -247,6 +247,28 @@ $$
 
 
 
+#### The Linear Activation Function 
+
+Another possible activation function is the "linear" activation function, which is the same as skipping the activation function altogether. The linear activation function simply returns its input. It is defined with 
+
+
+$$
+f(x) = x,
+$$
+
+
+and has derivative 
+
+
+$$
+\dadb{f(x)}{x} = 1. 
+$$
+
+
+The linear activation function is often used before the last layer in a neural network for regression. Rather than constraining the fitted values to be in some range or setting half of them equal to 0, we want to leave them as they are. 
+
+
+
 ## 2. Optimization
 
 We have now seen that a neural network operates through a series of linear mappings and activation functions. The linear mapping for layer $\ell$ is determined by the parameters in $\super{\mathbf{W}}{\ell}$ and $\super{\mathbf{c}}{\ell}$, also called the *weights*. This section discusses the process through which the parameters in a neural network are fit, called *back propagation*. 
@@ -333,7 +355,7 @@ Note that the rest of this sectionc onsiders only one observation at a time. The
 
 
 
-For the following, let layer $\ell$ have size $n_\ell$. Also let the final layer be layer $L$, meaning $\by \in \R^{n_L}$. 
+For the following, let layer $\ell$ have size $n_\ell$. Also there be $L$ layers in total, meaning $\by \in \R^{n_L}$. 
 
 
 
@@ -444,17 +466,39 @@ $$
 $$
 
 
+
+##### Linear
+
+Finally, suppose we have $\superb{z}{\ell} = \super{f}{\ell}(\superb{h}{\ell})$  where $\super{f}{\ell}$ is the linear function. We then have 
+
+
+$$
+\dadb{\super{z}{\ell}_i}{\super{h}{\ell}_j}  = \begin{cases}
+1 , & i = j\\
+0, & i \neq j. 
+\end{cases}
+$$
+
+
+The entire gradient is then simply 
+
+
+$$
+\dadb{\superb{z}{\ell}}{\superb{h}{\ell}} = I_{n_{\ell}} \in \R^{n_\ell \times n_\ell}.
+$$
+
+
 #### 2.2.3 Gradients of the Weights
 
 ![](/content/c7/grad3.png)
 
-We are now finally able to calculate the gradients of our weights. Specifically, we will calculate $\partial \superb{h}{\ell}/ \partial \superb{c}{\ell}$ and $\partial \superb{h}{\ell}/ \partial \super{W}{\ell}$ which, when combined with our previous results through the chain rule, will allow us to obtain the derivative of the loss function with respect the layer $\ell$ weights. 
+We are now finally able to calculate the gradients of our weights. Specifically, we will calculate $\partial \superb{h}{\ell}/ \partial \superb{c}{\ell}$ and $\partial \superb{h}{\ell}/ \partial \superb{W}{\ell}$ which, when combined with our previous results through the chain rule, will allow us to obtain the derivative of the loss function with respect the layer $\ell$ weights. 
 
 Recall that we obtain $\superb{h}{\ell}$ through 
 
 
 $$
-\superb{h}{\ell} = \super{W}{\ell}\superb{z}{\ell-1} + \superb{c}{\ell},
+\superb{h}{\ell} = \superb{W}{\ell}\superb{z}{\ell-1} + \superb{c}{\ell},
 $$
 
 
@@ -466,13 +510,13 @@ $$
 $$
 
 
-The derivative $\partial \superb{h}{\ell}/ \partial \super{W}{\ell}$ is more complicated. Since we are taking the derivative of a vector with respect to a matrix, our result will be a tensor. The shape of this tensor will be $n_\ell \times (n_\ell \times n_{\ell - 1})$ since $\superb{h}{\ell} \in R^{n_\ell}$ and $\super{W}{\ell} \in \R^{n_\ell \times n_{\ell-1}}$. The first element of this tensor will is given by $\partial \super{h}{\ell}_1/ \partial \super{W}{\ell}$. Using the expression for $\superb{h}{\ell}$ above, we see that this is a matrix with $(\superb{z}{\ell - 1})^\top$ in the first row and 0s everywhere else. More generally, the $i^\text{th}$ entry in this derivative will have all 0s except $(\superb{z}{\ell - 1})^\top$ in its $i^\text{th}$ row. This is represented below. 
+The derivative $\partial \superb{h}{\ell}/ \partial \superb{W}{\ell}$ is more complicated. Since we are taking the derivative of a vector with respect to a matrix, our result will be a tensor. The shape of this tensor will be $n_\ell \times (n_\ell \times n_{\ell - 1})$ since $\superb{h}{\ell} \in R^{n_\ell}$ and $\superb{W}{\ell} \in \R^{n_\ell \times n_{\ell-1}}$. The first element of this tensor will is given by $\partial \super{h}{\ell}_1/ \partial \superb{W}{\ell}$. Using the expression for $\superb{h}{\ell}$ above, we see that this is a matrix with $(\superb{z}{\ell - 1})^\top$ in the first row and 0s everywhere else. More generally, the $i^\text{th}$ entry in this derivative will have all 0s except $(\superb{z}{\ell - 1})^\top$ in its $i^\text{th}$ row. This is represented below. 
 
 
 $$
 \begin{align*}
-\dadb{\superb{h}{\ell}}{\super{W}{\ell}} &=
-\begin{bmatrix} \dadb{\super{h}{\ell}_1}{\super{W}{\ell}} \\ \\ \dots \\ \\ \dadb{\super{h}{\ell}_{n_\ell}}{\super{W}{\ell}}  \end{bmatrix} = 
+\dadb{\superb{h}{\ell}}{\superb{W}{\ell}} &=
+\begin{bmatrix} \dadb{\super{h}{\ell}_1}{\superb{W}{\ell}} \\ \\ \dots \\ \\ \dadb{\super{h}{\ell}_{n_\ell}}{\superb{W}{\ell}}  \end{bmatrix} = 
 \begin{bmatrix} \begin{bmatrix} \superb{z}{\ell - 1})^\top \\ ... \\ \mathbf{0}^\top \end{bmatrix}\\ \dots \\ \begin{bmatrix} \mathbf{0}^\top  \\ \dots \\ (\superb{z}{\ell - 1})^\top\end{bmatrix}\end{bmatrix}  \in \R^{n_\ell \times (n_\ell \times n_{\ell - 1})}
 \end{align*}
 $$
@@ -492,11 +536,11 @@ using the results from sections 2.1, 2.2, and 2.3. However, to obtain the deriva
 
 
 $$
-\dadb{\superb{h}{\ell}}{\superb{z}{\ell - 1}} = {\super{W}{\ell}}.
+\dadb{\superb{h}{\ell}}{\superb{z}{\ell - 1}} = {\superb{W}{\ell}}.
 $$
 
 
-Now that we have $\partial \superb{h}{\ell}/\partial \superb{z}{\ell - 1}$, we can repeat the results from sections 2.2 and 2.3 to calculate $\partial \superb{z}{\ell - 1}/\partial \superb{h}{\ell - 1}$ and $\partial \superb{h}{\ell - 1}/ \partial \super{W}{\ell - 1}$ (respectively); this gives us all the necessary results to compute the gradient of the weights in the previous layer. We then rinse, lather, and repeat with layer $\ell - 2$ through the first layer.  
+Now that we have $\partial \superb{h}{\ell}/\partial \superb{z}{\ell - 1}$, we can repeat the results from sections 2.2 and 2.3 to calculate $\partial \superb{z}{\ell - 1}/\partial \superb{h}{\ell - 1}$ and $\partial \superb{h}{\ell - 1}/ \partial \superb{W}{\ell - 1}$ (respectively); this gives us all the necessary results to compute the gradient of the weights in the previous layer. We then rinse, lather, and repeat with layer $\ell - 2$ through the first layer.  
 
 
 
@@ -506,13 +550,13 @@ Now that we have $\partial \superb{h}{\ell}/\partial \superb{z}{\ell - 1}$, we c
 
 
 
-We've seen lots of individual derivatives. Ultimately, we really care about the derivatives of the loss function with respect to the network's weights. Let's review by calculating the derivatives of the loss function with respect to the weights in the final layer for the familiar network above. Suppose $\super{f}{2}$ is the Sigmoid function and we use the log loss. For $\super{W}{2}$ we get the following. 
+We've seen lots of individual derivatives. Ultimately, we really care about the derivatives of the loss function with respect to the network's weights. Let's review by calculating the derivatives of the loss function with respect to the weights in the final layer for the familiar network above. Suppose $\super{f}{2}$ is the Sigmoid function and we use the log loss. For $\superb{W}{2}$ we get the following. 
 
 
 $$
 \begin{align*}
-\dadb{\mathcal{L}(\hat{\by})}{\super{W}{2}} &= \dadb{\mathcal{L}(\hat{\by})}{\hat{\by}}\cdot\dadb{\hat{\by}}{\super{\mathbf{h}}{2}}\cdot \dadb{\super{\mathbf{h}}{2}}{\super{W}{2}} \\
-&=-\left(\frac{\by}{\hat{\by}} + \frac{1-\by}{1-\hat{\by}} \right)^\top \cdot  \text{diag}\left(\sigma(\superb{h}{2})(1- \sigma(\superb{h}{2}))\right)\cdot T \\
+\dadb{\mathcal{L}(\hat{\by})}{\superb{W}{2}} &= \dadb{\mathcal{L}(\hat{\by})}{\hat{\by}}\cdot\dadb{\hat{\by}}{\super{\mathbf{h}}{2}}\cdot \dadb{\super{\mathbf{h}}{2}}{\superb{W}{2}} \\
+&=-\left(\frac{\by}{\hat{\by}} + \frac{1-\by}{1-\hat{\by}} \right)^\top \cdot  \text{diag}\left(\sigma(\superb{h}{2})(1- \sigma(\superb{h}{2}))\right)\cdot \mathbf{T} \\
 &= -\begin{bmatrix} (\frac{y_1}{\hat{y}_1} + \frac{1-y_1}{1-\hat{y}_1})\cdot \sigma(\super{h}{2}_1)(1-\sigma(\super{h}{2}_1))\cdot \superb{z}{1}  \\ \dots \\
 (\frac{y_{n_2}}{\hat{y}_{n_2}} + \frac{1-y_{n_2}}{1-\hat{y}_{n_2}})\cdot \sigma(\super{h}{2}_{n_2})(1-\sigma(\super{h}{2}_{n_2}))\cdot \superb{z}{1} 
 \end{bmatrix} \in \R^{n_2 \times n_1},
@@ -520,7 +564,7 @@ $$
 $$
 
 
-where $T$ is the tensor derivative discussed in section 2.3.
+where $\mathbf{T}$ is the tensor derivative discussed in section 2.2.3.
 
 
 
@@ -540,11 +584,11 @@ $$
 
 ### 3. Combining Observations 
 
-So far, we've only considered the derivative of the loss function for a *single* observation. When training a network, we will of course want to consider the entire dataset. One way to do so is to simply add the individual derivatives. Since the loss over the dataset is the sum of the individual observation losses and the derivative of a sum is the sum of the derivatives, we can simply add the results above. For instance, to find the derivative of the loss with respect to the final matrix of weights $\super{W}{L}$, we could loop through observations and sum the individual derivatives:
+So far, we've only considered the derivative of the loss function for a *single* observation. When training a network, we will of course want to consider the entire dataset. One way to do so is to simply add the individual derivatives. Since the loss over the dataset is the sum of the individual observation losses and the derivative of a sum is the sum of the derivatives, we can simply add the results above. For instance, to find the derivative of the loss with respect to the final matrix of weights $\superb{W}{L}$, we could loop through observations and sum the individual derivatives:
 
 
 $$
-\dadb{\mathcal{L}(\{\hat{\by}_n\}_{n = 1}^N))}{\super{W}{L}} = \dadb{\sumN \mathcal{L}(\hat{\by}_n)}{\super{W} {L}} = \sumN \dadb{\mathcal{L}(\hat{\by}_n)}{\super{W}{L}}.
+\dadb{\mathcal{L}(\{\hat{\by}_n\}_{n = 1}^N))}{\superb{W}{L}} = \dadb{\sumN \mathcal{L}(\hat{\by}_n)}{\superb{W} {L}} = \sumN \dadb{\mathcal{L}(\hat{\by}_n)}{\superb{W}{L}}.
 $$
 
 
@@ -572,7 +616,7 @@ While this new representation is more efficient, it also makes the gradients mor
 
 For each parameter $\theta$ in our network, we will find its gradient by asking "which parameters does $\theta$ affect in the next layer". Supposing the answer is some set $\{\psi_1, \psi_2, \dots, \psi_X\},$ we will calculate the derivative of the loss function with respect to $\theta$ as
 
- 
+
 $$
 \dadb{\mathcal{L}}{\theta} = \sum_{i = 1}^X \dadb{L}{\psi_i}\cdot \dadb{\psi_i}{\theta}.
 $$

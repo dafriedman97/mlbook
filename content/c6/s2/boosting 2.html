@@ -72,6 +72,9 @@
   <li class="">
     <a href="../../table_of_contents.html">Table of Contents</a>
   </li>
+  <li class="">
+    <a href="../../conventions_notation.html">Conventions and Notation</a>
+  </li>
 <li class="navbar-special">
 <p class="margin-caption">1. Ordinary Linear Regression</p>
 </li>
@@ -297,10 +300,15 @@
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>importing Jupyter notebook from classification_tree.ipynb
+</pre></div>
+</div>
+</div>
 </div>
 <div class="section" id="classification-with-adaboost">
 <h2>1. Classification with AdaBoost<a class="headerlink" href="#classification-with-adaboost" title="Permalink to this headline">¶</a></h2>
-<p>The following is a construction of the binary AdaBoost classifier introduced in the <a class="reference internal" href="../s1/boosting.html"><span class="doc">concept section</span></a>. Let’s again use the <code class="docutils literal notranslate"><span class="pre">penguins</span></code> dataset from <code class="docutils literal notranslate"><span class="pre">seaborn</span></code>, but rather than predicting the penguin’s species (a multi-class problem), we’ll predict whether the species is <em>Adelie</em> (a binary problem). The data is loaded with the hidden code cell below.</p>
+<p>The following is a construction of the binary AdaBoost classifier introduced in the <a class="reference internal" href="../s1/boosting.html"><span class="doc">concept section</span></a>. Let’s again use the <a class="reference internal" href="../../appendix/data.html"><span class="doc">penguins</span></a> dataset from <code class="docutils literal notranslate"><span class="pre">seaborn</span></code>, but rather than predicting the penguin’s species (a multiclass problem), we’ll predict whether the species is <em>Adelie</em> (a binary problem). The data is loaded with the hidden code cell below.</p>
 <div class="cell tag_hide-input docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">## Load data</span>
@@ -374,7 +382,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">loss</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">no_split</span> <span class="o">=</span> <span class="kc">True</span>
         
-    <span class="k">def</span> <span class="nf">replace_split</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">loss</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">dtype</span> <span class="o">=</span> <span class="s1">&#39;quant&#39;</span><span class="p">,</span> <span class="n">t</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">L_values</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_replace_split</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">loss</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">dtype</span> <span class="o">=</span> <span class="s1">&#39;quant&#39;</span><span class="p">,</span> <span class="n">t</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">L_values</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">loss</span> <span class="o">=</span> <span class="n">loss</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">d</span> <span class="o">=</span> <span class="n">d</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">dtype</span> <span class="o">=</span> <span class="n">dtype</span>
@@ -415,10 +423,10 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">current_ID</span> <span class="o">+=</span> <span class="mi">1</span>
         
         <span class="c1"># Build</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">build</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_build</span><span class="p">()</span>
 
     <span class="c1">###### BUILD TREE ######</span>
-    <span class="k">def</span> <span class="nf">build</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_build</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         
         <span class="n">eligible_buds</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes_dict</span> 
         <span class="k">for</span> <span class="n">layer</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">max_depth</span><span class="p">):</span>
@@ -436,14 +444,14 @@
             <span class="k">for</span> <span class="n">ID</span><span class="p">,</span> <span class="n">bud</span> <span class="ow">in</span> <span class="n">eligible_buds</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
                                 
                 <span class="c1">## Find split</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">find_split</span><span class="p">(</span><span class="n">bud</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_find_split</span><span class="p">(</span><span class="n">bud</span><span class="p">)</span>
                 
                 <span class="c1">## Make split</span>
                 <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">splitter</span><span class="o">.</span><span class="n">no_split</span><span class="p">:</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">make_split</span><span class="p">()</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_make_split</span><span class="p">()</span>
                 
     <span class="c1">###### FIND SPLIT ######</span>
-    <span class="k">def</span> <span class="nf">find_split</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bud</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_find_split</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bud</span><span class="p">):</span>
         
         <span class="c1">## Instantiate splitter</span>
         <span class="n">splitter</span> <span class="o">=</span> <span class="n">Splitter</span><span class="p">()</span>
@@ -472,7 +480,7 @@
                                       <span class="n">weights_L</span><span class="p">,</span> <span class="n">weights_R</span><span class="p">,</span>
                                       <span class="n">loss</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">loss_func</span><span class="p">)</span>
                     <span class="k">if</span> <span class="n">loss</span> <span class="o">&lt;</span> <span class="n">splitter</span><span class="o">.</span><span class="n">loss</span><span class="p">:</span>
-                        <span class="n">splitter</span><span class="o">.</span><span class="n">replace_split</span><span class="p">(</span><span class="n">loss</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="s1">&#39;quant&#39;</span><span class="p">,</span> <span class="n">t</span> <span class="o">=</span> <span class="n">t</span><span class="p">)</span>
+                        <span class="n">splitter</span><span class="o">.</span><span class="n">_replace_split</span><span class="p">(</span><span class="n">loss</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="s1">&#39;quant&#39;</span><span class="p">,</span> <span class="n">t</span> <span class="o">=</span> <span class="n">t</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">for</span> <span class="n">L_values</span> <span class="ow">in</span> <span class="n">ct</span><span class="o">.</span><span class="n">possible_splits</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">Xsub_d</span><span class="p">)):</span>
                     <span class="n">L_condition</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">Xsub_d</span><span class="p">,</span> <span class="n">L_values</span><span class="p">)</span>
@@ -484,13 +492,13 @@
                                       <span class="n">weights_L</span><span class="p">,</span> <span class="n">weights_R</span><span class="p">,</span>
                                       <span class="n">loss</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">loss_func</span><span class="p">)</span>
                     <span class="k">if</span> <span class="n">loss</span> <span class="o">&lt;</span> <span class="n">splitter</span><span class="o">.</span><span class="n">loss</span><span class="p">:</span> 
-                        <span class="n">splitter</span><span class="o">.</span><span class="n">replace_split</span><span class="p">(</span><span class="n">loss</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="s1">&#39;cat&#39;</span><span class="p">,</span> <span class="n">L_values</span> <span class="o">=</span> <span class="n">L_values</span><span class="p">)</span>
+                        <span class="n">splitter</span><span class="o">.</span><span class="n">_replace_split</span><span class="p">(</span><span class="n">loss</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="s1">&#39;cat&#39;</span><span class="p">,</span> <span class="n">L_values</span> <span class="o">=</span> <span class="n">L_values</span><span class="p">)</span>
                         
         <span class="c1">## Save splitter</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">splitter</span> <span class="o">=</span> <span class="n">splitter</span>
     
     <span class="c1">###### MAKE SPLIT ######</span>
-    <span class="k">def</span> <span class="nf">make_split</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_make_split</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         
         <span class="c1">## Update parent node</span>
         <span class="n">parent_node</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes_dict</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">splitter</span><span class="o">.</span><span class="n">bud_ID</span><span class="p">]</span>
@@ -531,7 +539,7 @@
     <span class="c1">#############################</span>
     
     <span class="c1">###### LEAF MODES ######</span>
-    <span class="k">def</span> <span class="nf">get_leaf_modes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_get_leaf_modes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">leaf_modes</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">for</span> <span class="n">node_ID</span><span class="p">,</span> <span class="n">node</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">leaf</span><span class="p">:</span>
@@ -542,7 +550,7 @@
     <span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X_test</span><span class="p">):</span>
         
         <span class="c1"># Calculate leaf modes</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">get_leaf_modes</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_get_leaf_modes</span><span class="p">()</span>
         
         <span class="n">yhat</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">X_test</span><span class="p">:</span>
@@ -568,7 +576,7 @@
 <p>With the weighted decision tree constructed, we are ready to build our <code class="docutils literal notranslate"><span class="pre">AdaBoost</span></code> class. The class closely follows the algorithm introduced in the content section, which is copied below for convenience.</p>
 <hr class="docutils" />
 <p><strong>Discrete AdaBoost Algorithm</strong></p>
-<p>Define the outcome variable to be <span class="math notranslate nohighlight">\(y_n \in \{-1, +1 \}\)</span>.</p>
+<p>Define the target variable to be <span class="math notranslate nohighlight">\(y_n \in \{-1, +1 \}\)</span>.</p>
 <ol>
 <li><p>Initialize the weights with <span class="math notranslate nohighlight">\(w^1_n = \frac{1}{N}\)</span> for <span class="math notranslate nohighlight">\(n = 1, 2, \dots, N\)</span>.</p></li>
 <li><p>For <span class="math notranslate nohighlight">\(t = 1, \dots, T\)</span>,</p>
@@ -657,7 +665,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>0.963855421686747
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>0.9759036144578314
 </pre></div>
 </div>
 </div>
@@ -665,7 +673,7 @@
 </div>
 <div class="section" id="regression-with-adaboost-r2">
 <h2>2. Regression with AdaBoost.R2<a class="headerlink" href="#regression-with-adaboost-r2" title="Permalink to this headline">¶</a></h2>
-<p>Next, let’s implement <em>AdaBoost.R2</em>, a common boosting algorithm for regression tasks. We’ll again use the <code class="docutils literal notranslate"><span class="pre">tips</span></code> dataset from <code class="docutils literal notranslate"><span class="pre">seaborn</span></code>, loaded in the hidden code cell below.</p>
+<p>Next, let’s implement <em>AdaBoost.R2</em>, a common boosting algorithm for regression tasks. We’ll again use the <a class="reference internal" href="../../appendix/data.html"><span class="doc">tips</span></a> dataset from <code class="docutils literal notranslate"><span class="pre">seaborn</span></code>, loaded in the hidden code cell below.</p>
 <div class="cell tag_hide-input docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">## Import packages</span>
@@ -820,11 +828,7 @@
         <span class="n">fitted_values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="n">N_test</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">T</span><span class="p">))</span>
         <span class="k">for</span> <span class="n">t</span><span class="p">,</span> <span class="n">tree</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">trees</span><span class="p">):</span>
             <span class="n">fitted_values</span><span class="p">[:,</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">weighted_median</span><span class="p">(</span><span class="n">fitted_values</span><span class="p">[</span><span class="n">n</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_weights</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N_test</span><span class="p">)])</span>
-        
-        
-        
-        
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">weighted_median</span><span class="p">(</span><span class="n">fitted_values</span><span class="p">[</span><span class="n">n</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_weights</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N_test</span><span class="p">)])</span> 
         
         
 </pre></div>

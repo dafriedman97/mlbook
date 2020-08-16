@@ -72,6 +72,9 @@
   <li class="">
     <a href="../table_of_contents.html">Table of Contents</a>
   </li>
+  <li class="">
+    <a href="../conventions_notation.html">Conventions and Notation</a>
+  </li>
 <li class="navbar-special">
 <p class="margin-caption">1. Ordinary Linear Regression</p>
 </li>
@@ -282,7 +285,7 @@
 <p>The <code class="docutils literal notranslate"><span class="pre">fit</span></code> method also makes in sample predictions with <span class="math notranslate nohighlight">\(\hat{\by} = \bX \bbetahat\)</span> and calculates the training loss with</p>
 <div class="math notranslate nohighlight">
 \[
-L(\bbetahat) = \frac{1}{2}\sumN \left(y_n - \hat{y}_n \right)^2.
+\mathcal{L}(\bbetahat) = \frac{1}{2}\sumN \left(y_n - \hat{y}_n \right)^2.
 \]</div>
 <p>The second method is <code class="docutils literal notranslate"><span class="pre">predict</span></code> which forms out-of-sample predictions. Given test set of predictors <span class="math notranslate nohighlight">\(\bX'\)</span>, we can form fitted values with <span class="math notranslate nohighlight">\(\hat{\by}' = \bX' \bbetahat\)</span>.</p>
 <div class="cell docutils container">
@@ -297,10 +300,7 @@ L(\bbetahat) = \frac{1}{2}\sumN \left(y_n - \hat{y}_n \right)^2.
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">LinearRegression</span><span class="p">:</span>
-    
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
-        
+
     <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">intercept</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
 
         <span class="c1"># record data and dimensions</span>
@@ -331,7 +331,7 @@ L(\bbetahat) = \frac{1}{2}\sumN \left(y_n - \hat{y}_n \right)^2.
 </div>
 </div>
 </div>
-<p>Let’s try out our <code class="docutils literal notranslate"><span class="pre">LinearRegression</span></code> class with some data. Here we use the Boston housing dataset from <code class="docutils literal notranslate"><span class="pre">sklearn.datasets</span></code>. The outcome variable in this dataset is median neighborhood home value. The predictors are all continuous and represent factors possibly related to the median home value, such as average rooms per house. More information on the dataset can be found <a class="reference external" href="https://www.cs.toronto.edu/~delve/data/boston/bostonDetail.html">here</a>. Hit “Click to show” to see the code that loads this data.</p>
+<p>Let’s try out our <code class="docutils literal notranslate"><span class="pre">LinearRegression</span></code> class with some data. Here we use the <a class="reference internal" href="../appendix/data.html"><span class="doc">Boston housing</span></a> dataset from <code class="docutils literal notranslate"><span class="pre">sklearn.datasets</span></code>. The target variable in this dataset is median neighborhood home value. The predictors are all continuous and represent factors possibly related to the median home value, such as average rooms per house. Hit “Click to show” to see the code that loads this data.</p>
 <div class="cell tag_hide-input docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">datasets</span>
@@ -351,7 +351,7 @@ L(\bbetahat) = \frac{1}{2}\sumN \left(y_n - \hat{y}_n \right)^2.
 </div>
 </div>
 </div>
-<p>Let’s then see how well our fitted values model the true outcome values. The closer the points lie to the 45-degree line, the more accurate the fit. The model seems to do reasonably well; our predictions definitely follow the true values quite well, although we would like the fit to be a bit tighter.</p>
+<p>Let’s then see how well our fitted values model the true target values. The closer the points lie to the 45-degree line, the more accurate the fit. The model seems to do reasonably well; our predictions definitely follow the true values quite well, although we would like the fit to be a bit tighter.</p>
 <div class="alert alert-info">
 <p class="admonition-title">Note</p>
 <p>Note the handful of observations with <span class="math notranslate nohighlight">\(y = 50\)</span> exactly. This is due to censorship in the data collection process. It appears neighborhoods with average home values above $50,000 were assigned a value of 50 even.</p>

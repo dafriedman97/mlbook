@@ -35,7 +35,7 @@
     "The `fit` method also makes in sample predictions with $\\hat{\\by} = \\bX \\bbetahat$ and calculates the training loss with \n",
     "\n",
     "$$\n",
-    "L(\\bbetahat) = \\frac{1}{2}\\sumN \\left(y_n - \\hat{y}_n \\right)^2.\n",
+    "\\mathcal{L}(\\bbetahat) = \\frac{1}{2}\\sumN \\left(y_n - \\hat{y}_n \\right)^2.\n",
     "$$\n",
     "\n",
     "The second method is `predict` which forms out-of-sample predictions. Given test set of predictors $\\bX'$, we can form fitted values with $\\hat{\\by}' = \\bX' \\bbetahat$."
@@ -43,7 +43,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 2,
+   "execution_count": 7,
    "metadata": {},
    "outputs": [],
    "source": [
@@ -59,10 +59,7 @@
    "outputs": [],
    "source": [
     "class LinearRegression:\n",
-    "    \n",
-    "    def __init__(self, name = None):\n",
-    "        self.name = name\n",
-    "        \n",
+    "\n",
     "    def fit(self, X, y, intercept = False):\n",
     "\n",
     "        # record data and dimensions\n",
@@ -95,7 +92,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "Let's try out our `LinearRegression` class with some data. Here we use the Boston housing dataset from `sklearn.datasets`. The outcome variable in this dataset is median neighborhood home value. The predictors are all continuous and represent factors possibly related to the median home value, such as average rooms per house. More information on the dataset can be found [here](https://www.cs.toronto.edu/~delve/data/boston/bostonDetail.html). Hit \"Click to show\" to see the code that loads this data."
+    "Let's try out our `LinearRegression` class with some data. Here we use the {doc}`Boston housing </content/appendix/data>` dataset from `sklearn.datasets`. The target variable in this dataset is median neighborhood home value. The predictors are all continuous and represent factors possibly related to the median home value, such as average rooms per house. Hit \"Click to show\" to see the code that loads this data."
    ]
   },
   {
@@ -135,7 +132,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "Let's then see how well our fitted values model the true outcome values. The closer the points lie to the 45-degree line, the more accurate the fit. The model seems to do reasonably well; our predictions definitely follow the true values quite well, although we would like the fit to be a bit tighter. "
+    "Let's then see how well our fitted values model the true target values. The closer the points lie to the 45-degree line, the more accurate the fit. The model seems to do reasonably well; our predictions definitely follow the true values quite well, although we would like the fit to be a bit tighter. "
    ]
   },
   {
@@ -149,7 +146,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 5,
+   "execution_count": 6,
    "metadata": {
     "tags": [
      "hide-input"

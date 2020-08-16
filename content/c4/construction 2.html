@@ -1,0 +1,678 @@
+
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Construction &#8212; Machine Learning from Scratch</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
+    <link href="../../_static/css/index.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../_static/sphinx-book-theme.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/jupyter-sphinx.css" />
+    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/sphinx-book-theme.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../_static/togglebutton.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/mystnb.js"></script>
+    <script src="../../_static/sphinx-book-theme.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .secondtoggle, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.18.0/dist/embed-amd.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"TeX": {"Macros": {"sumN": "\\sum_{n = 1}^N", "sumn": "\\sum_{n}", "prodN": "\\prod_{n = 1}^N", "bx": "\\mathbf{x}", "by": "\\mathbf{y}", "bX": "\\mathbf{X}", "bY": "\\mathbf{Y}", "bT": "\\mathbf{T}", "bbeta": "\\boldsymbol{\\beta}", "btheta": "\\boldsymbol{\\hat{\\theta}}}", "bmu": "\\boldsymbol{\\mu}", "bSigma": "\\boldsymbol{\\Sigma}", "bbetahat": "\\boldsymbol{\\hat{\\beta}}", "bbR": "\\mathbb{R}", "iid": "\\overset{\\small{\\text{i.i.d.}}}{\\sim}}", "dadb": ["{\\frac{\\partial #1}{\\partial #2}}", 2], "testing": "\\TeX", "R": "\\mathbb{R}"}}})</script>
+    <link rel="shortcut icon" href="../../_static/logo.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Code" href="code.html" />
+    <link rel="prev" title="Concept" href="concept.html" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="docsearch:language" content="en">
+
+
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+<a class="navbar-brand text-wrap" href="../../index.html">
+  
+  <img src="../../_static/logo.png" class="logo" alt="logo">
+  
+  
+  <h1 class="site-logo" id="site-title">Machine Learning from Scratch</h1>
+  
+</a>
+</div>
+
+<form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form>
+
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  
+  <ul class="nav sidenav_l1">
+  <li class="">
+    <a href="../table_of_contents.html">Table of Contents</a>
+  </li>
+  <li class="">
+    <a href="../conventions_notation.html">Conventions and Notation</a>
+  </li>
+<li class="navbar-special">
+<p class="margin-caption">1. Ordinary Linear Regression</p>
+</li>
+  <li class="">
+    <a href="../c1/concept.html">Concept</a>
+  </li>
+  <li class="">
+    <a href="../c1/construction.html">Construction</a>
+  </li>
+  <li class="">
+    <a href="../c1/code.html">Code</a>
+  </li>
+<li class="navbar-special">
+<p class="margin-caption">2. Linear Regression Extensions</p>
+</li>
+  <li class="">
+    <a href="../c2/concept.html">Concept</a>
+  </li>
+  <li class="">
+    <a href="../c2/construction.html">Construction</a>
+  </li>
+  <li class="">
+    <a href="../c2/code.html">Code</a>
+  </li>
+<li class="navbar-special">
+<p class="margin-caption">3. Discriminative Classifiers (Logistic Regression)</p>
+</li>
+  <li class="">
+    <a href="../c3/concept.html">Concept</a>
+  </li>
+  <li class="">
+    <a href="../c3/construction.html">Construction</a>
+  </li>
+  <li class="">
+    <a href="../c3/code.html">Code</a>
+  </li>
+<li class="navbar-special">
+<p class="margin-caption">4. Generative Classifiers (Naive Bayes)</p>
+</li>
+  <li class="">
+    <a href="concept.html">Concept</a>
+  </li>
+  <li class="active">
+    <a href="">Construction</a>
+  </li>
+  <li class="">
+    <a href="code.html">Code</a>
+  </li>
+<li class="navbar-special">
+<p class="margin-caption">5. Decision Trees</p>
+</li>
+  <li class="">
+    <a href="../c5/concept.html">Concept</a>
+  </li>
+  <li class="">
+    <a href="../c5/construction.html">Construction</a>
+  </li>
+  <li class="">
+    <a href="../c5/code.html">Code</a>
+  </li>
+<li class="navbar-special">
+<p class="margin-caption">6. Tree Ensemble Methods</p>
+</li>
+  <li class="">
+    <a href="../c6/concept.html">Concept</a>
+  </li>
+  <li class="">
+    <a href="../c6/construction.html">Construction</a>
+  </li>
+  <li class="">
+    <a href="../c6/code.html">Code</a>
+  </li>
+<li class="navbar-special">
+<p class="margin-caption">7. Neural Networks</p>
+</li>
+  <li class="">
+    <a href="../c7/concept.html">Concept</a>
+  </li>
+  <li class="">
+    <a href="../c7/construction.html">Construction</a>
+  </li>
+  <li class="">
+    <a href="../c7/code.html">Code</a>
+  </li>
+<li class="navbar-special">
+<p class="margin-caption">Appendix</p>
+</li>
+  <li class="">
+    <a href="../appendix/math.html">Math</a>
+  </li>
+  <li class="">
+    <a href="../appendix/probability.html">Probability</a>
+  </li>
+  <li class="">
+    <a href="../appendix/methods.html">Common Methods</a>
+  </li>
+  <li class="">
+    <a href="../appendix/data.html">Datasets</a>
+  </li>
+</ul>
+</nav>
+
+ <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="row topbar fixed-top container-xl">
+    <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show">
+    </div>
+    <div class="col pl-2 topbar-main">
+        
+        <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse" data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu" aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation" title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+            <i class="fas fa-bars"></i>
+            <i class="fas fa-arrow-left"></i>
+            <i class="fas fa-arrow-up"></i>
+        </button>
+        
+        <div class="dropdown-buttons-trigger">
+            <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i class="fas fa-download"></i></button>
+
+            
+            <div class="dropdown-buttons">
+                <!-- ipynb file if we had a myst markdown file -->
+                
+                <!-- Download raw file -->
+                <a class="dropdown-buttons" href="../../_sources/content/c4/construction.ipynb.txt"><button type="button" class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip" data-placement="left">.ipynb</button></a>
+                <!-- Download PDF via print -->
+                <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF" onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+            </div>
+            
+        </div>
+
+        <!-- Edit this page -->
+        <a class="edit-button" href="https://github.com/dafriedman97/book/edit/master/content/c4/construction.ipynb"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="bottom" title="Edit this page"><i class="fas fa-pencil-alt"></i></button></a>
+
+        <!-- Full screen (wrap in <a> to have style consistency -->
+        <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="bottom" onclick="toggleFullScreen()" title="Fullscreen mode"><i class="fas fa-expand"></i></button></a>
+
+        <!-- Launch buttons -->
+        
+        <div class="dropdown-buttons-trigger">
+            <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+            <div class="dropdown-buttons">
+                
+                <a class="binder-button" href="https://mybinder.org/v2/gh/dafriedman97/book/master?urlpath=tree/content/c4/construction.ipynb"><button type="button" class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip" data-placement="left"><img class="binder-button-logo" src="../../_static/images/logo_binder.svg" alt="Interact on binder">Binder</button></a>
+                
+                
+                
+            </div>
+        </div>
+        
+    </div>
+    <div class="d-none d-md-block col-md-2 bd-toc show">
+<div class="tocsection onthispage pt-5 pb-3">
+    <i class="fas fa-list"></i> On this page
+</div>
+
+<nav id="bd-toc-nav">
+    <ul class="nav section-nav flex-column">
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#lda" class="nav-link">LDA</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#qda" class="nav-link">QDA</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#naive-bayes" class="nav-link">Naive Bayes</a>
+        </li>
+    
+    </ul>
+</nav>
+
+
+
+<div class="tocsection editthispage">
+    <a href="https://github.com/dafriedman97/book/edit/master/content/c4/construction.ipynb">
+        <i class="fas fa-pencil-alt"></i> Edit this page
+    </a>
+</div>
+
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="construction">
+<h1>Construction<a class="headerlink" href="#construction" title="Permalink to this headline">¶</a></h1>
+<p>In this seciton, we build LDA, QDA, and Naive Bayes classifiers. We will demo these classes on the <a class="reference internal" href="../appendix/data.html"><span class="doc">wine</span></a> dataset.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span> 
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">datasets</span>
+
+<span class="n">wine</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">load_wine</span><span class="p">()</span>
+<span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">wine</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">wine</span><span class="o">.</span><span class="n">target</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="lda">
+<h2>LDA<a class="headerlink" href="#lda" title="Permalink to this headline">¶</a></h2>
+<p>An implementation of linear discriminant analysis (LDA) is given below. The main method is <code class="docutils literal notranslate"><span class="pre">.fit()</span></code>. This method makes three important estimates. For each <span class="math notranslate nohighlight">\(k\)</span>, we estimate <span class="math notranslate nohighlight">\(\pi_k\)</span>, the class prior probability. For each class we also estimate the mean of the data in that class, <span class="math notranslate nohighlight">\(\bmu_k\)</span>. Finally, we estimate the overall covariance matrix across classes, <span class="math notranslate nohighlight">\(\bSigma\)</span>. The formulas for these estimates are detailed in the <a class="reference internal" href="concept.html"><span class="doc">concept section</span></a>.</p>
+<p>The second two methods, <code class="docutils literal notranslate"><span class="pre">.mvn_density()</span></code> and <code class="docutils literal notranslate"><span class="pre">.classify()</span></code> are for classifying new observations. <code class="docutils literal notranslate"><span class="pre">.mvn_density()</span></code> just calculates the density (up to a multiplicative constant) of a Multivariate Normal sample provided the mean vector and covariance matrix. <code class="docutils literal notranslate"><span class="pre">.classify()</span></code> actually makes the classifications for each test observation. It calculates the density for each class, <span class="math notranslate nohighlight">\(p(\bx_n|y_n = k)\)</span>, and multiplies this by the prior class probability, <span class="math notranslate nohighlight">\(p(y_n = k) = \pi_k\)</span>, to get a posterior class probability, <span class="math notranslate nohighlight">\(p(y_n = k|\bx_n)\)</span>. It then predicts the class with the highest posterior probability.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">LDA</span><span class="p">:</span>
+    
+    <span class="c1">## Fitting the model </span>
+    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+        
+        <span class="c1">## Record info</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">N</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">D</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">X</span> <span class="o">=</span> <span class="n">X</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">y</span>
+        
+        <span class="c1">## Get prior probabilities </span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">unique_y</span><span class="p">,</span> <span class="n">unique_y_counts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">return_counts</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="c1"># returns unique y and counts</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pi_ks</span> <span class="o">=</span> <span class="n">unique_y_counts</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">N</span>
+        
+        <span class="c1">## Get mu for each class and overall Sigma</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mu_ks</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Sigma</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">D</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">D</span><span class="p">))</span>        
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">unique_y</span><span class="p">):</span>
+            
+            <span class="n">X_k</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">==</span> <span class="n">k</span><span class="p">]</span>
+            <span class="n">mu_k</span> <span class="o">=</span> <span class="n">X_k</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">D</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">mu_ks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mu_k</span><span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">x_n</span> <span class="ow">in</span> <span class="n">X_k</span><span class="p">:</span>
+                <span class="n">x_n</span> <span class="o">=</span> <span class="n">x_n</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+                <span class="n">x_n_minus_mu_k</span> <span class="o">=</span> <span class="p">(</span><span class="n">x_n</span> <span class="o">-</span> <span class="n">mu_k</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">Sigma</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">x_n_minus_mu_k</span><span class="p">,</span> <span class="n">x_n_minus_mu_k</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+            
+        <span class="bp">self</span><span class="o">.</span><span class="n">Sigma</span> <span class="o">/=</span> <span class="bp">self</span><span class="o">.</span><span class="n">N</span>
+        
+        
+    <span class="c1">## Making classifications</span>
+
+    <span class="k">def</span> <span class="nf">_mvn_density</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_n</span><span class="p">,</span> <span class="n">mu_k</span><span class="p">,</span> <span class="n">Sigma</span><span class="p">):</span>
+        <span class="n">x_n_minus_mu_k</span> <span class="o">=</span> <span class="p">(</span><span class="n">x_n</span> <span class="o">-</span> <span class="n">mu_k</span><span class="p">)</span>
+        <span class="n">density</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="n">x_n_minus_mu_k</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">Sigma</span><span class="p">)</span> <span class="o">@</span> <span class="n">x_n_minus_mu_k</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">density</span>
+            
+    <span class="k">def</span> <span class="nf">classify</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X_test</span><span class="p">):</span>
+        
+        <span class="n">y_n</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">X_test</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">x_n</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">X_test</span><span class="p">):</span>
+            
+            <span class="n">x_n</span> <span class="o">=</span> <span class="n">x_n</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">p_ks</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">unique_y</span><span class="p">))</span>
+        
+            <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">unique_y</span><span class="p">):</span>
+                <span class="n">p_x_given_y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mvn_density</span><span class="p">(</span><span class="n">x_n</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mu_ks</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">Sigma</span><span class="p">)</span>
+                <span class="n">p_y_given_x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pi_ks</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">*</span><span class="n">p_x_given_y</span>
+                <span class="n">p_ks</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">p_y_given_x</span>
+            
+            <span class="n">y_n</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">unique_y</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">p_ks</span><span class="p">)]</span>
+        
+        <span class="k">return</span> <span class="n">y_n</span>
+            
+</pre></div>
+</div>
+</div>
+</div>
+<p>We fit the LDA model below and classify the training observations. As the output shows, we have 100% training accuracy.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">lda</span> <span class="o">=</span> <span class="n">LDA</span><span class="p">()</span>
+<span class="n">lda</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="n">yhat</span> <span class="o">=</span> <span class="n">lda</span><span class="o">.</span><span class="n">classify</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">yhat</span> <span class="o">==</span> <span class="n">y</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>1.0
+</pre></div>
+</div>
+</div>
+</div>
+<p>The function below visualizes class predictions based on the input values for a model with <span class="math notranslate nohighlight">\(\bx_n \in \mathbb{R}^2\)</span>. To apply this function, we build a model with only two columns from the <code class="docutils literal notranslate"><span class="pre">wine</span></code> dataset. We see that the decision boundaries are linear, as we expect from LDA.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">graph_boundaries</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">model_title</span><span class="p">,</span> <span class="n">n0</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span> <span class="n">n1</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span> <span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">label_every</span> <span class="o">=</span> <span class="mi">4</span><span class="p">):</span>
+        
+        <span class="c1"># Generate X for plotting </span>
+        <span class="n">d0_range</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">X</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="n">n0</span><span class="p">)</span>
+        <span class="n">d1_range</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">X</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="n">n1</span><span class="p">)</span>
+        <span class="n">X_plot</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">d0_range</span><span class="p">,</span> <span class="n">d1_range</span><span class="p">))</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+        
+        <span class="c1"># Get class predictions</span>
+        <span class="n">y_plot</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">classify</span><span class="p">(</span><span class="n">X_plot</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+        
+        <span class="c1"># Plot </span>
+        <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span> <span class="o">=</span> <span class="n">figsize</span><span class="p">)</span>
+        <span class="n">sns</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span><span class="n">y_plot</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">n0</span><span class="p">,</span> <span class="n">n1</span><span class="p">)</span><span class="o">.</span><span class="n">T</span><span class="p">,</span>
+                   <span class="n">cmap</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">color_palette</span><span class="p">(</span><span class="s1">&#39;Pastel1&#39;</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
+                   <span class="n">cbar_kws</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;ticks&#39;</span><span class="p">:</span><span class="nb">sorted</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">y_plot</span><span class="p">))})</span>
+        <span class="n">xticks</span><span class="p">,</span> <span class="n">yticks</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_xticks</span><span class="p">(),</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_yticks</span><span class="p">()</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xticks</span> <span class="o">=</span> <span class="n">xticks</span><span class="p">[::</span><span class="n">label_every</span><span class="p">],</span> <span class="n">xticklabels</span> <span class="o">=</span> <span class="n">d0_range</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)[::</span><span class="n">label_every</span><span class="p">],</span>
+               <span class="n">yticks</span> <span class="o">=</span> <span class="n">yticks</span><span class="p">[::</span><span class="n">label_every</span><span class="p">],</span> <span class="n">yticklabels</span> <span class="o">=</span> <span class="n">d1_range</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)[::</span><span class="n">label_every</span><span class="p">])</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xlabel</span> <span class="o">=</span> <span class="s1">&#39;X1&#39;</span><span class="p">,</span> <span class="n">ylabel</span> <span class="o">=</span> <span class="s1">&#39;X2&#39;</span><span class="p">,</span> <span class="n">title</span> <span class="o">=</span> <span class="n">model_title</span> <span class="o">+</span> <span class="s1">&#39; Predictions by X1 and X2&#39;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">(</span><span class="n">ax</span><span class="o">.</span><span class="n">get_xticklabels</span><span class="p">(),</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">X_2d</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">copy</span><span class="p">()[:,</span><span class="mi">2</span><span class="p">:</span><span class="mi">4</span><span class="p">]</span>
+<span class="n">lda_2d</span> <span class="o">=</span> <span class="n">LDA</span><span class="p">()</span>
+<span class="n">lda_2d</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_2d</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="n">graph_boundaries</span><span class="p">(</span><span class="n">X_2d</span><span class="p">,</span> <span class="n">lda_2d</span><span class="p">,</span> <span class="s1">&#39;LDA&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/construction_10_0.png" src="../../_images/construction_10_0.png" />
+</div>
+</div>
+</div>
+<div class="section" id="qda">
+<h2>QDA<a class="headerlink" href="#qda" title="Permalink to this headline">¶</a></h2>
+<p>The QDA model is implemented below. It is nearly identical to LDA except the covariance matrices <span class="math notranslate nohighlight">\(\bSigma_k\)</span> are estimated separately. Again see the <a class="reference internal" href="concept.html"><span class="doc">concept section</span></a> for details.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">QDA</span><span class="p">:</span>
+    
+    <span class="c1">## Fitting the model</span>
+    
+    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+        
+        <span class="c1">## Record info</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">N</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">D</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">X</span> <span class="o">=</span> <span class="n">X</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">y</span>
+        
+        
+        <span class="c1">## Get prior probabilities </span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">unique_y</span><span class="p">,</span> <span class="n">unique_y_counts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">return_counts</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="c1"># returns unique y and counts</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pi_ks</span> <span class="o">=</span> <span class="n">unique_y_counts</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">N</span>
+        
+        
+        <span class="c1">## Get mu and Sigma for each class</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mu_ks</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Sigma_ks</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">unique_y</span><span class="p">):</span>
+            
+            <span class="n">X_k</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">==</span> <span class="n">k</span><span class="p">]</span>
+            <span class="n">mu_k</span> <span class="o">=</span> <span class="n">X_k</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">D</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">mu_ks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mu_k</span><span class="p">)</span>
+            
+            <span class="n">Sigma_k</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">D</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">D</span><span class="p">))</span>
+            <span class="k">for</span> <span class="n">x_n</span> <span class="ow">in</span> <span class="n">X_k</span><span class="p">:</span>
+                <span class="n">x_n</span> <span class="o">=</span> <span class="n">x_n</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+                <span class="n">x_n_minus_mu_k</span> <span class="o">=</span> <span class="p">(</span><span class="n">x_n</span> <span class="o">-</span> <span class="n">mu_k</span><span class="p">)</span>
+                <span class="n">Sigma_k</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">x_n_minus_mu_k</span><span class="p">,</span> <span class="n">x_n_minus_mu_k</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">Sigma_ks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Sigma_k</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">X_k</span><span class="p">))</span>
+     
+    <span class="c1">## Making classifications </span>
+    
+    <span class="k">def</span> <span class="nf">_mvn_density</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_n</span><span class="p">,</span> <span class="n">mu_k</span><span class="p">,</span> <span class="n">Sigma_k</span><span class="p">):</span>
+        <span class="n">x_n_minus_mu_k</span> <span class="o">=</span> <span class="p">(</span><span class="n">x_n</span> <span class="o">-</span> <span class="n">mu_k</span><span class="p">)</span>
+        <span class="n">density</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">det</span><span class="p">(</span><span class="n">Sigma_k</span><span class="p">)</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="n">x_n_minus_mu_k</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">Sigma_k</span><span class="p">)</span> <span class="o">@</span> <span class="n">x_n_minus_mu_k</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">density</span>
+    
+    <span class="k">def</span> <span class="nf">classify</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X_test</span><span class="p">):</span>
+        
+        <span class="n">y_n</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">X_test</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">x_n</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">X_test</span><span class="p">):</span>
+            
+            <span class="n">x_n</span> <span class="o">=</span> <span class="n">x_n</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">p_ks</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">unique_y</span><span class="p">))</span>
+        
+            <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">unique_y</span><span class="p">):</span>
+
+                <span class="n">p_x_given_y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mvn_density</span><span class="p">(</span><span class="n">x_n</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mu_ks</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">Sigma_ks</span><span class="p">[</span><span class="n">j</span><span class="p">])</span>
+                <span class="n">p_y_given_x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pi_ks</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">*</span><span class="n">p_x_given_y</span>
+                <span class="n">p_ks</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">p_y_given_x</span>
+            
+            <span class="n">y_n</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">unique_y</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">p_ks</span><span class="p">)]</span>
+        
+        <span class="k">return</span> <span class="n">y_n</span>
+            
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">qda</span> <span class="o">=</span> <span class="n">QDA</span><span class="p">()</span>
+<span class="n">qda</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="n">yhat</span> <span class="o">=</span> <span class="n">qda</span><span class="o">.</span><span class="n">classify</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">yhat</span> <span class="o">==</span> <span class="n">y</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>0.9943820224719101
+</pre></div>
+</div>
+</div>
+</div>
+<p>The below plot shows predictions based on the input variables for the QDA model. As expected, the decision boundaries are quadratic, rather than linear. We also see that the area corresponding to class 2 is much smaller than the other areas. This suggests the estimated variance of the input variables for observations in class 2 was smaller than the variance for observations in other classes.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">qda_2d</span> <span class="o">=</span> <span class="n">QDA</span><span class="p">()</span>
+<span class="n">qda_2d</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_2d</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="n">graph_boundaries</span><span class="p">(</span><span class="n">X_2d</span><span class="p">,</span> <span class="n">qda_2d</span><span class="p">,</span> <span class="s1">&#39;QDA&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/construction_16_0.png" src="../../_images/construction_16_0.png" />
+</div>
+</div>
+</div>
+<div class="section" id="naive-bayes">
+<h2>Naive Bayes<a class="headerlink" href="#naive-bayes" title="Permalink to this headline">¶</a></h2>
+<p>Finally, we implement a Naive Bayes model below. This model allows us to assign each variable in our dataset a distribution, though by default they are all assumed to be Normal. Since each variable has its own distribution, estimating the model’s parameters is more involved. For each variable and each class, we estimate the parameters separately through the <code class="docutils literal notranslate"><span class="pre">_estimate_class_parameters</span></code>. The structure below allows for Normal, Bernoulli, and Poisson distributions, though any distribution could be implemented.</p>
+<p>Again, we make predictions by calculating <span class="math notranslate nohighlight">\(p(y_n = k|\bx_n)\)</span> for <span class="math notranslate nohighlight">\(k = 1, \dots, K\)</span> through Bayes’ rule and predicting the class with the highest posterior probability. Since each variable can have its own distribution, this problem is also more involved. The <code class="docutils literal notranslate"><span class="pre">_get_class_probability</span></code> method calculates the probability density of a test observation’s input variables. By the conditional independence assumption, this is just the product of the individual densities.</p>
+<p>Naive Bayes performs worse than LDA or QDA on the training data, suggesting the conditional independence assumption might be inappropriate.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">NaiveBayes</span><span class="p">:</span>
+    
+    <span class="c1">######## Fit Model ########</span>
+
+    <span class="k">def</span> <span class="nf">_estimate_class_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X_k</span><span class="p">):</span>
+        
+        <span class="n">class_parameters</span> <span class="o">=</span> <span class="p">[]</span>
+        
+        <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">D</span><span class="p">):</span>
+            <span class="n">X_kd</span> <span class="o">=</span> <span class="n">X_k</span><span class="p">[:,</span><span class="n">d</span><span class="p">]</span> <span class="c1"># only the dth column and the kth class</span>
+            
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">distributions</span><span class="p">[</span><span class="n">d</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;normal&#39;</span><span class="p">:</span>
+                <span class="n">mu</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">X_kd</span><span class="p">)</span>
+                <span class="n">sigma2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">X_kd</span><span class="p">)</span>
+                <span class="n">class_parameters</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">mu</span><span class="p">,</span> <span class="n">sigma2</span><span class="p">])</span>
+            
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">distributions</span><span class="p">[</span><span class="n">d</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;bernoulli&#39;</span><span class="p">:</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">X_kd</span><span class="p">)</span>
+                <span class="n">class_parameters</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+                
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">distributions</span><span class="p">[</span><span class="n">d</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;poisson&#39;</span><span class="p">:</span>
+                <span class="n">lam</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">X_kd</span><span class="p">)</span>
+                <span class="n">class_parameters</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+                
+        <span class="k">return</span> <span class="n">class_parameters</span>
+    
+    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">distributions</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        
+        <span class="c1">## Record info</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">N</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">D</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">X</span> <span class="o">=</span> <span class="n">X</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">y</span>
+        <span class="k">if</span> <span class="n">distributions</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">distributions</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;normal&#39;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">))]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">distributions</span> <span class="o">=</span> <span class="n">distributions</span>
+        
+        
+        <span class="c1">## Get prior probabilities </span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">unique_y</span><span class="p">,</span> <span class="n">unique_y_counts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">return_counts</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="c1"># returns unique y and counts</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pi_ks</span> <span class="o">=</span> <span class="n">unique_y_counts</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">N</span>
+        
+        
+        <span class="c1">## Estimate parameters</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">unique_y</span><span class="p">):</span>
+            <span class="n">X_k</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">==</span> <span class="n">k</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_estimate_class_parameters</span><span class="p">(</span><span class="n">X_k</span><span class="p">))</span>
+    
+    
+    <span class="c1">######## Make Classifications ########</span>
+            
+    <span class="k">def</span> <span class="nf">_get_class_probability</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_n</span><span class="p">,</span> <span class="n">j</span><span class="p">):</span>
+        
+        <span class="n">class_parameters</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="c1"># j is index of kth class</span>
+        <span class="n">class_probability</span> <span class="o">=</span> <span class="mi">1</span> 
+        
+        <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">D</span><span class="p">):</span>
+            <span class="n">x_nd</span> <span class="o">=</span> <span class="n">x_n</span><span class="p">[</span><span class="n">d</span><span class="p">]</span> <span class="c1"># just the dth variable in observation x_n</span>
+            
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">distributions</span><span class="p">[</span><span class="n">d</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;normal&#39;</span><span class="p">:</span>
+                <span class="n">mu</span><span class="p">,</span> <span class="n">sigma2</span> <span class="o">=</span> <span class="n">class_parameters</span><span class="p">[</span><span class="n">d</span><span class="p">]</span>
+                <span class="n">class_probability</span> <span class="o">*=</span> <span class="n">sigma2</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="n">x_nd</span> <span class="o">-</span> <span class="n">mu</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="o">/</span><span class="n">sigma2</span><span class="p">)</span>
+            
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">distributions</span><span class="p">[</span><span class="n">d</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;bernoulli&#39;</span><span class="p">:</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="n">class_parameters</span><span class="p">[</span><span class="n">d</span><span class="p">]</span>
+                <span class="n">class_probability</span> <span class="o">*=</span> <span class="p">(</span><span class="n">p</span><span class="o">**</span><span class="n">x_nd</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">p</span><span class="p">)</span><span class="o">**</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">x_nd</span><span class="p">)</span>
+                
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">distributions</span><span class="p">[</span><span class="n">d</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;poisson&#39;</span><span class="p">:</span>
+                <span class="n">lam</span> <span class="o">=</span> <span class="n">class_parameters</span><span class="p">[</span><span class="n">d</span><span class="p">]</span>
+                <span class="n">class_probability</span> <span class="o">*=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">lam</span><span class="p">)</span><span class="o">*</span><span class="n">lam</span><span class="o">**</span><span class="n">x_nd</span>
+                
+        <span class="k">return</span> <span class="n">class_probability</span> 
+            
+    <span class="k">def</span> <span class="nf">classify</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X_test</span><span class="p">):</span>
+        
+        <span class="n">y_n</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">X_test</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">x_n</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">X_test</span><span class="p">):</span> <span class="c1"># loop through test observations</span>
+            
+            <span class="n">x_n</span> <span class="o">=</span> <span class="n">x_n</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">p_ks</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">unique_y</span><span class="p">))</span>
+        
+            <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">unique_y</span><span class="p">):</span> <span class="c1"># loop through classes</span>
+                    
+                <span class="n">p_x_given_y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_class_probability</span><span class="p">(</span><span class="n">x_n</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span>
+                <span class="n">p_y_given_x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pi_ks</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">*</span><span class="n">p_x_given_y</span> <span class="c1"># bayes&#39; rule</span>
+
+                <span class="n">p_ks</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">p_y_given_x</span>
+            
+            <span class="n">y_n</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">unique_y</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">p_ks</span><span class="p">)]</span>
+        
+        <span class="k">return</span> <span class="n">y_n</span>
+            
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">nb</span> <span class="o">=</span> <span class="n">NaiveBayes</span><span class="p">()</span>
+<span class="n">nb</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="n">yhat</span> <span class="o">=</span> <span class="n">nb</span><span class="o">.</span><span class="n">classify</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">yhat</span> <span class="o">==</span> <span class="n">y</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>0.9775280898876404
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">nb_2d</span> <span class="o">=</span> <span class="n">NaiveBayes</span><span class="p">()</span>
+<span class="n">nb_2d</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_2d</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="n">graph_boundaries</span><span class="p">(</span><span class="n">X_2d</span><span class="p">,</span> <span class="n">nb_2d</span><span class="p">,</span> <span class="s1">&#39;Naive Bayes&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/construction_21_0.png" src="../../_images/construction_21_0.png" />
+</div>
+</div>
+</div>
+</div>
+
+
+              </div>
+              
+        </div>
+    </div>
+    
+    
+    <div class='prev-next-bottom'>
+        
+    <a class='left-prev' id="prev-link" href="concept.html" title="previous page">Concept</a>
+    <a class='right-next' id="next-link" href="code.html" title="next page">Code</a>
+
+    </div>
+    <footer class="footer mt-5 mt-md-0">
+    <div class="container">
+      <p>
+        
+          By Danny Friedman<br/>
+        
+            &copy; Copyright 2020.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+
+    <script src="../../_static/js/index.js"></script>
+    
+  </body>
+</html>

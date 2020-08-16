@@ -72,6 +72,9 @@
   <li class="">
     <a href="../../table_of_contents.html">Table of Contents</a>
   </li>
+  <li class="">
+    <a href="../../conventions_notation.html">Conventions and Notation</a>
+  </li>
 <li class="navbar-special">
 <p class="margin-caption">1. Ordinary Linear Regression</p>
 </li>
@@ -278,18 +281,21 @@
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
 <span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">datasets</span>
-
-<span class="c1"># import data</span>
-<span class="n">wine</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">load_wine</span><span class="p">()</span>
-<span class="n">X</span> <span class="o">=</span> <span class="n">wine</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">]</span>
-<span class="n">y</span> <span class="o">=</span> <span class="n">wine</span><span class="p">[</span><span class="s1">&#39;target&#39;</span><span class="p">]</span>
-<span class="n">X_binary</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">y</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-<span class="n">y_binary</span> <span class="o">=</span> <span class="n">y</span><span class="p">[</span><span class="n">y</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 </div>
-<p>Since it is largely geometric, the Linear Discriminant won’t look like other methods we’ve seen (no gradients!). First we take the class means and calculate <span class="math notranslate nohighlight">\(\bSigma_w\)</span> as described in the <a class="reference internal" href="#"><span class="doc">concept section</span></a>. Estimating <span class="math notranslate nohighlight">\(\bbeta\)</span> is then as simple as <span class="math notranslate nohighlight">\(\bSigma_w^{-1}(\bmu_1 - \bmu_0)\)</span>.</p>
+<p>Since it is largely geometric, the Linear Discriminant won’t look like other methods we’ve seen (no gradients!). First we take the class means and calculate <span class="math notranslate nohighlight">\(\bSigma_w\)</span> as described in the <a class="reference internal" href="#"><span class="doc">concept section</span></a>. Estimating <span class="math notranslate nohighlight">\(\bbeta\)</span> is then as simple as <span class="math notranslate nohighlight">\(\bSigma_w^{-1}(\bmu_1 - \bmu_0)\)</span>. Let’s demonstrate the model using the <a class="reference internal" href="../../appendix/data.html"><span class="doc">breast cancer</span></a> dataset.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># import data</span>
+<span class="n">cancer</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">load_breast_cancer</span><span class="p">()</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">cancer</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">]</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">cancer</span><span class="p">[</span><span class="s1">&#39;target&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
 <div class="alert alert-info">
 <p class="admonition-title">Note</p>
 <p>Note that the value we return for each observation, <span class="math notranslate nohighlight">\(f(\bx_n)\)</span>, is not a fitted value. Instead, we look at the distribution of the <span class="math notranslate nohighlight">\(f(\bx_n)\)</span> by class and determine a classification rule based on this distribution. For instance, we might predict observation <span class="math notranslate nohighlight">\(n\)</span> came from class 1 if <span class="math notranslate nohighlight">\(f(\bx_n) \geq c\)</span> (for some constant c) and from class 0 otherwise.</p>
@@ -297,9 +303,6 @@
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">FisherLinearDiscriminant</span><span class="p">:</span>
-    
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">pass</span>
     
     <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
         <span class="c1">## Save stuff</span>
@@ -330,15 +333,16 @@
 </div>
 </div>
 </div>
+<p>We can now fit the model on the <a class="reference internal" href="../../appendix/data.html"><span class="doc">wine</span></a> dataset, as below.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">FisherLinearDiscriminant</span><span class="p">()</span>
-<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_binary</span><span class="p">,</span> <span class="n">y_binary</span><span class="p">);</span>
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>
 </div>
-<p>Once we have fit the model, we can look at the distribution of <span class="math notranslate nohighlight">\(f(\bx_n)\)</span> by class. We hope to see a significant separation between classes and a significant clustering within classes. The histogram below shows that we’ve completely separated the two classes, though they are not clustered together as much as we’d like.</p>
+<p>Once we have fit the model, we can look at the distribution of <span class="math notranslate nohighlight">\(f(\bx_n)\)</span> by class. We hope to see a significant separation between classes and a significant clustering within classes. The histogram below shows that we’ve nearly separated the two classes and the two classes are decently clustered. We would presumably choose a cutoff somewhere between <span class="math notranslate nohighlight">\(f(x) = -.09\)</span> and <span class="math notranslate nohighlight">\(f(x) = -.08\)</span>.</p>
 <div class="cell tag_hide-input docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">7</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span>
@@ -354,7 +358,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../../_images/fisher_discriminant_7_0.png" src="../../../_images/fisher_discriminant_7_0.png" />
+<img alt="../../../_images/fisher_discriminant_9_0.png" src="../../../_images/fisher_discriminant_9_0.png" />
 </div>
 </div>
 </div>

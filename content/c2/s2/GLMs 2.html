@@ -72,6 +72,9 @@
   <li class="">
     <a href="../../table_of_contents.html">Table of Contents</a>
   </li>
+  <li class="">
+    <a href="../../conventions_notation.html">Conventions and Notation</a>
+  </li>
 <li class="navbar-special">
 <p class="margin-caption">1. Ordinary Linear Regression</p>
 </li>
@@ -310,9 +313,6 @@
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">PoissonRegression</span><span class="p">:</span>
     
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">pass</span>
-    
     <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">n_iter</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span> <span class="n">lr</span> <span class="o">=</span> <span class="mf">0.00001</span><span class="p">,</span> <span class="n">add_intercept</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">standardize</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
         
         <span class="c1"># record stuff</span>
@@ -339,6 +339,7 @@
 </div>
 </div>
 </div>
+<p>Now we can fit the model on the <a class="reference internal" href="../../appendix/data.html"><span class="doc">Boston housing</span></a> dataset, as below.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">PoissonRegression</span><span class="p">()</span>
@@ -347,7 +348,7 @@
 </div>
 </div>
 </div>
-<p>The plot below shows the observed versus fitted values for our outcome variable. It is worth noting that there does not appear to be a pattern of under-estimating for high <span class="math notranslate nohighlight">\(y\)</span> values like we saw in the ordinary linear regression <a class="reference internal" href="../../c1/construction.html"><span class="doc">example</span></a>. In other words, we do not see a pattern in the residuals, suggesting Poisson regression might be a more fitting method for this problem.</p>
+<p>The plot below shows the observed versus fitted values for our target variable. It is worth noting that there does not appear to be a pattern of under-estimating for high <span class="math notranslate nohighlight">\(y\)</span> values like we saw in the ordinary linear regression <a class="reference internal" href="../../c1/construction.html"><span class="doc">example</span></a>. In other words, we do not see a pattern in the residuals, suggesting Poisson regression might be a more fitting method for this problem.</p>
 <div class="cell tag_hide-input docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
@@ -360,7 +361,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../../_images/GLMs_8_0.png" src="../../../_images/GLMs_8_0.png" />
+<img alt="../../../_images/GLMs_9_0.png" src="../../../_images/GLMs_9_0.png" />
 </div>
 </div>
 </div>
