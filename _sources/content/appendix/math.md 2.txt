@@ -1,8 +1,0 @@
-# Math
-
-For a book of mathematical derivations, knowledge of relatively few mathematical methods is required. 
-
-- Derivatives
-- matrix operations 
-- matrix derivatives 
-

@@ -12,8 +12,6 @@
 </center>
 
 
-
-
 ```{figure} ../logo.png
 ---
 height: 150px
@@ -24,7 +22,7 @@ height: 150px
 
 
 
-<u>**What this book covers**</u>
+## What this Book Covers
 
 This book covers the building blocks of the most common methods in machine learning. This set of methods is like a toolbox for machine learning engineers. Those entering the field of machine learning should feel comfortable with this toolbox so they have the right tool for a variety of tasks. Each chapter in this book corresponds to a single machine learning method or group of methods. In other words, each chapter focuses on a single tool within the ML toolbox.
 
@@ -32,7 +30,7 @@ In my experience, the best way to become comfortable with these methods is to se
 
 
 
-<u>**Why this book**</u>
+## Why this Book
 
 There are many great books on machine learning written by more knowledgeable authors and covering a broader range of topics. In particular, I would suggest [An Introduction to Statistical Learning](http://faculty.marshall.usc.edu/gareth-james/ISL/), [Elements of Statistical Learning](https://web.stanford.edu/~hastie/ElemStatLearn/), and [Pattern Recognition and Machine Learning](https://www.microsoft.com/en-us/research/publication/pattern-recognition-machine-learning/), all of which are available online for free. 
 
@@ -40,7 +38,7 @@ While those books provide a conceptual overview of machine learning and the theo
 
 
 
-<u>**Who this book is for**</u>
+## Who this Book is for
 
 This book is for readers looking to learn new machine learning algorithms or understand algorithms at a deeper level. Specifically, it is intended for readers interested in seeing machine learning algorithms derived from start to finish. Seeing these derivations might help a reader previously unfamiliar with common algorithms understand how they work intuitively. Or, seeing these derivations might help a reader experienced in modeling understand how different algorithms create the models they do and the advantages and disadvantages of each one.
 
@@ -48,7 +46,7 @@ This book will be most helpful for those with practice in basic modeling. It doe
 
 
 
-**<u>What readers should know</u>**
+## What Readers Should Know
 
 The *concept* sections of this book primarily require knowledge of calculus, though some require an understanding of probability (think maximum likelihood and Bayes' Rule) and basic linear algebra (think matrix operations and dot products). The appendix reviews the {doc}`math </content/appendix/methods>` and {doc}`probability </content/appendix/methods>`needed to understand this book. The concept sections also reference a few common machine learning {doc}`methods </content/appendix/methods>`, which are introduced in the appendix as well. The concept sections do not require any knowledge of programming. 
 

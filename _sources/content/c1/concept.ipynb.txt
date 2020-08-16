@@ -21,7 +21,7 @@
     "\\newcommand{\\bX}{\\mathbf{X}}\n",
     "$$\n",
     "\n",
-    "**<u>Model Structure</u>**\n",
+    "## Model Structure\n",
     "\n",
     "*Linear regression* is a relatively simple method that is both extremely widely-used and a stepping stone for many more sophisticated methods. This makes it a natural algorithm to study first.\n",
     "\n",
@@ -48,7 +48,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 1,
+   "execution_count": 2,
    "metadata": {
     "tags": [
      "hide-input"
@@ -99,7 +99,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "**<u>Parameter Estimation</u>**\n",
+    "## Parameter Estimation\n",
     "\n",
     "The above covers the entire structure we assume our data follows in linear regression. The machine learning task is then to estimate the parameters, $\\bbeta$. These estimates are represented by $\\hat{\\beta}_0, \\dots, \\hat{\\beta}_D$ or $\\bbetahat$. The estimates give us *fitted values* for our target variable, represented by $\\hat{y}_n$. \n",
     "\n",
@@ -121,7 +121,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 9,
+   "execution_count": 3,
    "metadata": {
     "tags": [
      "hide-input"
@@ -174,17 +174,10 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "**<u>Extensions of Ordinary Linear Regression</u>**\n",
+    "## Extensions of Ordinary Linear Regression\n",
     "\n",
     "There are many important extensions to linear regression which make the model more flexible. Those include {doc}`/content/c2/s1/regularized`—which balances the bias-variance tradeoff for high-dimensional regression models—{doc}`/content/c2/s1/bayesian`—which allows for prior distributions on the parameters—and {doc}`/content/c2/s1/GLMs`—which introduce non-linearity to regression models. These extensions are discussed in the next chapter."
    ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": null,
-   "metadata": {},
-   "outputs": [],
-   "source": []
   }
  ],
  "metadata": {

@@ -228,9 +228,42 @@
         
     </div>
     <div class="d-none d-md-block col-md-2 bd-toc show">
+<div class="tocsection onthispage pt-5 pb-3">
+    <i class="fas fa-list"></i> On this page
+</div>
 
 <nav id="bd-toc-nav">
     <ul class="nav section-nav flex-column">
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#gradient-descent" class="nav-link">Gradient Descent</a><ul class="nav section-nav flex-column">
+                
+        <li class="nav-item toc-entry toc-h3">
+            <a href="#the-set-up" class="nav-link">The Set-Up</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h3">
+            <a href="#an-intuitive-introduction" class="nav-link">An Intuitive Introduction</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h3">
+            <a href="#id1" class="nav-link"></a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h3">
+            <a href="#the-steps" class="nav-link">The Steps</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h3">
+            <a href="#an-example" class="nav-link">An Example</a>
+        </li>
+    
+            </ul>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#cross-validation" class="nav-link">Cross Validation</a>
+        </li>
     
     </ul>
 </nav>
@@ -252,7 +285,129 @@
                 
   <div class="section" id="common-methods">
 <h1>Common Methods<a class="headerlink" href="#common-methods" title="Permalink to this headline">¶</a></h1>
-<p>TODO</p>
+<div class="math notranslate nohighlight">
+\[
+\newcommand{\sumN}{\sum_{n = 1}^N}
+\newcommand{\sumn}{\sum_n}
+\newcommand{\prodN}{\prod_{n = 1}^N}
+\newcommand{\by}{\mathbf{y}} \newcommand{\bX}{\mathbf{X}}
+\newcommand{\bx}{\mathbf{x}}
+\newcommand{\bbeta}{\boldsymbol{\beta}}
+\newcommand{\btheta}{\boldsymbol{\theta}}
+\newcommand{\bbetahat}{\boldsymbol{\hat{\beta}}}
+\newcommand{\bthetahat}{\boldsymbol{\hat{\theta}}}
+\newcommand{\bSigma}{\boldsymbol{\Sigma}}
+\newcommand{\bphi}{\boldsymbol{\phi}}
+\newcommand{\bPhi}{\boldsymbol{\Phi}}
+\newcommand{\bT}{\mathbf{T}}
+\newcommand{\dadb}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\iid}{\overset{\small{\text{i.i.d.}}}{\sim}}
+\]</div>
+<p>This section will review two methods that are used to fit a variety of machine learning models: <em>gradient descent</em> and <em>cross validation</em>. These methods will be used repeatedly throughout this book.</p>
+<div class="section" id="gradient-descent">
+<h2>Gradient Descent<a class="headerlink" href="#gradient-descent" title="Permalink to this headline">¶</a></h2>
+<p>Almost all the models discussed in this book aim to find a set of parameters that minimize a chosen loss function. Sometimes we can find the optimal parameters by taking the derivative of the loss function, setting it equal to 0, and solving. In situations for which no closed-form solution is available, however, we might turn to gradient descent. <strong>Gradient descent</strong> is an iterative approach to approximating the parameters that minimize a differentiable loss function.</p>
+<div class="section" id="the-set-up">
+<h3>The Set-Up<a class="headerlink" href="#the-set-up" title="Permalink to this headline">¶</a></h3>
+<p>Let’s first introduce a typical set-up for gradient descent. Suppose we have <span class="math notranslate nohighlight">\(N\)</span> observations where each observation has predictors <span class="math notranslate nohighlight">\(\bx_n\)</span> and target variable <span class="math notranslate nohighlight">\(y_n\)</span>. We decide to approximate <span class="math notranslate nohighlight">\(y_n\)</span> with <span class="math notranslate nohighlight">\(\hat{y}_n = f(\bx_n, \bbetahat)\)</span>, where <span class="math notranslate nohighlight">\(f()\)</span> is some differentiable function and <span class="math notranslate nohighlight">\(\bbetahat\)</span> is a set of parameter estimates. Next, we introduce a differentiable loss function <span class="math notranslate nohighlight">\(\mathcal{L}\)</span>. For simplicity, let’s assume we can write the model’s entire loss as the sum of the individual losses across observations. That is,</p>
+<div class="math notranslate nohighlight">
+\[
+\mathcal{L} = \sumN g(y_n, \hat{y}_n),
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(g()\)</span> is some differentiable function penalizing the difference between <span class="math notranslate nohighlight">\(y_n\)</span> and <span class="math notranslate nohighlight">\(\hat{y}_n\)</span>.</p>
+<p>To fit this generic model, we want to find the values of <span class="math notranslate nohighlight">\(\bbetahat\)</span> that minimize <span class="math notranslate nohighlight">\(\mathcal{L}\)</span>. We will likely start with the following derivative:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align}
+\dadb{\mathcal{L}}{\bbetahat} &amp;= \sumN\dadb{g(y_n, \hat{y}_n)}{\bbetahat} \\
+&amp;= \sumN\dadb{g(y_n, \hat{y}_n)}{\hat{y}_n}\cdot\dadb{\hat{y}_n}{\bbetahat}. \\
+\end{align}
+\end{split}\]</div>
+<p>Ideally, we can set the above derivative equal to 0 and solve for <span class="math notranslate nohighlight">\(\bbetahat\)</span>, giving our optimal solution. If this isn’t possible, we can iteratively search for the values of <span class="math notranslate nohighlight">\(\bbetahat\)</span> that minimize <span class="math notranslate nohighlight">\(\mathcal{L}\)</span>. This is the process of gradient descent.</p>
+</div>
+<div class="section" id="an-intuitive-introduction">
+<h3>An Intuitive Introduction<a class="headerlink" href="#an-intuitive-introduction" title="Permalink to this headline">¶</a></h3>
+<p><img alt="gd" src="../../_images/gd.png" /></p>
+</div>
+<div class="section" id="id1">
+<h3><a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<p>To understand this process intuitively, consider the image above showing a model’s loss as a function of one parameter, <span class="math notranslate nohighlight">\(\beta\)</span>. Presumably we can’t directly find the value of <span class="math notranslate nohighlight">\(\beta\)</span> to minimize <span class="math notranslate nohighlight">\(\mathcal{L}\)</span>, so we might start by randomly picking a value of <span class="math notranslate nohighlight">\(\beta\)</span>. Suppose we start at point <span class="math notranslate nohighlight">\(A\)</span>. From point <span class="math notranslate nohighlight">\(A\)</span> we ask “would the loss function decrease if I increased or decreased <span class="math notranslate nohighlight">\(\beta\)</span>”. To answer this question, we calculate the derivative of <span class="math notranslate nohighlight">\(\mathcal{L}\)</span> with respect to <span class="math notranslate nohighlight">\(\beta\)</span> evaluated at <span class="math notranslate nohighlight">\(\beta = A\)</span>. Since this derivative is negative, we know that increasing <span class="math notranslate nohighlight">\(\beta\)</span>  some small amount will decrease the loss!</p>
+<p>Now we know we want to increase <span class="math notranslate nohighlight">\(\beta\)</span>, but how much? Intuitively, the more negative the derivative, the more the loss will decrease with an increase in <span class="math notranslate nohighlight">\(\beta\)</span>. So, let’s increase <span class="math notranslate nohighlight">\(\beta\)</span> proportionally to the negative of the derivative. Letting <span class="math notranslate nohighlight">\(\delta\)</span> be the derivative and <span class="math notranslate nohighlight">\(\eta\)</span> be some small constant, we might increase <span class="math notranslate nohighlight">\(\beta\)</span> with</p>
+<div class="math notranslate nohighlight">
+\[
+\beta \gets \beta - \eta\delta. 
+\]</div>
+<p>The more negative <span class="math notranslate nohighlight">\(\delta\)</span> is, the more we increase <span class="math notranslate nohighlight">\(\beta\)</span>.</p>
+<p>Now suppose we make the increase and wind up with <span class="math notranslate nohighlight">\(\beta = B\)</span>. Calculating the derivative again, we get a slightly positive number. This tells us that we went too far: increasing <span class="math notranslate nohighlight">\(\beta\)</span> will increase <span class="math notranslate nohighlight">\(\mathcal{L}\)</span>. However, since the derivative is only <em>slightly</em> positive, we want to only make a slight correction. Let’s again use the same adjustment, <span class="math notranslate nohighlight">\(\beta \gets \beta - \eta\delta\)</span>. Since <span class="math notranslate nohighlight">\(\delta\)</span> is now slightly positive, <span class="math notranslate nohighlight">\(\beta\)</span> will now decrease slightly. We will repeat this same process a fixed number of times or until <span class="math notranslate nohighlight">\(\beta\)</span> barely changes. And that is gradient descent!</p>
+</div>
+<div class="section" id="the-steps">
+<h3>The Steps<a class="headerlink" href="#the-steps" title="Permalink to this headline">¶</a></h3>
+<p>We can describe gradient descent more concretely with the following steps. Note here that <span class="math notranslate nohighlight">\(\bbetahat\)</span> can be a vector, rather than just a single parameter.</p>
+<ol class="simple">
+<li><p>Choose a small learning rate <span class="math notranslate nohighlight">\(\eta\)</span></p></li>
+<li><p>Randomly instantiate <span class="math notranslate nohighlight">\(\bbetahat\)</span></p></li>
+<li><p>For a fixed number of iterations or until some stopping rule is reached:</p>
+<ol class="simple">
+<li><p>Calculate <span class="math notranslate nohighlight">\(\boldsymbol{\delta} = \partial \mathcal{L}/\partial \bbetahat\)</span></p></li>
+<li><p>Adjust <span class="math notranslate nohighlight">\(\bbetahat\)</span> with
+<span class="math notranslate nohighlight">\($
+\bbetahat \gets \bbetahat - \eta \boldsymbol{\delta}.
+$\)</span></p></li>
+</ol>
+</li>
+</ol>
+<p>A potential stopping rule might be a minimum change in the magnitude of <span class="math notranslate nohighlight">\(\bbetahat\)</span> or a minimum decrease in the loss function <span class="math notranslate nohighlight">\(\mathcal{L}\)</span>.</p>
+</div>
+<div class="section" id="an-example">
+<h3>An Example<a class="headerlink" href="#an-example" title="Permalink to this headline">¶</a></h3>
+<p>As a simple example of gradient descent in action, let’s derive the ordinary least squares (OLS) regression estimates. (This problem does have a closed-form solution, but we’ll use gradient descent to demonstrate the approach). As discussed in <a class="reference internal" href="../c1/concept.html"><span class="doc">Chapter 1</span></a>, linear regression models <span class="math notranslate nohighlight">\(\hat{y}_n\)</span> with</p>
+<div class="math notranslate nohighlight">
+\[
+\hat{y}_n = \bphi_n^\top \bbetahat,
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(\bphi_n\)</span> is a vector of predictors appended with a leading 1 and <span class="math notranslate nohighlight">\(\bbetahat\)</span> is a vector of coefficients. The OLS loss function is defined with</p>
+<div class="math notranslate nohighlight">
+\[
+\mathcal{L}(\bbetahat) = \frac{1}{2}\sumN(y_n - \hat{y}_n)^2 = \frac{1}{2}\sumN (y_n - \bphi^\top_n \bbetahat)^2.
+\]</div>
+<p>Let’s review the process of minimizing this loss function with gradient descent. After choosing <span class="math notranslate nohighlight">\(\eta\)</span> and randomly instantiating <span class="math notranslate nohighlight">\(\bbetahat\)</span>, we iteratively calculate the loss function’s gradient:</p>
+<div class="math notranslate nohighlight">
+\[
+\boldsymbol{\delta} = \dadb{\mathcal{L}(\bbetahat)}{\bbetahat} =  -\sumN(y_n - \bphi^\top_n \bbetahat)\cdot\bphi_n^\top,
+\]</div>
+<p>and adjust with</p>
+<div class="math notranslate nohighlight">
+\[
+\bbetahat \gets \bbetahat - \eta\boldsymbol{\delta}.
+\]</div>
+<p>This is accomplished with the following code. Note that we can also calculate <span class="math notranslate nohighlight">\(\boldsymbol{\delta} = -\bPhi^\top(\by - \hat{\by})\)</span>, where <span class="math notranslate nohighlight">\(\bPhi\)</span> is the <a class="reference internal" href="../conventions_notation.html"><span class="doc">feature matrix</span></a>, <span class="math notranslate nohighlight">\(\by\)</span> is the vector of targets, and <span class="math notranslate nohighlight">\(\hat{\by}\)</span> is the vector of fitted values.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="k">def</span> <span class="nf">OLS_GD</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">eta</span> <span class="o">=</span> <span class="mf">1e-3</span><span class="p">,</span> <span class="n">n_iter</span> <span class="o">=</span> <span class="mf">1e4</span><span class="p">,</span> <span class="n">add_intercept</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
+  
+  <span class="c1">## Add Intercept</span>
+  <span class="k">if</span> <span class="n">add_intercept</span><span class="p">:</span>
+    <span class="n">ones</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">ones</span><span class="p">,</span> <span class="n">X</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span>
+    
+  <span class="c1">## Instantiate</span>
+  <span class="n">beta_hat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+  
+  <span class="c1">## Iterate</span>
+  <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">n_iter</span><span class="p">)):</span>
+    
+    <span class="c1">## Calculate Derivative</span>
+    <span class="n">yhat</span> <span class="o">=</span> <span class="n">X</span> <span class="o">@</span> <span class="n">beta_hat</span>
+    <span class="n">delta</span> <span class="o">=</span> <span class="o">-</span><span class="n">X</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="p">(</span><span class="n">y</span> <span class="o">-</span> <span class="n">yhat</span><span class="p">)</span>
+    <span class="n">beta_hat</span> <span class="o">-=</span> <span class="n">delta</span><span class="o">*</span><span class="n">eta</span>
+    
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="cross-validation">
+<h2>Cross Validation<a class="headerlink" href="#cross-validation" title="Permalink to this headline">¶</a></h2>
+</div>
 </div>
 
 

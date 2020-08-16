@@ -247,9 +247,24 @@
         
     </div>
     <div class="d-none d-md-block col-md-2 bd-toc show">
+<div class="tocsection onthispage pt-5 pb-3">
+    <i class="fas fa-list"></i> On this page
+</div>
 
 <nav id="bd-toc-nav">
     <ul class="nav section-nav flex-column">
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#model-structure" class="nav-link">Model Structure</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#parameter-estimation" class="nav-link">Parameter Estimation</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#extensions-of-ordinary-linear-regression" class="nav-link">Extensions of Ordinary Linear Regression</a>
+        </li>
     
     </ul>
 </nav>
@@ -284,7 +299,8 @@
 \newcommand{\by}{\mathbf{y}} 
 \newcommand{\bX}{\mathbf{X}}
 \]</div>
-<p><strong><u>Model Structure</u></strong></p>
+<div class="section" id="model-structure">
+<h2>Model Structure<a class="headerlink" href="#model-structure" title="Permalink to this headline">¶</a></h2>
 <p><em>Linear regression</em> is a relatively simple method that is both extremely widely-used and a stepping stone for many more sophisticated methods. This makes it a natural algorithm to study first.</p>
 <p>In linear regression, the target variable <span class="math notranslate nohighlight">\(y\)</span> is assumed to follow a linear function of one or more input variables, <span class="math notranslate nohighlight">\(x_1, \dots, x_D\)</span>, plus some error. Specifically, we assume the model for the <span class="math notranslate nohighlight">\(n^\text{th}\)</span> observation in our sample is of the form</p>
 <div class="math notranslate nohighlight">
@@ -331,7 +347,9 @@ y_n = \bbeta^\top \bx_n + \epsilon_n.
 <img alt="../../_images/concept_1_0.png" src="../../_images/concept_1_0.png" />
 </div>
 </div>
-<p><strong><u>Parameter Estimation</u></strong></p>
+</div>
+<div class="section" id="parameter-estimation">
+<h2>Parameter Estimation<a class="headerlink" href="#parameter-estimation" title="Permalink to this headline">¶</a></h2>
 <p>The above covers the entire structure we assume our data follows in linear regression. The machine learning task is then to estimate the parameters, <span class="math notranslate nohighlight">\(\bbeta\)</span>. These estimates are represented by <span class="math notranslate nohighlight">\(\hat{\beta}_0, \dots, \hat{\beta}_D\)</span> or <span class="math notranslate nohighlight">\(\bbetahat\)</span>. The estimates give us <em>fitted values</em> for our target variable, represented by <span class="math notranslate nohighlight">\(\hat{y}_n\)</span>.</p>
 <p>This task can be accomplished in two ways which, though slightly different conceptually, are identical mathematically. The first approach is through the lens of <em>minimizing loss</em>. A common practice in machine learning is to choose a loss function that defines how well a model with a given set of parameter estimates approximates the observed data. The most common loss function for linear regression is squared error loss. This says the <em>loss</em> of our model is proportional to the sum of squared differences between the true <span class="math notranslate nohighlight">\(y_n\)</span> values and the fitted values <span class="math notranslate nohighlight">\(\hat{y}_n\)</span>. We then <em>fit</em> the model by finding the estimates <span class="math notranslate nohighlight">\(\bbetahat\)</span> that minimize this loss function. This approach is covered in the subsection <a class="reference internal" href="s1/loss_minimization.html"><span class="doc">Approach 1: Minimizing Loss</span></a>.</p>
 <p>The second approach is through the lens of <em>maximizing likelihood</em>. Another common practice in machine learning is to model the target <span class="math notranslate nohighlight">\(y_n\)</span> as a random variable indexed by one or more parameters and then find the parameters that maximize its likelihood. The most common model for <span class="math notranslate nohighlight">\(y_n\)</span> in linear regression is a Normal random variable with mean <span class="math notranslate nohighlight">\(\bbeta^\top \bx_n\)</span>. That is, we assume</p>
@@ -376,9 +394,12 @@ y_n|\bx_n \sim \mathcal{N}(\bbeta^\top \bx_n, \sigma^2),
 <img alt="../../_images/concept_3_0.png" src="../../_images/concept_3_0.png" />
 </div>
 </div>
-<p><strong><u>Extensions of Ordinary Linear Regression</u></strong></p>
+</div>
+<div class="section" id="extensions-of-ordinary-linear-regression">
+<h2>Extensions of Ordinary Linear Regression<a class="headerlink" href="#extensions-of-ordinary-linear-regression" title="Permalink to this headline">¶</a></h2>
 <p>There are many important extensions to linear regression which make the model more flexible. Those include <a class="reference internal" href="../c2/s1/regularized.html"><span class="doc">Regularized Regression</span></a>—which balances the bias-variance tradeoff for high-dimensional regression models—<a class="reference internal" href="../c2/s1/bayesian.html"><span class="doc">Bayesian Regression</span></a>—which allows for prior distributions on the parameters—and <a class="reference internal" href="../c2/s1/GLMs.html"><span class="doc">GLMs</span></a>—which introduce non-linearity to regression models. These extensions are discussed in the next chapter.</p>
 <div class="toctree-wrapper compound">
+</div>
 </div>
 </div>
 
