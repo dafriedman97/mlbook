@@ -62,7 +62,7 @@ The density of a Normal random variable gives this distribution the name "the be
 
 
 
-![normal](/content/appendix/normal.png)
+![normal](/content/appendix/normal.jpg)
 
 
 
