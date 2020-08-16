@@ -57,9 +57,9 @@ Ideally, we can set the above derivative equal to 0 and solve for $\bbetahat$, g
 
 
 
-![gd](/content/appendix/gd.png)
+![gd](/content/appendix/gd.jpg)
 
-### 
+
 
 To understand this process intuitively, consider the image above showing a model's loss as a function of one parameter, $\beta$. Presumably we can't directly find the value of $\beta$ to minimize $\mathcal{L}$, so we might start by randomly picking a value of $\beta$. Suppose we start at point $A$. From point $A$ we ask "would the loss function decrease if I increased or decreased $\beta$". To answer this question, we calculate the derivative of $\mathcal{L}$ with respect to $\beta$ evaluated at $\beta = A$. Since this derivative is negative, we know that increasing $\beta$  some small amount will decrease the loss! 
 
