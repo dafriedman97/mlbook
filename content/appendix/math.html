@@ -228,9 +228,24 @@
         
     </div>
     <div class="d-none d-md-block col-md-2 bd-toc show">
+<div class="tocsection onthispage pt-5 pb-3">
+    <i class="fas fa-list"></i> On this page
+</div>
 
 <nav id="bd-toc-nav">
     <ul class="nav section-nav flex-column">
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#calculus" class="nav-link">Calculus</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#matrices" class="nav-link">Matrices</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#matrix-calculus" class="nav-link">Matrix Calculus</a>
+        </li>
     
     </ul>
 </nav>
@@ -252,13 +267,143 @@
                 
   <div class="section" id="math">
 <h1>Math<a class="headerlink" href="#math" title="Permalink to this headline">¶</a></h1>
-<p>For a book of mathematical derivations, knowledge of relatively few mathematical methods is required.</p>
-<p>TODO</p>
-<ul class="simple">
-<li><p>Derivatives</p></li>
-<li><p>matrix operations</p></li>
-<li><p>matrix derivatives</p></li>
-</ul>
+<div class="math notranslate nohighlight">
+\[
+\newcommand{\sumN}{\sum_{n = 1}^N}
+\newcommand{\sumn}{\sum_n}
+\newcommand{\prodN}{\prod_{n = 1}^N}
+\newcommand{\by}{\mathbf{y}} \newcommand{\bX}{\mathbf{X}}
+\newcommand{\bx}{\mathbf{x}}
+\newcommand{\bu}{\mathbf{u}}
+\newcommand{\bv}{\mathbf{v}}
+\newcommand{\bbeta}{\boldsymbol{\beta}}
+\newcommand{\btheta}{\boldsymbol{\theta}}
+\newcommand{\bbetahat}{\boldsymbol{\hat{\beta}}}
+\newcommand{\bthetahat}{\boldsymbol{\hat{\theta}}}
+\newcommand{\bSigma}{\boldsymbol{\Sigma}}
+\newcommand{\bphi}{\boldsymbol{\phi}}
+\newcommand{\bPhi}{\boldsymbol{\Phi}}
+\newcommand{\bT}{\mathbf{T}}
+\newcommand{\dadb}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\iid}{\overset{\small{\text{i.i.d.}}}{\sim}}
+\]</div>
+<p>For a collection of mathematical derivations, this book assumes knowledge of relatively few mathematical methods. Most of the mathematical background required is summarized in the three following sections on calculus, matrices, and matrix calculus.</p>
+<div class="section" id="calculus">
+<h2>Calculus<a class="headerlink" href="#calculus" title="Permalink to this headline">¶</a></h2>
+<p>The most important mathematical prerequisite for this book is calculus. Almost all of the methods covered involve minimizing a loss function or maximizing a likelihood function, done by taking the function’s derivative with respect to one or more parameters and setting it equal to 0.</p>
+<p>Let’s start by reviewing some of the most common derivatives used in this book:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+f(x) &amp;= x^a \rightarrow f'(x)  = ax^{a-1} \\
+f(x) &amp;= \exp(x) \rightarrow  f'(x)  = \exp(x) \\ 
+f(x) &amp;= \log(x) \rightarrow f'(x) = \frac{1}{x} \\
+f(x) &amp;= |x| \rightarrow f'(x) = \begin{cases} 1, &amp; x &gt; 0 \\ -1, &amp;  x &lt; 0,\end{cases} \\
+\end{align*}
+\end{split}\]</div>
+<p>We will also often use the sum, product, and quotient rules:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+f(x) &amp;= g(x) + h(x) \rightarrow f'(x) = g'(x) + h'(x) \\
+f(x) &amp;= g(x)\cdot h(x) \rightarrow f'(x)= g'(x)h(x) + g(x)h'(x)\\
+f(x) &amp;= g(x)/h(x) \rightarrow f'(x) = \frac{h(x)g'(x) + g(x)h'(x)}{h(x)^2}.
+\end{align*}
+\end{split}\]</div>
+<p>Finally, we will heavily rely on the chain rule:</p>
+<div class="math notranslate nohighlight">
+\[
+f(x) = g(h(x)) \rightarrow f'(x) = g'(h(x))h'(x).
+\]</div>
+</div>
+<div class="section" id="matrices">
+<h2>Matrices<a class="headerlink" href="#matrices" title="Permalink to this headline">¶</a></h2>
+<p>While little linear algebra is used in this book, matrix and vector representations of data are very common. The most important matrix and vector operations are reviewed below.</p>
+<p>Let <span class="math notranslate nohighlight">\(\mathbf{u}\)</span> and <span class="math notranslate nohighlight">\(\mathbf{v}\)</span> be two column vectors of length <span class="math notranslate nohighlight">\(D\)</span>. The <strong>dot product</strong> of <span class="math notranslate nohighlight">\(\mathbf{u}\)</span> and <span class="math notranslate nohighlight">\(\mathbf{v}\)</span> is a scalar value given by</p>
+<div class="math notranslate nohighlight">
+\[
+\mathbf{u} \cdot \mathbf{v} = \mathbf{u}^\top \mathbf{v} = \sum_{d = 1}^D u_d v_d = u_1v_1 + u_2v_2 + \dots + u_Dv_D.
+\]</div>
+<p>If <span class="math notranslate nohighlight">\(\bv\)</span> is a vector of features (with a leading 1 appended for the intercept term) and <span class="math notranslate nohighlight">\(\bu\)</span> is a vector of weights, this dot product is also referred to as a <em>linear combination</em> of the predictors in <span class="math notranslate nohighlight">\(\bv\)</span>.</p>
+<p>The <strong>L1 norm</strong> and <strong>L2 norm</strong> measure a vector’s magnitude. For a vector <span class="math notranslate nohighlight">\(\bu\)</span>, these are given respectively by</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align}
+||\bu||_1 &amp;= \sum_{d = 1}^D |u_d| \\
+||\bu||_2 &amp;= \sqrt{\sum_{d = 1}^D u_d^2}. \\
+\end{align}
+\end{split}\]</div>
+<p>Let <span class="math notranslate nohighlight">\(\mathbf{A}\)</span> be a <span class="math notranslate nohighlight">\((N \times D)\)</span> matrix defined as</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\mathbf{A} = \begin{pmatrix} A_{11} &amp; A_{12} &amp; ... &amp; A_{1D}  \\ 
+A_{21} &amp; A_{22} &amp; ... &amp; A_{2D} \\
+&amp; &amp; ... &amp; \\
+A_{N1} &amp; A_{N2} &amp; ... &amp; A_{ND} \end{pmatrix}
+\end{split}\]</div>
+<p>The transpose of <span class="math notranslate nohighlight">\(\mathbf{A}\)</span> is a <span class="math notranslate nohighlight">\((D \times N)\)</span> matrix given by</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\mathbf{A}^T = \begin{pmatrix} A_{11} &amp; A_{21} &amp; ... &amp; A_{N1} \\
+A_{12} &amp; A_{22} &amp; ... &amp; A_{N2} \\
+&amp; &amp; ... &amp; \\
+A_{1D} &amp; A_{2D} &amp; ... &amp; A_{ND} \end{pmatrix}
+\end{split}\]</div>
+<p>If <span class="math notranslate nohighlight">\(\mathbf{A}\)</span> is a square <span class="math notranslate nohighlight">\((N \times N)\)</span> matrix, its inverse, given by <span class="math notranslate nohighlight">\(\mathbf{A}^{-1}\)</span>, is the matrix such that</p>
+<div class="math notranslate nohighlight">
+\[
+\mathbf{A}\mathbf{A}^{-1} = \mathbf{A}^{-1}\mathbf{A} = I_N.
+\]</div>
+</div>
+<div class="section" id="matrix-calculus">
+<h2>Matrix Calculus<a class="headerlink" href="#matrix-calculus" title="Permalink to this headline">¶</a></h2>
+<p>Dealing with multiple parameters, multiple observations, and sometimes multiple loss functions, we will often have to take multiple derivatives at once in this book. This is done with matrix calculus.</p>
+<p>In this book, we will use the <a class="reference external" href="https://en.wikipedia.org/wiki/Matrix_calculus#Numerator-layout_notation">numerator layout</a> convention for matrix derivatives. This is most easily shown with examples. First, let <span class="math notranslate nohighlight">\(a\)</span> be a scalar and <span class="math notranslate nohighlight">\(\mathbf{u}\)</span> be a vector of length <span class="math notranslate nohighlight">\(I\)</span>. The derivative of <span class="math notranslate nohighlight">\(a\)</span> with respect to <span class="math notranslate nohighlight">\(\bu\)</span> is given by</p>
+<div class="math notranslate nohighlight">
+\[
+\dadb{a}{\mathbf{u}} = \begin{pmatrix} \dadb{a}{u_1} &amp; .. &amp; \dadb{a}{u_I}\end{pmatrix} \in \R^{I},
+\]</div>
+<p>and the derivative of <span class="math notranslate nohighlight">\(\bu\)</span> with respect to <span class="math notranslate nohighlight">\(a\)</span> is given by</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\dadb{\bu}{a} = \begin{pmatrix} \dadb{u_1}{a} \\ ... \\ \dadb{u_I}{a} \end{pmatrix} \R^I.
+\end{split}\]</div>
+<p>Note that in either case, the first dimension of the derivative is determined by what’s in the numerator. Similarly, letting <span class="math notranslate nohighlight">\(\bv\)</span> be a vector of length <span class="math notranslate nohighlight">\(J\)</span>, the derivative of <span class="math notranslate nohighlight">\(\bu\)</span> with respect to <span class="math notranslate nohighlight">\(\bv\)</span> is given with</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\dadb{\bu}{\bv} = \begin{pmatrix} \dadb{u_1}{v_1} &amp; ... &amp; \dadb{u_1}{v_J} \\ &amp; ... &amp; \\ \dadb{u_I}{v_1} &amp; ... &amp; \dadb{u_I}{v_J}\end{pmatrix} \in \R^{I \times J}.
+\end{split}\]</div>
+<p>We will also have to take derivatives of or with respect to matrices. Let <span class="math notranslate nohighlight">\(\bX\)</span> be a <span class="math notranslate nohighlight">\((N \times D)\)</span> matrix. The derivative of <span class="math notranslate nohighlight">\(\bX\)</span> with respect to a constant <span class="math notranslate nohighlight">\(a\)</span> is given by</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\dadb{\bX}{a} = \begin{pmatrix} \dadb{X_{11}}{a} &amp; ... &amp; \dadb{X_{1D}}{a} \\ &amp; ... &amp; \\ \dadb{X_{N1}}{a} &amp; ... &amp; \dadb{X_{ND}}{a}\end{pmatrix}  \in \R^{N \times D},
+\end{split}\]</div>
+<p>and conversely the derivative of <span class="math notranslate nohighlight">\(a\)</span> with respect to <span class="math notranslate nohighlight">\(\bX\)</span> is given by</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\dadb{a}{\bX} =  \begin{pmatrix} \dadb{a}{X_{11}} &amp; ... &amp; \dadb{a}{X_{1D}} \\ &amp; ... &amp; \\ \dadb{a}{X_{N1}} &amp; ... &amp; \dadb{a}{X_{ND}} \end{pmatrix}  \in \R^{N \times D}.
+\end{split}\]</div>
+<p>Finally, we will occasionally need to take derivatives of vectors with respect to matrices or vice versa. This results in a <em>tensor</em> of 3 or more dimensions. Two examples are given below. First, the derivative of <span class="math notranslate nohighlight">\(\bu \in \R^I\)</span> with respect to <span class="math notranslate nohighlight">\(\bX \in \R^{N \times D}\)</span> is given by</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\dadb{\bu}{\bX} = \begin{pmatrix} \begin{pmatrix} \dadb{u_1}{X_{11}} &amp; ... &amp; \dadb{u_1}{X_{1D}} \\ &amp; ... &amp; \\ \dadb{u_1}{X_{N1}} &amp; ... &amp; \dadb{u_1}{X_{ND}} \end{pmatrix}
+&amp; ... &amp;
+\begin{pmatrix} \dadb{u_I}{X_{11}} &amp; ... &amp; \dadb{u_I}{X_{1D}} \\ &amp; ... &amp; \\ \dadb{u_I}{X_{N1}} &amp; ... &amp; \dadb{u_I}{X_{ND}}  \end{pmatrix} \end{pmatrix}  \in \R^{I \times N \times D},
+\end{split}\]</div>
+<p>and the derivative of <span class="math notranslate nohighlight">\(\bX\)</span> with respect to <span class="math notranslate nohighlight">\(\bu\)</span> is given by</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\dadb{\bX}{\bu} = \begin{pmatrix} \begin{pmatrix} \dadb{X_{11}}{u_1} &amp; ... &amp; \dadb{X_{11}}{u_I} \end{pmatrix}
+&amp; ... &amp;
+\begin{pmatrix}  \dadb{X_{1D}}{u_1} &amp; ... &amp; \dadb{X_{1D}}{u_I}\end{pmatrix} \\
+&amp; ... &amp; \\
+ \begin{pmatrix}\dadb{X_{N1}}{u_1} &amp; ... &amp; \dadb{X_{N1}}{u_I} \end{pmatrix}
+&amp; ... &amp;
+\begin{pmatrix}\dadb{X_{ND}}{u_1} &amp; ... &amp; \dadb{X_{ND}}{u_I}\end{pmatrix} \\
+\end{pmatrix}  \in \R^{N \times D \times I}.
+\end{split}\]</div>
+<p>Notice again that what we are taking the derivative <em>of</em> determines the first dimension(s) of the derivative and what we are taking the derivative with respect <em>to</em> determines the last.</p>
+</div>
 </div>
 
 

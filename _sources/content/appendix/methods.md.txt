@@ -22,7 +22,7 @@ This section will review two methods that are used to fit a variety of machine l
 
 
 
-## Gradient Descent
+## 1. Gradient Descent
 
 Almost all the models discussed in this book aim to find a set of parameters that minimize a chosen loss function. Sometimes we can find the optimal parameters by taking the derivative of the loss function, setting it equal to 0, and solving. In situations for which no closed-form solution is available, however, we might turn to gradient descent. **Gradient descent** is an iterative approach to approximating the parameters that minimize a differentiable loss function. 
 
@@ -87,6 +87,8 @@ We can describe gradient descent more concretely with the following steps. Note 
    1. Calculate $\boldsymbol{\delta} = \partial \mathcal{L}/\partial \bbetahat$
 
    2. Adjust $\bbetahat$ with
+
+      
       $$
       \bbetahat \gets \bbetahat - \eta \boldsymbol{\delta}.
       $$
@@ -160,4 +162,67 @@ def OLS_GD(X, y, eta = 1e-3, n_iter = 1e4, add_intercept = True):
 
 
 
-## Cross Validation
+## 2. Cross Validation
+
+Several of the models covered in this book require *hyperparameters* to be chosen exogenously—i.e. before the model is fit. The value of these hyperparameters affects the quality of the fit. So how can we choose these values without fitting a model? The most common answer is cross validation.
+
+Suppose we are deciding between several values of a hyperparameter, resulting in multiple competing models. One way to choose our model would be to split our data into a *training* set and a *validation* set, build each model on the training set, and see which performs better on the validation set. By splitting the data into training and validation, we avoid evaluating a model based on its in-sample performance. 
+
+The obvious problem with this set-up is that we are comparing the performance of models on just *one* dataset. Instead, we might choose between competing models with **K-fold cross validation**, outlined below.
+
+1. Split the original dataset into $K$ *folds* or subsets.
+2. For $k = 1, \dots, K$, treat fold $k$ as the validation set. Train each competing model on the other $K-1$ folds and evaluate it on the $k^\text{th}$.
+3. Select the model with the best average validation performance. 
+
+
+
+As an example, let's use cross validation to choose a penalty value for a {doc}`Ridge regression </content/c2/s1/regularized>` model, discussed in chapter 2. This model constrains the magnitude of the regression coefficients; the higher the penalty term, the more the coefficients are constrained. 
+
+The example below uses the `Ridge` class from `scikit-learn`, which defines the penalty term with the `alpha` argument. We will use the {doc}`boston housing </content/appendix/data>` dataset. 
+
+```python
+## Import packages 
+import numpy as np
+from sklearn.linear_model import Ridge
+from sklearn.datasets import load_boston
+
+## Import data
+boston = load_boston()
+X = boston['data']
+y = boston['target']
+N = X.shape[0]
+
+## Choose alphas to consider
+potential_alphas = [0, 1, 10]
+error_by_alpha = np.zeros(len(potential_alphas))
+
+## Choose the folds 
+K = 5
+indices = np.arange(N)
+np.random.shuffle(indices)
+folds = np.array_split(indices, K)
+
+## Iterate through folds
+for k in range(K):
+  
+  ## Split Train and Validation
+    X_train = np.delete(X, folds[k], 0)
+    y_train = np.delete(y, folds[k], 0)
+    X_val = X[folds[k]]
+    y_val = y[folds[k]]
+  
+  ## Iterate through Alphas
+    for i in range(len(potential_alphas)):
+    
+        ## Train on Training Set
+        model = Ridge(alpha = potential_alphas[i])
+        model.fit(X_train, y_train)
+
+        ## Calculate and Append Error
+        error = np.sum( (y_val - model.predict(X_val))**2 )
+        error_by_alpha[i] += error
+    
+error_by_alpha /= N
+```
+
+We can then check `error_by_alpha` and choose the `alpha` corresponding to the lowest average error!
