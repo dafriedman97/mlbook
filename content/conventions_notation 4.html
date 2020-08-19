@@ -5,7 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>Introduction &#8212; Machine Learning from Scratch</title>
+    <title>Conventions and Notation &#8212; Machine Learning from Scratch</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
     <link href="../_static/css/index.css" rel="stylesheet">
     <link rel="stylesheet" href="../_static/sphinx-book-theme.css" type="text/css" />
@@ -33,7 +33,8 @@
     <link rel="shortcut icon" href="../_static/logo.png"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Table of Contents" href="table_of_contents.html" />
+    <link rel="next" title="Concept" href="c1/concept.html" />
+    <link rel="prev" title="Table of Contents" href="table_of_contents.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="docsearch:language" content="en">
@@ -71,8 +72,8 @@
   <li class="">
     <a href="table_of_contents.html">Table of Contents</a>
   </li>
-  <li class="">
-    <a href="conventions_notation.html">Conventions and Notation</a>
+  <li class="active">
+    <a href="">Conventions and Notation</a>
   </li>
 <li class="navbar-special">
 <p class="margin-caption">1. Ordinary Linear Regression</p>
@@ -210,7 +211,7 @@
                 <!-- ipynb file if we had a myst markdown file -->
                 
                 <!-- Download raw file -->
-                <a class="dropdown-buttons" href="../_sources/content/introduction.md.txt"><button type="button" class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip" data-placement="left">.md</button></a>
+                <a class="dropdown-buttons" href="../_sources/content/conventions_notation.md.txt"><button type="button" class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip" data-placement="left">.md</button></a>
                 <!-- Download PDF via print -->
                 <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF" onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
             </div>
@@ -218,7 +219,7 @@
         </div>
 
         <!-- Edit this page -->
-        <a class="edit-button" href="https://github.com/dafriedman97/book/edit/master/content/introduction.md"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="bottom" title="Edit this page"><i class="fas fa-pencil-alt"></i></button></a>
+        <a class="edit-button" href="https://github.com/dafriedman97/book/edit/master/content/conventions_notation.md"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="bottom" title="Edit this page"><i class="fas fa-pencil-alt"></i></button></a>
 
         <!-- Full screen (wrap in <a> to have style consistency -->
         <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="bottom" onclick="toggleFullScreen()" title="Fullscreen mode"><i class="fas fa-expand"></i></button></a>
@@ -227,28 +228,9 @@
         
     </div>
     <div class="d-none d-md-block col-md-2 bd-toc show">
-<div class="tocsection onthispage pt-5 pb-3">
-    <i class="fas fa-list"></i> On this page
-</div>
 
 <nav id="bd-toc-nav">
     <ul class="nav section-nav flex-column">
-    
-        <li class="nav-item toc-entry toc-h2">
-            <a href="#what-this-book-covers" class="nav-link">What this Book Covers</a>
-        </li>
-    
-        <li class="nav-item toc-entry toc-h2">
-            <a href="#why-this-book" class="nav-link">Why this Book</a>
-        </li>
-    
-        <li class="nav-item toc-entry toc-h2">
-            <a href="#who-this-book-is-for" class="nav-link">Who this Book is for</a>
-        </li>
-    
-        <li class="nav-item toc-entry toc-h2">
-            <a href="#what-readers-should-know" class="nav-link">What Readers Should Know</a>
-        </li>
     
     </ul>
 </nav>
@@ -256,7 +238,7 @@
 
 
 <div class="tocsection editthispage">
-    <a href="https://github.com/dafriedman97/book/edit/master/content/introduction.md">
+    <a href="https://github.com/dafriedman97/book/edit/master/content/conventions_notation.md">
         <i class="fas fa-pencil-alt"></i> Edit this page
     </a>
 </div>
@@ -268,47 +250,68 @@
         
               <div>
                 
-  <div class="section" id="introduction">
-<h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h1>
-<p><img alt="" src="../_images/booplight.png" /></p>
-<div class="section" id="what-this-book-covers">
-<h2>What this Book Covers<a class="headerlink" href="#what-this-book-covers" title="Permalink to this headline">¶</a></h2>
-<p>This book covers the building blocks of the most common methods in machine learning. This set of methods is like a toolbox for machine learning engineers. Those entering the field of machine learning should feel comfortable with this toolbox so they have the right tool for a variety of tasks. Each chapter in this book corresponds to a single machine learning method or group of methods. In other words, each chapter focuses on a single tool within the ML toolbox.</p>
-<p>In my experience, the best way to become comfortable with these methods is to see them derived from scratch, both in theory and in code. The purpose of this book is to provide those derivations. Each chapter is broken into three sections. The first section introduces the method conceptually and derives its results mathematically. The second shows how to construct the method from scratch using Python. The third demonstrates how to apply the method using packages in Python like <code class="docutils literal notranslate"><span class="pre">scikit-learn</span></code>, <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code>, and <code class="docutils literal notranslate"><span class="pre">tensorflow</span></code>.</p>
-</div>
-<div class="section" id="why-this-book">
-<h2>Why this Book<a class="headerlink" href="#why-this-book" title="Permalink to this headline">¶</a></h2>
-<p>There are many great books on machine learning written by more knowledgeable authors and covering a broader range of topics. In particular, I would suggest <a class="reference external" href="http://faculty.marshall.usc.edu/gareth-james/ISL/">An Introduction to Statistical Learning</a>, <a class="reference external" href="https://web.stanford.edu/~hastie/ElemStatLearn/">Elements of Statistical Learning</a>, and <a class="reference external" href="https://www.microsoft.com/en-us/research/publication/pattern-recognition-machine-learning/">Pattern Recognition and Machine Learning</a>, all of which are available online for free.</p>
-<p>While those books provide a conceptual overview of machine learning and the theory behind its methods, this book focuses on the bare bones of machine learning algorithms. Its main purpose is to provide readers with the ability to construct these algorithms independently. Continuing the toolbox analogy, this book is intended as a user guide: it is not designed to teach users broad practices of the field but rather how each tool works at a micro level.</p>
-</div>
-<div class="section" id="who-this-book-is-for">
-<h2>Who this Book is for<a class="headerlink" href="#who-this-book-is-for" title="Permalink to this headline">¶</a></h2>
-<p>This book is for readers looking to learn new machine learning algorithms or understand algorithms at a deeper level. Specifically, it is intended for readers interested in seeing machine learning algorithms derived from start to finish. Seeing these derivations might help a reader previously unfamiliar with common algorithms understand how they work intuitively. Or, seeing these derivations might help a reader experienced in modeling understand how different algorithms create the models they do and the advantages and disadvantages of each one.</p>
-<p>This book will be most helpful for those with practice in basic modeling. It does not review best practices—such as feature engineering or balancing response variables—or discuss in depth when certain models are more appropriate than others. Instead, it focuses on the elements of those models.</p>
-</div>
-<div class="section" id="what-readers-should-know">
-<h2>What Readers Should Know<a class="headerlink" href="#what-readers-should-know" title="Permalink to this headline">¶</a></h2>
-<p>The <em>concept</em> sections of this book primarily require knowledge of calculus, though some require an understanding of probability (think maximum likelihood and Bayes’ Rule) and basic linear algebra (think matrix operations and dot products). The appendix reviews the <a class="reference internal" href="appendix/methods.html"><span class="doc">math</span></a> and <a class="reference internal" href="appendix/methods.html"><span class="doc">probability</span></a>needed to understand this book. The concept sections also reference a few common machine learning <a class="reference internal" href="appendix/methods.html"><span class="doc">methods</span></a>, which are introduced in the appendix as well. The concept sections do not require any knowledge of programming.</p>
-<p>The <em>construction</em> and <em>code</em> sections of this book use some basic Python. The construction sections require understanding of the corresponding content sections and familiarity creating functions and classes in Python. The code sections require neither.</p>
-<div class="toctree-wrapper compound">
-</div>
-<div class="toctree-wrapper compound">
-</div>
-<div class="toctree-wrapper compound">
-</div>
-<div class="toctree-wrapper compound">
-</div>
-<div class="toctree-wrapper compound">
-</div>
-<div class="toctree-wrapper compound">
-</div>
-<div class="toctree-wrapper compound">
-</div>
-<div class="toctree-wrapper compound">
-</div>
-<div class="toctree-wrapper compound">
-</div>
-</div>
+  <div class="math notranslate nohighlight">
+\[
+\newcommand{\sumN}{\sum_{n = 1}^N}
+\newcommand{\sumn}{\sum_n}
+\newcommand{\prodN}{\prod_{n = 1}^N}
+\newcommand{\by}{\mathbf{y}} \newcommand{\bX}{\mathbf{X}}
+\newcommand{\bx}{\mathbf{x}}
+\newcommand{\bbeta}{\boldsymbol{\beta}}
+\newcommand{\btheta}{\boldsymbol{\theta}}
+\newcommand{\bbetahat}{\boldsymbol{\hat{\beta}}}
+\newcommand{\bthetahat}{\boldsymbol{\hat{\theta}}}
+\newcommand{\bSigma}{\boldsymbol{\Sigma}}
+\newcommand{\bphi}{\boldsymbol{\phi}}
+\newcommand{\bPhi}{\boldsymbol{\Phi}}
+\newcommand{\bT}{\mathbf{T}}
+\newcommand{\dadb}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\iid}{\overset{\small{\text{i.i.d.}}}{\sim}}
+\]</div>
+<div class="section" id="conventions-and-notation">
+<h1>Conventions and Notation<a class="headerlink" href="#conventions-and-notation" title="Permalink to this headline">¶</a></h1>
+<p>The following terminology will be used throughout the book.</p>
+<ul class="simple">
+<li><p>Variables can be split into two types: the variables we intend to model are referred to as <strong>target</strong> or <strong>output</strong> variables, while the variables we use to model the target variables are referred to as <strong>predictors</strong>, <strong>features</strong>, or <strong>input</strong> variables. These are also known as the <em>dependent</em> and <em>independent</em> variables, respectively.</p></li>
+<li><p>An <strong>observation</strong> is a single collection of predictors and target variables. Multiple observations with the same variables are combined to form a <strong>dataset</strong>.</p></li>
+<li><p>A <strong>training</strong> dataset is one used to build a machine learning model. A <strong>validation</strong> dataset is one used to compare multiple models built on the same training dataset with different parameters. A <strong>testing</strong> dataset is one used to evaluate a final model.</p></li>
+<li><p>Variables, whether predictors or targets, may be <strong>quantitative</strong> or <strong>categorical</strong>. Quantitative variables follow a continuous or near-contih234nuous scale (such as height in inches or income in dollars). Categorical variables fall in one of a discrete set of groups (such as nation of birth or species type). While the values of categorical variables may follow some natural order (such as shirt size), this is not assumed.</p></li>
+<li><p>Modeling tasks are referred to as <strong>regression</strong> if the target is quantitative and <strong>classification</strong> if the target is categorical. Note that regression does not necessarily refer to ordinary least squares (OLS) linear regression.</p></li>
+</ul>
+<p>Unless indicated otherwise, the following conventions are used to represent data and datasets.</p>
+<ul>
+<li><p>Training datasets are assumed to have <span class="math notranslate nohighlight">\(N\)</span> observations and <span class="math notranslate nohighlight">\(D\)</span> predictors. When appropriate (as indicated in the content sections), this will include a column of 1s to represent the intercept term.</p></li>
+<li><p>The vector of features for the <span class="math notranslate nohighlight">\(n^\text{th}\)</span> observation is given by <span class="math notranslate nohighlight">\(\bx_n\)</span>. Note that <span class="math notranslate nohighlight">\(\bx_n\)</span> might include functions of the original predictors through feature engineering. When the target variable is single-dimensional (i.e. there is only one target variable per observation), it is given by <span class="math notranslate nohighlight">\(y_n\)</span>; when there are multiple target variables per observation, the vector of targets is given by <span class="math notranslate nohighlight">\(\by_n\)</span>.</p></li>
+<li><p>Many models, such as ordinary linear regression, append an intercept term to the predictor vector. For clarity, the predictor vector will be indicated by <span class="math notranslate nohighlight">\(\bphi_n\)</span> when this is done. That is, for a vector of features</p>
+<div class="math notranslate nohighlight">
+\[
+  \bx_n = \begin{pmatrix} x_{n,1} &amp; x_{n,2} &amp; ... &amp; x_{n,D-1} \end{pmatrix},
+  \]</div>
+<p>the vector <span class="math notranslate nohighlight">\(\bphi_n\)</span> is given by</p>
+<div class="math notranslate nohighlight">
+\[
+  \bphi_n = \begin{pmatrix} 1 &amp; x_{n,1} &amp; x_{n,2} &amp;  ... &amp; x_{n, D-1}\end{pmatrix}. 
+  \]</div>
+</li>
+<li><p><em>Feature matrices</em> or <em>data frames</em> are created by concatenating feature vectors across observations. Within a matrix, feature vectors are row vectors, with <span class="math notranslate nohighlight">\(\bx_n\)</span> or <span class="math notranslate nohighlight">\(\bphi_n\)</span> representing the matrix’s <span class="math notranslate nohighlight">\(n^\text{th}\)</span> row. These matrices are then given by <span class="math notranslate nohighlight">\(\bX\)</span> or <span class="math notranslate nohighlight">\(\bPhi\)</span>, depending on whether an intercept term is included or not. Within a feature matrix <span class="math notranslate nohighlight">\(\bPhi\)</span>, the first column will consist of only 1s.</p></li>
+</ul>
+<p>Finally, the following mathematical and notational conventions are used.</p>
+<ul>
+<li><p>Scalar values will be non-boldface and lowercase, vectors will be bold and lowercase, and matrices will be bold and uppercase. E.g. <span class="math notranslate nohighlight">\(b\)</span> is a scalar, <span class="math notranslate nohighlight">\(\mathbf{b}\)</span> a vector, and <span class="math notranslate nohighlight">\(\mathbf{B}\)</span> a matrix.</p></li>
+<li><p>Unless indicated otherwise, all vectors are assumed to be column vectors. Since feature vectors (such as <span class="math notranslate nohighlight">\(\bx_n\)</span> and <span class="math notranslate nohighlight">\(\bphi_n\)</span> above) are entered into data frames as rows, they will sometimes be treated as row vectors, even outside of data frames.</p></li>
+<li><p>Matrix or vector derivatives, covered in the <a class="reference internal" href="appendix/math.html"><span class="doc">math appendix</span></a>, will use the numerator <a class="reference external" href="https://en.wikipedia.org/wiki/Matrix_calculus#Layout_conventions">layout convention</a>. Under this convention, the derivative <span class="math notranslate nohighlight">\(\partial\by/\partial\bx\)</span> is written as</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+  \dadb{\by}{\bx} = \begin{pmatrix}
+  \dadb{y_1}{x_1} &amp; ... &amp; \dadb{y_1}{x_b} \\
+  \dadb{y_2}{x_1} &amp;  ... &amp; \dadb{y_2}{x_b} \\
+  &amp;  ... &amp; \\
+  \dadb{y_a}{x_1} &amp; ... &amp; \dadb{y_a}{x_b} \\
+  \end{pmatrix} ,
+  \end{split}\]</div>
+<p>for <span class="math notranslate nohighlight">\(\by \in \R^a\)</span> and <span class="math notranslate nohighlight">\(\bx \in \R^b\)</span>.</p>
+</li>
+</ul>
 </div>
 
 
@@ -320,7 +323,8 @@
     
     <div class='prev-next-bottom'>
         
-    <a class='right-next' id="next-link" href="table_of_contents.html" title="next page">Table of Contents</a>
+    <a class='left-prev' id="prev-link" href="table_of_contents.html" title="previous page">Table of Contents</a>
+    <a class='right-next' id="next-link" href="c1/concept.html" title="next page">Concept</a>
 
     </div>
     <footer class="footer mt-5 mt-md-0">
