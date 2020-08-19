@@ -1,15 +1,18 @@
 # Introduction
 
+
+
 <center>
   <br>
   </br>
-  <h1>
+  <h2>
     Machine Learning from Scratch
-  </h1>
+  </h2>
   <h4>
     Derivations in Concept and Code
   </h4>
 </center>
+
 
 
 ```{figure} ../logo.png
