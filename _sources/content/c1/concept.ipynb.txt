@@ -19,13 +19,15 @@
     "\\newcommand{\\dadb}[2]{\\frac{\\partial #1}{\\partial #2}} \n",
     "\\newcommand{\\by}{\\mathbf{y}} \n",
     "\\newcommand{\\bX}{\\mathbf{X}}\n",
+    "\\newcommand{\\bphi}{\\boldsymbol{\\phi}}\n",
+    "\\newcommand{\\bPhi}{\\boldsymbol{\\Phi}}\n",
     "$$\n",
     "\n",
     "## Model Structure\n",
     "\n",
-    "*Linear regression* is a relatively simple method that is both extremely widely-used and a stepping stone for many more sophisticated methods. This makes it a natural algorithm to study first.\n",
+    "*Linear regression* is a relatively simple method that is extremely widely-used. It is also a great stepping stone for more sophisticated methods, making it a natural algorithm to study first.\n",
     "\n",
-    "In linear regression, the target variable $y$ is assumed to follow a linear function of one or more input variables, $x_1, \\dots, x_D$, plus some error. Specifically, we assume the model for the $n^\\text{th}$ observation in our sample is of the form \n",
+    "In linear regression, the target variable $y$ is assumed to follow a linear function of one or more predictor variables, $x_1, \\dots, x_D$, plus some random error. Specifically, we assume the model for the $n^\\text{th}$ observation in our sample is of the form \n",
     "\n",
     "\n",
     "$$\n",
@@ -33,9 +35,23 @@
     "$$\n",
     "\n",
     "\n",
-    "Here $\\beta_0$ is the intercept term, $\\beta_1$ through $\\beta_D$ are the coefficients on our input variables, and $\\epsilon$ is an error term that represents the difference between the true $y$ value and the linear function of the predictors. Note that the terms with an $n$ in the subscript differ between observations while the terms without, namely the $\\beta\\text{s}$, do not.\n",
+    "Here $\\beta_0$ is the intercept term, $\\beta_1$ through $\\beta_D$ are the coefficients on our feature variables, and $\\epsilon$ is an error term that represents the difference between the true $y$ value and the linear function of the predictors. Note that the terms with an $n$ in the subscript differ between observations while the terms without (namely the $\\beta\\text{s}$) do not."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "The math behind linear regression often becomes easier when we use vectors to represent our predictors and coefficients. Let's define $\\bx_n$ and $\\bbeta$ as follows:\n",
     "\n",
-    "It is often easier to write our predictors as a vector. Let $\\bx_n = \\begin{bmatrix} 1 & x_{n1} & \\dots & x_{nD} \\end{bmatrix}^\\top$ (we add the leading 1 to correspond to $\\beta_0$). Then we can equivalently write, \n",
+    "$$\n",
+    "\\begin{align}\n",
+    "\\bx_n &= \\begin{pmatrix} 1 & x_{n1} & \\dots & x_{nD} \\end{pmatrix}^\\top \\\\\n",
+    "\\bbeta &= \\begin{pmatrix} \\beta_0 & \\beta_1 & \\dots & \\beta_D \\end{pmatrix}^\\top.\n",
+    "\\end{align}\n",
+    "$$\n",
+    "\n",
+    "Note that $\\bx_n$ includes a leading 1, corresponding to the intercept term $\\beta_0$. Using these definitions, we can equivalently express $y_n$ as \n",
     "\n",
     "\n",
     "$$\n",
@@ -48,7 +64,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 2,
+   "execution_count": 327,
    "metadata": {
     "tags": [
      "hide-input"
@@ -101,16 +117,16 @@
    "source": [
     "## Parameter Estimation\n",
     "\n",
-    "The above covers the entire structure we assume our data follows in linear regression. The machine learning task is then to estimate the parameters, $\\bbeta$. These estimates are represented by $\\hat{\\beta}_0, \\dots, \\hat{\\beta}_D$ or $\\bbetahat$. The estimates give us *fitted values* for our target variable, represented by $\\hat{y}_n$. \n",
+    "The previous section covers the entire structure we assume our data follows in linear regression. The machine learning task is then to estimate the parameters in $\\bbeta$. These estimates are represented by $\\hat{\\beta}_0, \\dots, \\hat{\\beta}_D$ or $\\bbetahat$. The estimates give us *fitted values* for our target variable, represented by $\\hat{y}_n$. \n",
     "\n",
     "\n",
-    "This task can be accomplished in two ways which, though slightly different conceptually, are identical mathematically. The first approach is through the lens of *minimizing loss*. A common practice in machine learning is to choose a loss function that defines how well a model with a given set of parameter estimates approximates the observed data. The most common loss function for linear regression is squared error loss. This says the *loss* of our model is proportional to the sum of squared differences between the true $y_n$ values and the fitted values $\\hat{y}_n$. We then *fit* the model by finding the estimates $\\bbetahat$ that minimize this loss function. This approach is covered in the subsection {doc}`s1/loss_minimization`.\n",
+    "This task can be accomplished in two ways which, though slightly different conceptually, are identical mathematically. The first approach is through the lens of *minimizing loss*. A common practice in machine learning is to choose a loss function that defines how well a model with a given set of parameter estimates the observed data. The most common loss function for linear regression is squared error loss. This says the *loss* of our model is proportional to the sum of squared differences between the true $y_n$ values and the fitted values, $\\hat{y}_n$. We then *fit* the model by finding the estimates $\\bbetahat$ that minimize this loss function. This approach is covered in the subsection {doc}`s1/loss_minimization`.\n",
     "\n",
     "\n",
-    "The second approach is through the lens of *maximizing likelihood*. Another common practice in machine learning is to model the target $y_n$ as a random variable indexed by one or more parameters and then find the parameters that maximize its likelihood. The most common model for $y_n$ in linear regression is a Normal random variable with mean $\\bbeta^\\top \\bx_n$. That is, we assume \n",
+    "The second approach is through the lens of *maximizing likelihood*. Another common practice in machine learning is to model the target as a random variable whose distribution depends on one or more parameters, and then find the parameters that maximize its likelihood. Under this approach, we will represent the target with $Y_n$ since we are treating it as a random variable. The most common model for $Y_n$ in linear regression is a Normal random variable with mean $E(Y_n) = \\bbeta^\\top \\bx_n$. That is, we assume \n",
     "\n",
     "$$\n",
-    "y_n|\\bx_n \\sim \\mathcal{N}(\\bbeta^\\top \\bx_n, \\sigma^2),\n",
+    "Y_n|\\bx_n \\sim \\mathcal{N}(\\bbeta^\\top \\bx_n, \\sigma^2),\n",
     "$$\n",
     "\n",
     "and we find the values of $\\bbetahat$ to maximize the likelihood. This approach is covered in subsection {doc}`s1/likelihood_maximization`. \n",
@@ -121,7 +137,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 3,
+   "execution_count": 328,
    "metadata": {
     "tags": [
      "hide-input"
@@ -176,7 +192,7 @@
    "source": [
     "## Extensions of Ordinary Linear Regression\n",
     "\n",
-    "There are many important extensions to linear regression which make the model more flexible. Those include {doc}`/content/c2/s1/regularized`—which balances the bias-variance tradeoff for high-dimensional regression models—{doc}`/content/c2/s1/bayesian`—which allows for prior distributions on the parameters—and {doc}`/content/c2/s1/GLMs`—which introduce non-linearity to regression models. These extensions are discussed in the next chapter."
+    "There are many important extensions to linear regression which make the model more flexible. Those include {doc}`/content/c2/s1/regularized`—which balances the bias-variance tradeoff for high-dimensional regression models—{doc}`/content/c2/s1/bayesian`—which allows for prior distributions on the coefficients—and {doc}`/content/c2/s1/GLMs`—which introduce non-linearity to regression models. These extensions are discussed in the next chapter."
    ]
   }
  ],

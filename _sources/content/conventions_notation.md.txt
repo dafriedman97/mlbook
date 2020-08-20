@@ -32,30 +32,25 @@ The following terminology will be used throughout the book.
 
 Unless indicated otherwise, the following conventions are used to represent data and datasets. 
 
-- Training datasets are assumed to have $N$ observations and $D$ predictors. When appropriate (as indicated in the content sections), this will include a column of 1s to represent the intercept term.  
+- Training datasets are assumed to have $N$ observations and $D$ predictors.
 
 - The vector of features for the $n^\text{th}$ observation is given by $\bx_n$. Note that $\bx_n$ might include functions of the original predictors through feature engineering. When the target variable is single-dimensional (i.e. there is only one target variable per observation), it is given by $y_n$; when there are multiple target variables per observation, the vector of targets is given by $\by_n$.
 
-- Many models, such as ordinary linear regression, append an intercept term to the predictor vector. For clarity, the predictor vector will be indicated by $\bphi_n$ when this is done. That is, for a vector of features
+- Many models, such as ordinary linear regression, append an intercept term to the predictor vector. When this is the case, $\bx_n$ will be defined as 
   
   $$
-  \bx_n = \begin{pmatrix} x_{n,1} & x_{n,2} & ... & x_{n,D-1} \end{pmatrix},
+  \bx_n = \begin{pmatrix} 1 & x_{n1} & x_{n2} & ... & x_{nD} \end{pmatrix}.
   $$
 
-  the vector $\bphi_n$ is given by 
-
-  $$
-  \bphi_n = \begin{pmatrix} 1 & x_{n,1} & x_{n,2} &  ... & x_{n, D-1}\end{pmatrix}. 
-  $$
   
 
-- *Feature matrices* or *data frames* are created by concatenating feature vectors across observations. Within a matrix, feature vectors are row vectors, with $\bx_n$ or $\bphi_n$ representing the matrix's $n^\text{th}$ row. These matrices are then given by $\bX$ or $\bPhi$, depending on whether an intercept term is included or not. Within a feature matrix $\bPhi$, the first column will consist of only 1s. 
+- *Feature matrices* or *data frames* are created by concatenating feature vectors across observations. Within a matrix, feature vectors are row vectors, with $\bx_n$ representing the matrix's $n^\text{th}$ row. These matrices are then given by $\bX$. If a leading 1 is appended to each $\bx_n$, the first column of the corresponding feature matrix $\bX$ will consist of only 1s. 
 
   
 
 Finally, the following mathematical and notational conventions are used.
 
-- Scalar values will be non-boldface and lowercase, vectors will be bold and lowercase, and matrices will be bold and uppercase. E.g. $b$ is a scalar, $\mathbf{b}$ a vector, and $\mathbf{B}$ a matrix. 
+- Scalar values will be non-boldface and lowercase, random variables will be non-boldface and uppercase, vectors will be bold and lowercase, and matrices will be bold and uppercase. E.g. $b$ is a scalar, $B$ a random variable, $\mathbf{b}$ a vector, and $\mathbf{B}$ a matrix. 
 
 - Unless indicated otherwise, all vectors are assumed to be column vectors. Since feature vectors (such as $\bx_n$ and $\bphi_n$ above) are entered into data frames as rows, they will sometimes be treated as row vectors, even outside of data frames.
 

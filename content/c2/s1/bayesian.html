@@ -318,13 +318,13 @@
 <p>We also may wish to perform Bayesian regression not because of a prior belief about the coefficients but in order to minimize model complexity. By assigning the parameters a prior distribution with mean 0, we force the posterior estimates to be closer to 0 than they would otherwise. This is a form of regularization similar to the Ridge and Lasso methods discussed in the <a class="reference internal" href="regularized.html"><span class="doc">previous section</span></a>.</p>
 <div class="section" id="the-bayesian-structure">
 <h2>The Bayesian Structure<a class="headerlink" href="#the-bayesian-structure" title="Permalink to this headline">¶</a></h2>
-<p>To demonstrate Bayesian regression, we’ll follow three typical steps to Bayesian analysis: writing the likelihood, writing the prior density, and using Bayes’ Rule to get the posterior density. In the <a class="reference internal" href="#results"><span class="std std-ref">results</span></a> below, we use the posterior density to calculate the maximum-a-posteriori (MAP).</p>
+<p>To demonstrate Bayesian regression, we’ll follow three typical steps to Bayesian analysis: writing the likelihood, writing the prior density, and using Bayes’ Rule to get the posterior density. In the <a class="reference internal" href="#results"><span class="std std-ref">results</span></a> below, we use the posterior density to calculate the maximum-a-posteriori (MAP)—the equivalent of calculating the <span class="math notranslate nohighlight">\(\hat{\bbeta}\)</span> estimates in ordinary linear regression.</p>
 <div class="section" id="the-likelihood">
 <h3>1. The Likelihood<a class="headerlink" href="#the-likelihood" title="Permalink to this headline">¶</a></h3>
 <p>As in the typical regression set-up, let’s assume</p>
 <div class="math notranslate nohighlight">
 \[
-y_n \iid \mathcal{N}\left(\bbeta^\top \bx_n + \epsilon_n, \sigma^2\right).
+Y_n \iid \mathcal{N}\left(\bbeta^\top \bx_n , \sigma^2\right).
 \]</div>
 <p>We can write the collection of observations jointly as</p>
 <div class="math notranslate nohighlight">
@@ -333,7 +333,7 @@ y_n \iid \mathcal{N}\left(\bbeta^\top \bx_n + \epsilon_n, \sigma^2\right).
 \by &amp;\sim \mathcal{N}\left( \bX\bbeta, \bSigma\right),
 \end{align*}
 \]</div>
-<p>where <span class="math notranslate nohighlight">\(\by \in \mathbb{R}^N\)</span> and <span class="math notranslate nohighlight">\(\bSigma = \sigma^2 I_N \in \mathbb{R}^{N \times N}\)</span> for some scalar <span class="math notranslate nohighlight">\(\sigma^2\)</span>. For simplicity, let’s assume <span class="math notranslate nohighlight">\(\sigma^2\)</span> is known.</p>
+<p>where <span class="math notranslate nohighlight">\(\by \in \mathbb{R}^N\)</span> and <span class="math notranslate nohighlight">\(\bSigma = \sigma^2 I_N \in \mathbb{R}^{N \times N}\)</span> for some <em>known</em> scalar <span class="math notranslate nohighlight">\(\sigma^2\)</span>. Note that <span class="math notranslate nohighlight">\(\by\)</span> is a vector of random variables—it is not capitalized in order to distinguish it from a matrix.</p>
 <div class="alert alert-info">
 <p class="admonition-title">Note</p>
 <p>See <a class="reference external" href="https://www.statlect.com/fundamentals-of-statistics/Bayesian-regression">this lecture</a> for an example of Bayesian regression without the assumption of known variance.</p>
@@ -375,8 +375,8 @@ p(\bbeta) &amp;=
 </div>
 <div class="section" id="the-posterior">
 <h3>3. The Posterior<a class="headerlink" href="#the-posterior" title="Permalink to this headline">¶</a></h3>
-<p>We are then interested in a posterior density of <span class="math notranslate nohighlight">\(\bbeta\)</span> given the data, <span class="math notranslate nohighlight">\(\bX\)</span> and <span class="math notranslate nohighlight">\(\by\)</span>. Note that this is more or less the Bayesian equivalent to the <span class="math notranslate nohighlight">\(\bbetahat\)</span> estimate from the typical (Frequentist) approach.</p>
-<p>Bayes’ rule tells us that the posterior density is proportional to the likelihood times the prior density. Using the two previous results, we have</p>
+<p>We are then interested in a posterior density of <span class="math notranslate nohighlight">\(\bbeta\)</span> given the data, <span class="math notranslate nohighlight">\(\bX\)</span> and <span class="math notranslate nohighlight">\(\by\)</span>.</p>
+<p>Bayes’ rule tells us that the posterior density of the coefficients is proportional to the likelihood of the data times the prior density of the coefficients. Using the two previous results, we have</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
 \begin{align*}
@@ -435,17 +435,18 @@ L(\bbetahat) &amp;= \frac{1}{2}(\by - \bX\bbetahat)^\top(\by - \bX\bbetahat) + \
 </div>
 <p>Using the <em>Math Note</em> above, we have</p>
 <div class="math notranslate nohighlight">
-\[
+\[\begin{split}
 \begin{align*}
+\log p(\bbetahat|\bX, \by) &amp;=  -\frac{1}{2}(\by - \bX\bbeta)^\top\bSigma^{-1}(\by - \bX\bbeta) - \frac{1}{2}\bbeta^\top \bT^{-1}\bbeta \\
 \dadb{}{\bbeta} \log p(\bbeta|\bX, \by) &amp;= \bX^\top \bSigma^{-1}(\by - \bX \bbeta) - \bT^{-1}\bbeta.
 \end{align*}
-\]</div>
+\end{split}\]</div>
 <p>We calculate the MAP by setting this gradient equal to 0:</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
 \begin{align*}
 \bbetahat &amp;= \left(\bX^\top\bSigma^{-1} \bX + \bT^{-1}\right)^{-1}\bX^\top\bSigma^{-1}\by \\
-&amp;= \left(\frac{1}{\sigma^2}\bX^\top\bX + \frac{1}{\tau} I_D\right)^{-1}\frac{1}{\sigma^2}\bX^\top\by.
+&amp;= \left(\frac{1}{\sigma^2}\bX^\top\bX + \frac{1}{\tau} I\right)^{-1}\frac{1}{\sigma^2}\bX^\top\by.
 \end{align*}
 \end{split}\]</div>
 </div>

@@ -274,7 +274,25 @@
                 
   <div class="section" id="regularized-regression">
 <h1>Regularized Regression<a class="headerlink" href="#regularized-regression" title="Permalink to this headline">¶</a></h1>
-<p>Regression models, especially those fit to high-dimensional data, may be prone to overfitting. One way to ameliorate this issue is by penalizing the magnitude of the <span class="math notranslate nohighlight">\(\bbeta\)</span> parameters. This has the effect of shrinking these estimates toward 0, which ideally prevents the model from capturing spurious relationships between weak predictors and the target variable.</p>
+<div class="math notranslate nohighlight">
+\[
+\newcommand{\sumN}{\sum_{n = 1}^N}
+\newcommand{\sumn}{\sum_n}
+\newcommand{\prodN}{\prod_{n = 1}^N}
+\newcommand{\by}{\mathbf{y}} \newcommand{\bX}{\mathbf{X}}
+\newcommand{\bx}{\mathbf{x}}
+\newcommand{\bbeta}{\boldsymbol{\beta}}
+\newcommand{\btheta}{\boldsymbol{\theta}}
+\newcommand{\bbetahat}{\boldsymbol{\hat{\beta}}}
+\newcommand{\bthetahat}{\boldsymbol{\hat{\theta}}}
+\newcommand{\bSigma}{\boldsymbol{\Sigma}}
+\newcommand{\bphi}{\boldsymbol{\phi}}
+\newcommand{\bPhi}{\boldsymbol{\Phi}}
+\newcommand{\bT}{\mathbf{T}}
+\newcommand{\dadb}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\iid}{\overset{\small{\text{i.i.d.}}}{\sim}}
+\]</div>
+<p>Regression models, especially those fit to high-dimensional data, may be prone to overfitting. One way to ameliorate this issue is by penalizing the magnitude of the <span class="math notranslate nohighlight">\(\bbetahat\)</span> coefficient estimates. This has the effect of shrinking these estimates toward 0, which ideally prevents the model from capturing spurious relationships between weak predictors and the target variable.</p>
 <p>This section reviews the two most common methods for regularized regression: Ridge and Lasso.</p>
 <div class="section" id="ridge-regression">
 <h2>Ridge Regression<a class="headerlink" href="#ridge-regression" title="Permalink to this headline">¶</a></h2>
@@ -296,23 +314,23 @@
 \[\begin{split}
 \begin{align*}
 \frac{\partial}{\partial \bbetahat} \left( \frac{\lambda}{2}\sum_{d = 1}^D \hat{\beta}_d^2\right) &amp;= \begin{bmatrix} 0 \\ \lambda \hat{\beta}_1 \\ ... \\ \lambda \hat{\beta}_D \end{bmatrix} \\
-&amp;= \lambda I'_D \bbetahat,
+&amp;= \lambda I' \bbetahat,
 \end{align*}
 \end{split}\]</div>
-<p>where <span class="math notranslate nohighlight">\(I'_D\)</span> is the identity matrix of size <span class="math notranslate nohighlight">\(D\)</span> <em>except</em> the first element is a 0. Then, adding in the derivative of the sum of squared errors discussed <a class="reference internal" href="../../c1/s1/loss_minimization.html"><span class="doc">here</span></a>, we get</p>
+<p>where <span class="math notranslate nohighlight">\(I'\)</span> is the identity matrix of size <span class="math notranslate nohighlight">\(D+1\)</span> <em>except</em> the first element is a 0. Then, adding in the derivative of the RSS discussed in <a class="reference internal" href="../../c1/s1/loss_minimization.html"><span class="doc">chapter 1</span></a>, we get</p>
 <div class="math notranslate nohighlight">
 \[
 \begin{align*}
-\dadb{\mathcal{L}_\text{Ridge}(\bbetahat)}{\bbetahat} &amp;= - \bX^\top\left( \by - \bX \bbetahat \right) + \lambda I'_D\bbetahat.
+\dadb{\mathcal{L}_\text{Ridge}(\bbetahat)}{\bbetahat} &amp;= - \bX^\top\left( \by - \bX \bbetahat \right) + \lambda I'\bbetahat.
 \end{align*}
 \]</div>
 <p>Setting this equal to 0 and solving for <span class="math notranslate nohighlight">\(\bbetahat\)</span>, we get our estimates:</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
 \begin{align*}
-\bbetahat\left(\bX^\top \bX + \lambda I'_D \right) &amp;= \bX^\top \by 
+\bbetahat\left(\bX^\top \bX + \lambda I' \right) &amp;= \bX^\top \by 
 \\
-\bbetahat &amp;= \left(\bX^\top \bX + \lambda I'_D \right)^{-1} \bX^\top \by,
+\bbetahat &amp;= \left(\bX^\top \bX + \lambda I' \right)^{-1} \bX^\top \by,
 \end{align*}
 \end{split}\]</div>
 </div>
@@ -329,9 +347,9 @@
 <p>As usual, let’s then calculate the gradient of the loss function with respect to <span class="math notranslate nohighlight">\(\bbetahat\)</span>:</p>
 <div class="math notranslate nohighlight">
 \[
-\dadb{\mathcal{L}(\bbetahat)}{\bbetahat} = - \bX^\top\left( \by - \bX \bbetahat \right) + \lambda I'_D\text{ sign}(\bbetahat),
+\dadb{\mathcal{L}(\bbetahat)}{\bbetahat} = - \bX^\top\left( \by - \bX \bbetahat \right) + \lambda I'\text{ sign}(\bbetahat),
 \]</div>
-<p>where again we use <span class="math notranslate nohighlight">\(I'_D\)</span> rather than <span class="math notranslate nohighlight">\(I_D\)</span> since the magnitude of the intercept estimate <span class="math notranslate nohighlight">\(\hat{\beta}_0\)</span> is not penalized.</p>
+<p>where again we use <span class="math notranslate nohighlight">\(I'\)</span> rather than <span class="math notranslate nohighlight">\(I\)</span> since the magnitude of the intercept estimate <span class="math notranslate nohighlight">\(\hat{\beta}_0\)</span> is not penalized.</p>
 <p>Unfortunately, we cannot find a closed-form solution for the <span class="math notranslate nohighlight">\(\bbetahat\)</span> that minimize the Lasso loss. Numerous methods exist for estimating the <span class="math notranslate nohighlight">\(\bbetahat\)</span>, though using the gradient calculated above we could easily reach an estimate through <a class="reference internal" href="../../appendix/methods.html"><span class="doc">gradient descent</span></a>. The <a class="reference internal" href="../s2/regularized.html"><span class="doc">construction</span></a> in the next section uses this approach.</p>
 </div>
 </div>

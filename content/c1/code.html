@@ -290,7 +290,7 @@
 </div>
 <div class="section" id="scikit-learn">
 <h2>Scikit-Learn<a class="headerlink" href="#scikit-learn" title="Permalink to this headline">¶</a></h2>
-<p>Fitting the model in <code class="docutils literal notranslate"><span class="pre">scikit-learn</span></code> is very similar to how we fit our model from scratch in the previous section. The model is fit in two steps: first instantiate the model and second use the <code class="docutils literal notranslate"><span class="pre">fit</span></code> method to train it.</p>
+<p>Fitting the model in <code class="docutils literal notranslate"><span class="pre">scikit-learn</span></code> is very similar to how we fit our model from scratch in the previous section. The model is fit in two steps: first instantiate the model and second use the <code class="docutils literal notranslate"><span class="pre">fit()</span></code> method to train it.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LinearRegression</span>
@@ -340,7 +340,7 @@ INDUS: 0.021
 <p><code class="docutils literal notranslate"><span class="pre">statsmodels</span></code> is another package frequently used for running linear regression in Python. There are two ways to run regression in <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code>. The first uses <code class="docutils literal notranslate"><span class="pre">numpy</span></code> arrays like we did in the previous section. An example is given below.</p>
 <div class="alert alert-info">
 <p class="admonition-title">Note</p>
-<p>Note two subtle differences between this model and the models we’ve previously built. First, we have to manually add a constant to predictor dataframe in order to give our model an intercept term. Second, we supply the training data when <em>instantiating</em> the model, rather than when fitting it.</p>
+<p>Note two subtle differences between this model and the models we’ve previously built. First, we have to manually add a constant to the predictor dataframe in order to give our model an intercept term. Second, we supply the training data when <em>instantiating</em> the model, rather than when fitting it.</p>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">

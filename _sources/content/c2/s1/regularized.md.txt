@@ -1,7 +1,25 @@
 Regularized Regression
 ==============
 
-Regression models, especially those fit to high-dimensional data, may be prone to overfitting. One way to ameliorate this issue is by penalizing the magnitude of the $\bbeta$ parameters. This has the effect of shrinking these estimates toward 0, which ideally prevents the model from capturing spurious relationships between weak predictors and the target variable. 
+$$
+\newcommand{\sumN}{\sum_{n = 1}^N}
+\newcommand{\sumn}{\sum_n}
+\newcommand{\prodN}{\prod_{n = 1}^N}
+\newcommand{\by}{\mathbf{y}} \newcommand{\bX}{\mathbf{X}}
+\newcommand{\bx}{\mathbf{x}}
+\newcommand{\bbeta}{\boldsymbol{\beta}}
+\newcommand{\btheta}{\boldsymbol{\theta}}
+\newcommand{\bbetahat}{\boldsymbol{\hat{\beta}}}
+\newcommand{\bthetahat}{\boldsymbol{\hat{\theta}}}
+\newcommand{\bSigma}{\boldsymbol{\Sigma}}
+\newcommand{\bphi}{\boldsymbol{\phi}}
+\newcommand{\bPhi}{\boldsymbol{\Phi}}
+\newcommand{\bT}{\mathbf{T}}
+\newcommand{\dadb}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\iid}{\overset{\small{\text{i.i.d.}}}{\sim}}
+$$
+
+Regression models, especially those fit to high-dimensional data, may be prone to overfitting. One way to ameliorate this issue is by penalizing the magnitude of the $\bbetahat$ coefficient estimates. This has the effect of shrinking these estimates toward 0, which ideally prevents the model from capturing spurious relationships between weak predictors and the target variable. 
 
 
 
@@ -38,17 +56,17 @@ As in ordinary linear regression, we start estimating $\bbetahat$ by taking the 
 $$
 \begin{align*}
 \frac{\partial}{\partial \bbetahat} \left( \frac{\lambda}{2}\sum_{d = 1}^D \hat{\beta}_d^2\right) &= \begin{bmatrix} 0 \\ \lambda \hat{\beta}_1 \\ ... \\ \lambda \hat{\beta}_D \end{bmatrix} \\
-&= \lambda I'_D \bbetahat,
+&= \lambda I' \bbetahat,
 \end{align*}
 $$
 
 
-where $I'_D$ is the identity matrix of size $D$ *except* the first element is a 0. Then, adding in the derivative of the sum of squared errors discussed {doc}`here </content/c1/s1/loss_minimization>`, we get
+where $I'$ is the identity matrix of size $D+1$ *except* the first element is a 0. Then, adding in the derivative of the RSS discussed in {doc}`chapter 1 </content/c1/s1/loss_minimization>`, we get
 
 
 $$
 \begin{align*}
-\dadb{\mathcal{L}_\text{Ridge}(\bbetahat)}{\bbetahat} &= - \bX^\top\left( \by - \bX \bbetahat \right) + \lambda I'_D\bbetahat.
+\dadb{\mathcal{L}_\text{Ridge}(\bbetahat)}{\bbetahat} &= - \bX^\top\left( \by - \bX \bbetahat \right) + \lambda I'\bbetahat.
 \end{align*}
 $$
 
@@ -58,9 +76,9 @@ Setting this equal to 0 and solving for $\bbetahat$, we get our estimates:
 
 $$
 \begin{align*}
-\bbetahat\left(\bX^\top \bX + \lambda I'_D \right) &= \bX^\top \by 
+\bbetahat\left(\bX^\top \bX + \lambda I' \right) &= \bX^\top \by 
 \\
-\bbetahat &= \left(\bX^\top \bX + \lambda I'_D \right)^{-1} \bX^\top \by,
+\bbetahat &= \left(\bX^\top \bX + \lambda I' \right)^{-1} \bX^\top \by,
 \end{align*}
 $$
 
@@ -82,11 +100,11 @@ As usual, let's then calculate the gradient of the loss function with respect to
 
 
 $$
-\dadb{\mathcal{L}(\bbetahat)}{\bbetahat} = - \bX^\top\left( \by - \bX \bbetahat \right) + \lambda I'_D\text{ sign}(\bbetahat),
+\dadb{\mathcal{L}(\bbetahat)}{\bbetahat} = - \bX^\top\left( \by - \bX \bbetahat \right) + \lambda I'\text{ sign}(\bbetahat),
 $$
 
 
-where again we use $I'_D$ rather than $I_D$ since the magnitude of the intercept estimate $\hat{\beta}_0$ is not penalized. 
+where again we use $I'$ rather than $I$ since the magnitude of the intercept estimate $\hat{\beta}_0$ is not penalized. 
 
 
 

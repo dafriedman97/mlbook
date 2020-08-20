@@ -298,17 +298,27 @@
 \newcommand{\dadb}[2]{\frac{\partial #1}{\partial #2}} 
 \newcommand{\by}{\mathbf{y}} 
 \newcommand{\bX}{\mathbf{X}}
+\newcommand{\bphi}{\boldsymbol{\phi}}
+\newcommand{\bPhi}{\boldsymbol{\Phi}}
 \]</div>
 <div class="section" id="model-structure">
 <h2>Model Structure<a class="headerlink" href="#model-structure" title="Permalink to this headline">¶</a></h2>
-<p><em>Linear regression</em> is a relatively simple method that is both extremely widely-used and a stepping stone for many more sophisticated methods. This makes it a natural algorithm to study first.</p>
-<p>In linear regression, the target variable <span class="math notranslate nohighlight">\(y\)</span> is assumed to follow a linear function of one or more input variables, <span class="math notranslate nohighlight">\(x_1, \dots, x_D\)</span>, plus some error. Specifically, we assume the model for the <span class="math notranslate nohighlight">\(n^\text{th}\)</span> observation in our sample is of the form</p>
+<p><em>Linear regression</em> is a relatively simple method that is extremely widely-used. It is also a great stepping stone for more sophisticated methods, making it a natural algorithm to study first.</p>
+<p>In linear regression, the target variable <span class="math notranslate nohighlight">\(y\)</span> is assumed to follow a linear function of one or more predictor variables, <span class="math notranslate nohighlight">\(x_1, \dots, x_D\)</span>, plus some random error. Specifically, we assume the model for the <span class="math notranslate nohighlight">\(n^\text{th}\)</span> observation in our sample is of the form</p>
 <div class="math notranslate nohighlight">
 \[
 y_n = \beta_0 + \beta_1 x_{n1} + \dots + \beta_Dx_{nD} + \epsilon_n. 
 \]</div>
-<p>Here <span class="math notranslate nohighlight">\(\beta_0\)</span> is the intercept term, <span class="math notranslate nohighlight">\(\beta_1\)</span> through <span class="math notranslate nohighlight">\(\beta_D\)</span> are the coefficients on our input variables, and <span class="math notranslate nohighlight">\(\epsilon\)</span> is an error term that represents the difference between the true <span class="math notranslate nohighlight">\(y\)</span> value and the linear function of the predictors. Note that the terms with an <span class="math notranslate nohighlight">\(n\)</span> in the subscript differ between observations while the terms without, namely the <span class="math notranslate nohighlight">\(\beta\text{s}\)</span>, do not.</p>
-<p>It is often easier to write our predictors as a vector. Let <span class="math notranslate nohighlight">\(\bx_n = \begin{bmatrix} 1 &amp; x_{n1} &amp; \dots &amp; x_{nD} \end{bmatrix}^\top\)</span> (we add the leading 1 to correspond to <span class="math notranslate nohighlight">\(\beta_0\)</span>). Then we can equivalently write,</p>
+<p>Here <span class="math notranslate nohighlight">\(\beta_0\)</span> is the intercept term, <span class="math notranslate nohighlight">\(\beta_1\)</span> through <span class="math notranslate nohighlight">\(\beta_D\)</span> are the coefficients on our feature variables, and <span class="math notranslate nohighlight">\(\epsilon\)</span> is an error term that represents the difference between the true <span class="math notranslate nohighlight">\(y\)</span> value and the linear function of the predictors. Note that the terms with an <span class="math notranslate nohighlight">\(n\)</span> in the subscript differ between observations while the terms without (namely the <span class="math notranslate nohighlight">\(\beta\text{s}\)</span>) do not.</p>
+<p>The math behind linear regression often becomes easier when we use vectors to represent our predictors and coefficients. Let’s define <span class="math notranslate nohighlight">\(\bx_n\)</span> and <span class="math notranslate nohighlight">\(\bbeta\)</span> as follows:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align}
+\bx_n &amp;= \begin{pmatrix} 1 &amp; x_{n1} &amp; \dots &amp; x_{nD} \end{pmatrix}^\top \\
+\bbeta &amp;= \begin{pmatrix} \beta_0 &amp; \beta_1 &amp; \dots &amp; \beta_D \end{pmatrix}^\top.
+\end{align}
+\end{split}\]</div>
+<p>Note that <span class="math notranslate nohighlight">\(\bx_n\)</span> includes a leading 1, corresponding to the intercept term <span class="math notranslate nohighlight">\(\beta_0\)</span>. Using these definitions, we can equivalently express <span class="math notranslate nohighlight">\(y_n\)</span> as</p>
 <div class="math notranslate nohighlight">
 \[
 y_n = \bbeta^\top \bx_n + \epsilon_n.
@@ -344,18 +354,18 @@ y_n = \bbeta^\top \bx_n + \epsilon_n.
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/concept_1_0.png" src="../../_images/concept_1_0.png" />
+<img alt="../../_images/concept_2_0.png" src="../../_images/concept_2_0.png" />
 </div>
 </div>
 </div>
 <div class="section" id="parameter-estimation">
 <h2>Parameter Estimation<a class="headerlink" href="#parameter-estimation" title="Permalink to this headline">¶</a></h2>
-<p>The above covers the entire structure we assume our data follows in linear regression. The machine learning task is then to estimate the parameters, <span class="math notranslate nohighlight">\(\bbeta\)</span>. These estimates are represented by <span class="math notranslate nohighlight">\(\hat{\beta}_0, \dots, \hat{\beta}_D\)</span> or <span class="math notranslate nohighlight">\(\bbetahat\)</span>. The estimates give us <em>fitted values</em> for our target variable, represented by <span class="math notranslate nohighlight">\(\hat{y}_n\)</span>.</p>
-<p>This task can be accomplished in two ways which, though slightly different conceptually, are identical mathematically. The first approach is through the lens of <em>minimizing loss</em>. A common practice in machine learning is to choose a loss function that defines how well a model with a given set of parameter estimates approximates the observed data. The most common loss function for linear regression is squared error loss. This says the <em>loss</em> of our model is proportional to the sum of squared differences between the true <span class="math notranslate nohighlight">\(y_n\)</span> values and the fitted values <span class="math notranslate nohighlight">\(\hat{y}_n\)</span>. We then <em>fit</em> the model by finding the estimates <span class="math notranslate nohighlight">\(\bbetahat\)</span> that minimize this loss function. This approach is covered in the subsection <a class="reference internal" href="s1/loss_minimization.html"><span class="doc">Approach 1: Minimizing Loss</span></a>.</p>
-<p>The second approach is through the lens of <em>maximizing likelihood</em>. Another common practice in machine learning is to model the target <span class="math notranslate nohighlight">\(y_n\)</span> as a random variable indexed by one or more parameters and then find the parameters that maximize its likelihood. The most common model for <span class="math notranslate nohighlight">\(y_n\)</span> in linear regression is a Normal random variable with mean <span class="math notranslate nohighlight">\(\bbeta^\top \bx_n\)</span>. That is, we assume</p>
+<p>The previous section covers the entire structure we assume our data follows in linear regression. The machine learning task is then to estimate the parameters in <span class="math notranslate nohighlight">\(\bbeta\)</span>. These estimates are represented by <span class="math notranslate nohighlight">\(\hat{\beta}_0, \dots, \hat{\beta}_D\)</span> or <span class="math notranslate nohighlight">\(\bbetahat\)</span>. The estimates give us <em>fitted values</em> for our target variable, represented by <span class="math notranslate nohighlight">\(\hat{y}_n\)</span>.</p>
+<p>This task can be accomplished in two ways which, though slightly different conceptually, are identical mathematically. The first approach is through the lens of <em>minimizing loss</em>. A common practice in machine learning is to choose a loss function that defines how well a model with a given set of parameter estimates the observed data. The most common loss function for linear regression is squared error loss. This says the <em>loss</em> of our model is proportional to the sum of squared differences between the true <span class="math notranslate nohighlight">\(y_n\)</span> values and the fitted values, <span class="math notranslate nohighlight">\(\hat{y}_n\)</span>. We then <em>fit</em> the model by finding the estimates <span class="math notranslate nohighlight">\(\bbetahat\)</span> that minimize this loss function. This approach is covered in the subsection <a class="reference internal" href="s1/loss_minimization.html"><span class="doc">Approach 1: Minimizing Loss</span></a>.</p>
+<p>The second approach is through the lens of <em>maximizing likelihood</em>. Another common practice in machine learning is to model the target as a random variable whose distribution depends on one or more parameters, and then find the parameters that maximize its likelihood. Under this approach, we will represent the target with <span class="math notranslate nohighlight">\(Y_n\)</span> since we are treating it as a random variable. The most common model for <span class="math notranslate nohighlight">\(Y_n\)</span> in linear regression is a Normal random variable with mean <span class="math notranslate nohighlight">\(E(Y_n) = \bbeta^\top \bx_n\)</span>. That is, we assume</p>
 <div class="math notranslate nohighlight">
 \[
-y_n|\bx_n \sim \mathcal{N}(\bbeta^\top \bx_n, \sigma^2),
+Y_n|\bx_n \sim \mathcal{N}(\bbeta^\top \bx_n, \sigma^2),
 \]</div>
 <p>and we find the values of <span class="math notranslate nohighlight">\(\bbetahat\)</span> to maximize the likelihood. This approach is covered in subsection <a class="reference internal" href="s1/likelihood_maximization.html"><span class="doc">Approach 2: Maximizing Likelihood</span></a>.</p>
 <p>Once we’ve estimated <span class="math notranslate nohighlight">\(\bbeta\)</span>, our model is <em>fit</em> and we can make predictions. The below graph is the same as the one above but includes our estimated line-of-best-fit, obtained by calculating <span class="math notranslate nohighlight">\(\hat{\beta}_0\)</span> and <span class="math notranslate nohighlight">\(\hat{\beta}_1\)</span>.</p>
@@ -391,13 +401,13 @@ y_n|\bx_n \sim \mathcal{N}(\bbeta^\top \bx_n, \sigma^2),
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/concept_3_0.png" src="../../_images/concept_3_0.png" />
+<img alt="../../_images/concept_4_0.png" src="../../_images/concept_4_0.png" />
 </div>
 </div>
 </div>
 <div class="section" id="extensions-of-ordinary-linear-regression">
 <h2>Extensions of Ordinary Linear Regression<a class="headerlink" href="#extensions-of-ordinary-linear-regression" title="Permalink to this headline">¶</a></h2>
-<p>There are many important extensions to linear regression which make the model more flexible. Those include <a class="reference internal" href="../c2/s1/regularized.html"><span class="doc">Regularized Regression</span></a>—which balances the bias-variance tradeoff for high-dimensional regression models—<a class="reference internal" href="../c2/s1/bayesian.html"><span class="doc">Bayesian Regression</span></a>—which allows for prior distributions on the parameters—and <a class="reference internal" href="../c2/s1/GLMs.html"><span class="doc">GLMs</span></a>—which introduce non-linearity to regression models. These extensions are discussed in the next chapter.</p>
+<p>There are many important extensions to linear regression which make the model more flexible. Those include <a class="reference internal" href="../c2/s1/regularized.html"><span class="doc">Regularized Regression</span></a>—which balances the bias-variance tradeoff for high-dimensional regression models—<a class="reference internal" href="../c2/s1/bayesian.html"><span class="doc">Bayesian Regression</span></a>—which allows for prior distributions on the coefficients—and <a class="reference internal" href="../c2/s1/GLMs.html"><span class="doc">GLMs</span></a>—which introduce non-linearity to regression models. These extensions are discussed in the next chapter.</p>
 <div class="toctree-wrapper compound">
 </div>
 </div>

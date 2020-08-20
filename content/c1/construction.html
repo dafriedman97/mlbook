@@ -277,17 +277,17 @@
 \newcommand{\bX}{\mathbf{X}}
 \]</div>
 <p>This section demonstrates how to construct a linear regression model using only <code class="docutils literal notranslate"><span class="pre">numpy</span></code>. To do this, we generate a class named <code class="docutils literal notranslate"><span class="pre">LinearRegression</span></code>. We use this class to train the model and make future predictions.</p>
-<p>The first method in the <code class="docutils literal notranslate"><span class="pre">LinearRegression</span></code> class is <code class="docutils literal notranslate"><span class="pre">fit</span></code>, which takes care of estimating the <span class="math notranslate nohighlight">\(\bbeta\)</span> parameters. This simply consists of calculating</p>
+<p>The first method in the <code class="docutils literal notranslate"><span class="pre">LinearRegression</span></code> class is <code class="docutils literal notranslate"><span class="pre">fit()</span></code>, which takes care of estimating the <span class="math notranslate nohighlight">\(\bbeta\)</span> parameters. This simply consists of calculating</p>
 <div class="math notranslate nohighlight">
 \[
 \bbetahat = \left(\bX^\top \bX\right)^{-1}\bX^\top \by
 \]</div>
-<p>The <code class="docutils literal notranslate"><span class="pre">fit</span></code> method also makes in sample predictions with <span class="math notranslate nohighlight">\(\hat{\by} = \bX \bbetahat\)</span> and calculates the training loss with</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">fit</span></code> method also makes in-sample predictions with <span class="math notranslate nohighlight">\(\hat{\by} = \bX \bbetahat\)</span> and calculates the training loss with</p>
 <div class="math notranslate nohighlight">
 \[
 \mathcal{L}(\bbetahat) = \frac{1}{2}\sumN \left(y_n - \hat{y}_n \right)^2.
 \]</div>
-<p>The second method is <code class="docutils literal notranslate"><span class="pre">predict</span></code> which forms out-of-sample predictions. Given test set of predictors <span class="math notranslate nohighlight">\(\bX'\)</span>, we can form fitted values with <span class="math notranslate nohighlight">\(\hat{\by}' = \bX' \bbetahat\)</span>.</p>
+<p>The second method is <code class="docutils literal notranslate"><span class="pre">predict()</span></code>, which forms out-of-sample predictions. Given a test set of predictors <span class="math notranslate nohighlight">\(\bX'\)</span>, we can form fitted values with <span class="math notranslate nohighlight">\(\hat{\by}' = \bX' \bbetahat\)</span>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span> 
@@ -342,7 +342,7 @@
 </div>
 </div>
 </div>
-<p>With the class built and the data loaded, we are ready to run or regression model. This is as simple as instantiating the model and applying <code class="docutils literal notranslate"><span class="pre">fit</span></code>, as shown below.</p>
+<p>With the class built and the data loaded, we are ready to run our regression model. This is as simple as instantiating the model and applying <code class="docutils literal notranslate"><span class="pre">fit()</span></code>, as shown below.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">()</span> <span class="c1"># instantiate model</span>

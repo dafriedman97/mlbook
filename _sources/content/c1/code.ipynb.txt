@@ -41,7 +41,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "Fitting the model in `scikit-learn` is very similar to how we fit our model from scratch in the previous section. The model is fit in two steps: first instantiate the model and second use the `fit` method to train it."
+    "Fitting the model in `scikit-learn` is very similar to how we fit our model from scratch in the previous section. The model is fit in two steps: first instantiate the model and second use the `fit()` method to train it."
    ]
   },
   {
@@ -137,7 +137,7 @@
    "metadata": {},
    "source": [
     "```{note}\n",
-    "Note two subtle differences between this model and the models we've previously built. First, we have to manually add a constant to predictor dataframe in order to give our model an intercept term. Second, we supply the training data when *instantiating* the model, rather than when fitting it. \n",
+    "Note two subtle differences between this model and the models we've previously built. First, we have to manually add a constant to the predictor dataframe in order to give our model an intercept term. Second, we supply the training data when *instantiating* the model, rather than when fitting it. \n",
     "```"
    ]
   },
