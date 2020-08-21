@@ -295,7 +295,7 @@
 \newcommand{\dadb}[2]{\frac{\partial #1}{\partial #2}}
 \newcommand{\iid}{\overset{\small{\text{i.i.d.}}}{\sim}}
 \]</div>
-<p>Ordinary linear regression comes with several assumptions that can be relaxed with a more flexible model class, generalized linear models (GLMs). Specifically, OLS assumes</p>
+<p>Ordinary linear regression comes with several assumptions that can be relaxed with a more flexible model class: generalized linear models (GLMs). Specifically, OLS assumes</p>
 <ol class="simple">
 <li><p>The target variable is a linear function of the input variables</p></li>
 <li><p>The errors are Normally distributed</p></li>
@@ -304,8 +304,8 @@
 <p>When these assumptions are violated, GLMs might be the answer.</p>
 <div class="section" id="glm-structure">
 <h2>GLM Structure<a class="headerlink" href="#glm-structure" title="Permalink to this headline">¶</a></h2>
-<p>A GLM consists of a <em>link function</em> and a <em>random component</em>. The <em>random component</em> identifies the distribution of the target variable <span class="math notranslate nohighlight">\(y_n\)</span> conditional on the input variables <span class="math notranslate nohighlight">\(\bx_n\)</span>. For instance, we might model <span class="math notranslate nohighlight">\(y_n\)</span> as a Poisson random variable where the rate parameter <span class="math notranslate nohighlight">\(\lambda_n\)</span> depends on <span class="math notranslate nohighlight">\(\bx_n\)</span>.</p>
-<p>The <em>link function</em> specifies how <span class="math notranslate nohighlight">\(\bx_n\)</span> relates to the expected value of the target variable, <span class="math notranslate nohighlight">\(\mu_n = E(y_n)\)</span>. Let <span class="math notranslate nohighlight">\(\eta\)</span> be a linear function of the input variables, i.e. <span class="math notranslate nohighlight">\(\eta_n = \bbeta^\top \bx_n\)</span> for some coefficients <span class="math notranslate nohighlight">\(\bbeta\)</span>. We then chose a nonlinear link function to relate <span class="math notranslate nohighlight">\(\mu\)</span> to <span class="math notranslate nohighlight">\(\eta\)</span>. For link function <span class="math notranslate nohighlight">\(g\)</span> we have</p>
+<p>A GLM consists of a <em>link function</em> and a <em>random component</em>. The <em>random component</em> identifies the distribution of the target variable <span class="math notranslate nohighlight">\(y_n\)</span> conditional on the input variables <span class="math notranslate nohighlight">\(\bx_n\)</span>. For instance, we might model <span class="math notranslate nohighlight">\(Y_n\)</span> as a Poisson random variable where the rate parameter <span class="math notranslate nohighlight">\(\lambda_n\)</span> depends on <span class="math notranslate nohighlight">\(\bx_n\)</span>.</p>
+<p>The <em>link function</em> specifies how <span class="math notranslate nohighlight">\(\bx_n\)</span> relates to the expected value of the target variable, <span class="math notranslate nohighlight">\(\mu_n = E(Y_n)\)</span>. Let <span class="math notranslate nohighlight">\(\eta\)</span> be a linear function of the input variables, i.e. <span class="math notranslate nohighlight">\(\eta_n = \bbeta^\top \bx_n\)</span> for some coefficients <span class="math notranslate nohighlight">\(\bbeta\)</span>. We then chose a nonlinear link function to relate <span class="math notranslate nohighlight">\(\mu\)</span> to <span class="math notranslate nohighlight">\(\eta\)</span>. For link function <span class="math notranslate nohighlight">\(g\)</span> we have</p>
 <div class="math notranslate nohighlight">
 \[
 \eta_n = g(\mu_n).
@@ -323,7 +323,7 @@
 <div class="math notranslate nohighlight">
 \[\begin{split}
 \begin{aligned}
-y_n &amp;\sim F_{\mu_n} \\
+Y_n &amp;\sim F_{\mu_n} \\
 \mu_n &amp;= g^{-1}(\eta_n) \\
 \eta_n &amp;= \bbeta^\top \bx_n,
 \end{aligned}
@@ -332,28 +332,29 @@ y_n &amp;\sim F_{\mu_n} \\
 </div>
 <div class="section" id="fitting-a-glm">
 <h2>Fitting a GLM<a class="headerlink" href="#fitting-a-glm" title="Permalink to this headline">¶</a></h2>
-<p>“Fitting” a GLM, like fitting ordinary linear regression, really consists of estimating the coefficients, <span class="math notranslate nohighlight">\(\bbeta\)</span>. Once we know <span class="math notranslate nohighlight">\(\bbeta\)</span>, we have <span class="math notranslate nohighlight">\(\eta\)</span>. Once we have a link function, <span class="math notranslate nohighlight">\(\eta\)</span> gives us <span class="math notranslate nohighlight">\(\mu\)</span> through <span class="math notranslate nohighlight">\(g^{-1}\)</span>. A GLM can be fit in these four steps</p>
+<p>“Fitting” a GLM, like fitting ordinary linear regression, really consists of estimating the coefficients, <span class="math notranslate nohighlight">\(\bbeta\)</span>. Once we know <span class="math notranslate nohighlight">\(\bbeta\)</span>, we have <span class="math notranslate nohighlight">\(\eta\)</span>. Once we have a link function, <span class="math notranslate nohighlight">\(\eta\)</span> gives us <span class="math notranslate nohighlight">\(\mu\)</span> through <span class="math notranslate nohighlight">\(g^{-1}\)</span>. A GLM can be fit in these four steps:</p>
 <ol class="simple">
-<li><p>Specify the distribution of <span class="math notranslate nohighlight">\(y_n\)</span>, indexed by its mean parameter <span class="math notranslate nohighlight">\(\mu_n\)</span>.</p></li>
+<li><p>Specify the distribution of <span class="math notranslate nohighlight">\(Y_n\)</span>, indexed by its mean parameter <span class="math notranslate nohighlight">\(\mu_n\)</span>.</p></li>
 <li><p>Specify the link function <span class="math notranslate nohighlight">\(\eta_n = g(\mu_n)\)</span>.</p></li>
 <li><p>Identify a loss function. This is typically the negative log-likelihood.</p></li>
 <li><p>Find the <span class="math notranslate nohighlight">\(\bbetahat\)</span> that minimize that loss function.</p></li>
 </ol>
-<p>Note that since <span class="math notranslate nohighlight">\(E(y_n) = \mu_n\)</span>, we estimate <span class="math notranslate nohighlight">\(y_n\)</span> with <span class="math notranslate nohighlight">\(\mu_n\)</span>. The negative log-likelihood is then</p>
+<p>In general, we can write the log-likelihood across our observations for a GLM as follows.</p>
 <div class="math notranslate nohighlight">
 \[
-\log L = \sumN \log L_n(y_n, \mu_n) = \sumN \log L_n(y_n, g^{-1}(\eta_n)) = \sumN \log L_n(y_n, g^{-1}(\bbeta^\top \bx_n)).
+\log L\left(\{\mu_n\}_{n = 1}^N; \{Y_n\}_{n = 1}^N\right) = \sumN \log L(\mu_n; Y_n) = \sumN \log L(g^{-1}(\eta_n); Y_n) = \sumN \log L(g^{-1}(\bbeta^\top \bx_n); Y_n).
 \]</div>
-<p>This shows how the loss function depends on the parameters we want to estimate, <span class="math notranslate nohighlight">\(\bbeta\)</span>.</p>
+<p>This shows how the log-likelihood depends on <span class="math notranslate nohighlight">\(\bbeta\)</span>, the parameters we want to estimate. To fit the GLM, we want to find the <span class="math notranslate nohighlight">\(\bbetahat\)</span> to maximize this log-likelihood.</p>
 </div>
 <div class="section" id="example-poisson-regression">
 <h2>Example: Poisson Regression<a class="headerlink" href="#example-poisson-regression" title="Permalink to this headline">¶</a></h2>
 <p><u>Step 1</u></p>
-<p>Suppose we choose to model <span class="math notranslate nohighlight">\(y_n\)</span> conditional on <span class="math notranslate nohighlight">\(\bx_n\)</span> as a Poisson random variable with rate parameter (and therefore expected value) <span class="math notranslate nohighlight">\(\lambda_n\)</span>, i.e.,</p>
+<p>Suppose we choose to model <span class="math notranslate nohighlight">\(Y_n\)</span> conditional on <span class="math notranslate nohighlight">\(\bx_n\)</span> as a Poisson random variable with rate parameter <span class="math notranslate nohighlight">\(\lambda_n\)</span>:</p>
 <div class="math notranslate nohighlight">
 \[
-y_n|\bx_n \sim \text{Pois}(\lambda_n).
+Y_n|\bx_n \sim \text{Pois}(\lambda_n).
 \]</div>
+<p>Since the expected value of a Poisson random variable is its rate parameter, <span class="math notranslate nohighlight">\(E(Y_n) = \mu_n = \lambda_n\)</span>.</p>
 <p><u>Step 2</u></p>
 <p>To determine the link function, let’s think in terms of its inverse, <span class="math notranslate nohighlight">\(\lambda_n = g^{-1}(\eta_n)\)</span>.  We know that <span class="math notranslate nohighlight">\(\lambda_n\)</span> must be non-negative and <span class="math notranslate nohighlight">\(\eta_n\)</span> could be anywhere in the reals since it is a linear function of <span class="math notranslate nohighlight">\(\bx_n\)</span>. One function that works is</p>
 <div class="math notranslate nohighlight">
@@ -370,7 +371,7 @@ y_n|\bx_n \sim \text{Pois}(\lambda_n).
 <p>Let’s derive the negative log-likelihood for the Poisson. Let <span class="math notranslate nohighlight">\(\blambda = \begin{bmatrix} \lambda_1, \dots, \lambda_N\end{bmatrix}^\top\)</span>.</p>
 <div class="admonition-math-note alert alert-info">
 <p class="admonition-title">Math Note</p>
-<p>The PMF for <span class="math notranslate nohighlight">\(z \sim \text{Pois}(\lambda)\)</span> is</p>
+<p>The PMF for <span class="math notranslate nohighlight">\(Z \sim \text{Pois}(\lambda)\)</span> is</p>
 <div class="math notranslate nohighlight">
 \[
 p(z) = \frac{e^{-\lambda}\lambda^z}{z!} \propto e^{-\lambda}\lambda^z.
@@ -379,20 +380,20 @@ p(z) = \frac{e^{-\lambda}\lambda^z}{z!} \propto e^{-\lambda}\lambda^z.
 <div class="math notranslate nohighlight">
 \[\begin{split}
 \begin{align*}
-L(\blambda) &amp;= \prodN \exp(-\lambda_n) \lambda_n^{y_n}
+L(\blambda; \{Y_n\}_{n = 1}^N) &amp;= \prodN \exp(-\lambda_n) \lambda_n^{Y_n}
 \\
-\log L(\blambda) &amp;= \sumN y_n\log\lambda_n - \lambda_n. 
+\log L(\blambda; \{Y_n\}_{n = 1}^N) &amp;= \sumN Y_n\log\lambda_n - \lambda_n. 
 \end{align*}
 \end{split}\]</div>
-<p>Now let’s get our loss function, the negative log-likelihood. Recall that this should be in terms of <span class="math notranslate nohighlight">\(\bbeta\)</span> rather than <span class="math notranslate nohighlight">\(\blambda\)</span>.</p>
+<p>Now let’s get our loss function, the negative log-likelihood. Recall that this should be in terms of <span class="math notranslate nohighlight">\(\bbeta\)</span> rather than <span class="math notranslate nohighlight">\(\blambda\)</span> since <span class="math notranslate nohighlight">\(\bbeta\)</span> is what we control.</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
 \begin{align}
-\mathcal{L}_N(\bbeta) &amp;= -\left(\sumN y_n\log(\exp(\eta_n)) - \exp(\eta_n)\right)
+\mathcal{L}_N(\bbeta) &amp;= -\left(\sumN Y_n\log(\exp(\eta_n)) - \exp(\eta_n)\right)
 \\
-&amp;= \sumN \left(\exp(\eta_n) - y_n \eta_n \right)
+&amp;= \sumN \left(\exp(\eta_n) - Y_n \eta_n \right)
 \\
-&amp;= \sumN \left(\exp(\bbeta^\top \bx_n) - y_n\bbeta^\top\bx_n\right).
+&amp;= \sumN \left(\exp(\bbeta^\top \bx_n) - Y_n\bbeta^\top\bx_n\right).
 \end{align}
 \end{split}\]</div>
 <p><u>Step 4</u></p>
@@ -421,7 +422,7 @@ $\)</span></p>
 \[
 \hat{\by} = \exp(\bX \bbetahat),
 \]</div>
-<p>where the exponent is applied element-wise to each observation.</p>
+<p>where the exponential function is applied element-wise to each observation.</p>
 <hr class="docutils" />
 <p>Many other GLMs exist. One important example is logistic regression, the topic of the next chapter.</p>
 </div>
