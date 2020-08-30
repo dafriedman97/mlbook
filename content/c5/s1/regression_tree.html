@@ -322,21 +322,23 @@
 \]</div>
 <p>Decision trees are deeply rooted in tree-based terminology. Before discussing decision trees in depth, let’s go over some of this vocabulary.</p>
 <ul class="simple">
-<li><p><strong>Node</strong>: A node is comprised of a sample of data and a decision.</p></li>
+<li><p><strong>Node</strong>: A node is comprised of a sample of data and a decision rule.</p></li>
 <li><p><strong>Parent</strong>, <strong>Child</strong>: A parent is a node in a tree associated with exactly two child nodes. Observations directed to a parent node are next directed to one of that parent’s two children nodes.</p></li>
 <li><p><strong>Rule</strong>: Each parent node has a rule that determines toward which of the child nodes an observation will be directed. The rule is based on the value of one (and only one) of an observation’s predictors.</p></li>
 <li><p><strong>Buds</strong>: Buds are nodes that have not yet been split. In other words, they are children that are eligible to become parents. Nodes are only considered buds during the training process. Nodes that are never split are considered leaves.</p></li>
 <li><p><strong>Leaf</strong>: Leaves, also known as <em>terminal nodes</em>, are nodes that are never split. Observations move through a decision tree until reaching a leaf. The fitted value of a test observation is determined by the training observations that land in the same leaf.</p></li>
 </ul>
-<p>Our tree starts with an initial node containing all the training data. We then assign this node a rule, which leads to the creation of two child nodes. Training observations are assigned to one of these two child nodes based on their response to the rule. How these rules are made is discussed in the first <a class="reference internal" href="#building-a-tree"><span class="std std-ref">sub-section</span></a> below.</p>
-<p>Next, these child nodes are considered <em>buds</em> and are ready to become parent nodes. Each bud is assigned a rule and split into two child nodes. We then have four <em>buds</em> and each is once again split. We continue this process until some stopping rule is reached (discussed <a class="reference internal" href="#choosing-hyperparameters"><span class="std std-ref">later</span></a>). Finally, we run test observations through the tree and assign them fitted values according to the leaf they fall in. The diagram on the <a class="reference internal" href="../concept.html"><span class="doc">previous page</span></a> illustrates this process.</p>
+<p>Let’s return to the tree introduced in the previous page to see these vocabulary terms in action. Each square in this tree is a node. The sample of data for node <span class="math notranslate nohighlight">\(A\)</span> is the collection of penguins with flipper lengths under 206.5mm and the decision rule for node <span class="math notranslate nohighlight">\(A\)</span> is whether the bill length is less than or equal to 43.35mm. Node <span class="math notranslate nohighlight">\(A\)</span> is an example of a parent node, and nodes <span class="math notranslate nohighlight">\(B\)</span> and <span class="math notranslate nohighlight">\(C\)</span> are examples of child nodes. Before node <span class="math notranslate nohighlight">\(A\)</span> was split into child nodes <span class="math notranslate nohighlight">\(B\)</span> and <span class="math notranslate nohighlight">\(C\)</span>, it was an example of a bud. Since <span class="math notranslate nohighlight">\(B\)</span> and <span class="math notranslate nohighlight">\(C\)</span> are never split, they are examples of leaves.</p>
+<p><img alt="tree" src="../../../_images/tree1.png" /></p>
+<p>The rest of this section describes how to fit a decision tree. Our tree starts with an initial node containing all the training data. We then assign this node a rule, which leads to the creation of two child nodes. Training observations are assigned to one of these two child nodes based on their response to the rule. How these rules are made is discussed in the first <a class="reference internal" href="#building-a-tree"><span class="std std-ref">sub-section</span></a> below.</p>
+<p>Next, these child nodes are considered <em>buds</em> and are ready to become parent nodes. Each bud is assigned a rule and split into two child nodes. We then have four <em>buds</em> and each is once again split. We continue this process until some stopping rule is reached (discussed <a class="reference internal" href="#choosing-hyperparameters"><span class="std std-ref">later</span></a>). Finally, we run test observations through the tree and assign them fitted values according to the leaf they fall in.</p>
 <p>In this section we’ll discuss how to build a tree as well as how to choose the tree’s optimal hyperparameters.</p>
 <div class="section" id="building-a-tree">
 <span id="id1"></span><h2>Building a Tree<a class="headerlink" href="#building-a-tree" title="Permalink to this headline">¶</a></h2>
-<p>Building a tree consists of iteratively creating rules to split nodes. We’ll first discuss rules in greater depth, then introduce a tree’s objective function, then cover the splitting process, and finally go over making predictions with a built tree.</p>
+<p>Building a tree consists of iteratively creating rules to split nodes. We’ll first discuss rules in greater depth, then introduce a tree’s objective function, then cover the splitting process, and finally go over making predictions with a built tree. Suppose we have predictors <span class="math notranslate nohighlight">\(\bx_n \in \R^D\)</span> and a quantitative target variable <span class="math notranslate nohighlight">\(y_n\)</span> for <span class="math notranslate nohighlight">\(n = 1, \dots, N\)</span>.</p>
 <div class="section" id="defining-rules">
 <h3>Defining Rules<a class="headerlink" href="#defining-rules" title="Permalink to this headline">¶</a></h3>
-<p>Let’s first clarify what a rule actually is. Suppose we have predictors <span class="math notranslate nohighlight">\(\bx_n \in \R^D\)</span> and a quantitative target variable <span class="math notranslate nohighlight">\(y_n\)</span> for <span class="math notranslate nohighlight">\(n = 1, \dots, N\)</span>. Rules in a decision tree determine how observations from a parent node are divided between two child nodes. Each rule is based on only <em>one</em> predictor from the parent node’s training sample. Let <span class="math notranslate nohighlight">\(x_{nd}\)</span> be the <span class="math notranslate nohighlight">\(d^\text{th}\)</span> predictor in <span class="math notranslate nohighlight">\(\bx_n\)</span>. If <span class="math notranslate nohighlight">\(x_{nd}\)</span> is quantitative, a rule is of the form</p>
+<p>Let’s first clarify what a rule actually is. Rules in a decision tree determine how observations from a parent node are divided between two child nodes. Each rule is based on only <em>one</em> predictor from the parent node’s training sample. Let <span class="math notranslate nohighlight">\(x_{nd}\)</span> be the <span class="math notranslate nohighlight">\(d^\text{th}\)</span> predictor in <span class="math notranslate nohighlight">\(\bx_n\)</span>. If <span class="math notranslate nohighlight">\(x_{nd}\)</span> is quantitative, a rule is of the form</p>
 <div class="math notranslate nohighlight">
 \[
 x_{nd} \leq t,
@@ -352,7 +354,7 @@ x_{nd} \in \mathcal{S},
 \[
 \mathcal{R}_m = \left( x_{n2} \leq 4 \right).
 \]</div>
-<p>Then observation <span class="math notranslate nohighlight">\(n\)</span> that passes through <span class="math notranslate nohighlight">\(\mathcal{N}_m\)</span> will go to <span class="math notranslate nohighlight">\(\mathcal{C}_m^L\)</span> if <span class="math notranslate nohighlight">\(x_{n2} \leq 4\)</span> and <span class="math notranslate nohighlight">\(\mathcal{C}_m^R\)</span> otherwise. On a diagram like the one on the previous page, the child node for observations satisfying the rule is often to the left while the node for those not satisfying the rule is to the right, hence the superscripts <span class="math notranslate nohighlight">\(L\)</span> and <span class="math notranslate nohighlight">\(R\)</span></p>
+<p>Then observation <span class="math notranslate nohighlight">\(n\)</span> that passes through <span class="math notranslate nohighlight">\(\mathcal{N}_m\)</span> will go to <span class="math notranslate nohighlight">\(\mathcal{C}_m^L\)</span> if <span class="math notranslate nohighlight">\(x_{n2} \leq 4\)</span> and <span class="math notranslate nohighlight">\(\mathcal{C}_m^R\)</span> otherwise. On a diagram like the one above, the child node for observations satisfying the rule is often to the left while the node for those not satisfying the rule is to the right, hence the superscripts <span class="math notranslate nohighlight">\(L\)</span> and <span class="math notranslate nohighlight">\(R\)</span></p>
 </div>
 <div class="section" id="the-objective">
 <h3>The Objective<a class="headerlink" href="#the-objective" title="Permalink to this headline">¶</a></h3>
@@ -412,14 +414,12 @@ RSS_T = \sum_m \sum_{n \in \mathcal{N}_m} I_m RSS_m.
           \]</div>
 </li>
 </ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
 <p>In words, we consider the set of categories corresponding to the lowest average target variable and split if the observation’s <span class="math notranslate nohighlight">\(d^\text{th}\)</span> predictor falls in this set. We then add one more category to this set and repeat.</p>
-<ul class="simple">
+</li>
+</ul>
+</li>
+</ul>
+</li>
 <li><p>Choose the predictor, and value (if quantitative) or set (if categorical) with the greatest reduction in <span class="math notranslate nohighlight">\(RSS_m\)</span> and split accordingly.</p></li>
 </ul>
 </li>
@@ -481,7 +481,7 @@ RSS_T = \sum_m \sum_{n \in \mathcal{N}_m} I_m RSS_m.
 \mathcal{L}(T) = RSS_T +\lambda|T| ,
 \]</div>
 <p>where <span class="math notranslate nohighlight">\(\lambda\)</span> is a regularization parameter. We choose the tree <span class="math notranslate nohighlight">\(T\)</span> that minimizes <span class="math notranslate nohighlight">\(\mathcal{L}(T)\)</span>.</p>
-<p>Increasing <span class="math notranslate nohighlight">\(\lambda\)</span> increases the amount of regularization and limits overfitting by penalizing larger trees. Increasing <span class="math notranslate nohighlight">\(\lambda\)</span> too much, however, can cause undercutting by preventing the tree from making needed splits. How then do we choose <span class="math notranslate nohighlight">\(\lambda\)</span>? With cross validation! Specifically,  for each validation fold, we overfit the tree and prune it back using a range of <span class="math notranslate nohighlight">\(\lambda\)</span> values. Note that <span class="math notranslate nohighlight">\(\lambda\)</span> does not affect <em>how</em> we prune the tree, only <em>which</em> pruned tree we prefer. For each value of <span class="math notranslate nohighlight">\(\lambda\)</span>, we calculate the average validation accuracy (likely using <span class="math notranslate nohighlight">\(RSS_T\)</span>) across folds. We choose the value of <span class="math notranslate nohighlight">\(\lambda\)</span> that maximizes this accuracy and the tree which is preferred by that value of <span class="math notranslate nohighlight">\(\lambda\)</span>.</p>
+<p>Increasing <span class="math notranslate nohighlight">\(\lambda\)</span> increases the amount of regularization and limits overfitting by penalizing larger trees. Increasing <span class="math notranslate nohighlight">\(\lambda\)</span> too much, however, can cause undercutting by preventing the tree from making needed splits. How then do we choose <span class="math notranslate nohighlight">\(\lambda\)</span>? With cross validation! Specifically,  for each validation fold, we overfit the tree and prune it back using a range of <span class="math notranslate nohighlight">\(\lambda\)</span> values. Note that <span class="math notranslate nohighlight">\(\lambda\)</span> does not affect <em>how</em> we prune the tree, only <em>which</em> pruned tree we prefer. For each value of <span class="math notranslate nohighlight">\(\lambda\)</span>, we calculate the average validation accuracy (likely using <span class="math notranslate nohighlight">\(RSS_T\)</span> calculated on the validation set) across folds. We choose the value of <span class="math notranslate nohighlight">\(\lambda\)</span> that maximizes this accuracy and the tree which is preferred by that value of <span class="math notranslate nohighlight">\(\lambda\)</span>.</p>
 <hr class="docutils" />
 <dl class="footnote brackets">
 <dt class="label" id="footnote"><span class="brackets">1</span><span class="fn-backref">(<a href="#id2">1</a>,<a href="#id3">2</a>)</span></dt>

@@ -10,7 +10,7 @@ Bagging, short for *bootstrap aggregating*, combines the results of several lear
 
 Bootstrapping is commonly used in statistical problems to approximate the variance of an estimator. Suppose we observe dataset $\mathcal{D}$ and we are interested in some parameter $\theta$ (such as the mean or median). Estimating $\theta$ is one thing, but understanding the *variance* of that estimate is another. For difficult problems, the bootstrap helps find this variance. 
 
-The variance of an estimator tells us how much it would vary from sample to sample. Suppose we drew $B$ datasets of equal size, $\mathcal{D}_1$ through $\mathcal{D}_B$, and each time calculated the estimate of $\theta$. We would then be able to calculate the variance of our estimate since we have $B$ observed estimates. In practice however, we are stuck with only one dataset. The bootstrap enables us to approximate the variance of our estimate with only one dataset. This procedure is outlined below. 
+The variance of an estimator tells us how much it would vary from sample to sample. Suppose we drew $B$ datasets of equal size, $\mathcal{D}_1$ through $\mathcal{D}_B$, and each time estimated of $\theta$. We would then be able to calculate the variance of our estimate since we have $B$ observed estimates. In practice however, we are stuck with only one dataset. The bootstrap enables us to approximate the variance of our estimate with only one dataset. This procedure is outlined below. 
 
 
 
@@ -45,7 +45,7 @@ ____
 
 **Bagging Procedure**
 
-Given dataset $\mathcal{D} = \{\bx_n, y_n\}_{n = 1}^N$ and a separate test set $\mathcal{T} = \{\bx_t \}_{t = 1}^T$, we build and deploy a bagging model with the following procedure. The first step builds the model (the learners) and the second generates fitted values. 
+Given a training dataset $\mathcal{D} = \{\bx_n, y_n\}_{n = 1}^N$ and a separate test set $\mathcal{T} = \{\bx_t \}_{t = 1}^T$, we build and deploy a bagging model with the following procedure. The first step builds the model (the learners) and the second generates fitted values. 
 
 1. For $b =  1, 2, \dots, B$,
    1. Draw a bootstrapped sample $\mathcal{D}^*_b$. 

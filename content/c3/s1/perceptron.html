@@ -290,10 +290,10 @@
 \newcommand{\dadb}[2]{\frac{\partial #1}{\partial #2}}
 \newcommand{\iid}{\overset{\small{\text{i.i.d.}}}{\sim}}
 \]</div>
-<p>The <em>perceptron algorithm</em> is a simple classification method that plays an important historical role in the development of the much more flexible Neural Network. The perceptron is a <em>linear binary classifier</em>—<em>linear</em> since it separates the input variable space linearly between linearly and <em>binary</em> since it places observations into one of two classes.</p>
+<p>The <em>perceptron algorithm</em> is a simple classification method that plays an important historical role in the development of the much more flexible <a class="reference internal" href="../../c7/concept.html"><span class="doc">neural network</span></a>. The perceptron is a <em>linear binary classifier</em>—<em>linear</em> since it separates the input variable space linearly and <em>binary</em> since it places observations into one of two classes.</p>
 <div class="section" id="model-structure">
 <h2>Model Structure<a class="headerlink" href="#model-structure" title="Permalink to this headline">¶</a></h2>
-<p>It is most convenient to represent our binary target variable as <span class="math notranslate nohighlight">\(y_n \in \{-1, + 1\}\)</span>. For example, an email might be marked as <span class="math notranslate nohighlight">\(+1\)</span> if it is spam and <span class="math notranslate nohighlight">\(-1\)</span> otherwise. As usual, suppose we have one or more predictors per observation, <span class="math notranslate nohighlight">\(\mathbf{x}_n\)</span>.</p>
+<p>It is most convenient to represent our binary target variable as <span class="math notranslate nohighlight">\(y_n \in \{-1, + 1\}\)</span>. For example, an email might be marked as <span class="math notranslate nohighlight">\(+1\)</span> if it is spam and <span class="math notranslate nohighlight">\(-1\)</span> otherwise. As usual, suppose we have one or more predictors per observation. We obtain our feature vector <span class="math notranslate nohighlight">\(\bx_n\)</span> by concatenating a leading 1 to this collection of predictors.</p>
 <p>Consider the following function, which is an example of an <em>activation function</em>:</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
@@ -316,7 +316,7 @@ f(x) =
 <p>As usual, we calculate the <span class="math notranslate nohighlight">\(\bbetahat\)</span> as the set of coefficients to minimize some loss function. Specifically, the perceptron attempts to minimize the <em>perceptron criterion</em>, defined as</p>
 <div class="math notranslate nohighlight">
 \[
-\mathcal{L}(\bbetahat) = -\sum_{n \in \mathcal{M}} y_n(\bbetahat^\top \bx_n)
+\mathcal{L}(\bbetahat) = -\sum_{n \in \mathcal{M}} y_n(\bbetahat^\top \bx_n).
 \]</div>
 <p>The perceptron criterion does not penalize correctly classified observations but penalizes misclassified observations based on the magnitude of <span class="math notranslate nohighlight">\(\bbetahat^\top \bx_n\)</span>—that is, how wrong they were.</p>
 <p>The gradient of the perceptron criterion is</p>
@@ -338,7 +338,7 @@ f(x) =
 </ol>
 </li>
 </ol>
-<p>It can be shown that convergence is guaranteed in the linearly-separable case but not otherwise. If the classes are not linearly separable, some stopping rule will have to be determined.</p>
+<p>It can be shown that convergence is guaranteed in the linearly separable case but not otherwise. If the classes are not linearly separable, some stopping rule will have to be determined.</p>
 </div>
 </div>
 

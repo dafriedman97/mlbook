@@ -294,7 +294,7 @@
                 
   <div class="section" id="code">
 <h1>Code<a class="headerlink" href="#code" title="Permalink to this headline">¶</a></h1>
-<p>This section demonstrates how to fit bagging, random forests, and boosting models using <code class="docutils literal notranslate"><span class="pre">scikit-learn</span></code>.  We will again use the <a class="reference internal" href="../appendix/data.html"><span class="doc">penguins</span></a> dataset for classification and the <a class="reference internal" href="../appendix/data.html"><span class="doc">tips</span></a> dataset for regression.</p>
+<p>This section demonstrates how to fit bagging, random forest, and boosting models using <code class="docutils literal notranslate"><span class="pre">scikit-learn</span></code>.  We will again use the <a class="reference internal" href="../appendix/data.html"><span class="doc">penguins</span></a> dataset for classification and the <a class="reference internal" href="../appendix/data.html"><span class="doc">tips</span></a> dataset for regression.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">## Import packages</span>
@@ -308,7 +308,7 @@
 </div>
 <div class="section" id="bagging-and-random-forests">
 <h2>1. Bagging and Random Forests<a class="headerlink" href="#bagging-and-random-forests" title="Permalink to this headline">¶</a></h2>
-<p>Recall that bagging and random forests can handle both categorical and quantitative tasks. For this example we will do classification on the <code class="docutils literal notranslate"><span class="pre">penguins</span></code> dataset.  Recall that <code class="docutils literal notranslate"><span class="pre">scikit-learn</span></code> trees do not currently support categorical predictors, so we must first convert those to dummy variables</p>
+<p>Recall that bagging and random forests can handle both classification and regression tasks. For this example we will do classification on the <code class="docutils literal notranslate"><span class="pre">penguins</span></code> dataset.  Recall that <code class="docutils literal notranslate"><span class="pre">scikit-learn</span></code> trees do not currently support categorical predictors, so we must first convert those to dummy variables</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">## Load penguins data</span>
@@ -366,7 +366,7 @@
 </div>
 <div class="section" id="random-forests">
 <h3>Random Forests<a class="headerlink" href="#random-forests" title="Permalink to this headline">¶</a></h3>
-<p>An example of a random forest in <code class="docutils literal notranslate"><span class="pre">scikit-learn</span></code> is given below. The most important arguments to the random forest are the number of estimators (decision trees), the <code class="docutils literal notranslate"><span class="pre">max_features</span></code> (the number of predictors to consider at each split), and any chosen parameters for the decision trees (such as the maximum depth). Guidelines for setting each of these parameters are given below.</p>
+<p>An example of a random forest in <code class="docutils literal notranslate"><span class="pre">scikit-learn</span></code> is given below. The most important arguments to the random forest are the number of estimators (decision trees), <code class="docutils literal notranslate"><span class="pre">max_features</span></code> (the number of predictors to consider at each split), and any chosen parameters for the decision trees (such as the maximum depth). Guidelines for setting each of these parameters are given below.</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">n_estimators</span></code>: In general, the more base estimators the better, though there are diminishing marginal returns. While increasing the number of base estimators does not risk overfitting, it eventually provides no benefit.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">max_features</span></code>: This argument is set by default to the square root of the number of total features (which is made explicit in the example below). If this value equals the number of total features, we are left with a bagging model. Lowering this value lowers the amount of correlation between trees but also prevents the base estimators from learning potentially valuable information.</p></li>
@@ -407,7 +407,7 @@
 </div>
 </div>
 </div>
-<p>We can then fit the classifier with the <code class="docutils literal notranslate"><span class="pre">AdaBoostClassifier</span></code> class as below. Again, we first first convert categorical predictors to dummy variables. The classifier will by default use 50 decision trees, each with a max depth of 1, for the weak learners.</p>
+<p>We can then fit the classifier with the <code class="docutils literal notranslate"><span class="pre">AdaBoostClassifier</span></code> class as below. Again, we first convert categorical predictors to dummy variables. The classifier will by default use 50 decision trees, each with a max depth of 1, for the weak learners.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="kn">import</span> <span class="n">AdaBoostClassifier</span>

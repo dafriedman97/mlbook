@@ -21,7 +21,8 @@
    "execution_count": 1,
    "metadata": {
     "tags": [
-     "hide-input"
+     "hide-input",
+     "remove-output"
     ]
    },
    "outputs": [
@@ -106,6 +107,13 @@
     "        \n",
     "        return y_test_hats.mean(0)\n",
     "        "
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "We can now build a random forest and compare the observed with fitted values, as follows. "
    ]
   },
   {

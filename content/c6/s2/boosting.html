@@ -286,7 +286,7 @@
   <div class="section" id="boosting">
 <h1>Boosting<a class="headerlink" href="#boosting" title="Permalink to this headline">¶</a></h1>
 <p>In this section, we will construct a boosting classifier with the <code class="docutils literal notranslate"><span class="pre">AdaBoost</span></code> algorithm and a boosting regressor with the <code class="docutils literal notranslate"><span class="pre">AdaBoost.R2</span></code> algorithm. These algorithms can use a variety of weak learners but we will use decision tree classifiers and regressors, constructed in <a class="reference internal" href="../../c5/concept.html"><span class="doc">Chapter 5</span></a>.</p>
-<div class="cell docutils container">
+<div class="cell tag_remove-output docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">## Import decision trees</span>
 <span class="kn">import</span> <span class="nn">import_ipynb</span>
@@ -300,15 +300,10 @@
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>importing Jupyter notebook from classification_tree.ipynb
-</pre></div>
-</div>
-</div>
 </div>
 <div class="section" id="classification-with-adaboost">
 <h2>1. Classification with AdaBoost<a class="headerlink" href="#classification-with-adaboost" title="Permalink to this headline">¶</a></h2>
-<p>The following is a construction of the binary AdaBoost classifier introduced in the <a class="reference internal" href="../s1/boosting.html"><span class="doc">concept section</span></a>. Let’s again use the <a class="reference internal" href="../../appendix/data.html"><span class="doc">penguins</span></a> dataset from <code class="docutils literal notranslate"><span class="pre">seaborn</span></code>, but rather than predicting the penguin’s species (a multiclass problem), we’ll predict whether the species is <em>Adelie</em> (a binary problem). The data is loaded with the hidden code cell below.</p>
+<p>The following is a construction of the binary AdaBoost classifier introduced in the <a class="reference internal" href="../s1/boosting.html"><span class="doc">concept section</span></a>. Let’s again use the <a class="reference internal" href="../../appendix/data.html"><span class="doc">penguins</span></a> dataset from <code class="docutils literal notranslate"><span class="pre">seaborn</span></code>, but rather than predicting the penguin’s species (a multiclass problem), we’ll predict whether the species is <em>Adelie</em> (a binary problem). The data is loaded and split into train vs. test with the hidden code cell below.</p>
 <div class="cell tag_hide-input docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">## Load data</span>
@@ -359,7 +354,7 @@
 </div>
 </div>
 </div>
-<p>In order to incorporate observation weights, we have to make slight adjustments to the <code class="docutils literal notranslate"><span class="pre">DecisionTreeClassifier</span></code> class. In the class we <a class="reference internal" href="../../c5/s2/classification_tree.html"><span class="doc">previously constructed</span></a>, the data from parent nodes was split and funneled to one of two child nodes. This alone will not allow us to incorporate weights. Instead we need to also track the ID of each observation so we can assign it a weight. This is done with the <code class="docutils literal notranslate"><span class="pre">DecisionTreeClassifier</span></code> class defined in the hidden cell below, which is mostly a reconstruction of the class defined in Chapter 5.</p>
+<p>In order to incorporate observation weights, we have to make slight adjustments to the <code class="docutils literal notranslate"><span class="pre">DecisionTreeClassifier</span></code> class. In the class we <a class="reference internal" href="../../c5/s2/classification_tree.html"><span class="doc">previously constructed</span></a>, the data from parent nodes was split and funneled anonymously to one of two child nodes. This alone will not allow us to incorporate weights. Instead, we need to also track the ID of each observation so we can track its weight. This is done with the <code class="docutils literal notranslate"><span class="pre">DecisionTreeClassifier</span></code> class defined in the hidden cell below, which is mostly a reconstruction of the class defined in Chapter 5.</p>
 <div class="cell tag_hide-input docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">## Helper Classes</span>
@@ -654,7 +649,7 @@
 </div>
 </div>
 </div>
-<p>The <code class="docutils literal notranslate"><span class="pre">AdaBoost</span></code> model is finally fit as below. To train the model, we supply the training data as well as <code class="docutils literal notranslate"><span class="pre">T</span></code>—the number of weak learners—and <code class="docutils literal notranslate"><span class="pre">stub_depth</span></code>—the depth for each tree (our weak learner).</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">AdaBoost</span></code> model is finally fit below. To train the model, we supply the training data as well as <code class="docutils literal notranslate"><span class="pre">T</span></code>—the number of weak learners—and <code class="docutils literal notranslate"><span class="pre">stub_depth</span></code>—the depth for each tree (our weak learner).</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">booster</span> <span class="o">=</span> <span class="n">AdaBoost</span><span class="p">()</span>
@@ -701,16 +696,11 @@
 </div>
 </div>
 <p>Since our boosting class will use regression trees for its weak learners, let’s also import the regression tree we constructed in <a class="reference internal" href="../../c5/s2/regression_tree.html"><span class="doc">Chapter 5</span></a>.</p>
-<div class="cell docutils container">
+<div class="cell tag_remove-output docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">## Import decision trees</span>
 <span class="kn">import</span> <span class="nn">import_ipynb</span>
 <span class="kn">import</span> <span class="nn">regression_tree</span> <span class="k">as</span> <span class="nn">rt</span><span class="p">;</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>importing Jupyter notebook from regression_tree.ipynb
 </pre></div>
 </div>
 </div>

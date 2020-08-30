@@ -41,7 +41,7 @@
    "source": [
     "Because of their iterative structure, their exhaustive searching, and their non-parametric nature, decision trees are more computationally complex than methods we've seen previously. To clear things up, the construction code is divided into three sections: helper functions, helper classes, and the main decision tree regressor class. \n",
     "\n",
-    "We will build our regression tree on the {doc}`tips </content/appendix/data>` dataset from `seaborn`. This dataset has a continuous target variable (tip amount) with both quantitative and categorical predictors. Recall that trees are able to handle categorical predictors without creating one-hot encoding, unlike other methods we've seen."
+    "We will build our regression tree on the {doc}`tips </content/appendix/data>` dataset from `seaborn`. This dataset has a continuous target variable (tip amount) with both quantitative and categorical predictors. Recall that trees are able to handle categorical predictors without creating one-hot encoded variables, unlike other methods we've seen."
    ]
   },
   {
@@ -57,7 +57,7 @@
    "source": [
     "Below are three helper functions we will use in our regression tree. `RSS_reduction()` measures how much a split reduces a parent node's $RSS$ by subtracting the sum of the child $RSS$ values from the parent $RSS$. We will use this to determine the best split for any given bud.\n",
     "\n",
-    "`sort_x_by_y()` returns a sorted list of the unique categories in some predictor `x` according to the mean of the corresponding target values `y`. We will use this to search for splits on categorical predictors. \n",
+    "The next function, `sort_x_by_y()`, returns a sorted list of the unique categories in some predictor `x` according to the mean of the corresponding target values `y`. We will use this to search for splits on categorical predictors. \n",
     "\n",
     "Finally, `all_rows_equal()` checks if all of a bud's rows (observations) are equal across all predictors. If this is the case, this bud will not be split and instead becomes a terminal leaf. "
    ]
@@ -151,7 +151,7 @@
     "- `_build()`: As its name suggests, the `_build()` method actually builds our tree. It relies on the `_find_split()` and `_make_split()` methods discussed next. The method iterates through layers of the tree (starting with just the initial node), splitting each eligible bud before proceeding to the next layer. The eligible buds are tracked by the `eligible_buds` dictionary. A bud is eligible for splitting if it does not already have children (i.e. is a leaf); if it is not smaller than `min_size`, a regularization parameter provided by the user; if its observations are not identical across all predictors; and if it has more than one unique value of the target variable. For each eligible bud, we find a split and make a split, as discussed below. This process continues until there are no eligible buds or we have reached the tree's maximum depth, determined by the argument `max_depth`. \n",
     "\n",
     "\n",
-    "- `_find_split()`: When looping through eligible buds in the `_build()` method, we determine their splits with the `_find_split()` method. This method instantaites an object of the `Splitter` class described above. It then loops through all predictors and all possible splits of that predictor to determine which split most reduces the bud's $RSS$. If the predictor is quantitative, we loop through each unique value and calculate the $RSS$ reduction from splitting at that threshold. If the predictor is categorical, we first call `sort_x_by_y()` to order the categories of `x`. We then calculate the $RSS$ reduction for the following splits, where the ordered categories are given by $c_1, \\dots, c_V$.\n",
+    "- `_find_split()`: When looping through eligible buds in the `_build()` method, we determine their splits with the `_find_split()` method. This method instantaites an object of the `Splitter` class described above. It then loops through all predictors and all possible splits of that predictor to determine which split most reduces the bud's $RSS$. If the predictor is quantitative, we loop through each unique value and calculate the $RSS$ reduction from splitting at that threshold. If the predictor is categorical, we first call `sort_x_by_y()` to order the categories of `x`, and then calculate the $RSS$ reduction for the following splits, where the ordered categories are given by $c_1, \\dots, c_V$.\n",
     "\n",
     "$$\n",
     "\\begin{align*}\n",
@@ -163,7 +163,7 @@
     "$$\n",
     "\n",
     "\n",
-    "- `_make_split()`: Once identified, splits are actually conducted with the `_make_split()` method. This method updates the parent node and creates the two child nodes. For the parent node, we record which predictor was used to make the split and how. We also add the IDs of the child nodes. For each child node, we record the training observations passing through the node, its ID, its parent's ID, and its size and depth\n",
+    "- `_make_split()`: Once identified, splits are actually conducted with the `_make_split()` method. This method updates the parent node with the split information and creates the two child nodes. For the parent node, we record which predictor was used to make the split and how. We also add the IDs of the child nodes. For each child node, we record the training observations passing through the node, its ID, its parent's ID, and its size and depth\n",
     "\n",
     "\n",
     "Finally, we use our built tree to form predictions. This is a two step process. First, we use the `_get_leaf_means()` method to calculate the average of the target variable among training observations landing in each leaf. Then we use `predict()` to run each test observation through the tree and return a fitted value: the mean target variable in the corresponding leaf. Note that the user only directly calls `predict()`, which itself calls `_get_leaf_means()`. \n"

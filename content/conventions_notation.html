@@ -282,6 +282,7 @@
 <ul>
 <li><p>Training datasets are assumed to have <span class="math notranslate nohighlight">\(N\)</span> observations and <span class="math notranslate nohighlight">\(D\)</span> predictors.</p></li>
 <li><p>The vector of features for the <span class="math notranslate nohighlight">\(n^\text{th}\)</span> observation is given by <span class="math notranslate nohighlight">\(\bx_n\)</span>. Note that <span class="math notranslate nohighlight">\(\bx_n\)</span> might include functions of the original predictors through feature engineering. When the target variable is single-dimensional (i.e. there is only one target variable per observation), it is given by <span class="math notranslate nohighlight">\(y_n\)</span>; when there are multiple target variables per observation, the vector of targets is given by <span class="math notranslate nohighlight">\(\by_n\)</span>.</p></li>
+<li><p>The entire collection of input and output data is often represented with <span class="math notranslate nohighlight">\(\{\bx_n, y_n\}_{n = 1}^N\)</span>, which implies observation <span class="math notranslate nohighlight">\(n\)</span> has a multi-dimensional predictor vector <span class="math notranslate nohighlight">\(\bx_n\)</span> and a target variable <span class="math notranslate nohighlight">\(y_n\)</span> for <span class="math notranslate nohighlight">\(n = 1, 2, \dots, N\)</span>.</p></li>
 <li><p>Many models, such as ordinary linear regression, append an intercept term to the predictor vector. When this is the case, <span class="math notranslate nohighlight">\(\bx_n\)</span> will be defined as</p>
 <div class="math notranslate nohighlight">
 \[
@@ -294,18 +295,18 @@
 <ul>
 <li><p>Scalar values will be non-boldface and lowercase, random variables will be non-boldface and uppercase, vectors will be bold and lowercase, and matrices will be bold and uppercase. E.g. <span class="math notranslate nohighlight">\(b\)</span> is a scalar, <span class="math notranslate nohighlight">\(B\)</span> a random variable, <span class="math notranslate nohighlight">\(\mathbf{b}\)</span> a vector, and <span class="math notranslate nohighlight">\(\mathbf{B}\)</span> a matrix.</p></li>
 <li><p>Unless indicated otherwise, all vectors are assumed to be column vectors. Since feature vectors (such as <span class="math notranslate nohighlight">\(\bx_n\)</span> and <span class="math notranslate nohighlight">\(\bphi_n\)</span> above) are entered into data frames as rows, they will sometimes be treated as row vectors, even outside of data frames.</p></li>
-<li><p>Matrix or vector derivatives, covered in the <a class="reference internal" href="appendix/math.html"><span class="doc">math appendix</span></a>, will use the numerator <a class="reference external" href="https://en.wikipedia.org/wiki/Matrix_calculus#Layout_conventions">layout convention</a>. Under this convention, the derivative <span class="math notranslate nohighlight">\(\partial\by/\partial\bx\)</span> is written as</p>
-<div class="math notranslate nohighlight">
-\[\begin{split}
-  \dadb{\by}{\bx} = \begin{pmatrix}
-  \dadb{y_1}{x_1} &amp; ... &amp; \dadb{y_1}{x_b} \\
-  \dadb{y_2}{x_1} &amp;  ... &amp; \dadb{y_2}{x_b} \\
-  &amp;  ... &amp; \\
-  \dadb{y_a}{x_1} &amp; ... &amp; \dadb{y_a}{x_b} \\
-  \end{pmatrix} ,
-  \end{split}\]</div>
+<li><p>Matrix or vector derivatives, covered in the <a class="reference internal" href="appendix/math.html"><span class="doc">math appendix</span></a>, will use the numerator <a class="reference external" href="https://en.wikipedia.org/wiki/Matrix_calculus#Layout_conventions">layout convention</a>. Under this convention, the derivative <span class="math notranslate nohighlight">\(\partial\by/\partial\bx\)</span> is written as
+<span class="math notranslate nohighlight">\($
+\dadb{\by}{\bx} = \begin{pmatrix}
+\dadb{y_1}{x_1} &amp; ... &amp; \dadb{y_1}{x_b} \\
+\dadb{y_2}{x_1} &amp;  ... &amp; \dadb{y_2}{x_b} \\
+&amp;  ... &amp; \\
+\dadb{y_a}{x_1} &amp; ... &amp; \dadb{y_a}{x_b} \\
+\end{pmatrix},
+$\)</span></p>
 <p>for <span class="math notranslate nohighlight">\(\by \in \R^a\)</span> and <span class="math notranslate nohighlight">\(\bx \in \R^b\)</span>.</p>
 </li>
+<li><p>The likelihood of a parameter <span class="math notranslate nohighlight">\(\theta\)</span> given data <span class="math notranslate nohighlight">\(\{x_n\}_{n = 1}^N\)</span> is represented by <span class="math notranslate nohighlight">\(\mathcal{L}\left(\theta; \{x_n\}_{n = 1}^N\right)\)</span>. If we are considering the data to be random (i.e. not yet observed), it will be written as <span class="math notranslate nohighlight">\(\{X_n\}_{n = 1}^N\)</span>. If the data in consideration is obvious, we may write the likelihood as just <span class="math notranslate nohighlight">\(\mathcal{L}(\theta)\)</span>.</p></li>
 </ul>
 </div>
 

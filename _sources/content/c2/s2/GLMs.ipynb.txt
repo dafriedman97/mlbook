@@ -26,7 +26,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "Before fitting, let's again create the `standard_scaler` function to standardize our input data."
+    "In this section, we'll build a class for fitting Poisson regression models. First, let's again create the `standard_scaler` function to standardize our input data."
    ]
   },
   {
@@ -45,10 +45,10 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "We saw in the GLM {doc}`concept </content/c2/s1/GLMs>` page that \n",
+    "We saw in the GLM {doc}`concept </content/c2/s1/GLMs>` page that the gradient of the loss function (the negative log-likelihood) in a Poisson model is given by\n",
     "\n",
     "$$\n",
-    "\\dadb{\\mathcal{L}_N(\\bbetahat)}{\\bbetahat} = \\bX^\\top(\\hat{\\by} - \\by),\n",
+    "\\dadb{\\mathcal{L}(\\bbetahat)}{\\bbetahat} = \\bX^\\top(\\hat{\\by} - \\by),\n",
     "$$\n",
     "\n",
     "where \n",
@@ -57,7 +57,7 @@
     "\\hat{\\by} = \\exp(\\bX \\bbetahat).\n",
     "$$\n",
     "\n",
-    "The class below constructs Poisson regression using gradient descent with these results. Again, for simplicity we use a straightforward implementation of gradient descent with a fixed number of iterations and constant learning rate. "
+    "The class below constructs Poisson regression using gradient descent with these results. Again, for simplicity we use a straightforward implementation of gradient descent with a fixed number of iterations and a constant learning rate. "
    ]
   },
   {
@@ -113,7 +113,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "The plot below shows the observed versus fitted values for our target variable. It is worth noting that there does not appear to be a pattern of under-estimating for high $y$ values like we saw in the ordinary linear regression {doc}`example </content/c1/construction>`. In other words, we do not see a pattern in the residuals, suggesting Poisson regression might be a more fitting method for this problem."
+    "The plot below shows the observed versus fitted values for our target variable. It is worth noting that there does not appear to be a pattern of under-estimating for high target values like we saw in the ordinary linear regression {doc}`example </content/c1/construction>`. In other words, we do not see a pattern in the residuals, suggesting Poisson regression might be a more fitting method for this problem."
    ]
   },
   {

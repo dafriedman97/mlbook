@@ -289,7 +289,7 @@
   <div class="section" id="code">
 <h1>Code<a class="headerlink" href="#code" title="Permalink to this headline">¶</a></h1>
 <p>This section will demonstrate how to fit the discriminative classifiers discussed in this chapter with <code class="docutils literal notranslate"><span class="pre">scikit-learn</span></code>. Note that other libraries are frequently used—e.g. <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code> for logistic regresssion and <code class="docutils literal notranslate"><span class="pre">tensorflow</span></code> for the perceptron.</p>
-<p>We’ll again be using the <a class="reference internal" href="../appendix/data.html"><span class="doc">wine</span></a> dataset from <code class="docutils literal notranslate"><span class="pre">sklearn.datasets</span></code>. For binary tasks, we remove the 3rd class of wines.</p>
+<p>For binary tasks, we’ll be using the <a class="reference internal" href="../appendix/data.html"><span class="doc">breast cancer</span></a> dataset and for multiclass tasks, we’ll be using the <a class="reference internal" href="../appendix/data.html"><span class="doc">wine</span></a> dataset.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span> 
@@ -298,11 +298,12 @@
 <span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">datasets</span>
 
 <span class="c1"># import data</span>
+<span class="n">cancer</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">load_breast_cancer</span><span class="p">()</span>
+<span class="n">X_cancer</span> <span class="o">=</span> <span class="n">cancer</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">]</span>
+<span class="n">y_cancer</span> <span class="o">=</span> <span class="n">cancer</span><span class="p">[</span><span class="s1">&#39;target&#39;</span><span class="p">]</span>
 <span class="n">wine</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">load_wine</span><span class="p">()</span>
-<span class="n">X</span> <span class="o">=</span> <span class="n">wine</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">]</span>
-<span class="n">y</span> <span class="o">=</span> <span class="n">wine</span><span class="p">[</span><span class="s1">&#39;target&#39;</span><span class="p">]</span>
-<span class="n">X_binary</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">y</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-<span class="n">y_binary</span> <span class="o">=</span> <span class="n">y</span><span class="p">[</span><span class="n">y</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">X_wine</span> <span class="o">=</span> <span class="n">wine</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">]</span>
+<span class="n">y_wine</span> <span class="o">=</span> <span class="n">wine</span><span class="p">[</span><span class="s1">&#39;target&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
@@ -315,8 +316,17 @@
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LogisticRegression</span>
-<span class="n">binary_model</span> <span class="o">=</span> <span class="n">LogisticRegression</span><span class="p">(</span><span class="n">C</span> <span class="o">=</span> <span class="mi">10</span><span class="o">**</span><span class="mi">5</span><span class="p">,</span> <span class="n">max_iter</span> <span class="o">=</span> <span class="mi">10</span><span class="o">**</span><span class="mi">4</span><span class="p">)</span>
-<span class="n">binary_model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_binary</span><span class="p">,</span> <span class="n">y_binary</span><span class="p">)</span>
+<span class="n">binary_model</span> <span class="o">=</span> <span class="n">LogisticRegression</span><span class="p">(</span><span class="n">C</span> <span class="o">=</span> <span class="mi">10</span><span class="o">**</span><span class="mi">5</span><span class="p">,</span> <span class="n">max_iter</span> <span class="o">=</span> <span class="mf">1e5</span><span class="p">)</span>
+<span class="n">binary_model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_cancer</span><span class="p">,</span> <span class="n">y_cancer</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>LogisticRegression(C=100000, class_weight=None, dual=False, fit_intercept=True,
+                   intercept_scaling=1, l1_ratio=None, max_iter=100000.0,
+                   multi_class=&#39;auto&#39;, n_jobs=None, penalty=&#39;l2&#39;,
+                   random_state=None, solver=&#39;lbfgs&#39;, tol=0.0001, verbose=0,
+                   warm_start=False)
 </pre></div>
 </div>
 </div>
@@ -324,14 +334,14 @@
 <p><code class="docutils literal notranslate"><span class="pre">scikit-learn</span></code>’s logistic regression model can return two forms of predictions: the predicted classes or the predicted probabilities. The <code class="docutils literal notranslate"><span class="pre">.predict()</span></code> method predicts an observation for each class while <code class="docutils literal notranslate"><span class="pre">.predict_proba()</span></code> gives the probability for all classes included in the training set (in this case, just 0 and 1).</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">y_hats</span> <span class="o">=</span> <span class="n">binary_model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_binary</span><span class="p">)</span>
-<span class="n">p_hats</span> <span class="o">=</span> <span class="n">binary_model</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">X_binary</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Training accuracy: </span><span class="si">{</span><span class="n">binary_model</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_binary</span><span class="p">,</span> <span class="n">y_binary</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">y_hats</span> <span class="o">=</span> <span class="n">binary_model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_cancer</span><span class="p">)</span>
+<span class="n">p_hats</span> <span class="o">=</span> <span class="n">binary_model</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">X_cancer</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Training accuracy: </span><span class="si">{</span><span class="n">binary_model</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_cancer</span><span class="p">,</span> <span class="n">y_cancer</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Training accuracy: 1.0
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Training accuracy: 0.984182776801406
 </pre></div>
 </div>
 </div>
@@ -344,7 +354,16 @@
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LogisticRegression</span>
 <span class="n">multiclass_model</span> <span class="o">=</span> <span class="n">LogisticRegression</span><span class="p">(</span><span class="n">multi_class</span> <span class="o">=</span> <span class="s1">&#39;multinomial&#39;</span><span class="p">,</span> <span class="n">C</span> <span class="o">=</span> <span class="mi">10</span><span class="o">**</span><span class="mi">5</span><span class="p">,</span> <span class="n">max_iter</span> <span class="o">=</span> <span class="mi">10</span><span class="o">**</span><span class="mi">4</span><span class="p">)</span>
-<span class="n">multiclass_model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="n">multiclass_model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_wine</span><span class="p">,</span> <span class="n">y_wine</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>LogisticRegression(C=100000, class_weight=None, dual=False, fit_intercept=True,
+                   intercept_scaling=1, l1_ratio=None, max_iter=10000,
+                   multi_class=&#39;multinomial&#39;, n_jobs=None, penalty=&#39;l2&#39;,
+                   random_state=None, solver=&#39;lbfgs&#39;, tol=0.0001, verbose=0,
+                   warm_start=False)
 </pre></div>
 </div>
 </div>
@@ -352,9 +371,9 @@
 <p>Again, we can see the predicted classes and predicted probabilities for each class, as below.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">y_hats</span> <span class="o">=</span> <span class="n">multiclass_model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
-<span class="n">p_hats</span> <span class="o">=</span> <span class="n">multiclass_model</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Training accuracy: </span><span class="si">{</span><span class="n">multiclass_model</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">y_hats</span> <span class="o">=</span> <span class="n">multiclass_model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_wine</span><span class="p">)</span>
+<span class="n">p_hats</span> <span class="o">=</span> <span class="n">multiclass_model</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">X_wine</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Training accuracy: </span><span class="si">{</span><span class="n">multiclass_model</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_wine</span><span class="p">,</span> <span class="n">y_wine</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -368,12 +387,12 @@
 </div>
 <div class="section" id="the-perceptron-algorithm">
 <h2>The Perceptron Algorithm<a class="headerlink" href="#the-perceptron-algorithm" title="Permalink to this headline">¶</a></h2>
-<p>The perceptron algorithm is implemented below. This algorithm is rarely used in practice but serves as an important part of Neural Networks, the topic of Chapter 7.</p>
+<p>The perceptron algorithm is implemented below. This algorithm is rarely used in practice but serves as an important part of neural networks, the topic of Chapter 7.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">Perceptron</span>
 <span class="n">perceptron</span> <span class="o">=</span> <span class="n">Perceptron</span><span class="p">()</span>
-<span class="n">perceptron</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_binary</span><span class="p">,</span> <span class="n">y_binary</span><span class="p">);</span>
+<span class="n">perceptron</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_cancer</span><span class="p">,</span> <span class="n">y_cancer</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>
@@ -386,21 +405,21 @@
 \[
 f(\bx_n) = \bbeta^\top \bx_n
 \]</div>
-<p>transformations that we saw in the concept section. We can then see that the two classes are separated by checking that either 1) <span class="math notranslate nohighlight">\(f(\bx_n) &lt; f(\bx_m)\)</span> for all <span class="math notranslate nohighlight">\(n\)</span> in class 0 and <span class="math notranslate nohighlight">\(m\)</span> in class 1 or 2) <span class="math notranslate nohighlight">\(f(\bx_n) &gt; f(\bx_m)\)</span> for all <span class="math notranslate nohighlight">\(n\)</span> in class 0 and <span class="math notranslate nohighlight">\(m\)</span> in class 1. Equivalently, we can see that the two classes are separated in the histogram below.</p>
+<p>transformations that we saw in the concept section. We can then see if the two classes are separated by checking that either 1) <span class="math notranslate nohighlight">\(f(\bx_n) &lt; f(\bx_m)\)</span> for all <span class="math notranslate nohighlight">\(n\)</span> in class 0 and <span class="math notranslate nohighlight">\(m\)</span> in class 1 or 2) <span class="math notranslate nohighlight">\(f(\bx_n) &gt; f(\bx_m)\)</span> for all <span class="math notranslate nohighlight">\(n\)</span> in class 0 and <span class="math notranslate nohighlight">\(m\)</span> in class 1. Equivalently, we can see that the two classes are not separated in the histogram below.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.discriminant_analysis</span> <span class="kn">import</span> <span class="n">LinearDiscriminantAnalysis</span>
 <span class="n">lda</span> <span class="o">=</span> <span class="n">LinearDiscriminantAnalysis</span><span class="p">(</span><span class="n">n_components</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
-<span class="n">lda</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_binary</span><span class="p">,</span> <span class="n">y_binary</span><span class="p">);</span>
+<span class="n">lda</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_cancer</span><span class="p">,</span> <span class="n">y_cancer</span><span class="p">);</span>
 
-<span class="n">f0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">X_binary</span><span class="p">,</span> <span class="n">lda</span><span class="o">.</span><span class="n">coef_</span><span class="p">[</span><span class="mi">0</span><span class="p">])[</span><span class="n">y_binary</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span>
-<span class="n">f1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">X_binary</span><span class="p">,</span> <span class="n">lda</span><span class="o">.</span><span class="n">coef_</span><span class="p">[</span><span class="mi">0</span><span class="p">])[</span><span class="n">y_binary</span> <span class="o">==</span> <span class="mi">1</span><span class="p">]</span>
-<span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">f0</span><span class="p">)</span> <span class="o">&gt;</span> <span class="nb">max</span><span class="p">(</span><span class="n">f1</span><span class="p">))</span> <span class="o">|</span> <span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">f0</span><span class="p">)</span> <span class="o">&lt;</span> <span class="nb">min</span><span class="p">(</span><span class="n">f1</span><span class="p">))</span>
+<span class="n">f0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">X_cancer</span><span class="p">,</span> <span class="n">lda</span><span class="o">.</span><span class="n">coef_</span><span class="p">[</span><span class="mi">0</span><span class="p">])[</span><span class="n">y_cancer</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span>
+<span class="n">f1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">X_cancer</span><span class="p">,</span> <span class="n">lda</span><span class="o">.</span><span class="n">coef_</span><span class="p">[</span><span class="mi">0</span><span class="p">])[</span><span class="n">y_cancer</span> <span class="o">==</span> <span class="mi">1</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Separated:&#39;</span><span class="p">,</span> <span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">f0</span><span class="p">)</span> <span class="o">&gt;</span> <span class="nb">max</span><span class="p">(</span><span class="n">f1</span><span class="p">))</span> <span class="o">|</span> <span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">f0</span><span class="p">)</span> <span class="o">&lt;</span> <span class="nb">min</span><span class="p">(</span><span class="n">f1</span><span class="p">)))</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>True
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Separated: False
 </pre></div>
 </div>
 </div>

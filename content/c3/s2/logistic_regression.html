@@ -309,7 +309,7 @@
 </div>
 </div>
 </div>
-<p>Let’s first define some helper functions, the logistic function and a standardize function, equivalent to <code class="docutils literal notranslate"><span class="pre">scikit-learn</span></code>’s <code class="docutils literal notranslate"><span class="pre">StandardScaler</span></code></p>
+<p>Let’s first define some helper functions: the logistic function and a standardization function, equivalent to <code class="docutils literal notranslate"><span class="pre">scikit-learn</span></code>’s <code class="docutils literal notranslate"><span class="pre">StandardScaler</span></code></p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">logistic</span><span class="p">(</span><span class="n">z</span><span class="p">):</span>
@@ -323,10 +323,10 @@
 </div>
 </div>
 </div>
-<p>The binary logistic class is defined below. First, it (optionally) standardizes and adds an intercept term. Then it estimates <span class="math notranslate nohighlight">\(\boldsymbol{\beta}\)</span> with gradient ascent, using the gradient of the log-likelihood derived in the <a class="reference internal" href="../s1/logistic_regression.html"><span class="doc">concept section</span></a>,</p>
+<p>The binary logistic regression class is defined below. First, it (optionally) standardizes and adds an intercept term. Then it estimates <span class="math notranslate nohighlight">\(\boldsymbol{\beta}\)</span> with gradient descent, using the gradient of the negative log-likelihood derived in the <a class="reference internal" href="../s1/logistic_regression.html"><span class="doc">concept section</span></a>,</p>
 <div class="math notranslate nohighlight">
 \[
-\frac{\partial \log L (\boldsymbol{\beta})}{\partial \boldsymbol{\beta}} = \mathbf{X}^\top (\mathbf{y} - \mathbf{p}).
+\frac{\partial \mathcal{L}(\boldsymbol{\beta})}{\partial \boldsymbol{\beta}} = \frac{\partial - \log L (\boldsymbol{\beta})}{\partial \boldsymbol{\beta}} = -\mathbf{X}^\top (\mathbf{y} - \mathbf{p}).
 \]</div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -350,8 +350,8 @@
         <span class="n">beta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">D</span><span class="p">)</span> 
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_iter</span><span class="p">):</span>
             <span class="n">p</span> <span class="o">=</span> <span class="n">logistic</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="n">beta</span><span class="p">))</span> <span class="c1"># vector of probabilities </span>
-            <span class="n">gradient</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="o">-</span><span class="n">p</span><span class="p">))</span> <span class="c1"># gradient</span>
-            <span class="n">beta</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lr</span><span class="o">*</span><span class="n">gradient</span> 
+            <span class="n">gradient</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="o">-</span><span class="n">p</span><span class="p">))</span> <span class="c1"># gradient</span>
+            <span class="n">beta</span> <span class="o">-=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lr</span><span class="o">*</span><span class="n">gradient</span> 
             
         <span class="c1">### Return Values ###</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">beta</span> <span class="o">=</span> <span class="n">beta</span>
@@ -362,7 +362,7 @@
 </div>
 </div>
 </div>
-<p>The following instantiates and fits our logistic regression model. We can assess the in-sample accuracy. Note here that we predict observations to be from class 1 if we estimate <span class="math notranslate nohighlight">\(P(y_n = 1)\)</span> to be above 0.5, though this is not required.</p>
+<p>The following instantiates and fits our logistic regression model, then assesses the in-sample accuracy. Note here that we predict observations to be from class 1 if we estimate <span class="math notranslate nohighlight">\(P(Y_n = 1)\)</span> to be above 0.5, though this is not required.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">binary_model</span> <span class="o">=</span> <span class="n">BinaryLogisticRegression</span><span class="p">()</span>
@@ -372,20 +372,20 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>In-sample accuracy: 0.9876977152899824
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>In-sample accuracy: 0.9894551845342706
 </pre></div>
 </div>
 </div>
 </div>
-<p>Finally, the graph below shows a distribution of the <em>estimated</em> <span class="math notranslate nohighlight">\(P(y_n = 1)\)</span> based on each observation’s <em>true</em> class. This demonstrates that our model is quite confident of its predictions.</p>
+<p>Finally, the graph below shows a distribution of the <em>estimated</em> <span class="math notranslate nohighlight">\(P(Y_n = 1)\)</span> based on each observation’s <em>true</em> class. This demonstrates that our model is quite confident of its predictions.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
 <span class="n">sns</span><span class="o">.</span><span class="n">distplot</span><span class="p">(</span><span class="n">binary_model</span><span class="o">.</span><span class="n">p</span><span class="p">[</span><span class="n">binary_model</span><span class="o">.</span><span class="n">yhat</span> <span class="o">==</span> <span class="mi">0</span><span class="p">],</span> <span class="n">kde</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">bins</span> <span class="o">=</span> <span class="mi">8</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;Class 0&#39;</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;cornflowerblue&#39;</span><span class="p">)</span>
 <span class="n">sns</span><span class="o">.</span><span class="n">distplot</span><span class="p">(</span><span class="n">binary_model</span><span class="o">.</span><span class="n">p</span><span class="p">[</span><span class="n">binary_model</span><span class="o">.</span><span class="n">yhat</span> <span class="o">==</span> <span class="mi">1</span><span class="p">],</span> <span class="n">kde</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">bins</span> <span class="o">=</span> <span class="mi">8</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;Class 1&#39;</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;darkblue&#39;</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span> <span class="o">=</span> <span class="mi">9</span><span class="p">,</span> <span class="n">bbox_to_anchor</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mf">1.59</span><span class="p">,</span><span class="o">.</span><span class="mi">9</span><span class="p">))</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;Estimated $P(y_n = 1)$&#39;</span><span class="p">,</span> <span class="n">size</span> <span class="o">=</span> <span class="mi">14</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;Estimated $P(y_n = 1)$ by True Class&#39;</span><span class="p">,</span> <span class="n">size</span> <span class="o">=</span> <span class="mi">16</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;Estimated $P(Y_n = 1)$&#39;</span><span class="p">,</span> <span class="n">size</span> <span class="o">=</span> <span class="mi">14</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;Estimated $P(Y_n = 1)$ by True Class&#39;</span><span class="p">,</span> <span class="n">size</span> <span class="o">=</span> <span class="mi">16</span><span class="p">)</span>
 <span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -412,7 +412,7 @@
 \[\begin{split}
 \mathbf{Z} = \begin{bmatrix} 1 &amp; 1 \\ 0 &amp; 1 \end{bmatrix}.
 \end{split}\]</div>
-<p>The third function returns the <span class="math notranslate nohighlight">\(I\)</span> matrix, whose <span class="math notranslate nohighlight">\((n, k)^\text{th}\)</span> element is a 1 if the <span class="math notranslate nohighlight">\(n^\text{th}\)</span> observation belongs to the <span class="math notranslate nohighlight">\(k^\text{th}\)</span> class and a 0 otherwise. An example is shown for</p>
+<p>The third function returns the <span class="math notranslate nohighlight">\(I\)</span> matrix discussed in the concept section, whose <span class="math notranslate nohighlight">\((n, k)^\text{th}\)</span> element is a 1 if the <span class="math notranslate nohighlight">\(n^\text{th}\)</span> observation belongs to the <span class="math notranslate nohighlight">\(k^\text{th}\)</span> class and a 0 otherwise. An example is shown for</p>
 <div class="math notranslate nohighlight">
 \[
 \mathbf{y} = \begin{bmatrix} 0 &amp; 0 &amp; 1 &amp; 1 &amp; 2 \end{bmatrix}^\top.
@@ -456,10 +456,10 @@ I matrix of [0,0,1,1,2]:
 </div>
 </div>
 </div>
-<p>The multiclass logistic regression model is constructed below. After standardizing and adding an intercept, we estimate <span class="math notranslate nohighlight">\(\mathbf{B}\)</span> through gradient ascent. Again, we use the gradient discussed in the <a class="reference internal" href="../s1/logistic_regression.html"><span class="doc">concept section</span></a>,</p>
+<p>The multiclass logistic regression model is constructed below. After standardizing and adding an intercept, we estimate <span class="math notranslate nohighlight">\(\hat{\mathbf{B}}\)</span> through gradient descent. Again, we use the gradient discussed in the <a class="reference internal" href="../s1/logistic_regression.html"><span class="doc">concept section</span></a>,</p>
 <div class="math notranslate nohighlight">
 \[
-\frac{\partial \log L (\mathbf{B})}{\partial \mathbf{B}} = \mathbf{X}^\top (\mathbf{I} - \mathbf{P}).
+\frac{\partial \mathcal{L}(\mathbf{B})}{\partial \mathbf{B}} = \frac{\partial -\log L (\mathbf{B})}{\partial \mathbf{B}} = \mathbf{X}^\top (\mathbf{I} - \mathbf{P}).
 \]</div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">

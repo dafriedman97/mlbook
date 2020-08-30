@@ -309,7 +309,7 @@ f(\mathbf{x}_n) = \bbeta^\top \bx_n.
 \[
 \mu_k = \bbeta^\top \bmu_k.
 \]</div>
-<p>A simple way to measure how well <span class="math notranslate nohighlight">\(\bbeta\)</span> separates classes is with the difference between <span class="math notranslate nohighlight">\(\mu_2\)</span> and <span class="math notranslate nohighlight">\(\mu_1\)</span>. To assess similarity within a class, we use</p>
+<p>A simple way to measure how well <span class="math notranslate nohighlight">\(\bbeta\)</span> separates classes is with the magnitude of the difference between <span class="math notranslate nohighlight">\(\mu_2\)</span> and <span class="math notranslate nohighlight">\(\mu_1\)</span>. To assess similarity <em>within</em> a class, we use</p>
 <div class="math notranslate nohighlight">
 \[
 \sigma_k^2 = \sum_{n \in \mathcal{S}_k} \left(f(\bx_n) - \mu_k \right)^2,
@@ -354,7 +354,7 @@ F(\bbeta) = \frac{\bbeta^\top \bSigma_b\bbeta}{\bbeta^\top \bSigma_w \bbeta}.
 </div>
 <div class="section" id="parameter-estimation">
 <h2>Parameter Estimation<a class="headerlink" href="#parameter-estimation" title="Permalink to this headline">¶</a></h2>
-<p>Finally, we can find the <span class="math notranslate nohighlight">\(\bbeta\)</span> to optimize <span class="math notranslate nohighlight">\(F(\bbeta)\)</span>. Importantly, note that the magnitude of <span class="math notranslate nohighlight">\(\bbeta\)</span> is unimportant since we simply want to rank the <span class="math notranslate nohighlight">\(f(\bx_n) = \bbeta^\top \bx_n\)</span> values.</p>
+<p>Finally, we can find the <span class="math notranslate nohighlight">\(\bbeta\)</span> to optimize <span class="math notranslate nohighlight">\(F(\bbeta)\)</span>. Importantly, note that the magnitude of <span class="math notranslate nohighlight">\(\bbeta\)</span> is unimportant since we simply want to rank the <span class="math notranslate nohighlight">\(f(\bx_n) = \bbeta^\top \bx_n\)</span> values and using a vector proportional to <span class="math notranslate nohighlight">\(\bbeta\)</span> will not change this ranking.</p>
 <div class="admonition-math-note alert alert-info">
 <p class="admonition-title">Math Note</p>
 <p>For a symmetric matrix <span class="math notranslate nohighlight">\(\mathbf{W}\)</span> and a vector <span class="math notranslate nohighlight">\(\mathbf{s}\)</span>, we have</p>
@@ -384,12 +384,12 @@ F(\bbeta) = \frac{\bbeta^\top \bSigma_b\bbeta}{\bbeta^\top \bSigma_w \bbeta}.
 \bSigma_w\bbeta\left(\bbeta^\top \bSigma_b \bbeta\right)  &amp;= \bSigma_b\bbeta\left(\bbeta^\top \bSigma_w \bbeta\right).
 \end{align*}
 \end{split}\]</div>
-<p>Since we only care about the direction of <span class="math notranslate nohighlight">\(\bbeta\)</span> and not its magnitude, we can make some simplifications. First, we can ignore <span class="math notranslate nohighlight">\(\bbeta^\top \bSigma_b \bbeta\)</span> and <span class="math notranslate nohighlight">\(\bbeta^\top \bSigma_b \bbeta\)</span> since they are just constants. Second, we can note that <span class="math notranslate nohighlight">\(\bSigma_b \bbeta\)</span> is proportional to <span class="math notranslate nohighlight">\(\bmu_2 - \bmu_1\)</span>, as shown below</p>
+<p>Since we only care about the direction of <span class="math notranslate nohighlight">\(\bbeta\)</span> and not its magnitude, we can make some simplifications. First, we can ignore <span class="math notranslate nohighlight">\(\bbeta^\top \bSigma_b \bbeta\)</span> and <span class="math notranslate nohighlight">\(\bbeta^\top \bSigma_b \bbeta\)</span> since they are just constants. Second, we can note that <span class="math notranslate nohighlight">\(\bSigma_b \bbeta\)</span> is proportional to <span class="math notranslate nohighlight">\(\bmu_2 - \bmu_1\)</span>, as shown below:</p>
 <div class="math notranslate nohighlight">
 \[
-\bSigma_b \bbeta = (\bmu_2 - \bmu_1)(\bmu_2 - \bmu_1)^\top\bbeta \propto (\bmu_2 - \bmu_1).
+\bSigma_b \bbeta = (\bmu_2 - \bmu_1)(\bmu_2 - \bmu_1)^\top\bbeta = (\bmu_2 - \bmu_1)k\propto (\bmu_2 - \bmu_1),
 \]</div>
-<p>Therefore, our solution becomes</p>
+<p>where <span class="math notranslate nohighlight">\(k\)</span> is some constant. Therefore, our solution becomes</p>
 <div class="math notranslate nohighlight">
 \[
 \bbetahat \propto \bSigma_w^{-1}(\bmu_2 - \bmu_1).

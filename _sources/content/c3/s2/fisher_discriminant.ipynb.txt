@@ -24,7 +24,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "Since it is largely geometric, the Linear Discriminant won't look like other methods we've seen (no gradients!). First we take the class means and calculate $\\bSigma_w$ as described in the {doc}`concept section </content/c3/s2/fisher_discriminant>`. Estimating $\\bbeta$ is then as simple as $\\bSigma_w^{-1}(\\bmu_1 - \\bmu_0)$. Let's demonstrate the model using the {doc}`breast cancer </content/appendix/data>` dataset."
+    "Since it is largely geometric, the Linear Discriminant won't look like other methods we've seen (no gradients!). First we take the class means and calculate $\\bSigma_w$ as described in the {doc}`concept section </content/c3/s2/fisher_discriminant>`. Estimating $\\bbetahat$ is then as simple as calculating $\\bSigma_w^{-1}(\\bmu_1 - \\bmu_0)$. Let's demonstrate the model using the {doc}`breast cancer </content/appendix/data>` dataset."
    ]
   },
   {
@@ -87,7 +87,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "We can now fit the model on the {doc}`wine </content/appendix/data>` dataset, as below."
+    "We can now fit the model on the {doc}`breast cancer </content/appendix/data>` dataset, as below."
    ]
   },
   {

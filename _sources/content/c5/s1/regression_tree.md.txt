@@ -19,25 +19,23 @@ $$
 
 Decision trees are deeply rooted in tree-based terminology. Before discussing decision trees in depth, let's go over some of this vocabulary.
 
-- **Node**: A node is comprised of a sample of data and a decision.
-
-- **Parent**, **Child**: A parent is a node in a tree associated with exactly two child nodes. Observations directed to a parent node are next directed to one of that parent's two children nodes. 
-
-- **Rule**: Each parent node has a rule that determines toward which of the child nodes an observation will be directed. The rule is based on the value of one (and only one) of an observation's predictors. 
-
-- **Buds**: Buds are nodes that have not yet been split. In other words, they are children that are eligible to become parents. Nodes are only considered buds during the training process. Nodes that are never split are considered leaves.
-
+- **Node**: A node is comprised of a sample of data and a decision rule.
+- **Parent**, **Child**: A parent is a node in a tree associated with exactly two child nodes. Observations directed to a parent node are next directed to one of that parent's two children nodes.
+- **Rule**: Each parent node has a rule that determines toward which of the child nodes an observation will be directed. The rule is based on the value of one (and only one) of an observation's predictors.
+- **Buds**: Buds are nodes that have not yet been split. In other words, they are children that are eligible to become parents. Nodes are only considered buds during the training process. Nodes that are never split are considered leaves. 
 - **Leaf**: Leaves, also known as *terminal nodes*, are nodes that are never split. Observations move through a decision tree until reaching a leaf. The fitted value of a test observation is determined by the training observations that land in the same leaf.
 
-  
-
-Our tree starts with an initial node containing all the training data. We then assign this node a rule, which leads to the creation of two child nodes. Training observations are assigned to one of these two child nodes based on their response to the rule. How these rules are made is discussed in the first {ref}`sub-section <building_a_tree>` below.
 
 
+Let's return to the tree introduced in the previous page to see these vocabulary terms in action. Each square in this tree is a node. The sample of data for node $A$ is the collection of penguins with flipper lengths under 206.5mm and the decision rule for node $A$ is whether the bill length is less than or equal to 43.35mm. Node $A$ is an example of a parent node, and nodes $B$ and $C$ are examples of child nodes. Before node $A$ was split into child nodes $B$ and $C$, it was an example of a bud. Since $B$ and $C$ are never split, they are examples of leaves. 
 
-Next, these child nodes are considered *buds* and are ready to become parent nodes. Each bud is assigned a rule and split into two child nodes. We then have four *buds* and each is once again split. We continue this process until some stopping rule is reached (discussed {ref}`later <choosing_hyperparameters>`). Finally, we run test observations through the tree and assign them fitted values according to the leaf they fall in. The diagram on the {doc}`previous page </content/c5/concept>` illustrates this process. 
+![tree](/content/c5/s1/tree.png)
 
 
+
+The rest of this section describes how to fit a decision tree. Our tree starts with an initial node containing all the training data. We then assign this node a rule, which leads to the creation of two child nodes. Training observations are assigned to one of these two child nodes based on their response to the rule. How these rules are made is discussed in the first {ref}`sub-section <building_a_tree>` below.
+
+Next, these child nodes are considered *buds* and are ready to become parent nodes. Each bud is assigned a rule and split into two child nodes. We then have four *buds* and each is once again split. We continue this process until some stopping rule is reached (discussed {ref}`later <choosing_hyperparameters>`). Finally, we run test observations through the tree and assign them fitted values according to the leaf they fall in. 
 
 In this section we'll discuss how to build a tree as well as how to choose the tree's optimal hyperparameters.
 
@@ -47,7 +45,7 @@ In this section we'll discuss how to build a tree as well as how to choose the t
 
 ## Building a Tree
 
-Building a tree consists of iteratively creating rules to split nodes. We'll first discuss rules in greater depth, then introduce a tree's objective function, then cover the splitting process, and finally go over making predictions with a built tree. 
+Building a tree consists of iteratively creating rules to split nodes. We'll first discuss rules in greater depth, then introduce a tree's objective function, then cover the splitting process, and finally go over making predictions with a built tree. Suppose we have predictors $\bx_n \in \R^D$ and a quantitative target variable $y_n$ for $n = 1, \dots, N$.
 
 
 
@@ -55,7 +53,7 @@ Building a tree consists of iteratively creating rules to split nodes. We'll fir
 
 
 
-Let's first clarify what a rule actually is. Suppose we have predictors $\bx_n \in \R^D$ and a quantitative target variable $y_n$ for $n = 1, \dots, N$. Rules in a decision tree determine how observations from a parent node are divided between two child nodes. Each rule is based on only *one* predictor from the parent node's training sample. Let $x_{nd}$ be the $d^\text{th}$ predictor in $\bx_n$. If $x_{nd}$ is quantitative, a rule is of the form
+Let's first clarify what a rule actually is. Rules in a decision tree determine how observations from a parent node are divided between two child nodes. Each rule is based on only *one* predictor from the parent node's training sample. Let $x_{nd}$ be the $d^\text{th}$ predictor in $\bx_n$. If $x_{nd}$ is quantitative, a rule is of the form
 
 
 $$
@@ -83,7 +81,7 @@ $$
 $$
 
 
-Then observation $n$ that passes through $\mathcal{N}_m$ will go to $\mathcal{C}_m^L$ if $x_{n2} \leq 4$ and $\mathcal{C}_m^R$ otherwise. On a diagram like the one on the previous page, the child node for observations satisfying the rule is often to the left while the node for those not satisfying the rule is to the right, hence the superscripts $L$ and $R$ 
+Then observation $n$ that passes through $\mathcal{N}_m$ will go to $\mathcal{C}_m^L$ if $x_{n2} \leq 4$ and $\mathcal{C}_m^R$ otherwise. On a diagram like the one above, the child node for observations satisfying the rule is often to the left while the node for those not satisfying the rule is to the right, hence the superscripts $L$ and $R$ 
 
 
 
@@ -168,9 +166,10 @@ For each layer (starting with only the initial node), we split with the followin
           \mathcal{R} = x_{nd} \in \mathcal{S}.
           $$
           
-  
-  In words, we consider the set of categories corresponding to the lowest average target variable and split if the observation's $d^\text{th}$ predictor falls in this set. We then add one more category to this set and repeat.
-  
+        
+        In words, we consider the set of categories corresponding to the lowest average target variable and split if the observation's $d^\text{th}$ predictor falls in this set. We then add one more category to this set and repeat.
+        
+    
   - Choose the predictor, and value (if quantitative) or set (if categorical) with the greatest reduction in $RSS_m$ and split accordingly.
 
 
@@ -246,7 +245,7 @@ where $\lambda$ is a regularization parameter. We choose the tree $T$ that minim
 
 
 
-Increasing $\lambda$ increases the amount of regularization and limits overfitting by penalizing larger trees. Increasing $\lambda$ too much, however, can cause undercutting by preventing the tree from making needed splits. How then do we choose $\lambda$? With cross validation! Specifically,  for each validation fold, we overfit the tree and prune it back using a range of $\lambda$ values. Note that $\lambda$ does not affect *how* we prune the tree, only *which* pruned tree we prefer. For each value of $\lambda$, we calculate the average validation accuracy (likely using $RSS_T$) across folds. We choose the value of $\lambda$ that maximizes this accuracy and the tree which is preferred by that value of $\lambda$.
+Increasing $\lambda$ increases the amount of regularization and limits overfitting by penalizing larger trees. Increasing $\lambda$ too much, however, can cause undercutting by preventing the tree from making needed splits. How then do we choose $\lambda$? With cross validation! Specifically,  for each validation fold, we overfit the tree and prune it back using a range of $\lambda$ values. Note that $\lambda$ does not affect *how* we prune the tree, only *which* pruned tree we prefer. For each value of $\lambda$, we calculate the average validation accuracy (likely using $RSS_T$ calculated on the validation set) across folds. We choose the value of $\lambda$ that maximizes this accuracy and the tree which is preferred by that value of $\lambda$.
 
 
 

@@ -16,13 +16,13 @@ $$
 \newcommand{\iid}{\overset{\small{\text{i.i.d.}}}{\sim}}
 $$
 
-The *perceptron algorithm* is a simple classification method that plays an important historical role in the development of the much more flexible Neural Network. The perceptron is a *linear binary classifier*—*linear* since it separates the input variable space linearly between linearly and *binary* since it places observations into one of two classes. 
+The *perceptron algorithm* is a simple classification method that plays an important historical role in the development of the much more flexible {doc}`neural network </content/c7/concept>`. The perceptron is a *linear binary classifier*—*linear* since it separates the input variable space linearly and *binary* since it places observations into one of two classes. 
 
 
 
 ## Model Structure
 
-It is most convenient to represent our binary target variable as $y_n \in \{-1, + 1\}$. For example, an email might be marked as $+1$ if it is spam and $-1$ otherwise. As usual, suppose we have one or more predictors per observation, $\mathbf{x}_n$. 
+It is most convenient to represent our binary target variable as $y_n \in \{-1, + 1\}$. For example, an email might be marked as $+1$ if it is spam and $-1$ otherwise. As usual, suppose we have one or more predictors per observation. We obtain our feature vector $\bx_n$ by concatenating a leading 1 to this collection of predictors.
 
 Consider the following function, which is an example of an *activation function*:
 
@@ -58,7 +58,7 @@ As usual, we calculate the $\bbetahat$ as the set of coefficients to minimize so
 
 
 $$
-\mathcal{L}(\bbetahat) = -\sum_{n \in \mathcal{M}} y_n(\bbetahat^\top \bx_n)
+\mathcal{L}(\bbetahat) = -\sum_{n \in \mathcal{M}} y_n(\bbetahat^\top \bx_n).
 $$
 
 
@@ -84,4 +84,4 @@ We obviously can't set this equal to 0 and solve for $\bbetahat$, so we have to 
 
 
 
-It can be shown that convergence is guaranteed in the linearly-separable case but not otherwise. If the classes are not linearly separable, some stopping rule will have to be determined. 
+It can be shown that convergence is guaranteed in the linearly separable case but not otherwise. If the classes are not linearly separable, some stopping rule will have to be determined. 

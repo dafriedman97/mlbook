@@ -32,7 +32,7 @@ Here we discuss two specific algorithms for conducting boosting. The first, know
 
 
 
-Weak learners in a boosting model learn from the mistakes of previous iterations by increasing the *weights* of observations that previous learners struggled with. How exactly we fit a *weight* learner depends on the type of learner. Fortunately, for classification trees this can be done with just a slight adjustment to the loss function.   
+Weak learners in a boosting model learn from the mistakes of previous iterations by increasing the *weights* of observations that previous learners struggled with. How exactly we fit a *weighted* learner depends on the type of learner. Fortunately, for classification trees this can be done with just a slight adjustment to the loss function.   
 
 Consider a  classification tree with classes $k = 1, \dots, K$ and a node $\mathcal{N}_m$. Let  $\hat{p}_{mk}$ give the fraction of the observations in $\mathcal{N}_m$ belonging to class $k$. Recall that the Gini index is defined as
 
@@ -78,7 +78,7 @@ This forces the tree to prioritize isolating the classes that were poorly classi
 
 
 
-The *Discrete AdaBoost* algorithm is outlined below. We start by setting the weights equal for each observation. Then we build $T$ weighted weak learners (decision trees in our case). Each observation's weight is updated according to the strength of the iteration's learner and the accuracy of the learner on that observation. Specifically, the update for the weight on observation $n$ at iteration $t$ takes the form
+The *Discrete AdaBoost* algorithm is outlined below. We start by setting the weights equal for each observation. Then we build $T$ weighted weak learners (decision trees in our case). Each observation's weight is updated according to two factors: the strength of the iteration's learner and the accuracy of the learner on that observation. Specifically, the update for the weight on observation $n$ at iteration $t$ takes the form
 
 
 $$
@@ -104,7 +104,7 @@ Define the target variable to be $y_n \in \{-1, +1 \}$.
 2. For $t = 1, \dots, T$,
     - Build weak learner $t$ using weights $\mathbf{w}^t$.
     
-    - Calculate fitted values $f^t(\bx_n) \in \{-1, +1\}$ for $n = 1, 2, \dots, N$. Let $I^t_n$ equal 1 If $f^t(\bx_n) \neq y_n$ and 0 otherwise. That is, $I^t_n$ indicates whether learner $t$ misclassifies observation $n$.
+    - Use weak learner $t$ to calculate fitted values $f^t(\bx_n) \in \{-1, +1\}$ for $n = 1, 2, \dots, N$. Let $I^t_n$ equal 1 If $f^t(\bx_n) \neq y_n$ and 0 otherwise. That is, $I^t_n$ indicates whether learner $t$ misclassifies observation $n$.
     
     - Calculate the weighted error for learner $t$:
       
@@ -132,15 +132,15 @@ Define the target variable to be $y_n \in \{-1, +1 \}$.
 
 _____
 
-
+Note that our final fitted value for observation $n$, $\hat{y}_n$, is a weighted vote of all the individual fitted values where higher-performing learners are given more weight. 
 
 
 
 ## AdaBoost For Regression
 
-We can apply the same principle of learning from our mistakes to regression tasks as well. A common algorithm for doing so is *AdaBoost.R2*, shown below. Like *AdaBoost*, this algorithm uses weights to emphasize observations that previous learners struggled with. Unlike *AdaBoost*, however, it does not incorporate these weights into the loss function directly. Instead, every iteration, it draws bootstrap samples from the training data where each observation's weight determines the probability that it is sampled.
+We can apply the same principle of learning from our mistakes to regression tasks as well. A common algorithm for doing so is *AdaBoost.R2*, shown below. Like *AdaBoost*, this algorithm uses weights to emphasize observations that previous learners struggled with. Unlike *AdaBoost*, however, it does not incorporate these weights into the loss function directly. Instead, every iteration, it draws bootstrap samples from the training data where observations with greater weights are more likely to be drawn.
 
-We then fit a weak learner to the bootstrapped sample, calculate the fitted values on the *original sample*, and use the residuals to assess the quality of the weak learner. As in *AdaBoost*, we update the weights each iteration based on the quality of the learner (determined by $\beta^t$) and the accuracy of the learner on the observation (determined by $L_n$). 
+We then fit a weak learner to the bootstrapped sample, calculate the fitted values on the *original sample* (i.e. *not* the bootstrapped sample), and use the residuals to assess the quality of the weak learner. As in *AdaBoost*, we update the weights each iteration based on the quality of the learner (determined by $\beta^t$) and the accuracy of the learner on the observation (determined by $L_n$). 
 
 After iterating through many weak learners, we form our fitted values. Specifically, for each observation we use the weighted median (defined below) of the weak learners' predictions, weighted by $\log(1/\beta^t)$ for $t = 1, \dots, T$.
 
@@ -155,6 +155,8 @@ As an example, consider the values $\mathbf{v} = \{10,30,20,40\}$ and correspond
 ```
 
 
+
+Though the arithmetic below gets somewhat messy, the concept is simple: iteratively fit a weak learner, see where the learner struggles, and emphasize the observations where it failed (where the amount of emphasis depends on the overall strength of the learner). 
 
 _____
 
@@ -188,10 +190,10 @@ _____
 
     - Let $\beta^t = \frac{\bar{L}^t}{1- \bar{L}^t}$. The lower $\beta^t$, the greater our confidence in the model. 
 
-    - Let $Z^t = \sum_{n = 1}^N w^t_n (\beta^t)^{1 - L_n}$ and update the model weights with 
+    - Let $Z^t = \sum_{n = 1}^N w^t_n (\beta^t)^{1 - L^t_n}$ be a normalizing constant and update the model weights with 
       
       $$
-      w^{t + 1}_n = \frac{w^t_n (\beta^t)^{1 - L_n}}{Z^t},
+      w^{t + 1}_n = \frac{w^t_n (\beta^t)^{1 - L^t_n}}{Z^t},
       $$
 
       which increases the weight for observations with a greater error $L^t_n$.

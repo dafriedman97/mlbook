@@ -11,7 +11,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "This section demonstrates how to fit bagging, random forests, and boosting models using `scikit-learn`.  We will again use the {doc}`penguins </content/appendix/data>` dataset for classification and the {doc}`tips </content/appendix/data>` dataset for regression."
+    "This section demonstrates how to fit bagging, random forest, and boosting models using `scikit-learn`.  We will again use the {doc}`penguins </content/appendix/data>` dataset for classification and the {doc}`tips </content/appendix/data>` dataset for regression."
    ]
   },
   {
@@ -38,7 +38,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "Recall that bagging and random forests can handle both categorical and quantitative tasks. For this example we will do classification on the `penguins` dataset.  Recall that `scikit-learn` trees do not currently support categorical predictors, so we must first convert those to dummy variables"
+    "Recall that bagging and random forests can handle both classification and regression tasks. For this example we will do classification on the `penguins` dataset.  Recall that `scikit-learn` trees do not currently support categorical predictors, so we must first convert those to dummy variables"
    ]
   },
   {
@@ -124,7 +124,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "An example of a random forest in `scikit-learn` is given below. The most important arguments to the random forest are the number of estimators (decision trees), the `max_features` (the number of predictors to consider at each split), and any chosen parameters for the decision trees (such as the maximum depth). Guidelines for setting each of these parameters are given below. \n",
+    "An example of a random forest in `scikit-learn` is given below. The most important arguments to the random forest are the number of estimators (decision trees), `max_features` (the number of predictors to consider at each split), and any chosen parameters for the decision trees (such as the maximum depth). Guidelines for setting each of these parameters are given below. \n",
     "\n",
     "- `n_estimators`: In general, the more base estimators the better, though there are diminishing marginal returns. While increasing the number of base estimators does not risk overfitting, it eventually provides no benefit. \n",
     "- `max_features`: This argument is set by default to the square root of the number of total features (which is made explicit in the example below). If this value equals the number of total features, we are left with a bagging model. Lowering this value lowers the amount of correlation between trees but also prevents the base estimators from learning potentially valuable information. \n",
@@ -196,7 +196,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "We can then fit the classifier with the `AdaBoostClassifier` class as below. Again, we first first convert categorical predictors to dummy variables. The classifier will by default use 50 decision trees, each with a max depth of 1, for the weak learners. \n"
+    "We can then fit the classifier with the `AdaBoostClassifier` class as below. Again, we first convert categorical predictors to dummy variables. The classifier will by default use 50 decision trees, each with a max depth of 1, for the weak learners. \n"
    ]
   },
   {

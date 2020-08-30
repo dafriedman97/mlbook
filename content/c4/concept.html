@@ -317,17 +317,18 @@
 \newcommand{\l}{\left(}
 \newcommand{\r}{\right)}
 \]</div>
-<p>Discriminative classifiers, as we saw in the previous chapter, model a target variable <span class="math notranslate nohighlight">\(y_n\)</span> as a direct function of one or more input variables <span class="math notranslate nohighlight">\(\bx_n\)</span>. Generative classifiers, the subject of this chapter, instead view the input variables as being generated according to their class—i.e. they see <span class="math notranslate nohighlight">\(\bx_n\)</span> as a function of <span class="math notranslate nohighlight">\(y_n\)</span> rather than the other way around.</p>
-<p>Generative models can be broken down into the three following steps. Suppose we have a task with <span class="math notranslate nohighlight">\(K\)</span> unordered classes, represented by <span class="math notranslate nohighlight">\(k = 1, \dots, K\)</span>.</p>
+<p>Discriminative classifiers, as we saw in the previous chapter, model a target variable as a direct function of one or more predictors. Generative classifiers, the subject of this chapter, instead view the predictors as being generated according to their class—i.e., they see the predictors as a function of the target, rather than the other way around. They then use Bayes’ rule to turn <span class="math notranslate nohighlight">\(P(\bx_n|Y_n = k)\)</span> into <span class="math notranslate nohighlight">\(P(Y_n = k|\bx_n)\)</span>.</p>
+<p>In generative classifiers, we view both the target and the predictors as random variables. We will therefore refer to the target variable with <span class="math notranslate nohighlight">\(Y_n\)</span>, but in order to avoid confusing it with a matrix, we refer to the predictor vector with <span class="math notranslate nohighlight">\(\bx_n\)</span>.</p>
+<p>Generative models can be broken down into the three following steps. Suppose we have a classification task with <span class="math notranslate nohighlight">\(K\)</span> unordered classes, represented by <span class="math notranslate nohighlight">\(k = 1, \dots, K\)</span>.</p>
 <ol class="simple">
-<li><p>Estimate <span class="math notranslate nohighlight">\(p(\bx_n|y_n = k)\)</span> for <span class="math notranslate nohighlight">\(k = 1, \dots, K\)</span>.</p></li>
-<li><p>Estimate the class prior, <span class="math notranslate nohighlight">\(p(y_n = k)\)</span> for <span class="math notranslate nohighlight">\(k = 1, \dots, K\)</span>. This is also written as <span class="math notranslate nohighlight">\(p(y_n)\)</span>.</p></li>
-<li><p>Using Bayes’ rule, calculate <span class="math notranslate nohighlight">\(p(y_n = k|\bx_n) \propto p(\bx_n|y_n = k)p(y_n = k)\)</span> for <span class="math notranslate nohighlight">\(k = 1, \dots, K\)</span>.</p></li>
+<li><p>Estimate the density of the predictors conditional on the target belonging to each class. I.e., estimate <span class="math notranslate nohighlight">\(p(\bx_n|Y_n = k)\)</span> for <span class="math notranslate nohighlight">\(k = 1, \dots, K\)</span>.</p></li>
+<li><p>Estimate the prior probability that a target belongs to any given class. I.e., estimate <span class="math notranslate nohighlight">\(P(Y_n = k)\)</span> for <span class="math notranslate nohighlight">\(k = 1, \dots, K\)</span>. This is also written as <span class="math notranslate nohighlight">\(p(Y_n)\)</span>.</p></li>
+<li><p>Using Bayes’ rule, calculate the posterior probability that the target belongs to any given class. I.e., calculate  <span class="math notranslate nohighlight">\(p(Y_n = k|\bx_n) \propto p(\bx_n|Y_n = k)p(Y_n = k)\)</span> for <span class="math notranslate nohighlight">\(k = 1, \dots, K\)</span>.</p></li>
 </ol>
-<p>We then classify observation <span class="math notranslate nohighlight">\(n\)</span> as being from the class for which <span class="math notranslate nohighlight">\(p(y_n = k|\bx_n)\)</span> is greatest. In math,</p>
+<p>We then classify observation <span class="math notranslate nohighlight">\(n\)</span> as being from the class for which <span class="math notranslate nohighlight">\(P(Y_n = k|\bx_n)\)</span> is greatest. In math,</p>
 <div class="math notranslate nohighlight">
 \[
-\hat{y}_n = \underset{k}{\text{arg max }} p(y_n = k|\bx_n).
+\hat{Y}_n = \underset{k}{\text{arg max }} p(Y_n = k|\bx_n).
 \]</div>
 <p>Note that we do not need <span class="math notranslate nohighlight">\(p(\bx_n)\)</span>, which would be the denominator in the Bayes’ rule formula, since it would be equal across classes.</p>
 <div class="alert alert-info">
@@ -345,13 +346,13 @@ y_n \iid \text{Cat}(\bpi).
 <div class="admonition-math-note alert alert-info">
 <p class="admonition-title">Math Note</p>
 <p>A random variable which takes on one of <span class="math notranslate nohighlight">\(K\)</span> discrete and unordered outcomes with probabilities <span class="math notranslate nohighlight">\(\pi_1, \dots, \pi_K\)</span> follows the Categorical distribution with parameter <span class="math notranslate nohighlight">\(\bpi = \begin{bmatrix} \pi_1 &amp; \dots &amp; \pi_K \end{bmatrix}^\top\)</span>, written <span class="math notranslate nohighlight">\(\text{Cat}(\bpi)\)</span>. For instance, a single die roll is distributed <span class="math notranslate nohighlight">\(\text{Cat}(\bpi)\)</span> for <span class="math notranslate nohighlight">\(\bpi = \begin{bmatrix} 1/6 \dots 1/6 \end{bmatrix}^\top\)</span>.</p>
-<p>The density for <span class="math notranslate nohighlight">\(y \sim \text{Cat}(\bp)\)</span> is defined as</p>
+<p>The density for <span class="math notranslate nohighlight">\(Y \sim \text{Cat}(\bp)\)</span> is defined as</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
 \begin{align*}
-P(y = 1) &amp;= p_1 \\
+P(Y = 1) &amp;= p_1 \\
 &amp;... \\
-P(y = K) &amp;= p_K.
+P(Y = K) &amp;= p_K.
 \end{align*}
 \end{split}\]</div>
 <p>This can be written more compactly as</p>
@@ -361,36 +362,36 @@ p(y) = \prod_{k = 1}^K p_k ^{I_k}
 \]</div>
 <p>where <span class="math notranslate nohighlight">\(I_k\)</span> is an indicator that equals 1 if <span class="math notranslate nohighlight">\(y = k\)</span> and 0 otherwise.</p>
 </div>
-<p>We then assume some distribution for the <span class="math notranslate nohighlight">\(\mathbf{x}_n\)</span> conditional on observation <span class="math notranslate nohighlight">\(n\)</span>’s class, <span class="math notranslate nohighlight">\(y_n\)</span>. We typically assume all the <span class="math notranslate nohighlight">\(\bx_n\)</span> come from the same <em>family</em> of distributions, though the parameters depend on their class. For instance, we might have</p>
+<p>We then assume some distribution for <span class="math notranslate nohighlight">\(\mathbf{x}_n\)</span> conditional on observation <span class="math notranslate nohighlight">\(n\)</span>’s class, <span class="math notranslate nohighlight">\(Y_n\)</span>. We typically assume all the <span class="math notranslate nohighlight">\(\bx_n\)</span> come from the same <em>family</em> of distributions, though the parameters depend on their class. For instance, we might have</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
 \begin{align*}
-\bx_n|(y_n = 1) &amp;\sim \text{MVN}(\bmu_1, \bSigma_1), \\ &amp;... \\
-\bx_{n}|(y_n = K)  &amp;\sim \text{MVN}(\bmu_K, \bSigma_K),
+\bx_n|(Y_n = 1) &amp;\sim \text{MVN}(\bmu_1, \bSigma_1), \\ &amp;... \\
+\bx_{n}|(Y_n = K)  &amp;\sim \text{MVN}(\bmu_K, \bSigma_K),
 \end{align*}
 \end{split}\]</div>
 <p>though we wouldn’t let one conditional distribution be Multivariate Normal and another be Multivariate <span class="math notranslate nohighlight">\(t\)</span>. Note that it is possible, however, for the individual variables within the random vector <span class="math notranslate nohighlight">\(\bx_n\)</span> to follow different distributions. For instance, if <span class="math notranslate nohighlight">\(\bx_n = \begin{bmatrix} x_{n1} &amp; x_{n2} \end{bmatrix}^\top\)</span>, we might have</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
 \begin{align*}
-x_{n1}|(y_n = k) &amp;\sim \text{Bin}(n, p_k)
+x_{n1}|(Y_n = k) &amp;\sim \text{Bin}(n, p_k)
 \\
-x_{n2}|(y_n = k) &amp;\sim \mathcal{N}(\bmu_k, \bSigma_k) 
+x_{n2}|(Y_n = k) &amp;\sim \mathcal{N}(\bmu_k, \bSigma_k) 
 \end{align*}
 \end{split}\]</div>
-<p>The machine learning task is to estimate the parameters of these models—<span class="math notranslate nohighlight">\(\bpi\)</span> for <span class="math notranslate nohighlight">\(y_n\)</span> and whatever parameters might index the possible distributions of <span class="math notranslate nohighlight">\(\bx_n|y_n\)</span>, in this case <span class="math notranslate nohighlight">\(\bmu_k\)</span> and <span class="math notranslate nohighlight">\(\bSigma_k\)</span> for <span class="math notranslate nohighlight">\(k = 1, \dots, K\)</span>. Once that’s done, we can estimate <span class="math notranslate nohighlight">\(p(y_n = k)\)</span> and <span class="math notranslate nohighlight">\(p(\bx_n|y_n = k)\)</span> for each class and, through Bayes’ rule, choose the class that maximizes <span class="math notranslate nohighlight">\(p(y_n = k|\bx_n)\)</span>.</p>
+<p>The machine learning task is to estimate the parameters of these models—<span class="math notranslate nohighlight">\(\bpi\)</span> for <span class="math notranslate nohighlight">\(Y_n\)</span> and whatever parameters might index the possible distributions of <span class="math notranslate nohighlight">\(\bx_n|Y_n\)</span>, in this case <span class="math notranslate nohighlight">\(\bmu_k\)</span> and <span class="math notranslate nohighlight">\(\bSigma_k\)</span> for <span class="math notranslate nohighlight">\(k = 1, \dots, K\)</span>. Once that’s done, we can estimate <span class="math notranslate nohighlight">\(p(Y_n = k)\)</span> and <span class="math notranslate nohighlight">\(p(\bx_n|Y_n = k)\)</span> for each class and, through Bayes’ rule, choose the class that maximizes <span class="math notranslate nohighlight">\(p(Y_n = k|\bx_n)\)</span>.</p>
 </div>
 <div class="section" id="parameter-estimation">
 <h2>2. Parameter Estimation<a class="headerlink" href="#parameter-estimation" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="class-priors">
 <h3>2.1 Class Priors<a class="headerlink" href="#class-priors" title="Permalink to this headline">¶</a></h3>
-<p>Let’s start by estimating <span class="math notranslate nohighlight">\(\bpi\)</span>, the class priors. Let <span class="math notranslate nohighlight">\(I_{nk}\)</span> be an indicator which equals 1 if <span class="math notranslate nohighlight">\(y_n = k\)</span> and 0 otherwise. Then the joint likelihood and log-likelihood are given by</p>
+<p>Let’s start by deriving the estimates for <span class="math notranslate nohighlight">\(\bpi\)</span>, the class priors. Let <span class="math notranslate nohighlight">\(I_{nk}\)</span> be an indicator which equals 1 if <span class="math notranslate nohighlight">\(Y_n = k\)</span> and 0 otherwise. Then the joint likelihood and log-likelihood are given by</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
 \begin{align*}
-L\left(\bpi; \collection\right) &amp;= \prodN \prod_{k = 1}^K \pi_k^{I_{nk}} 
+L\left(\bpi; \{\bx_n, Y_n\}_{n = 1}^N\right) &amp;= \prodN \prod_{k = 1}^K \pi_k^{I_{nk}} 
 \\
-\log L\left(\bpi; \collection\right) &amp;= \sumN \sum_{k = 1}^K I_{nk} \log(\pi_k)
+\log L\left(\bpi; \{\bx_n, Y_n\}_{n = 1}^N\right) &amp;= \sumN \sum_{k = 1}^K I_{nk} \log(\pi_k)
 \\
 &amp;= \sum_{k = 1}^K N_k\log(\pi_k),
 \end{align*}
@@ -422,17 +423,17 @@ L\left(\bpi; \collection\right) &amp;= \prodN \prod_{k = 1}^K \pi_k^{I_{nk}}
 \[
 \hat{\pi}_k = \frac{N_k}{N}, \hspace{1mm} \lambda = N,
 \]</div>
-<p>which says that our estimate of <span class="math notranslate nohighlight">\(p(y_n = k)\)</span> is just the sample fraction of observations from class <span class="math notranslate nohighlight">\(k\)</span>.</p>
+<p>which says that our estimate of <span class="math notranslate nohighlight">\(p(Y_n = k)\)</span> is just the sample fraction of observations from class <span class="math notranslate nohighlight">\(k\)</span>.</p>
 </div>
 <div class="section" id="data-likelihood">
 <h3>2.2 Data Likelihood<a class="headerlink" href="#data-likelihood" title="Permalink to this headline">¶</a></h3>
-<p>The next step is to model the conditional distribution of <span class="math notranslate nohighlight">\(\bx_n\)</span> given <span class="math notranslate nohighlight">\(y_n\)</span> so that we can estimate this distribution’s parameters. This of course depends on the family of distributions we choose to model <span class="math notranslate nohighlight">\(\bx_n\)</span>. Three common approaches are detailed below.</p>
+<p>The next step is to model the conditional distribution of <span class="math notranslate nohighlight">\(\bx_n\)</span> given <span class="math notranslate nohighlight">\(Y_n\)</span> so that we can estimate this distribution’s parameters. This of course depends on the family of distributions we choose to model <span class="math notranslate nohighlight">\(\bx_n\)</span>. Three common approaches are detailed below.</p>
 <div class="section" id="linear-discriminative-analysis-lda">
 <h4>2.2.1 Linear Discriminative Analysis (LDA)<a class="headerlink" href="#linear-discriminative-analysis-lda" title="Permalink to this headline">¶</a></h4>
 <p>In LDA, we assume</p>
 <div class="math notranslate nohighlight">
 \[
-\bx_n|(y_n = k) \sim \text{MVN}(\bmu_k, \bSigma),
+\bx_n|(Y_n = k) \sim \text{MVN}(\bmu_k, \bSigma),
 \]</div>
 <p>for <span class="math notranslate nohighlight">\(k = 1, \dots, K\)</span>. Note that each class has the same covariance matrix but a unique mean vector.</p>
 <p>Let’s derive the parameters in this case. First, let’s find the likelihood and log-likelihood. Note that we can write the joint likelihood as follows,</p>
@@ -520,7 +521,7 @@ L\l\{\bmu_k\}_{k = 1}^K, \bSigma\r &amp;= \prodN\prodK \Big(\frac{1}{\sqrt{|\bSi
 <p>QDA looks very similar to LDA but assumes each class has its <em>own</em> covariance matrix:</p>
 <div class="math notranslate nohighlight">
 \[
-\bx_n|(y_n = k) \sim \text{MVN}(\bmu_k, \bSigma_k)
+\bx_n|(Y_n = k) \sim \text{MVN}(\bmu_k, \bSigma_k)
 \]</div>
 <p>for <span class="math notranslate nohighlight">\(k = 1, \dots, K\)</span>. The log-likelihood is the same as in LDA except we replace <span class="math notranslate nohighlight">\(\bSigma\)</span> with <span class="math notranslate nohighlight">\(\bSigma_k\)</span>:</p>
 <div class="math notranslate nohighlight">
@@ -565,26 +566,26 @@ N_k I &amp;= \sum_{n \in C_k} (\bx_n - \bmu_k)(\bx_n - \bmu_k)^\top \bSigma_k^{-
 <p>Naive Bayes assumes the random variables within <span class="math notranslate nohighlight">\(\bx_n\)</span> are independent conditional on the class of observation <span class="math notranslate nohighlight">\(n\)</span>. I.e. if <span class="math notranslate nohighlight">\(\bx_n \in \mathbb{R}^D\)</span>, Naive Bayes assumes</p>
 <div class="math notranslate nohighlight">
 \[
-p(\bx_n|y_n) = p(x_{n1}|y_n)\cdot p(x_{n2}|y_n) \cdot ... \cdot p(x_{nD}|y_n). 
+p(\bx_n|Y_n) = p(x_{n1}|Y_n)\cdot p(x_{n2}|Y_n) \cdot ... \cdot p(x_{nD}|Y_n).
 \]</div>
-<p>This makes estimating <span class="math notranslate nohighlight">\(p(\bx_n|y_n)\)</span> very easy—to estimate the parameters of <span class="math notranslate nohighlight">\(p(x_{nd}|y_n)\)</span>, we can ignore all the variables in <span class="math notranslate nohighlight">\(\bx_{n}\)</span> other than <span class="math notranslate nohighlight">\(x_{nd}\)</span>!</p>
+<p>This makes estimating <span class="math notranslate nohighlight">\(p(\bx_n|Y_n)\)</span> very easy—to estimate the parameters of <span class="math notranslate nohighlight">\(p(x_{nd}|Y_n)\)</span>, we can ignore all the variables in <span class="math notranslate nohighlight">\(\bx_{n}\)</span> other than <span class="math notranslate nohighlight">\(x_{nd}\)</span>!</p>
 <p>As an example, assume <span class="math notranslate nohighlight">\(\bx_n \in \mathbb{R}^2\)</span> and we use the following model (where for simplicity <span class="math notranslate nohighlight">\(n\)</span> and <span class="math notranslate nohighlight">\(\sigma^2_k\)</span> are known).</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
 \begin{align*}
-x_{n1}|(y_n = k) &amp;\sim \mathcal{N}(\mu_k, \sigma^2_k) \\
-x_{n2}|(y_n = k) &amp;\sim \text{Bin}(n, p_k).
+x_{n1}|(Y_n = k) &amp;\sim \mathcal{N}(\mu_k, \sigma^2_k) \\
+x_{n2}|(Y_n = k) &amp;\sim \text{Bin}(n, p_k).
 \end{align*}
 \end{split}\]</div>
 <p>Let the <span class="math notranslate nohighlight">\(\btheta_k = (\mu_k, \sigma_k^2, p_k)\)</span> contain all the parameters for class <span class="math notranslate nohighlight">\(k\)</span> . The joint likelihood function would become</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
 \begin{align*}
-L(\{\btheta_k\}_{k = 1}^K) &amp;= \prodN \prodK \l p(\bx|y_n, \btheta_k)\r^{I_{nk}} \\
+L(\{\btheta_k\}_{k = 1}^K) &amp;= \prodN \prodK \l p(\bx|Y_n, \btheta_k)\r^{I_{nk}} \\
 L(\{\btheta_k\}_{k = 1}^K) &amp;= \prodN \prodK \l p(x_{n1}|\mu_k, \sigma^2_k) \cdot p(x_{n2}|p_k) \r^{I_{nk}},
 \end{align*}
 \end{split}\]</div>
-<p>where the two are equal because of the conditional independence assumption. This allows us to easily find maximum likelihood estimates. The rest of this sub-section demonstrates how those estimates would be found, though it is nothing beyond ordinary maximum likelihood estimation.</p>
+<p>where the two are equal because of the Naive Bayes conditional independence assumption. This allows us to easily find maximum likelihood estimates. The rest of this sub-section demonstrates how those estimates would be found, though it is nothing beyond ordinary maximum likelihood estimation.</p>
 <p>The log-likelihood is given by</p>
 <div class="math notranslate nohighlight">
 \[
@@ -609,16 +610,16 @@ L(\{\btheta_k\}_{k = 1}^K) &amp;= \prodN \prodK \l p(x_{n1}|\mu_k, \sigma^2_k) \
 </div>
 <div class="section" id="making-classifications">
 <h2>3. Making Classifications<a class="headerlink" href="#making-classifications" title="Permalink to this headline">¶</a></h2>
-<p>Regardless of our modeling choices for <span class="math notranslate nohighlight">\(p(\bx_n|y_n)\)</span>, classifying new observations is easy. Consider a test observation <span class="math notranslate nohighlight">\(\bx_0\)</span>. For <span class="math notranslate nohighlight">\(k = 1, \dots, K\)</span>, we use Bayes’ rule to calculate</p>
+<p>Regardless of our modeling choices for <span class="math notranslate nohighlight">\(p(\bx_n|Y_n)\)</span>, classifying new observations is easy. Consider a test observation <span class="math notranslate nohighlight">\(\bx_0\)</span>. For <span class="math notranslate nohighlight">\(k = 1, \dots, K\)</span>, we use Bayes’ rule to calculate</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
 \begin{align*}
-p(y_0 = k|\bx_0) &amp;\propto p(\bx_0|y_0 = k)p(y_0 = k) 
+p(Y_0 = k|\bx_0) &amp;\propto p(\bx_0|Y_0 = k)p(Y_0 = k) 
 \\
-&amp;= p(\bx_0|y_0 = k)\hat{\pi}_k.
+&amp;= \hat{p}(\bx_0|Y_0 = k)\hat{\pi}_k,
 \end{align*}
 \end{split}\]</div>
-<p>We then predict <span class="math notranslate nohighlight">\(y_0 = k\)</span> for whichever value <span class="math notranslate nohighlight">\(k\)</span> maximizes the above expression.</p>
+<p>where <span class="math notranslate nohighlight">\(\hat{p}\)</span> gives the estimated density of <span class="math notranslate nohighlight">\(\bx_0\)</span> conditional on <span class="math notranslate nohighlight">\(Y_0\)</span>. We then predict <span class="math notranslate nohighlight">\(Y_0 = k\)</span> for whichever value <span class="math notranslate nohighlight">\(k\)</span> maximizes the above expression.</p>
 </div>
 </div>
 

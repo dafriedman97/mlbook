@@ -479,7 +479,7 @@
 <img alt="../../_images/construction_9_0.png" src="../../_images/construction_9_0.png" />
 </div>
 </div>
-<p>We can also build a network for binary classification. The model below attempts to predict whether an individual’s cancer is malignant or benign. We’ll use the log loss, the sigmoid activation function after the second layer, and the ReLU function after the first.</p>
+<p>We can also build a network for binary classification. The model below attempts to predict whether an individual’s cancer is malignant or benign. We use the log loss, the sigmoid activation function after the second layer, and the ReLU function after the first.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ffnn</span> <span class="o">=</span> <span class="n">FeedForwardNeuralNetwork</span><span class="p">()</span>
@@ -499,20 +499,20 @@
 </div>
 <div class="section" id="the-matrix-approach">
 <h2>2. The Matrix Approach<a class="headerlink" href="#the-matrix-approach" title="Permalink to this headline">¶</a></h2>
-<p>Below is an second class for fitting neural networks that runs <em>much</em> faster by simultaneously calculating the gradients across observations. The math behind these calculations is outlined in the <a class="reference internal" href="concept.html"><span class="doc">concept section</span></a>. This class’s fitting algorithm is identical to that of the one above with one big exception: we don’t have to iterate over observations.</p>
-<p>Most of the following gradient calculations are straightforward. A few require a tensor dot product, which is easily done with numpy. Consider the following gradient:</p>
+<p>Below is a second class for fitting neural networks that runs <em>much</em> faster by simultaneously calculating the gradients across observations. The math behind these calculations is outlined in the <a class="reference internal" href="concept.html"><span class="doc">concept section</span></a>. This class’s fitting algorithm is identical to that of the one above with one big exception: we don’t have to iterate over observations.</p>
+<p>Most of the following gradient calculations are straightforward. A few require a tensor dot product, which is easily done using numpy. Consider the following gradient:</p>
 <div class="math notranslate nohighlight">
 \[
 \frac{\partial \mathcal{L}}{\partial \mathbf{W}^{(L)}_{i, j}} = \sum_{n = 1}^N (\nabla \mathbf{H}^{(L)})_{i, n}\cdot \mathbf{Z}^{(L-1)}_{j, n}.
 \]</div>
-<p>In words, this gradient is a matrix whose <span class="math notranslate nohighlight">\((i, j)^\text{th}\)</span> entry equals the sum across the <span class="math notranslate nohighlight">\(i^\text{th}\)</span> row of <span class="math notranslate nohighlight">\(\nabla \mathbf{H}^{(L)}\)</span> multiplied element-wise with the <span class="math notranslate nohighlight">\(j^\text{th}\)</span> row of <span class="math notranslate nohighlight">\(\mathbf{Z}^{(L-1)}\)</span>.</p>
+<p>In words, <span class="math notranslate nohighlight">\(\partial\mathcal{L}/\partial \mathbf{W}^{(L)}\)</span> is a matrix whose <span class="math notranslate nohighlight">\((i, j)^\text{th}\)</span> entry equals the sum across the <span class="math notranslate nohighlight">\(i^\text{th}\)</span> row of <span class="math notranslate nohighlight">\(\nabla \mathbf{H}^{(L)}\)</span> multiplied element-wise with the <span class="math notranslate nohighlight">\(j^\text{th}\)</span> row of <span class="math notranslate nohighlight">\(\mathbf{Z}^{(L-1)}\)</span>.</p>
 <p>This calculation can be accomplished with <code class="docutils literal notranslate"><span class="pre">np.tensordot(A,</span> <span class="pre">B,</span> <span class="pre">(1,1))</span></code>, where <code class="docutils literal notranslate"><span class="pre">A</span></code> is <span class="math notranslate nohighlight">\(\nabla \mathbf{H}^{(L)}\)</span> and <code class="docutils literal notranslate"><span class="pre">B</span></code> is <span class="math notranslate nohighlight">\(\mathbf{Z}^{(L-1)}\)</span>. <code class="docutils literal notranslate"><span class="pre">np.tensordot()</span></code> sums the element-wise product of the entries in <code class="docutils literal notranslate"><span class="pre">A</span></code> and the entries in <code class="docutils literal notranslate"><span class="pre">B</span></code> along a specified index. Here we specify the index with <code class="docutils literal notranslate"><span class="pre">(1,1)</span></code>, saying we want to sum across the columns for each.</p>
 <p>Similarly, we will use the following gradient:</p>
 <div class="math notranslate nohighlight">
 \[
-\frac{\partial \mathcal{L}}{\partial \mathbf{Z}^{(L-1)}_{i, n}} = \sum_{r = 1}^R (\nabla \mathbf{H}^{(L)})_{r, n}\cdot \mathbf{W}^{(L)}_{r, i}.
+\frac{\partial \mathcal{L}}{\partial \mathbf{Z}^{(L-1)}_{i, n}} = \sum_{d = 1}^{D_y} (\nabla \mathbf{H}^{(L)})_{d, n}\cdot \mathbf{W}^{(L)}_{d, i}.
 \]</div>
-<p>Letting <code class="docutils literal notranslate"><span class="pre">C</span></code> represent <span class="math notranslate nohighlight">\(\mathbf{W}^{(L)}_{r, i}\)</span>, we can calculate this gradient in numpy with <code class="docutils literal notranslate"><span class="pre">np.tensordot(C,</span> <span class="pre">A,</span> <span class="pre">(0,0))</span></code>.</p>
+<p>Letting <code class="docutils literal notranslate"><span class="pre">C</span></code> represent <span class="math notranslate nohighlight">\(\mathbf{W}^{(L)}\)</span>, we can calculate this gradient in numpy with <code class="docutils literal notranslate"><span class="pre">np.tensordot(C,</span> <span class="pre">A,</span> <span class="pre">(0,0))</span></code>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">FeedForwardNeuralNetwork</span><span class="p">:</span>

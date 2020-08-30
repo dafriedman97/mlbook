@@ -11,7 +11,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "This section shows how the linear regression extensions discussed in the chapter are typically fit in Python. First let's import the {doc}`Boston housing</content/appendix/data>` dataset."
+    "This section shows how the linear regression extensions discussed in this chapter are typically fit in Python. First let's import the {doc}`Boston housing</content/appendix/data>` dataset."
    ]
   },
   {
@@ -173,7 +173,7 @@
     "\\end{aligned}\n",
     "$$\n",
     "\n",
-    "This guarantees that $\\sigma^2$ and $\\tau$ will be approximately equal to their pre-determined values. This can be implemented in `sklearn` as follows\n",
+    "This guarantees that $\\sigma^2$ and $\\tau$ will be approximately equal to their pre-determined values. This can be implemented in `scikit-learn` as follows\n",
     "\n",
     "```{code}\n",
     "big_number = 10**5\n",
@@ -216,7 +216,7 @@
     "\\eta_n = g(\\mu_n) = \\log(\\lambda_n),\n",
     "$$\n",
     "\n",
-    "which is what we use below. For more information on the possible distributions and link functions, check out the `statsmodels` GLM [docs](https://www.statsmodels.org/stable/glm.html)"
+    "which is what we use below. For more information on the possible distributions and link functions, check out the `statsmodels` GLM [docs](https://www.statsmodels.org/stable/glm.html)."
    ]
   },
   {

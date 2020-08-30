@@ -20,7 +20,7 @@ $$
 \newcommand{\iid}{\overset{\small{\text{i.i.d.}}}{\sim}}
 $$
 
-For a collection of mathematical derivations, this book assumes knowledge of relatively few mathematical methods. Most of the mathematical background required is summarized in the three following sections on calculus, matrices, and matrix calculus. 
+For a text on mathematical derivations, this book assumes knowledge of relatively few mathematical methods. Most of the mathematical background required is summarized in the three following sections on calculus, matrices, and matrix calculus. 
 
 
 

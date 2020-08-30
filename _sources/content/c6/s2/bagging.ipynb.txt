@@ -11,13 +11,17 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "Though bagging can be used for regression or classification, we will demonstrate a regression bagging model. Since this model is based on decision tree regressors, we'll first import our {doc}`regression tree </content/c5/s2/regression_tree>` construction from the previous chapter. We'll also import numpy and the visualization packages."
+    "Bagging can be used for regression or classification, though we will demonstrate a regression bagging model here. Since this model is based on decision tree regressors, we'll first import our {doc}`regression tree </content/c5/s2/regression_tree>` construction from the previous chapter. We'll also import numpy and the visualization packages."
    ]
   },
   {
    "cell_type": "code",
    "execution_count": 1,
-   "metadata": {},
+   "metadata": {
+    "tags": [
+     "remove-output"
+    ]
+   },
    "outputs": [
     {
      "name": "stdout",
@@ -43,7 +47,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "We will build our bagging model on the {doc}`tips </content/appendix/data>` dataset from `scikit-learn`. This is loaded with the hidden code cell below. "
+    "We will build our bagging model on the {doc}`tips </content/appendix/data>` dataset from `scikit-learn`. The hidden code cell below loads that data and does a train-test split. "
    ]
   },
   {
@@ -76,7 +80,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "Now we can get right into the bagging class. To fit the `Bagger` object, we provide training data, the number of bootstraps (`B`), and size regulation parameters for the decision trees. The class then takes `B` bootstraps of the data, each time fitting a decision tree regressor. To form predictions with the `Bagger` object, we simply run test observations through each bootstrapped tree and average the fitted values. "
+    "Now we can get right into the bagging class. To fit the `Bagger` object, we provide training data, the number of bootstraps (`B`), and size regulation parameters for the decision trees. The object then takes `B` bootstraps of the data, each time fitting a decision tree regressor. To form predictions with the `Bagger` object, we simply run test observations through each bootstrapped tree and average the fitted values. "
    ]
   },
   {

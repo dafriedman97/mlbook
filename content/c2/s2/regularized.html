@@ -306,17 +306,17 @@
 </div>
 </div>
 </div>
-<p>The <code class="docutils literal notranslate"><span class="pre">RegularizedRegression</span></code> class below contains methods for fitting Ridge and Lasso regression. The first method, <code class="docutils literal notranslate"><span class="pre">record_info</span></code>, handles standardization, adds an intercept to the predictors, and records the necessary values. The second, <code class="docutils literal notranslate"><span class="pre">fit_ridge</span></code> fits Ridge regression using</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">RegularizedRegression</span></code> class below contains methods for fitting Ridge and Lasso regression. The first method, <code class="docutils literal notranslate"><span class="pre">record_info</span></code>, handles standardization, adds an intercept to the predictors, and records the necessary values. The second, <code class="docutils literal notranslate"><span class="pre">fit_ridge</span></code>, fits Ridge regression using</p>
 <div class="math notranslate nohighlight">
 \[
-\hat{\bbeta} = \left( \bX^\top \bX + \lambda I_D'\right) ^{-1} \bX^\top \by.
+\hat{\bbeta} = \left( \bX^\top \bX + \lambda I'\right) ^{-1} \bX^\top \by.
 \]</div>
 <p>The third method, <code class="docutils literal notranslate"><span class="pre">fit_lasso</span></code>, estimates the regression parameters using gradient descent. The gradient is the derivative of the Lasso loss function:</p>
 <div class="math notranslate nohighlight">
 \[
-\dadb{L(\bbetahat)}{\bbetahat} = - \bX^\top\left( \by - \bX \bbetahat \right) + \lambda I'_D\text{ sign}(\bbetahat).
+\dadb{L(\bbetahat)}{\bbetahat} = - \bX^\top\left( \by - \bX \bbetahat \right) + \lambda I'\text{ sign}(\bbetahat).
 \]</div>
-<p>The gradient descent used here simply adjusts the parameters a fixed number of times (indicated by <code class="docutils literal notranslate"><span class="pre">n_iters</span></code>). There many more efficient ways to implement gradient descent, though we use a simple implementation here to keep focus on Lasso regression.</p>
+<p>The gradient descent used here simply adjusts the parameters a fixed number of times (determined by <code class="docutils literal notranslate"><span class="pre">n_iters</span></code>). There many more efficient ways to implement gradient descent, though we use a simple implementation here to keep focus on Lasso regression.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">RegularizedRegression</span><span class="p">:</span>
@@ -391,7 +391,7 @@
 </div>
 </div>
 </div>
-<p>The below graphic shows the coefficient estimates using Ridge and Lasso regression with a changing value of <span class="math notranslate nohighlight">\(\lambda\)</span>. Note that <span class="math notranslate nohighlight">\(\lambda = 0\)</span> is identical to ordinary linear regression. As expected, the magnitude of the estimates decreases as <span class="math notranslate nohighlight">\(\lambda\)</span> increases.</p>
+<p>The below graphic shows the coefficient estimates using Ridge and Lasso regression with a changing value of <span class="math notranslate nohighlight">\(\lambda\)</span>. Note that <span class="math notranslate nohighlight">\(\lambda = 0\)</span> is identical to ordinary linear regression. As expected, the magnitude of the coefficient estimates decreases as <span class="math notranslate nohighlight">\(\lambda\)</span> increases.</p>
 <div class="cell tag_hide-input docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Xs</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;X&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])]</span>

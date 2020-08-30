@@ -26,21 +26,21 @@ $$
 \newcommand{\r}{\right)}
 $$
 
-Discriminative classifiers, as we saw in the previous chapter, model a target variable $y_n$ as a direct function of one or more input variables $\bx_n$. Generative classifiers, the subject of this chapter, instead view the input variables as being generated according to their class—i.e. they see $\bx_n$ as a function of $y_n$ rather than the other way around. 
+Discriminative classifiers, as we saw in the previous chapter, model a target variable as a direct function of one or more predictors. Generative classifiers, the subject of this chapter, instead view the predictors as being generated according to their class—i.e., they see the predictors as a function of the target, rather than the other way around. They then use Bayes' rule to turn $P(\bx_n|Y_n = k)$ into $P(Y_n = k|\bx_n)$. 
 
+In generative classifiers, we view both the target and the predictors as random variables. We will therefore refer to the target variable with $Y_n$, but in order to avoid confusing it with a matrix, we refer to the predictor vector with $\bx_n$. 
 
+Generative models can be broken down into the three following steps. Suppose we have a classification task with $K$ unordered classes, represented by $k = 1, \dots, K$. 
 
-Generative models can be broken down into the three following steps. Suppose we have a task with $K$ unordered classes, represented by $k = 1, \dots, K$. 
+1. Estimate the density of the predictors conditional on the target belonging to each class. I.e., estimate $p(\bx_n|Y_n = k)$ for $k = 1, \dots, K$. 
+2. Estimate the prior probability that a target belongs to any given class. I.e., estimate $P(Y_n = k)$ for $k = 1, \dots, K$. This is also written as $p(Y_n)$. 
+3. Using Bayes' rule, calculate the posterior probability that the target belongs to any given class. I.e., calculate  $p(Y_n = k|\bx_n) \propto p(\bx_n|Y_n = k)p(Y_n = k)$ for $k = 1, \dots, K$. 
 
-1. Estimate $p(\bx_n|y_n = k)$ for $k = 1, \dots, K$. 
-2. Estimate the class prior, $p(y_n = k)$ for $k = 1, \dots, K$. This is also written as $p(y_n)$. 
-3. Using Bayes' rule, calculate $p(y_n = k|\bx_n) \propto p(\bx_n|y_n = k)p(y_n = k)$ for $k = 1, \dots, K$. 
-
-We then classify observation $n$ as being from the class for which $p(y_n = k|\bx_n)$ is greatest. In math, 
+We then classify observation $n$ as being from the class for which $P(Y_n = k|\bx_n)$ is greatest. In math, 
 
 
 $$
-\hat{y}_n = \underset{k}{\text{arg max }} p(y_n = k|\bx_n).
+\hat{Y}_n = \underset{k}{\text{arg max }} p(Y_n = k|\bx_n).
 $$
 
 
@@ -71,13 +71,13 @@ See the math note below on the Categorical distribution.
 ```{admonition} Math Note
 A random variable which takes on one of $K$ discrete and unordered outcomes with probabilities $\pi_1, \dots, \pi_K$ follows the Categorical distribution with parameter $\bpi = \begin{bmatrix} \pi_1 & \dots & \pi_K \end{bmatrix}^\top$, written $\text{Cat}(\bpi)$. For instance, a single die roll is distributed $\text{Cat}(\bpi)$ for $\bpi = \begin{bmatrix} 1/6 \dots 1/6 \end{bmatrix}^\top$.
 
-The density for $y \sim \text{Cat}(\bp)$ is defined as
+The density for $Y \sim \text{Cat}(\bp)$ is defined as
 
 $$
 \begin{align*}
-P(y = 1) &= p_1 \\
+P(Y = 1) &= p_1 \\
 &... \\
-P(y = K) &= p_K.
+P(Y = K) &= p_K.
 \end{align*}
 $$
 
@@ -93,13 +93,13 @@ where $I_k$ is an indicator that equals 1 if $y = k$ and 0 otherwise.
 
 
 
-We then assume some distribution for the $\mathbf{x}_n$ conditional on observation $n$'s class, $y_n$. We typically assume all the $\bx_n$ come from the same *family* of distributions, though the parameters depend on their class. For instance, we might have 
+We then assume some distribution for $\mathbf{x}_n$ conditional on observation $n$'s class, $Y_n$. We typically assume all the $\bx_n$ come from the same *family* of distributions, though the parameters depend on their class. For instance, we might have 
 
 
 $$
 \begin{align*}
-\bx_n|(y_n = 1) &\sim \text{MVN}(\bmu_1, \bSigma_1), \\ &... \\
-\bx_{n}|(y_n = K)  &\sim \text{MVN}(\bmu_K, \bSigma_K),
+\bx_n|(Y_n = 1) &\sim \text{MVN}(\bmu_1, \bSigma_1), \\ &... \\
+\bx_{n}|(Y_n = K)  &\sim \text{MVN}(\bmu_K, \bSigma_K),
 \end{align*}
 $$
 
@@ -109,14 +109,14 @@ though we wouldn't let one conditional distribution be Multivariate Normal and a
 
 $$
 \begin{align*}
-x_{n1}|(y_n = k) &\sim \text{Bin}(n, p_k)
+x_{n1}|(Y_n = k) &\sim \text{Bin}(n, p_k)
 \\
-x_{n2}|(y_n = k) &\sim \mathcal{N}(\bmu_k, \bSigma_k) 
+x_{n2}|(Y_n = k) &\sim \mathcal{N}(\bmu_k, \bSigma_k) 
 \end{align*}
 $$
 
 
-The machine learning task is to estimate the parameters of these models—$\bpi$ for $y_n$ and whatever parameters might index the possible distributions of $\bx_n|y_n$, in this case $\bmu_k$ and $\bSigma_k$ for $k = 1, \dots, K$. Once that's done, we can estimate $p(y_n = k)$ and $p(\bx_n|y_n = k)$ for each class and, through Bayes' rule, choose the class that maximizes $p(y_n = k|\bx_n)$.
+The machine learning task is to estimate the parameters of these models—$\bpi$ for $Y_n$ and whatever parameters might index the possible distributions of $\bx_n|Y_n$, in this case $\bmu_k$ and $\bSigma_k$ for $k = 1, \dots, K$. Once that's done, we can estimate $p(Y_n = k)$ and $p(\bx_n|Y_n = k)$ for each class and, through Bayes' rule, choose the class that maximizes $p(Y_n = k|\bx_n)$.
 
 
 
@@ -126,14 +126,14 @@ The machine learning task is to estimate the parameters of these models—$\bpi$
 
 ### 2.1 Class Priors
 
-Let's start by estimating $\bpi$, the class priors. Let $I_{nk}$ be an indicator which equals 1 if $y_n = k$ and 0 otherwise. Then the joint likelihood and log-likelihood are given by
+Let's start by deriving the estimates for $\bpi$, the class priors. Let $I_{nk}$ be an indicator which equals 1 if $Y_n = k$ and 0 otherwise. Then the joint likelihood and log-likelihood are given by
 
 
 $$
 \begin{align*}
-L\left(\bpi; \collection\right) &= \prodN \prod_{k = 1}^K \pi_k^{I_{nk}} 
+L\left(\bpi; \{\bx_n, Y_n\}_{n = 1}^N\right) &= \prodN \prod_{k = 1}^K \pi_k^{I_{nk}} 
 \\
-\log L\left(\bpi; \collection\right) &= \sumN \sum_{k = 1}^K I_{nk} \log(\pi_k)
+\log L\left(\bpi; \{\bx_n, Y_n\}_{n = 1}^N\right) &= \sumN \sum_{k = 1}^K I_{nk} \log(\pi_k)
 \\
 &= \sum_{k = 1}^K N_k\log(\pi_k),
 \end{align*}
@@ -179,13 +179,13 @@ $$
 $$
 
 
-which says that our estimate of $p(y_n = k)$ is just the sample fraction of observations from class $k$. 
+which says that our estimate of $p(Y_n = k)$ is just the sample fraction of observations from class $k$. 
 
 
 
 ### 2.2 Data Likelihood
 
-The next step is to model the conditional distribution of $\bx_n$ given $y_n$ so that we can estimate this distribution's parameters. This of course depends on the family of distributions we choose to model $\bx_n$. Three common approaches are detailed below. 
+The next step is to model the conditional distribution of $\bx_n$ given $Y_n$ so that we can estimate this distribution's parameters. This of course depends on the family of distributions we choose to model $\bx_n$. Three common approaches are detailed below. 
 
 
 
@@ -195,7 +195,7 @@ In LDA, we assume
 
 
 $$
-\bx_n|(y_n = k) \sim \text{MVN}(\bmu_k, \bSigma),
+\bx_n|(Y_n = k) \sim \text{MVN}(\bmu_k, \bSigma),
 $$
 
 
@@ -324,7 +324,7 @@ QDA looks very similar to LDA but assumes each class has its *own* covariance ma
 
 
 $$
-\bx_n|(y_n = k) \sim \text{MVN}(\bmu_k, \bSigma_k)
+\bx_n|(Y_n = k) \sim \text{MVN}(\bmu_k, \bSigma_k)
 $$
 
 
@@ -389,21 +389,19 @@ Naive Bayes assumes the random variables within $\bx_n$ are independent conditio
 
 
 $$
-p(\bx_n|y_n) = p(x_{n1}|y_n)\cdot p(x_{n2}|y_n) \cdot ... \cdot p(x_{nD}|y_n). 
+p(\bx_n|Y_n) = p(x_{n1}|Y_n)\cdot p(x_{n2}|Y_n) \cdot ... \cdot p(x_{nD}|Y_n).
 $$
 
 
-This makes estimating $p(\bx_n|y_n)$ very easy—to estimate the parameters of $p(x_{nd}|y_n)$, we can ignore all the variables in $\bx_{n}$ other than $x_{nd}$! 
-
-
+This makes estimating $p(\bx_n|Y_n)$ very easy—to estimate the parameters of $p(x_{nd}|Y_n)$, we can ignore all the variables in $\bx_{n}$ other than $x_{nd}$!
 
 As an example, assume $\bx_n \in \mathbb{R}^2$ and we use the following model (where for simplicity $n$ and $\sigma^2_k$ are known). 
 
 
 $$
 \begin{align*}
-x_{n1}|(y_n = k) &\sim \mathcal{N}(\mu_k, \sigma^2_k) \\
-x_{n2}|(y_n = k) &\sim \text{Bin}(n, p_k).
+x_{n1}|(Y_n = k) &\sim \mathcal{N}(\mu_k, \sigma^2_k) \\
+x_{n2}|(Y_n = k) &\sim \text{Bin}(n, p_k).
 \end{align*}
 $$
 
@@ -413,13 +411,13 @@ Let the $\btheta_k = (\mu_k, \sigma_k^2, p_k)$ contain all the parameters for cl
 
 $$
 \begin{align*}
-L(\{\btheta_k\}_{k = 1}^K) &= \prodN \prodK \l p(\bx|y_n, \btheta_k)\r^{I_{nk}} \\
+L(\{\btheta_k\}_{k = 1}^K) &= \prodN \prodK \l p(\bx|Y_n, \btheta_k)\r^{I_{nk}} \\
 L(\{\btheta_k\}_{k = 1}^K) &= \prodN \prodK \l p(x_{n1}|\mu_k, \sigma^2_k) \cdot p(x_{n2}|p_k) \r^{I_{nk}},
 \end{align*}
 $$
 
 
-where the two are equal because of the conditional independence assumption. This allows us to easily find maximum likelihood estimates. The rest of this sub-section demonstrates how those estimates would be found, though it is nothing beyond ordinary maximum likelihood estimation. 
+where the two are equal because of the Naive Bayes conditional independence assumption. This allows us to easily find maximum likelihood estimates. The rest of this sub-section demonstrates how those estimates would be found, though it is nothing beyond ordinary maximum likelihood estimation. 
 
 
 
@@ -458,17 +456,17 @@ which, will give us $\hat{p}_k = \frac{1}{N_k}\sum_{n \in C_k} x_{n2}$ as usual.
 
 
 
-Regardless of our modeling choices for $p(\bx_n|y_n)$, classifying new observations is easy. Consider a test observation $\bx_0$. For $k = 1, \dots, K$, we use Bayes' rule to calculate 
+Regardless of our modeling choices for $p(\bx_n|Y_n)$, classifying new observations is easy. Consider a test observation $\bx_0$. For $k = 1, \dots, K$, we use Bayes' rule to calculate 
 
 
 $$
 \begin{align*}
-p(y_0 = k|\bx_0) &\propto p(\bx_0|y_0 = k)p(y_0 = k) 
+p(Y_0 = k|\bx_0) &\propto p(\bx_0|Y_0 = k)p(Y_0 = k) 
 \\
-&= p(\bx_0|y_0 = k)\hat{\pi}_k.
+&= \hat{p}(\bx_0|Y_0 = k)\hat{\pi}_k,
 \end{align*}
 $$
 
 
-We then predict $y_0 = k$ for whichever value $k$ maximizes the above expression.
+where $\hat{p}$ gives the estimated density of $\bx_0$ conditional on $Y_0$. We then predict $Y_0 = k$ for whichever value $k$ maximizes the above expression.
 

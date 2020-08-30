@@ -272,7 +272,21 @@
         </li>
     
         <li class="nav-item toc-entry toc-h3">
-            <a href="#id2" class="nav-link">Parameter Estimation</a>
+            <a href="#id2" class="nav-link">Parameter Estimation</a><ul class="nav section-nav flex-column">
+                
+        <li class="nav-item toc-entry toc-h4">
+            <a href="#the-likelihood-function" class="nav-link">The Likelihood Function</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h4">
+            <a href="#the-derivative" class="nav-link">The Derivative</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h4">
+            <a href="#simplifying" class="nav-link">Simplifying</a>
+        </li>
+    
+            </ul>
         </li>
     
             </ul>
@@ -314,22 +328,22 @@
 \newcommand{\dadb}[2]{\frac{\partial #1}{\partial #2}}
 \newcommand{\iid}{\overset{\small{\text{i.i.d.}}}{\sim}}
 \]</div>
-<p>In linear regression, we modeled our target variable as a linear combination of the predictors plus a random error term. This meant that the fitted value could be any real number. Since our target in classification is not any real number, the same approach wouldn’t make sense in this context. Instead, logistic regression models a <em>function</em> of the target variable as a linear combination of the predictors such that the target variable itself is in the desired range.</p>
+<p>In linear regression, we modeled our target variable as a linear combination of the predictors plus a random error term. This meant that the fitted value could be any real number. Since our target in classification is not any real number, the same approach wouldn’t make sense in this context. Instead, logistic regression models a <em>function</em> of the target variable as a linear combination of the predictors, then converts this function into a fitted value in the desired range.</p>
 <div class="section" id="binary-logistic-regression">
 <h2>Binary Logistic Regression<a class="headerlink" href="#binary-logistic-regression" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="model-structure">
 <h3>Model Structure<a class="headerlink" href="#model-structure" title="Permalink to this headline">¶</a></h3>
-<p>In the binary case, we denote our target variable with <span class="math notranslate nohighlight">\(y_n \in \{0, 1\}\)</span>. Let <span class="math notranslate nohighlight">\(p_n = P(y_n = 1)\)</span> be our estimate of the probability that <span class="math notranslate nohighlight">\(y_n\)</span> is in class 1. Consider the following function, called the <em>log-odds</em> of <span class="math notranslate nohighlight">\(p\)</span>.</p>
+<p>In the binary case, we denote our target variable with <span class="math notranslate nohighlight">\(Y_n \in \{0, 1\}\)</span>. Let <span class="math notranslate nohighlight">\(p_n = P(Y_n = 1)\)</span> be our estimate of the probability that <span class="math notranslate nohighlight">\(Y_n\)</span> is in class 1. We want a way to express <span class="math notranslate nohighlight">\(p_n\)</span> as a function of the predictors (<span class="math notranslate nohighlight">\(\bx_n\)</span>) that is between 0 and 1. Consider the following function, called the <em>log-odds</em> of <span class="math notranslate nohighlight">\(p_n\)</span>.</p>
 <div class="math notranslate nohighlight">
 \[
-f(p) = \log\left(\frac{p_n}{1-p_n}\right).
+f(p_n) = \log\left(\frac{p_n}{1-p_n}\right).
 \]</div>
-<p>Note that its domain is <span class="math notranslate nohighlight">\((0, 1)\)</span> and its range is all real numbers. This suggests that modeling the log-odds as a linear combination of the predictors would give us an estimated probability that <span class="math notranslate nohighlight">\(y_n = 1\)</span> between 0 and 1. This is exactly what logistic regression does. Specifically, it assumes the following structure.</p>
+<p>Note that its domain is <span class="math notranslate nohighlight">\((0, 1)\)</span> and its range is all real numbers. This suggests that modeling the log-odds as a linear combination of the predictors—resulting in <span class="math notranslate nohighlight">\(f(p_n) \in \R\)</span>—would correspond to modeling <span class="math notranslate nohighlight">\(p_n\)</span> as a value between 0 and 1. This is exactly what logistic regression does. Specifically, it assumes the following structure.</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
 \begin{align*}
-\log\left(\frac{p_n}{1-p_n}\right) &amp;= \beta_0 + \beta_1 x_{n1} + \dots + \beta_Dx_{nD} \\
-&amp;= \bbeta^\top \bx_n.
+f(\hat{p}_n) = \log\left(\frac{\hat{p}_n}{1-\hat{p}_n}\right) &amp;= \hat{\beta}_0 + \hat{\beta}_1 x_{n1} + \dots + \hat{\beta}_Dx_{nD} \\
+&amp;= \bbetahat^\top \bx_n.
 \end{align*}
 \end{split}\]</div>
 <div class="admonition-math-note alert alert-info">
@@ -345,53 +359,53 @@ f(p) = \log\left(\frac{p_n}{1-p_n}\right).
 \sigma'(z) = \frac{0 +\exp(-z)}{(1 + \exp(-z))^2} = \frac{1}{1 + \exp(-z)}\cdot\frac{\exp(-z)}{1 + \exp(-z)} = \sigma(z)(1-\sigma(z)).
 \]</div>
 </div>
-<p>Ultimately, we are interested in <span class="math notranslate nohighlight">\(p_n\)</span>, not the log-odds. Rearranging the log-odds expression, we find that <span class="math notranslate nohighlight">\(p_n\)</span> is the logistic function of <span class="math notranslate nohighlight">\(\bbeta^\top \bx_n\)</span> (see the <em>Math Note</em> above for information on the logistic function). That is,</p>
+<p>Ultimately, we are interested in <span class="math notranslate nohighlight">\(\hat{p}_n\)</span>, not the log-odds <span class="math notranslate nohighlight">\(f(\hat{p}_n)\)</span>. Rearranging the log-odds expression, we find that <span class="math notranslate nohighlight">\(\hat{p}_n\)</span> is the logistic function of <span class="math notranslate nohighlight">\(\bbetahat^\top \bx_n\)</span> (see the <em>Math Note</em> above for information on the logistic function). That is,</p>
 <div class="math notranslate nohighlight">
 \[
-p_n = \sigma(\bbeta^\top \bx_n) = \frac{1}{1 + \exp(-\bbeta^\top \bx_n)}.
+\hat{p}_n = \sigma(\bbetahat^\top \bx_n) = \frac{1}{1 + \exp(-\bbetahat^\top \bx_n)}.
 \]</div>
 <p>By the derivative of the logistic function, this also implies that</p>
 <div class="math notranslate nohighlight">
 \[
-\dadb{p_n}{\bbeta} = \dadb{\sigma(\bbeta^\top\bx_n)}{\bbeta} = \sigma(\bbeta^\top \bx_n)\left(1-\sigma(\bbeta^\top\bx_n) \right)\cdot \bx_n
+\dadb{\hat{p}_n}{\bbetahat} = \dadb{\sigma(\bbetahat^\top\bx_n)}{\bbetahat} = \sigma(\bbetahat^\top \bx_n)\left(1-\sigma(\bbetahat^\top\bx_n) \right)\cdot \bx_n
 \]</div>
 </div>
 <div class="section" id="parameter-estimation">
 <h3>Parameter Estimation<a class="headerlink" href="#parameter-estimation" title="Permalink to this headline">¶</a></h3>
-<p>We estimate <span class="math notranslate nohighlight">\(\bbetahat\)</span> with maximum likelihood. The PMF for <span class="math notranslate nohighlight">\(y_n \sim \text{Bern}(p_n)\)</span> is given by</p>
+<p>We will estimate <span class="math notranslate nohighlight">\(\bbetahat\)</span> with maximum likelihood. The PMF for <span class="math notranslate nohighlight">\(Y_n \sim \text{Bern}(p_n)\)</span> is given by</p>
 <div class="math notranslate nohighlight">
 \[
 p(y_n) = p_n^{y_n}(1-p_n)^{1-y_n} =\sigma(\bbeta^\top \bx_n) ^{y_n} \left(1-\sigma(\bbeta^\top\bx_n) \right)^{1-y_n}.
 \]</div>
 <p>Notice that this gives us the correct probability for <span class="math notranslate nohighlight">\(y_n = 0\)</span> and <span class="math notranslate nohighlight">\(y_n = 1\)</span>.</p>
-<p>Then we can write the likelihood and log-likelihood.</p>
+<p>Now assume we observe the target variables for our training data, meaning <span class="math notranslate nohighlight">\(Y_1, \dots, Y_n\)</span> crystalize into <span class="math notranslate nohighlight">\(y_1, \dots, y_n\)</span>. We can write the likelihood and log-likelihood.</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
 \begin{align*}
-L(\bbeta; \{\by_n, \bx_n\}_{n = 1}^N) &amp;= \prodN p(y_n) \\
+L(\bbeta; \{y_n, \bx_n\}_{n = 1}^N) &amp;= \prodN p(y_n) \\
 &amp;= \prodN \sigma(\bbeta^\top\bx_n) ^{y_n} \left(1-\sigma(\bbeta^\top\bx_n)\right)^{1-y_n}
 \\
-\log L(\bbeta; \{\by_n, \bx_n\}_{n = 1}^N)  &amp;= \sumN y_n\log \sigma(\bbeta^\top\bx_n) + (1-y_n)\log\left( 1- \sigma(\bbeta^\top\bx_n)\right) 
+\log L(\bbeta; \{y_n, \bx_n\}_{n = 1}^N)  &amp;= \sumN y_n\log \sigma(\bbeta^\top\bx_n) + (1-y_n)\log\left( 1- \sigma(\bbeta^\top\bx_n)\right) 
 \end{align*}
 \end{split}\]</div>
-<p>Next, we want to find the values of <span class="math notranslate nohighlight">\(\bbetahat\)</span> that maximize this log-likelihood. Using the derivative of the logistic function for <span class="math notranslate nohighlight">\(\bbeta^\top \bx_n\)</span> discussed above,</p>
+<p>Next, we want to find the values of <span class="math notranslate nohighlight">\(\bbetahat\)</span> that maximize this log-likelihood. Using the derivative of the logistic function for <span class="math notranslate nohighlight">\(\bbeta^\top \bx_n\)</span> discussed above, we get</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
 \begin{align*}
-\dadb{\log L(\bbeta; \{\by_n, \bx_n\}_{n = 1}^N)}{\bbeta} &amp;=\sumN y_n\frac{1}{\sigma(\bbeta^\top \bx_n)}\cdot\dadb{\sigma(\bbeta^\top\bx_n)}{\bbeta} - (1-y_n)\frac{1}{1-\sigma(\bbeta^\top\bx_n)}\dadb{\sigma(\bbeta^\top\bx_n)}{\bbeta}
+\dadb{\log L(\bbeta; \{\by_n, \bx_n\}_{n = 1}^N)}{\bbeta} &amp;=\sumN y_n\frac{1}{\sigma(\bbeta^\top \bx_n)}\cdot\dadb{\sigma(\bbeta^\top\bx_n)}{\bbeta} - (1-y_n)\frac{1}{1-\sigma(\bbeta^\top\bx_n)}\cdot\dadb{\sigma(\bbeta^\top\bx_n)}{\bbeta}
 \\
 &amp;= \sumN y_n\left(1-\sigma(\bbeta^\top\bx_n) \right)\cdot \bx_n - (1-y_n)\sigma(\bbeta^\top\bx_n)\cdot \bx_n
 \\
 &amp;= \sumN y_n\bx_n - \sigma(\bbeta^\top\bx_n)\bx_n \\
-&amp;= \sumN (y_n - p_n)\bx_n
+&amp;= \sumN (y_n - p_n)\bx_n.
 \end{align*}
 \end{split}\]</div>
-<p>Letting <span class="math notranslate nohighlight">\(\mathbf{p}\)</span> be the vector of probabilities, we can write this in matrix form as</p>
+<p>Next, let <span class="math notranslate nohighlight">\(\mathbf{p} = \begin{pmatrix} p_1 &amp; p_2 &amp; \dots &amp; p_N \end{pmatrix}^\top\)</span>be the vector of probabilities. Then we can write this derivative in matrix form as</p>
 <div class="math notranslate nohighlight">
 \[
-\dadb{\log L(\bbeta; \{\by_n, \bx_n\}_{n = 1}^N)}{\bbeta} = \bX^T (\by - \mathbf{p}).
+\dadb{\log L(\bbeta; \{y_n, \bx_n\}_{n = 1}^N)}{\bbeta} = \bX^T (\by - \mathbf{p}).
 \]</div>
-<p>Ideally, we would find <span class="math notranslate nohighlight">\(\bbetahat\)</span> by setting this gradient equal to 0 and solving for <span class="math notranslate nohighlight">\(\bbeta\)</span>. Unfortunately, there is no closed form solution. Instead, we can estimate <span class="math notranslate nohighlight">\(\bbetahat\)</span> through gradient descent using the derivative above.</p>
+<p>Ideally, we would find <span class="math notranslate nohighlight">\(\bbetahat\)</span> by setting this gradient equal to 0 and solving for <span class="math notranslate nohighlight">\(\bbeta\)</span>. Unfortunately, there is no closed form solution. Instead, we can estimate <span class="math notranslate nohighlight">\(\bbetahat\)</span> through gradient descent using the derivative above. Note that gradient descent minimizes a loss function, rather than maximizing a likelihood function. To get a loss function, we would simply take the negative log-likelihood. Alternatively, we could do gradient <em>ascent</em> on the log-likelihood.</p>
 </div>
 </div>
 <div class="section" id="multiclass-logistic-regression">
@@ -404,27 +418,27 @@ L(\bbeta; \{\by_n, \bx_n\}_{n = 1}^N) &amp;= \prodN p(y_n) \\
 \[\begin{split}
 \by_n = \begin{bmatrix} 0 \\ 1 \\ ... \\ 0 \end{bmatrix} \in \mathbb{R}^K
 \end{split}\]</div>
-<p>indicates that the <span class="math notranslate nohighlight">\(n^\text{th}\)</span> observation belongs to the second of <span class="math notranslate nohighlight">\(K\)</span> classes. Similarly, let <span class="math notranslate nohighlight">\(\mathbf{p}_n\)</span> be a vector of estimated probabilities for observation <span class="math notranslate nohighlight">\(n\)</span>, where the <span class="math notranslate nohighlight">\(j^\text{th}\)</span> entry indicates the probability that observation <span class="math notranslate nohighlight">\(n\)</span> belongs to class <span class="math notranslate nohighlight">\(j\)</span>. Note that this vector must be non-negative and add to 1. For the example above,</p>
+<p>indicates that the <span class="math notranslate nohighlight">\(n^\text{th}\)</span> observation belongs to the second of <span class="math notranslate nohighlight">\(K\)</span> classes. Similarly, let <span class="math notranslate nohighlight">\(\hat{\mathbf{p}}_n\)</span> be a vector of estimated probabilities for observation <span class="math notranslate nohighlight">\(n\)</span>, where the <span class="math notranslate nohighlight">\(j^\text{th}\)</span> entry indicates the probability that observation <span class="math notranslate nohighlight">\(n\)</span> belongs to class <span class="math notranslate nohighlight">\(j\)</span>. Note that this vector must be non-negative and add to 1. For the example above,</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
-\mathbf{p}_n = \begin{bmatrix} 0.01 \\ 0.98 \\ ... \\ 0.00 \end{bmatrix} \in \mathbb{R}^K
+\hat{\mathbf{p}}_n = \begin{bmatrix} 0.01 \\ 0.98 \\ ... \\ 0.00 \end{bmatrix} \in \mathbb{R}^K
 \end{split}\]</div>
 <p>would be a pretty good estimate.</p>
-<p>Finally, we need to write the coefficients for each class. Suppose we have <span class="math notranslate nohighlight">\(D\)</span> predictor variables (i.e. <span class="math notranslate nohighlight">\(\bx_n \in \mathbb{R}^D\)</span>). We can let <span class="math notranslate nohighlight">\(\bbeta_k\)</span> be the length-<span class="math notranslate nohighlight">\(D\)</span> vector of coefficients for class <span class="math notranslate nohighlight">\(k\)</span>. Alternatively, we can use the matrix</p>
+<p>Finally, we need to write the coefficients for each class. Suppose we have <span class="math notranslate nohighlight">\(D\)</span> predictor variables, including the intercept (i.e. <span class="math notranslate nohighlight">\(\bx_n \in \mathbb{R}^D\)</span> where the first term in <span class="math notranslate nohighlight">\(\bx_n\)</span> is an appended 1). We can let <span class="math notranslate nohighlight">\(\bbetahat_k\)</span> be the length-<span class="math notranslate nohighlight">\(D\)</span> vector of coefficient estimates for class <span class="math notranslate nohighlight">\(k\)</span>. Alternatively, we can use the matrix</p>
 <div class="math notranslate nohighlight">
 \[
-\textbf{B} = \begin{bmatrix} \bbeta_1 &amp; \dots &amp; \bbeta_K \end{bmatrix} \in \mathbb{R}^{D \times K},
+\hat{\textbf{B}} = \begin{bmatrix} \bbetahat_1 &amp; \dots &amp; \bbetahat_K \end{bmatrix} \in \mathbb{R}^{D \times K},
 \]</div>
 <p>to jointly represent the coefficients of all classes.</p>
 </div>
 <div class="section" id="id1">
 <h3>Model Structure<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
-<p>Let’s start by defining <span class="math notranslate nohighlight">\(\mathbf{z}_n\)</span> as</p>
+<p>Let’s start by defining <span class="math notranslate nohighlight">\(\hat{\mathbf{z}}_n\)</span> as</p>
 <div class="math notranslate nohighlight">
 \[
-\mathbf{z}_n = \mathbf{B}^\top \mathbf{x}_n \in \mathbb{R}^K.
+\hat{\mathbf{z}}_n = \hat{\mathbf{B}}^\top \mathbf{x}_n \in \mathbb{R}^K.
 \]</div>
-<p>Note that <span class="math notranslate nohighlight">\(\mathbf{z}_n\)</span> has one entry per class. It seems we might be able to fit <span class="math notranslate nohighlight">\(\mathbf{B}\)</span> such that the <span class="math notranslate nohighlight">\(k^\text{th}\)</span> element of <span class="math notranslate nohighlight">\(\mathbf{z}_n\)</span> gave <span class="math notranslate nohighlight">\(P(\by_n = k)\)</span>. However, it would be difficult to at the same time ensure the entries in <span class="math notranslate nohighlight">\(\mathbf{z}_n\)</span> sum to 1. Instead, we apply a <em>softmax</em> transformation to <span class="math notranslate nohighlight">\(\mathbf{z}_n\)</span> in order to get our estimated probabilities.</p>
+<p>Note that <span class="math notranslate nohighlight">\(\hat{\mathbf{z}}_n\)</span> has one entry per class. It seems we might be able to fit <span class="math notranslate nohighlight">\(\hat{\mathbf{B}}\)</span> such that the <span class="math notranslate nohighlight">\(k^\text{th}\)</span> element of <span class="math notranslate nohighlight">\(\hat{\mathbf{z}}_n\)</span> gives <span class="math notranslate nohighlight">\(P(\by_n = k)\)</span>. However, it would be difficult to at the same time ensure the entries in <span class="math notranslate nohighlight">\(\hat{\mathbf{z}}_n\)</span> sum to 1. Instead, we apply a <em>softmax</em> transformation to <span class="math notranslate nohighlight">\(\hat{\mathbf{z}}_n\)</span> in order to get our estimated probabilities.</p>
 <div class="admonition-math-note alert alert-info">
 <p class="admonition-title">Math Note</p>
 <p>For some length-<span class="math notranslate nohighlight">\(K\)</span> vector <span class="math notranslate nohighlight">\(\mathbf{z}\)</span> and entry <span class="math notranslate nohighlight">\(k\)</span>, the <em>softmax</em> function is given by</p>
@@ -439,17 +453,19 @@ L(\bbeta; \{\by_n, \bx_n\}_{n = 1}^N) &amp;= \prodN p(y_n) \\
 \text{softmax}(\mathbf{z}) = \begin{bmatrix} \text{softmax}_1(\mathbf{z}) &amp; \dots &amp; \text{softmax}_K(\mathbf{z}) \end{bmatrix}^\top
 \]</div>
 </div>
-<p>To obtain a valid set of probability estimates for <span class="math notranslate nohighlight">\(\mathbf{p}_n\)</span>, we apply the softmax function to <span class="math notranslate nohighlight">\(\mathbf{z}_n\)</span>. That is,</p>
+<p>To obtain a valid set of probability estimates for <span class="math notranslate nohighlight">\(\hat{\mathbf{p}}_n\)</span>, we apply the softmax function to <span class="math notranslate nohighlight">\(\hat{\mathbf{z}}_n\)</span>. That is,</p>
 <div class="math notranslate nohighlight">
 \[
-\mathbf{p}_n = \text{softmax}(\mathbf{z}_n) = \text{softmax}(\mathbf{B}^\top \mathbf{x}_n).
+\hat{\mathbf{p}}_n = \text{softmax}(\hat{\mathbf{z}}_n) = \text{softmax}(\hat{\mathbf{B}}^\top \mathbf{x}_n).
 \]</div>
-<p>Let <span class="math notranslate nohighlight">\(p_{nk}\)</span>, the <span class="math notranslate nohighlight">\(k^\text{th}\)</span> entry in <span class="math notranslate nohighlight">\(\mathbf{p}_n\)</span> give the probability that observation <span class="math notranslate nohighlight">\(n\)</span> is in class <span class="math notranslate nohighlight">\(k\)</span>.</p>
+<p>Let <span class="math notranslate nohighlight">\(\hat{p}_{nk}\)</span>, the <span class="math notranslate nohighlight">\(k^\text{th}\)</span> entry in <span class="math notranslate nohighlight">\(\hat{\mathbf{p}}_n\)</span> give the probability that observation <span class="math notranslate nohighlight">\(n\)</span> is in class <span class="math notranslate nohighlight">\(k\)</span>.</p>
 </div>
 <div class="section" id="id2">
 <h3>Parameter Estimation<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
-<p><u>The Likelihood Function</u></p>
-<p>As in binary logistic regression, we estimate <span class="math notranslate nohighlight">\(\mathbf{B}\)</span> by maximizing the (log) likelihood. Let <span class="math notranslate nohighlight">\(I_{nk}\)</span> be an indicator that equals 1 if observation <span class="math notranslate nohighlight">\(n\)</span> is in class <span class="math notranslate nohighlight">\(k\)</span> and 0 otherwise. The likelihood and log-likelihood are</p>
+<p>Now let’s see how the estimates in <span class="math notranslate nohighlight">\(\hat{\mathbf{B}}\)</span> are actually fit.</p>
+<div class="section" id="the-likelihood-function">
+<h4>The Likelihood Function<a class="headerlink" href="#the-likelihood-function" title="Permalink to this headline">¶</a></h4>
+<p>As in binary logistic regression, we estimate <span class="math notranslate nohighlight">\(\hat{\mathbf{B}}\)</span> by maximizing the (log) likelihood. Let <span class="math notranslate nohighlight">\(I_{nk}\)</span> be an indicator that equals 1 if observation <span class="math notranslate nohighlight">\(n\)</span> is in class <span class="math notranslate nohighlight">\(k\)</span> and 0 otherwise. The likelihood and log-likelihood are</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
 \begin{align*}
@@ -465,7 +481,9 @@ L(\mathbf{B}; \{\by_n, \bx_n\}_{n = 1}^N) &amp;= \prodN \prod_{k = 1}^K p_{nk}^{
 \[
 \log(\text{sigmoid}_k(\mathbf{z}_n)) = \log\left(\frac{\exp(z_{nk})}{\sum_{j = 1}^K \exp(z_{nk})}\right) = z_{nk} - \log\left(\sum_{j = 1}^K \exp(z_{nj})\right).
 \]</div>
-<p><u>The Derivative</u></p>
+</div>
+<div class="section" id="the-derivative">
+<h4>The Derivative<a class="headerlink" href="#the-derivative" title="Permalink to this headline">¶</a></h4>
 <p>Now let’s look at the derivative. Specifically, let’s look at the derivative of the log-likelihood with respect to the coefficients from the <span class="math notranslate nohighlight">\(j^\text{th}\)</span> class, <span class="math notranslate nohighlight">\(\bbeta_j\)</span>. Note that</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
@@ -490,13 +508,15 @@ L(\mathbf{B}; \{\by_n, \bx_n\}_{n = 1}^N) &amp;= \prodN \prod_{k = 1}^K p_{nk}^{
 \end{align*}
 \end{split}\]</div>
 <p>In the last step, we drop the <span class="math notranslate nohighlight">\(\sum_{k = 1}^K I_{nk}\)</span> since this must equal 1. This gives us the gradient of the loss function with respect to a given class’s coefficients, which is enough to build our model. It is possible, however, to simplify these expressions further, which is useful for gradient descent. These simplifications are given below.</p>
-<p><u>Simplifying</u></p>
-<p>This expression can also be written more compactly in matrix format. Let</p>
+</div>
+<div class="section" id="simplifying">
+<h4>Simplifying<a class="headerlink" href="#simplifying" title="Permalink to this headline">¶</a></h4>
+<p>This gradient above can also be written more compactly in matrix format. Let</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
 \mathbf{i}_j = \begin{bmatrix} I_{1j} \\ ... \\ I_{nj} \end{bmatrix}, \hspace{.25cm} \mathbf{p}'_j =  \begin{bmatrix} p_{1j} \\ ... \\ p_{nj} \end{bmatrix}
 \end{split}\]</div>
-<p>identify whether each observation was in class <span class="math notranslate nohighlight">\(j\)</span> and give the estimated probability that the observation is in class <span class="math notranslate nohighlight">\(j\)</span>, respectively.</p>
+<p>identify whether each observation was in class <span class="math notranslate nohighlight">\(j\)</span> and give the probability that the observation is in class <span class="math notranslate nohighlight">\(j\)</span>, respectively.</p>
 <div class="alert alert-info">
 <p class="admonition-title">Note</p>
 <p>Note that we use <span class="math notranslate nohighlight">\(\mathbf{p}'\)</span> rather than <span class="math notranslate nohighlight">\(\mathbf{p}\)</span> since <span class="math notranslate nohighlight">\(\mathbf{p}_n\)</span> was used to represent the probability that observation <span class="math notranslate nohighlight">\(n\)</span> belonged to a series of classes while <span class="math notranslate nohighlight">\(\mathbf{p}'_j\)</span> refers to the probability that a series of observations belong to class <span class="math notranslate nohighlight">\(j\)</span>.</p>
@@ -504,7 +524,7 @@ L(\mathbf{B}; \{\by_n, \bx_n\}_{n = 1}^N) &amp;= \prodN \prod_{k = 1}^K p_{nk}^{
 <p>Then, we can write</p>
 <div class="math notranslate nohighlight">
 \[
-\dadb{}{\bbeta_j}\log L(\mathbf{B}; \{\by_n, \bx_n\}_{n = 1}^N)  = \bX^\top (\mathbf{i}_j - \mathbf{p}'_n).
+\dadb{}{\bbeta_j}\log L(\mathbf{B}; \{\by_n, \bx_n\}_{n = 1}^N)  = \bX^\top (\mathbf{i}_j - \mathbf{p}'_j).
 \]</div>
 <p>Further, we can simultaneously represent the derivative of the loss function with respect to <em>each</em> of the class’s coefficients. Let</p>
 <div class="math notranslate nohighlight">
@@ -516,17 +536,18 @@ L(\mathbf{B}; \{\by_n, \bx_n\}_{n = 1}^N) &amp;= \prodN \prod_{k = 1}^K p_{nk}^{
 \[
 \dadb{}{\mathbf{B}}\log L(\mathbf{B}; \{\by_n, \bx_n\}_{n = 1}^N)  = \mathbf{X}^\top \left( \mathbf{I} - \mathbf{P}\right) \in \mathbb{R}^{D \times K}.
 \]</div>
-<p>Finally, we can also write <span class="math notranslate nohighlight">\(\mathbf{P}\)</span> as a matrix product, which will make calculations more efficient. Let</p>
+<p>Finally, we can also write <span class="math notranslate nohighlight">\(\hat{\mathbf{P}}\)</span> (the estimate of <span class="math notranslate nohighlight">\(\mathbf{P}\)</span>) as a matrix product, which will make calculations more efficient. Let</p>
 <div class="math notranslate nohighlight">
 \[
-\mathbf{Z} = \bX \mathbf{B} \in \mathbb{R}^{N \times K},
+\hat{\mathbf{Z}} = \bX \hat{\mathbf{B}} \in \mathbb{R}^{N \times K},
 \]</div>
-<p>where the <span class="math notranslate nohighlight">\(n^\text{th}\)</span> row is equal to <span class="math notranslate nohighlight">\(\mathbf{z}_n\)</span>. Then,</p>
+<p>where the <span class="math notranslate nohighlight">\(n^\text{th}\)</span> row is equal to <span class="math notranslate nohighlight">\(\hat{\mathbf{z}}_n\)</span>. Then,</p>
 <div class="math notranslate nohighlight">
 \[
-\mathbf{P} = \text{softmax}(\mathbf{Z}) \in \mathbb{R}^{N \times K},
+\hat{\mathbf{P}} = \text{softmax}(\hat{\mathbf{Z}}) \in \mathbb{R}^{N \times K},
 \]</div>
 <p>where the softmax function is applied to each row.</p>
+</div>
 </div>
 </div>
 </div>

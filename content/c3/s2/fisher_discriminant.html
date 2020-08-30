@@ -285,7 +285,7 @@
 </div>
 </div>
 </div>
-<p>Since it is largely geometric, the Linear Discriminant won’t look like other methods we’ve seen (no gradients!). First we take the class means and calculate <span class="math notranslate nohighlight">\(\bSigma_w\)</span> as described in the <a class="reference internal" href="#"><span class="doc">concept section</span></a>. Estimating <span class="math notranslate nohighlight">\(\bbeta\)</span> is then as simple as <span class="math notranslate nohighlight">\(\bSigma_w^{-1}(\bmu_1 - \bmu_0)\)</span>. Let’s demonstrate the model using the <a class="reference internal" href="../../appendix/data.html"><span class="doc">breast cancer</span></a> dataset.</p>
+<p>Since it is largely geometric, the Linear Discriminant won’t look like other methods we’ve seen (no gradients!). First we take the class means and calculate <span class="math notranslate nohighlight">\(\bSigma_w\)</span> as described in the <a class="reference internal" href="#"><span class="doc">concept section</span></a>. Estimating <span class="math notranslate nohighlight">\(\bbetahat\)</span> is then as simple as calculating <span class="math notranslate nohighlight">\(\bSigma_w^{-1}(\bmu_1 - \bmu_0)\)</span>. Let’s demonstrate the model using the <a class="reference internal" href="../../appendix/data.html"><span class="doc">breast cancer</span></a> dataset.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># import data</span>
@@ -333,7 +333,7 @@
 </div>
 </div>
 </div>
-<p>We can now fit the model on the <a class="reference internal" href="../../appendix/data.html"><span class="doc">wine</span></a> dataset, as below.</p>
+<p>We can now fit the model on the <a class="reference internal" href="../../appendix/data.html"><span class="doc">breast cancer</span></a> dataset, as below.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">FisherLinearDiscriminant</span><span class="p">()</span>

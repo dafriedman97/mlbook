@@ -36,6 +36,8 @@ Unless indicated otherwise, the following conventions are used to represent data
 
 - The vector of features for the $n^\text{th}$ observation is given by $\bx_n$. Note that $\bx_n$ might include functions of the original predictors through feature engineering. When the target variable is single-dimensional (i.e. there is only one target variable per observation), it is given by $y_n$; when there are multiple target variables per observation, the vector of targets is given by $\by_n$.
 
+- The entire collection of input and output data is often represented with $\{\bx_n, y_n\}_{n = 1}^N$, which implies observation $n$ has a multi-dimensional predictor vector $\bx_n$ and a target variable $y_n$ for $n = 1, 2, \dots, N$. 
+
 - Many models, such as ordinary linear regression, append an intercept term to the predictor vector. When this is the case, $\bx_n$ will be defined as 
   
   $$
@@ -55,18 +57,16 @@ Finally, the following mathematical and notational conventions are used.
 - Unless indicated otherwise, all vectors are assumed to be column vectors. Since feature vectors (such as $\bx_n$ and $\bphi_n$ above) are entered into data frames as rows, they will sometimes be treated as row vectors, even outside of data frames.
 
 - Matrix or vector derivatives, covered in the {doc}`math appendix </content/appendix/math>`, will use the numerator [layout convention](https://en.wikipedia.org/wiki/Matrix_calculus#Layout_conventions). Under this convention, the derivative $\partial\by/\partial\bx$ is written as 
-  
-
   $$
-  \dadb{\by}{\bx} = \begin{pmatrix}
+\dadb{\by}{\bx} = \begin{pmatrix}
   \dadb{y_1}{x_1} & ... & \dadb{y_1}{x_b} \\
   \dadb{y_2}{x_1} &  ... & \dadb{y_2}{x_b} \\
   &  ... & \\
   \dadb{y_a}{x_1} & ... & \dadb{y_a}{x_b} \\
-  \end{pmatrix} ,
+  \end{pmatrix},
   $$
   
-
-
   for $\by \in \R^a$ and $\bx \in \R^b$. 
+  
+- The likelihood of a parameter $\theta$ given data $\{x_n\}_{n = 1}^N$ is represented by $\mathcal{L}\left(\theta; \{x_n\}_{n = 1}^N\right)$. If we are considering the data to be random (i.e. not yet observed), it will be written as $\{X_n\}_{n = 1}^N$. If the data in consideration is obvious, we may write the likelihood as just $\mathcal{L}(\theta)$. 
 

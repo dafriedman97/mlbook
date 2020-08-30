@@ -54,19 +54,19 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "The `RegularizedRegression` class below contains methods for fitting Ridge and Lasso regression. The first method, `record_info`, handles standardization, adds an intercept to the predictors, and records the necessary values. The second, `fit_ridge` fits Ridge regression using\n",
+    "The `RegularizedRegression` class below contains methods for fitting Ridge and Lasso regression. The first method, `record_info`, handles standardization, adds an intercept to the predictors, and records the necessary values. The second, `fit_ridge`, fits Ridge regression using\n",
     "\n",
     "$$\n",
-    "\\hat{\\bbeta} = \\left( \\bX^\\top \\bX + \\lambda I_D'\\right) ^{-1} \\bX^\\top \\by.\n",
+    "\\hat{\\bbeta} = \\left( \\bX^\\top \\bX + \\lambda I'\\right) ^{-1} \\bX^\\top \\by.\n",
     "$$\n",
     "\n",
     "The third method, `fit_lasso`, estimates the regression parameters using gradient descent. The gradient is the derivative of the Lasso loss function:\n",
     "\n",
     "$$\n",
-    "\\dadb{L(\\bbetahat)}{\\bbetahat} = - \\bX^\\top\\left( \\by - \\bX \\bbetahat \\right) + \\lambda I'_D\\text{ sign}(\\bbetahat).\n",
+    "\\dadb{L(\\bbetahat)}{\\bbetahat} = - \\bX^\\top\\left( \\by - \\bX \\bbetahat \\right) + \\lambda I'\\text{ sign}(\\bbetahat).\n",
     "$$\n",
     "\n",
-    "The gradient descent used here simply adjusts the parameters a fixed number of times (indicated by `n_iters`). There many more efficient ways to implement gradient descent, though we use a simple implementation here to keep focus on Lasso regression. "
+    "The gradient descent used here simply adjusts the parameters a fixed number of times (determined by `n_iters`). There many more efficient ways to implement gradient descent, though we use a simple implementation here to keep focus on Lasso regression. "
    ]
   },
   {
@@ -157,7 +157,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "The below graphic shows the coefficient estimates using Ridge and Lasso regression with a changing value of $\\lambda$. Note that $\\lambda = 0$ is identical to ordinary linear regression. As expected, the magnitude of the estimates decreases as $\\lambda$ increases. "
+    "The below graphic shows the coefficient estimates using Ridge and Lasso regression with a changing value of $\\lambda$. Note that $\\lambda = 0$ is identical to ordinary linear regression. As expected, the magnitude of the coefficient estimates decreases as $\\lambda$ increases. "
    ]
   },
   {

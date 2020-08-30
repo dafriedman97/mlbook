@@ -69,7 +69,7 @@ $$
 $$
 
 
-A simple way to measure how well $\bbeta$ separates classes is with the difference between $\mu_2$ and $\mu_1$. To assess similarity within a class, we use 
+A simple way to measure how well $\bbeta$ separates classes is with the magnitude of the difference between $\mu_2$ and $\mu_1$. To assess similarity *within* a class, we use 
 
 
 $$
@@ -131,7 +131,7 @@ $$
 
 ## Parameter Estimation
 
-Finally, we can find the $\bbeta$ to optimize $F(\bbeta)$. Importantly, note that the magnitude of $\bbeta$ is unimportant since we simply want to rank the $f(\bx_n) = \bbeta^\top \bx_n$ values. 
+Finally, we can find the $\bbeta$ to optimize $F(\bbeta)$. Importantly, note that the magnitude of $\bbeta$ is unimportant since we simply want to rank the $f(\bx_n) = \bbeta^\top \bx_n$ values and using a vector proportional to $\bbeta$ will not change this ranking. 
 
 
 
@@ -174,15 +174,15 @@ $$
 $$
 
 
-Since we only care about the direction of $\bbeta$ and not its magnitude, we can make some simplifications. First, we can ignore $\bbeta^\top \bSigma_b \bbeta$ and $\bbeta^\top \bSigma_b \bbeta$ since they are just constants. Second, we can note that $\bSigma_b \bbeta$ is proportional to $\bmu_2 - \bmu_1$, as shown below
+Since we only care about the direction of $\bbeta$ and not its magnitude, we can make some simplifications. First, we can ignore $\bbeta^\top \bSigma_b \bbeta$ and $\bbeta^\top \bSigma_b \bbeta$ since they are just constants. Second, we can note that $\bSigma_b \bbeta$ is proportional to $\bmu_2 - \bmu_1$, as shown below:
 
 
 $$
-\bSigma_b \bbeta = (\bmu_2 - \bmu_1)(\bmu_2 - \bmu_1)^\top\bbeta \propto (\bmu_2 - \bmu_1).
+\bSigma_b \bbeta = (\bmu_2 - \bmu_1)(\bmu_2 - \bmu_1)^\top\bbeta = (\bmu_2 - \bmu_1)k\propto (\bmu_2 - \bmu_1),
 $$
 
 
-Therefore, our solution becomes
+where $k$ is some constant. Therefore, our solution becomes
 
 
 $$

@@ -91,7 +91,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "Next, let's define a few miscellaneous helper functions. As in the regression tree construction, `all_rows_equal()` checks if all of a bud's rows (observations) are equal across all predictors. If this is the case, this bud will not be split and instead becomes a terminal leaf. The second function, `possible_splits()`, returns all possible ways divide the classes in a categorical predictor into two. Specifically, it returns all possible sets of values which can be used to funnel observations into the \"left\" child node. An example is given below for a predictor with four categories, $a$ through $d$. The set $\\{a, b\\}$, for instance, would imply observations where that predictor equals $a$ or $b$ go to the left child and other observations go to the right child. (Note that this function requires the `itertools` package). "
+    "Next, let's define a few miscellaneous helper functions. As in the regression tree construction, `all_rows_equal()` checks if all of a bud's rows (observations) are equal across all predictors. If this is the case, this bud will not be split and instead becomes a terminal leaf. The second function, `possible_splits()`, returns all possible ways to divide the classes in a categorical predictor into two. Specifically, it returns all possible sets of values which can be used to funnel observations into the \"left\" child node. An example is given below for a predictor with four categories, $a$ through $d$. The set $\\{a, b\\}$, for instance, would imply observations where that predictor equals $a$ or $b$ go to the left child and other observations go to the right child. (Note that this function requires the `itertools` package). "
    ]
   },
   {

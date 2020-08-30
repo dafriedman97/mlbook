@@ -67,7 +67,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "We can then fit the regression tree with the `DecisionTreeRegressor` class. Unfortunately, `scikit-learn` does not currently support categorical predictors. Instead, we have to first convert to dummy variables. Note that this implies that splits of categorical variables can only separate one value from the rest. For instance, a variable with discrete values $a, b, c,$ and $d$ could not be split as $\\{a, b\\}$ versus $\\{c, d\\}$. "
+    "We can then fit the regression tree with the `DecisionTreeRegressor` class. Unfortunately, `scikit-learn` does not currently support categorical predictors. Instead, we have to first convert these predictors to dummy variables. Note that this implies that splits of categorical variables can only separate one value from the rest. For instance, a variable with discrete values $a, b, c,$ and $d$ could not be split as $\\{a, b\\}$ versus $\\{c, d\\}$. "
    ]
   },
   {

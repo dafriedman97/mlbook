@@ -35,7 +35,7 @@
     "\\text{sign}(\\bbeta^\\top \\bx_n).\n",
     "$$\n",
     "\n",
-    "Next, the `to_binary` function can be used to convert predictions in $\\{-1, +1\\}$ to their equivalents in $\\{0, 1\\}$, which is useful since binary data is typically stored as the latter. Finally, the `standard_scaler` standardizes our features, similar to `scikit-learn`'s `StandardScaler`. \n"
+    "Next, the `to_binary` function can be used to convert predictions in $\\{-1, +1\\}$ to their equivalents in $\\{0, 1\\}$, which is useful since the perceptron algorithm uses the former though binary data is typically stored as the latter. Finally, the `standard_scaler` standardizes our features, similar to `scikit-learn`'s `StandardScaler`. \n"
    ]
   },
   {

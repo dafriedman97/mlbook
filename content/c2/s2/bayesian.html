@@ -290,9 +290,9 @@
 <p>The <code class="docutils literal notranslate"><span class="pre">BayesianRegression</span></code> class estimates the regression coefficients using</p>
 <div class="math notranslate nohighlight">
 \[
-\left(\frac{1}{\sigma^2}\bX^\top\bX + \frac{1}{\tau} I_D\right)^{-1}\frac{1}{\sigma^2}\bX^\top\by.
+\left(\frac{1}{\sigma^2}\bX^\top\bX + \frac{1}{\tau} I\right)^{-1}\frac{1}{\sigma^2}\bX^\top\by.
 \]</div>
-<p>Note that this assumes <span class="math notranslate nohighlight">\(\sigma^2\)</span> and <span class="math notranslate nohighlight">\(\tau\)</span> are known. We can determine the influence of the prior distribution my manipulationg <span class="math notranslate nohighlight">\(\tau\)</span>, though there are principled ways to choose <span class="math notranslate nohighlight">\(\tau\)</span>. There are also principled Bayesian methods to model <span class="math notranslate nohighlight">\(\sigma^2\)</span> (see <a class="reference external" href="https://www.statlect.com/fundamentals-of-statistics/Bayesian-regression">here</a>), though for simplicity we will estimate it with the typical OLS estimate</p>
+<p>Note that this assumes <span class="math notranslate nohighlight">\(\sigma^2\)</span> and <span class="math notranslate nohighlight">\(\tau\)</span> are known. We can determine the influence of the prior distribution my manipulationg <span class="math notranslate nohighlight">\(\tau\)</span>, though there are principled ways to choose <span class="math notranslate nohighlight">\(\tau\)</span>. There are also principled Bayesian methods to model <span class="math notranslate nohighlight">\(\sigma^2\)</span> (see <a class="reference external" href="https://www.statlect.com/fundamentals-of-statistics/Bayesian-regression">here</a>), though for simplicity we will estimate it with the typical OLS estimate:</p>
 <div class="math notranslate nohighlight">
 \[
 \hat{\sigma}^2 = \frac{SSE}{N - (D + 1)},
@@ -337,7 +337,7 @@
 </div>
 </div>
 </div>
-<p>The below plot shows the estimated coefficients for varying levels of <span class="math notranslate nohighlight">\(\tau\)</span>. A lower value of <span class="math notranslate nohighlight">\(\tau\)</span> indicates a stronger prior, and therefore a greater pull of the coefficients towards their expected value (in this case, 0). As expected the estimates approach 0 as <span class="math notranslate nohighlight">\(\tau\)</span> decreases.</p>
+<p>The below plot shows the estimated coefficients for varying levels of <span class="math notranslate nohighlight">\(\tau\)</span>. A lower value of <span class="math notranslate nohighlight">\(\tau\)</span> indicates a stronger prior, and therefore a greater pull of the coefficients towards their expected value (in this case, 0). As expected, the estimates approach 0 as <span class="math notranslate nohighlight">\(\tau\)</span> decreases.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Xs</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;X&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])]</span>

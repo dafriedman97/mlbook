@@ -16,7 +16,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 3,
+   "execution_count": 2,
    "metadata": {},
    "outputs": [],
    "source": [
@@ -42,12 +42,12 @@
    "source": [
     "An implementation of linear discriminant analysis (LDA) is given below. The main method is `.fit()`. This method makes three important estimates. For each $k$, we estimate $\\pi_k$, the class prior probability. For each class we also estimate the mean of the data in that class, $\\bmu_k$. Finally, we estimate the overall covariance matrix across classes, $\\bSigma$. The formulas for these estimates are detailed in the {doc}`concept section </content/c4/concept>`.\n",
     "\n",
-    "The second two methods, `.mvn_density()` and `.classify()` are for classifying new observations. `.mvn_density()` just calculates the density (up to a multiplicative constant) of a Multivariate Normal sample provided the mean vector and covariance matrix. `.classify()` actually makes the classifications for each test observation. It calculates the density for each class, $p(\\bx_n|y_n = k)$, and multiplies this by the prior class probability, $p(y_n = k) = \\pi_k$, to get a posterior class probability, $p(y_n = k|\\bx_n)$. It then predicts the class with the highest posterior probability. "
+    "The second two methods, `.mvn_density()` and `.classify()` are for classifying new observations. `.mvn_density()` just calculates the density (up to a multiplicative constant) of a Multivariate Normal sample provided the mean vector and covariance matrix. `.classify()` actually makes the classifications for each test observation. It calculates the density for each class, $p(\\bx_n|Y_n = k)$, and multiplies this by the prior class probability, $p(Y_n = k) = \\pi_k$, to get a posterior class probability, $p(Y_n = k|\\bx_n)$. It then predicts the class with the highest posterior probability. "
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 4,
+   "execution_count": 3,
    "metadata": {},
    "outputs": [],
    "source": [
@@ -117,7 +117,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 5,
+   "execution_count": 4,
    "metadata": {},
    "outputs": [
     {
@@ -126,7 +126,7 @@
        "1.0"
       ]
      },
-     "execution_count": 5,
+     "execution_count": 4,
      "metadata": {},
      "output_type": "execute_result"
     }
@@ -147,7 +147,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 6,
+   "execution_count": 5,
    "metadata": {},
    "outputs": [],
    "source": [
@@ -175,7 +175,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 7,
+   "execution_count": 6,
    "metadata": {},
    "outputs": [
     {
@@ -305,7 +305,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "The below plot shows predictions based on the input variables for the QDA model. As expected, the decision boundaries are quadratic, rather than linear. We also see that the area corresponding to class 2 is much smaller than the other areas. This suggests the estimated variance of the input variables for observations in class 2 was smaller than the variance for observations in other classes."
+    "The below plot shows predictions based on the input variables for the QDA model. As expected, the decision boundaries are quadratic, rather than linear. We also see that the area corresponding to class 2 is much smaller than the other areas. This suggests that either there were fewer observations in class 2 or the estimated variance of the input variables for observations in class 2 was smaller than the variance for observations in other classes ."
    ]
   },
   {
@@ -345,14 +345,14 @@
    "source": [
     "Finally, we implement a Naive Bayes model below. This model allows us to assign each variable in our dataset a distribution, though by default they are all assumed to be Normal. Since each variable has its own distribution, estimating the model's parameters is more involved. For each variable and each class, we estimate the parameters separately through the `_estimate_class_parameters`. The structure below allows for Normal, Bernoulli, and Poisson distributions, though any distribution could be implemented.\n",
     "\n",
-    "Again, we make predictions by calculating $p(y_n = k|\\bx_n)$ for $k = 1, \\dots, K$ through Bayes' rule and predicting the class with the highest posterior probability. Since each variable can have its own distribution, this problem is also more involved. The `_get_class_probability` method calculates the probability density of a test observation's input variables. By the conditional independence assumption, this is just the product of the individual densities. \n",
+    "Again, we make predictions by calculating $p(Y_n = k|\\bx_n)$ for $k = 1, \\dots, K$ through Bayes' rule and predicting the class with the highest posterior probability. Since each variable can have its own distribution, this problem is also more involved. The `_get_class_probability` method calculates the probability density of a test observation's input variables. By the conditional independence assumption, this is just the product of the individual densities. \n",
     "\n",
-    "Naive Bayes performs worse than LDA or QDA on the training data, suggesting the conditional independence assumption might be inappropriate."
+    "Naive Bayes performs worse than LDA or QDA on the training data, suggesting the conditional independence assumption might be inappropriate for this problem."
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 15,
+   "execution_count": 11,
    "metadata": {},
    "outputs": [],
    "source": [
@@ -452,7 +452,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 16,
+   "execution_count": 12,
    "metadata": {},
    "outputs": [
     {
@@ -461,7 +461,7 @@
        "0.9775280898876404"
       ]
      },
-     "execution_count": 16,
+     "execution_count": 12,
      "metadata": {},
      "output_type": "execute_result"
     }
@@ -475,7 +475,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 17,
+   "execution_count": 13,
    "metadata": {},
    "outputs": [
     {

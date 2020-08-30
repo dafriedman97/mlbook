@@ -9,7 +9,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 5,
+   "execution_count": 1,
    "metadata": {},
    "outputs": [],
    "source": [
@@ -51,13 +51,17 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "The graphs below show that the `scikit-learn` implementation returns the same decision boundaries as our constructions in the previous section."
+    "The graphs below show that the `scikit-learn` implementation returns the same decision boundaries as our constructions in the previous section. The code to create these graphs is written in the hidden cell below. "
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 25,
-   "metadata": {},
+   "execution_count": null,
+   "metadata": {
+    "tags": [
+     "hide-input"
+    ]
+   },
    "outputs": [],
    "source": [
     "def graph_boundaries(X, model, model_title, n0 = 1000, n1 = 1000, figsize = (7, 5), label_every = 4):\n",
@@ -157,6 +161,7 @@
   }
  ],
  "metadata": {
+  "celltoolbar": "Edit Metadata",
   "kernelspec": {
    "display_name": "Python 3",
    "language": "python",

@@ -45,7 +45,7 @@ $$
 
 The Gini index and cross-entropy are measures of *impurity*—they are higher for nodes with more equal representation of different classes and lower for nodes represented largely by a single class. As a node becomes more pure, these loss measures tend toward zero.  
 
-In order to evaluate the purity of a split, we use the weighted Gini index or weighted cross-entropy. Consider a split $S_m$ of bud $\mathcal{N}_m$ which creates children $\mathcal{C}_m^L$ and $\mathcal{C}_m^R$. Let the fraction of training observations going to $\mathcal{C}_m^L$ be $f_L$ and the fraction going to $\mathcal{C}_m^R$ be $f_R$. The weighted loss (whether with the Gini index or the cross-entropy) is defined as
+In order to evaluate the purity of a *split* (rather than that of a *node*), we use the weighted Gini index or weighted cross-entropy. Consider a split $S_m$ of bud $\mathcal{N}_m$ which creates children $\mathcal{C}_m^L$ and $\mathcal{C}_m^R$. Let the fraction of training observations going to $\mathcal{C}_m^L$ be $f_L$ and the fraction going to $\mathcal{C}_m^R$ be $f_R$. The weighted loss (whether with the Gini index or the cross-entropy) is defined as
 
 
 $$
@@ -119,7 +119,7 @@ $$
 $$
 
 
-We prune a classification tree in a nearly-identical fashion. First, we grow an intentionally-overfit tree, $T_0$. We then consider all splits leading to terminal nodes and undue the one with the largest loss by re-joining its child nodes. We then repeat this process iteratively until we are left with the tree containing only the initial node. For each tree, we record its size (the number of terminal leaves) and its misclassification rate, $\mathcal{M}_T$ We then choose the tree that minimizes 
+We prune a classification tree in a nearly identical fashion. First, we grow an intentionally overfit tree, $T_0$. We then consider all splits leading to terminal nodes and undo the one with the greatest loss by re-joining its child nodes. I.e. we undo the split at the node $m$ with the greatest $\mathcal{L}(S_m)$ among nodes leading to leaves. We then repeat this process iteratively until we are left with the tree containing only the initial node. For each tree, we record its size (the number of terminal leaves) and its misclassification rate, $\mathcal{M}_T$. We then choose the tree that minimizes 
 
 
 $$

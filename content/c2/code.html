@@ -278,7 +278,7 @@
                 
   <div class="section" id="code">
 <h1>Code<a class="headerlink" href="#code" title="Permalink to this headline">¶</a></h1>
-<p>This section shows how the linear regression extensions discussed in the chapter are typically fit in Python. First let’s import the <a class="reference internal" href="../appendix/data.html"><span class="doc">Boston housing</span></a> dataset.</p>
+<p>This section shows how the linear regression extensions discussed in this chapter are typically fit in Python. First let’s import the <a class="reference internal" href="../appendix/data.html"><span class="doc">Boston housing</span></a> dataset.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span> 
@@ -379,7 +379,7 @@ Lasso alpha: 1.0
 \lambda_2 &amp;= 10000.
 \end{aligned}
 \end{split}\]</div>
-<p>This guarantees that <span class="math notranslate nohighlight">\(\sigma^2\)</span> and <span class="math notranslate nohighlight">\(\tau\)</span> will be approximately equal to their pre-determined values. This can be implemented in <code class="docutils literal notranslate"><span class="pre">sklearn</span></code> as follows</p>
+<p>This guarantees that <span class="math notranslate nohighlight">\(\sigma^2\)</span> and <span class="math notranslate nohighlight">\(\tau\)</span> will be approximately equal to their pre-determined values. This can be implemented in <code class="docutils literal notranslate"><span class="pre">scikit-learn</span></code> as follows</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">big_number</span> <span class="o">=</span> <span class="mi">10</span><span class="o">**</span><span class="mi">5</span>
 
 <span class="c1"># alpha</span>
@@ -408,7 +408,7 @@ Lasso alpha: 1.0
 \[
 \eta_n = g(\mu_n) = \log(\lambda_n),
 \]</div>
-<p>which is what we use below. For more information on the possible distributions and link functions, check out the <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code> GLM <a class="reference external" href="https://www.statsmodels.org/stable/glm.html">docs</a></p>
+<p>which is what we use below. For more information on the possible distributions and link functions, check out the <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code> GLM <a class="reference external" href="https://www.statsmodels.org/stable/glm.html">docs</a>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">statsmodels.api</span> <span class="k">as</span> <span class="nn">sm</span>

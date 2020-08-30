@@ -271,7 +271,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "We can also build a network for binary classification. The model below attempts to predict whether an individual's cancer is malignant or benign. We'll use the log loss, the sigmoid activation function after the second layer, and the ReLU function after the first."
+    "We can also build a network for binary classification. The model below attempts to predict whether an individual's cancer is malignant or benign. We use the log loss, the sigmoid activation function after the second layer, and the ReLU function after the first."
    ]
   },
   {
@@ -309,25 +309,25 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "Below is an second class for fitting neural networks that runs *much* faster by simultaneously calculating the gradients across observations. The math behind these calculations is outlined in the {doc}`concept section </content/c7/concept>`. This class's fitting algorithm is identical to that of the one above with one big exception: we don't have to iterate over observations.\n",
+    "Below is a second class for fitting neural networks that runs *much* faster by simultaneously calculating the gradients across observations. The math behind these calculations is outlined in the {doc}`concept section </content/c7/concept>`. This class's fitting algorithm is identical to that of the one above with one big exception: we don't have to iterate over observations.\n",
     "\n",
-    "Most of the following gradient calculations are straightforward. A few require a tensor dot product, which is easily done with numpy. Consider the following gradient:\n",
+    "Most of the following gradient calculations are straightforward. A few require a tensor dot product, which is easily done using numpy. Consider the following gradient:\n",
     "\n",
     "$$\n",
     "\\frac{\\partial \\mathcal{L}}{\\partial \\mathbf{W}^{(L)}_{i, j}} = \\sum_{n = 1}^N (\\nabla \\mathbf{H}^{(L)})_{i, n}\\cdot \\mathbf{Z}^{(L-1)}_{j, n}.\n",
     "$$\n",
     "\n",
-    "In words, this gradient is a matrix whose $(i, j)^\\text{th}$ entry equals the sum across the $i^\\text{th}$ row of $\\nabla \\mathbf{H}^{(L)}$ multiplied element-wise with the $j^\\text{th}$ row of $\\mathbf{Z}^{(L-1)}$. \n",
+    "In words, $\\partial\\mathcal{L}/\\partial \\mathbf{W}^{(L)}$ is a matrix whose $(i, j)^\\text{th}$ entry equals the sum across the $i^\\text{th}$ row of $\\nabla \\mathbf{H}^{(L)}$ multiplied element-wise with the $j^\\text{th}$ row of $\\mathbf{Z}^{(L-1)}$. \n",
     "\n",
     "This calculation can be accomplished with `np.tensordot(A, B, (1,1))`, where `A` is $\\nabla \\mathbf{H}^{(L)}$ and `B` is $\\mathbf{Z}^{(L-1)}$. `np.tensordot()` sums the element-wise product of the entries in `A` and the entries in `B` along a specified index. Here we specify the index with `(1,1)`, saying we want to sum across the columns for each.\n",
     "\n",
     "Similarly, we will use the following gradient: \n",
     "\n",
     "$$\n",
-    "\\frac{\\partial \\mathcal{L}}{\\partial \\mathbf{Z}^{(L-1)}_{i, n}} = \\sum_{r = 1}^R (\\nabla \\mathbf{H}^{(L)})_{r, n}\\cdot \\mathbf{W}^{(L)}_{r, i}.\n",
+    "\\frac{\\partial \\mathcal{L}}{\\partial \\mathbf{Z}^{(L-1)}_{i, n}} = \\sum_{d = 1}^{D_y} (\\nabla \\mathbf{H}^{(L)})_{d, n}\\cdot \\mathbf{W}^{(L)}_{d, i}.\n",
     "$$\n",
     "\n",
-    "Letting `C` represent $\\mathbf{W}^{(L)}_{r, i}$, we can calculate this gradient in numpy with `np.tensordot(C, A, (0,0))`."
+    "Letting `C` represent $\\mathbf{W}^{(L)}$, we can calculate this gradient in numpy with `np.tensordot(C, A, (0,0))`."
    ]
   },
   {

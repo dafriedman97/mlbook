@@ -274,8 +274,8 @@
                 
   <div class="section" id="bagging">
 <h1>Bagging<a class="headerlink" href="#bagging" title="Permalink to this headline">¶</a></h1>
-<p>Though bagging can be used for regression or classification, we will demonstrate a regression bagging model. Since this model is based on decision tree regressors, we’ll first import our <a class="reference internal" href="../../c5/s2/regression_tree.html"><span class="doc">regression tree</span></a> construction from the previous chapter. We’ll also import numpy and the visualization packages.</p>
-<div class="cell docutils container">
+<p>Bagging can be used for regression or classification, though we will demonstrate a regression bagging model here. Since this model is based on decision tree regressors, we’ll first import our <a class="reference internal" href="../../c5/s2/regression_tree.html"><span class="doc">regression tree</span></a> construction from the previous chapter. We’ll also import numpy and the visualization packages.</p>
+<div class="cell tag_remove-output docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">## Import decision trees</span>
 <span class="kn">import</span> <span class="nn">import_ipynb</span>
@@ -289,13 +289,8 @@
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>importing Jupyter notebook from regression_tree.ipynb
-</pre></div>
 </div>
-</div>
-</div>
-<p>We will build our bagging model on the <a class="reference internal" href="../../appendix/data.html"><span class="doc">tips</span></a> dataset from <code class="docutils literal notranslate"><span class="pre">scikit-learn</span></code>. This is loaded with the hidden code cell below.</p>
+<p>We will build our bagging model on the <a class="reference internal" href="../../appendix/data.html"><span class="doc">tips</span></a> dataset from <code class="docutils literal notranslate"><span class="pre">scikit-learn</span></code>. The hidden code cell below loads that data and does a train-test split.</p>
 <div class="cell tag_hide-input docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">## Load data</span>
@@ -316,7 +311,7 @@
 </div>
 </div>
 </div>
-<p>Now we can get right into the bagging class. To fit the <code class="docutils literal notranslate"><span class="pre">Bagger</span></code> object, we provide training data, the number of bootstraps (<code class="docutils literal notranslate"><span class="pre">B</span></code>), and size regulation parameters for the decision trees. The class then takes <code class="docutils literal notranslate"><span class="pre">B</span></code> bootstraps of the data, each time fitting a decision tree regressor. To form predictions with the <code class="docutils literal notranslate"><span class="pre">Bagger</span></code> object, we simply run test observations through each bootstrapped tree and average the fitted values.</p>
+<p>Now we can get right into the bagging class. To fit the <code class="docutils literal notranslate"><span class="pre">Bagger</span></code> object, we provide training data, the number of bootstraps (<code class="docutils literal notranslate"><span class="pre">B</span></code>), and size regulation parameters for the decision trees. The object then takes <code class="docutils literal notranslate"><span class="pre">B</span></code> bootstraps of the data, each time fitting a decision tree regressor. To form predictions with the <code class="docutils literal notranslate"><span class="pre">Bagger</span></code> object, we simply run test observations through each bootstrapped tree and average the fitted values.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Bagger</span><span class="p">:</span>

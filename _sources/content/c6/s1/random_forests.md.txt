@@ -6,7 +6,7 @@ A random forest is a slight extension to the bagging approach for decision trees
 
 Like bagging, a random forest combines the predictions of several base learners, each trained on a bootstrapped sample of the original training set. Random forests, however, add one additional regulatory step: at each split within each tree, we only consider splitting a randomly-chosen subset of the predictors. In other words, we explicitly prohibit the trees from considering some of the predictors in each split. 
 
-It might seem counter-intuitive to restrict the amount of information available to our model while training. Recall that the advantage of bootstrapping is to provide the model with a greater sense of the training data by "generating" different datasets. If the base learners are too similar, however, we don't gain anything by averaging them. Randomly choosing eligible predictors at each split *de-correlates* the trees, serving to further differentiate trees from one another. We then gain more information by averaging over trees which can result in significant improvements in precision.
+It might seem counter-intuitive to restrict the amount of information available to our model while training. Recall that the advantage of bootstrapping is to provide the model with a greater sense of the training data by "generating" different datasets. If the base learners are too similar, however, we don't gain anything by averaging them. Randomly choosing eligible predictors at each split *de-correlates* the trees, serving to further differentiate the trees from one another. We then gain more information by averaging over trees which can result in significant improvements in precision.
 
 The specific steps to building a random forest are provided below. 
 

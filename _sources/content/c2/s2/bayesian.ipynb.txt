@@ -29,10 +29,10 @@
     "The `BayesianRegression` class estimates the regression coefficients using \n",
     "\n",
     "$$\n",
-    "\\left(\\frac{1}{\\sigma^2}\\bX^\\top\\bX + \\frac{1}{\\tau} I_D\\right)^{-1}\\frac{1}{\\sigma^2}\\bX^\\top\\by.\n",
+    "\\left(\\frac{1}{\\sigma^2}\\bX^\\top\\bX + \\frac{1}{\\tau} I\\right)^{-1}\\frac{1}{\\sigma^2}\\bX^\\top\\by.\n",
     "$$\n",
     "\n",
-    "Note that this assumes $\\sigma^2$ and $\\tau$ are known. We can determine the influence of the prior distribution my manipulationg $\\tau$, though there are principled ways to choose $\\tau$. There are also principled Bayesian methods to model $\\sigma^2$ (see [here](https://www.statlect.com/fundamentals-of-statistics/Bayesian-regression)), though for simplicity we will estimate it with the typical OLS estimate\n",
+    "Note that this assumes $\\sigma^2$ and $\\tau$ are known. We can determine the influence of the prior distribution my manipulationg $\\tau$, though there are principled ways to choose $\\tau$. There are also principled Bayesian methods to model $\\sigma^2$ (see [here](https://www.statlect.com/fundamentals-of-statistics/Bayesian-regression)), though for simplicity we will estimate it with the typical OLS estimate:\n",
     "\n",
     "$$\n",
     "\\hat{\\sigma}^2 = \\frac{SSE}{N - (D + 1)},\n",
@@ -94,7 +94,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "The below plot shows the estimated coefficients for varying levels of $\\tau$. A lower value of $\\tau$ indicates a stronger prior, and therefore a greater pull of the coefficients towards their expected value (in this case, 0). As expected the estimates approach 0 as $\\tau$ decreases."
+    "The below plot shows the estimated coefficients for varying levels of $\\tau$. A lower value of $\\tau$ indicates a stronger prior, and therefore a greater pull of the coefficients towards their expected value (in this case, 0). As expected, the estimates approach 0 as $\\tau$ decreases."
    ]
   },
   {
