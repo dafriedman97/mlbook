@@ -292,7 +292,7 @@
 \[
 \left(\frac{1}{\sigma^2}\bX^\top\bX + \frac{1}{\tau} I\right)^{-1}\frac{1}{\sigma^2}\bX^\top\by.
 \]</div>
-<p>Note that this assumes <span class="math notranslate nohighlight">\(\sigma^2\)</span> and <span class="math notranslate nohighlight">\(\tau\)</span> are known. We can determine the influence of the prior distribution my manipulationg <span class="math notranslate nohighlight">\(\tau\)</span>, though there are principled ways to choose <span class="math notranslate nohighlight">\(\tau\)</span>. There are also principled Bayesian methods to model <span class="math notranslate nohighlight">\(\sigma^2\)</span> (see <a class="reference external" href="https://www.statlect.com/fundamentals-of-statistics/Bayesian-regression">here</a>), though for simplicity we will estimate it with the typical OLS estimate:</p>
+<p>Note that this assumes <span class="math notranslate nohighlight">\(\sigma^2\)</span> and <span class="math notranslate nohighlight">\(\tau\)</span> are known. We can determine the influence of the prior distribution by manipulationg <span class="math notranslate nohighlight">\(\tau\)</span>, though there are principled ways to choose <span class="math notranslate nohighlight">\(\tau\)</span>. There are also principled Bayesian methods to model <span class="math notranslate nohighlight">\(\sigma^2\)</span> (see <a class="reference external" href="https://www.statlect.com/fundamentals-of-statistics/Bayesian-regression">here</a>), though for simplicity we will estimate it with the typical OLS estimate:</p>
 <div class="math notranslate nohighlight">
 \[
 \hat{\sigma}^2 = \frac{SSE}{N - (D + 1)},

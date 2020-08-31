@@ -11,7 +11,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "In this seciton, we build LDA, QDA, and Naive Bayes classifiers. We will demo these classes on the {doc}`wine </content/appendix/data>` dataset."
+    "In this section, we build LDA, QDA, and Naive Bayes classifiers. We will demo these classes on the {doc}`wine </content/appendix/data>` dataset."
    ]
   },
   {

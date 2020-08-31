@@ -32,7 +32,7 @@
     "\\left(\\frac{1}{\\sigma^2}\\bX^\\top\\bX + \\frac{1}{\\tau} I\\right)^{-1}\\frac{1}{\\sigma^2}\\bX^\\top\\by.\n",
     "$$\n",
     "\n",
-    "Note that this assumes $\\sigma^2$ and $\\tau$ are known. We can determine the influence of the prior distribution my manipulationg $\\tau$, though there are principled ways to choose $\\tau$. There are also principled Bayesian methods to model $\\sigma^2$ (see [here](https://www.statlect.com/fundamentals-of-statistics/Bayesian-regression)), though for simplicity we will estimate it with the typical OLS estimate:\n",
+    "Note that this assumes $\\sigma^2$ and $\\tau$ are known. We can determine the influence of the prior distribution by manipulationg $\\tau$, though there are principled ways to choose $\\tau$. There are also principled Bayesian methods to model $\\sigma^2$ (see [here](https://www.statlect.com/fundamentals-of-statistics/Bayesian-regression)), though for simplicity we will estimate it with the typical OLS estimate:\n",
     "\n",
     "$$\n",
     "\\hat{\\sigma}^2 = \\frac{SSE}{N - (D + 1)},\n",
