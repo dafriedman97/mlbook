@@ -1,0 +1,389 @@
+
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Regularized Regression &#8212; Machine Learning from Scratch</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
+    <link href="../../../_static/css/index.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../../_static/sphinx-book-theme.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/jupyter-sphinx.css" />
+    <script id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/sphinx-book-theme.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/language_data.js"></script>
+    <script src="../../../_static/togglebutton.js"></script>
+    <script src="../../../_static/clipboard.min.js"></script>
+    <script src="../../../_static/copybutton.js"></script>
+    <script src="../../../_static/mystnb.js"></script>
+    <script src="../../../_static/sphinx-book-theme.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .secondtoggle, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.18.0/dist/embed-amd.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"TeX": {"Macros": {"sumN": "\\sum_{n = 1}^N", "sumn": "\\sum_{n}", "prodN": "\\prod_{n = 1}^N", "bx": "\\mathbf{x}", "by": "\\mathbf{y}", "bX": "\\mathbf{X}", "bY": "\\mathbf{Y}", "bT": "\\mathbf{T}", "bbeta": "\\boldsymbol{\\beta}", "btheta": "\\boldsymbol{\\hat{\\theta}}}", "bmu": "\\boldsymbol{\\mu}", "bSigma": "\\boldsymbol{\\Sigma}", "bbetahat": "\\boldsymbol{\\hat{\\beta}}", "bbR": "\\mathbb{R}", "iid": "\\overset{\\small{\\text{i.i.d.}}}{\\sim}}", "dadb": ["{\\frac{\\partial #1}{\\partial #2}}", 2], "testing": "\\TeX", "R": "\\mathbb{R}"}}})</script>
+    <link rel="shortcut icon" href="../../../_static/logo.png"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Bayesian Regression" href="bayesian.html" />
+    <link rel="prev" title="Concept" href="../concept.html" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="docsearch:language" content="en">
+
+
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+<a class="navbar-brand text-wrap" href="../../../index.html">
+  
+  <img src="../../../_static/logo.png" class="logo" alt="logo">
+  
+  
+  <h1 class="site-logo" id="site-title">Machine Learning from Scratch</h1>
+  
+</a>
+</div>
+
+<form class="bd-search d-flex align-items-center" action="../../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form>
+
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  
+  <ul class="nav sidenav_l1">
+  <li class="">
+    <a href="../../table_of_contents.html">Table of Contents</a>
+  </li>
+  <li class="">
+    <a href="../../conventions_notation.html">Conventions and Notation</a>
+  </li>
+<li class="navbar-special">
+<p class="margin-caption">1. Ordinary Linear Regression</p>
+</li>
+  <li class="">
+    <a href="../../c1/concept.html">Concept</a>
+  </li>
+  <li class="">
+    <a href="../../c1/construction.html">Construction</a>
+  </li>
+  <li class="">
+    <a href="../../c1/code.html">Code</a>
+  </li>
+<li class="navbar-special">
+<p class="margin-caption">2. Linear Regression Extensions</p>
+</li>
+  <li class="active">
+    <a href="../concept.html">Concept</a>
+  <ul class="nav sidenav_l2">
+    <li class="active">
+      <a href="">Regularized Regression</a>
+    </li>
+    <li class="">
+      <a href="bayesian.html">Bayesian Regression</a>
+    </li>
+    <li class="">
+      <a href="GLMs.html">GLMs</a>
+    </li>
+  </ul>
+  </li>
+  <li class="">
+    <a href="../construction.html">Construction</a>
+  </li>
+  <li class="">
+    <a href="../code.html">Code</a>
+  </li>
+<li class="navbar-special">
+<p class="margin-caption">3. Discriminative Classifiers (Logistic Regression)</p>
+</li>
+  <li class="">
+    <a href="../../c3/concept.html">Concept</a>
+  </li>
+  <li class="">
+    <a href="../../c3/construction.html">Construction</a>
+  </li>
+  <li class="">
+    <a href="../../c3/code.html">Code</a>
+  </li>
+<li class="navbar-special">
+<p class="margin-caption">4. Generative Classifiers (Naive Bayes)</p>
+</li>
+  <li class="">
+    <a href="../../c4/concept.html">Concept</a>
+  </li>
+  <li class="">
+    <a href="../../c4/construction.html">Construction</a>
+  </li>
+  <li class="">
+    <a href="../../c4/code.html">Code</a>
+  </li>
+<li class="navbar-special">
+<p class="margin-caption">5. Decision Trees</p>
+</li>
+  <li class="">
+    <a href="../../c5/concept.html">Concept</a>
+  </li>
+  <li class="">
+    <a href="../../c5/construction.html">Construction</a>
+  </li>
+  <li class="">
+    <a href="../../c5/code.html">Code</a>
+  </li>
+<li class="navbar-special">
+<p class="margin-caption">6. Tree Ensemble Methods</p>
+</li>
+  <li class="">
+    <a href="../../c6/concept.html">Concept</a>
+  </li>
+  <li class="">
+    <a href="../../c6/construction.html">Construction</a>
+  </li>
+  <li class="">
+    <a href="../../c6/code.html">Code</a>
+  </li>
+<li class="navbar-special">
+<p class="margin-caption">7. Neural Networks</p>
+</li>
+  <li class="">
+    <a href="../../c7/concept.html">Concept</a>
+  </li>
+  <li class="">
+    <a href="../../c7/construction.html">Construction</a>
+  </li>
+  <li class="">
+    <a href="../../c7/code.html">Code</a>
+  </li>
+<li class="navbar-special">
+<p class="margin-caption">Appendix</p>
+</li>
+  <li class="">
+    <a href="../../appendix/math.html">Math</a>
+  </li>
+  <li class="">
+    <a href="../../appendix/probability.html">Probability</a>
+  </li>
+  <li class="">
+    <a href="../../appendix/methods.html">Common Methods</a>
+  </li>
+  <li class="">
+    <a href="../../appendix/data.html">Datasets</a>
+  </li>
+</ul>
+</nav>
+
+ <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="row topbar fixed-top container-xl">
+    <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show">
+    </div>
+    <div class="col pl-2 topbar-main">
+        
+        <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse" data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu" aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation" title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+            <i class="fas fa-bars"></i>
+            <i class="fas fa-arrow-left"></i>
+            <i class="fas fa-arrow-up"></i>
+        </button>
+        
+        <div class="dropdown-buttons-trigger">
+            <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i class="fas fa-download"></i></button>
+
+            
+            <div class="dropdown-buttons">
+                <!-- ipynb file if we had a myst markdown file -->
+                
+                <!-- Download raw file -->
+                <a class="dropdown-buttons" href="../../../_sources/content/c2/s1/regularized.md.txt"><button type="button" class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip" data-placement="left">.md</button></a>
+                <!-- Download PDF via print -->
+                <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF" onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+            </div>
+            
+        </div>
+
+        <!-- Edit this page -->
+        <a class="edit-button" href="https://github.com/dafriedman97/book/edit/master/content/c2/s1/regularized.md"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="bottom" title="Edit this page"><i class="fas fa-pencil-alt"></i></button></a>
+
+        <!-- Full screen (wrap in <a> to have style consistency -->
+        <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="bottom" onclick="toggleFullScreen()" title="Fullscreen mode"><i class="fas fa-expand"></i></button></a>
+
+        <!-- Launch buttons -->
+        
+    </div>
+    <div class="d-none d-md-block col-md-2 bd-toc show">
+<div class="tocsection onthispage pt-5 pb-3">
+    <i class="fas fa-list"></i> On this page
+</div>
+
+<nav id="bd-toc-nav">
+    <ul class="nav section-nav flex-column">
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#ridge-regression" class="nav-link">Ridge Regression</a>
+        </li>
+    
+        <li class="nav-item toc-entry toc-h2">
+            <a href="#lasso-regression" class="nav-link">Lasso Regression</a>
+        </li>
+    
+    </ul>
+</nav>
+
+
+
+<div class="tocsection editthispage">
+    <a href="https://github.com/dafriedman97/book/edit/master/content/c2/s1/regularized.md">
+        <i class="fas fa-pencil-alt"></i> Edit this page
+    </a>
+</div>
+
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="regularized-regression">
+<h1>Regularized Regression<a class="headerlink" href="#regularized-regression" title="Permalink to this headline">¶</a></h1>
+<div class="math notranslate nohighlight">
+\[
+\newcommand{\sumN}{\sum_{n = 1}^N}
+\newcommand{\sumn}{\sum_n}
+\newcommand{\prodN}{\prod_{n = 1}^N}
+\newcommand{\by}{\mathbf{y}} \newcommand{\bX}{\mathbf{X}}
+\newcommand{\bx}{\mathbf{x}}
+\newcommand{\bbeta}{\boldsymbol{\beta}}
+\newcommand{\btheta}{\boldsymbol{\theta}}
+\newcommand{\bbetahat}{\boldsymbol{\hat{\beta}}}
+\newcommand{\bthetahat}{\boldsymbol{\hat{\theta}}}
+\newcommand{\bSigma}{\boldsymbol{\Sigma}}
+\newcommand{\bphi}{\boldsymbol{\phi}}
+\newcommand{\bPhi}{\boldsymbol{\Phi}}
+\newcommand{\bT}{\mathbf{T}}
+\newcommand{\dadb}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\iid}{\overset{\small{\text{i.i.d.}}}{\sim}}
+\]</div>
+<p>Regression models, especially those fit to high-dimensional data, may be prone to overfitting. One way to ameliorate this issue is by penalizing the magnitude of the <span class="math notranslate nohighlight">\(\bbetahat\)</span> coefficient estimates. This has the effect of shrinking these estimates toward 0, which ideally prevents the model from capturing spurious relationships between weak predictors and the target variable.</p>
+<p>This section reviews the two most common methods for regularized regression: Ridge and Lasso.</p>
+<div class="section" id="ridge-regression">
+<h2>Ridge Regression<a class="headerlink" href="#ridge-regression" title="Permalink to this headline">¶</a></h2>
+<p>Like ordinary linear regression, Ridge regression estimates the coefficients by minimizing a loss function on the training data. Unlike ordinary linear regression, the loss function for Ridge regression penalizes large values of the <span class="math notranslate nohighlight">\(\bbetahat\)</span> estimates. Specifically, Ridge regression minimizes the sum of the RSS and the L2 norm of <span class="math notranslate nohighlight">\(\bbetahat\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+\begin{align*}
+\mathcal{L}_\text{Ridge}(\bbetahat) &amp;= \frac{1}{2}\left(\by - \bX\bbetahat \right)^\top
+\left(\by - \bX\bbetahat \right) + \frac{\lambda}{2} \sum_{d = 1}^D\hat{\beta}_d ^2.
+\end{align*}
+\]</div>
+<p>Here, <span class="math notranslate nohighlight">\(\lambda\)</span> is a <em>tuning parameter</em> which represents the amount of regularization. A large <span class="math notranslate nohighlight">\(\lambda\)</span> means a greater penalty on the <span class="math notranslate nohighlight">\(\bbetahat\)</span> estimates, meaning more shrinkage of these estimates toward 0. <span class="math notranslate nohighlight">\(\lambda\)</span> is not estimated by the model but rather chosen before fitting, typically through <a class="reference internal" href="../../appendix/methods.html"><span class="doc">cross validation</span></a>.</p>
+<div class="alert alert-info">
+<p class="admonition-title">Note</p>
+<p>Note that the Ridge loss function does <em>not</em> penalize the magnitude of the intercept estimate, <span class="math notranslate nohighlight">\(\hat{\beta}_0\)</span>. Intuitively, a greater intercept does not suggest overfitting.</p>
+</div>
+<p>As in ordinary linear regression, we start estimating <span class="math notranslate nohighlight">\(\bbetahat\)</span> by taking the derivative of the loss function. First note that since <span class="math notranslate nohighlight">\(\hat{\beta}_0\)</span> is not penalized,</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+\frac{\partial}{\partial \bbetahat} \left( \frac{\lambda}{2}\sum_{d = 1}^D \hat{\beta}_d^2\right) &amp;= \begin{bmatrix} 0 \\ \lambda \hat{\beta}_1 \\ ... \\ \lambda \hat{\beta}_D \end{bmatrix} \\
+&amp;= \lambda I' \bbetahat,
+\end{align*}
+\end{split}\]</div>
+<p>where <span class="math notranslate nohighlight">\(I'\)</span> is the identity matrix of size <span class="math notranslate nohighlight">\(D+1\)</span> <em>except</em> the first element is a 0. Then, adding in the derivative of the RSS discussed in <a class="reference internal" href="../../c1/s1/loss_minimization.html"><span class="doc">chapter 1</span></a>, we get</p>
+<div class="math notranslate nohighlight">
+\[
+\begin{align*}
+\dadb{\mathcal{L}_\text{Ridge}(\bbetahat)}{\bbetahat} &amp;= - \bX^\top\left( \by - \bX \bbetahat \right) + \lambda I'\bbetahat.
+\end{align*}
+\]</div>
+<p>Setting this equal to 0 and solving for <span class="math notranslate nohighlight">\(\bbetahat\)</span>, we get our estimates:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+\bbetahat\left(\bX^\top \bX + \lambda I' \right) &amp;= \bX^\top \by 
+\\
+\bbetahat &amp;= \left(\bX^\top \bX + \lambda I' \right)^{-1} \bX^\top \by,
+\end{align*}
+\end{split}\]</div>
+</div>
+<div class="section" id="lasso-regression">
+<h2>Lasso Regression<a class="headerlink" href="#lasso-regression" title="Permalink to this headline">¶</a></h2>
+<p>Lasso regression differs from Ridge regression in that its loss function uses the L1 norm for the <span class="math notranslate nohighlight">\(\bbetahat\)</span> estimates rather than the L2 norm. This means we penalize the sum of absolute values of the <span class="math notranslate nohighlight">\(\hat{\beta}\)</span>s, rather than the sum of their squares.</p>
+<div class="math notranslate nohighlight">
+\[
+\begin{align*}
+\mathcal{L}_\text{Lasso}(\bbetahat) &amp;= \frac{1}{2}\left(\by - \bX\bbetahat \right)^\top
+\left(\by - \bX\bbetahat \right) + \lambda \sum_{d = 1}^D|\beta_d|.
+\end{align*}
+\]</div>
+<p>As usual, let’s then calculate the gradient of the loss function with respect to <span class="math notranslate nohighlight">\(\bbetahat\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+\dadb{\mathcal{L}(\bbetahat)}{\bbetahat} = - \bX^\top\left( \by - \bX \bbetahat \right) + \lambda I'\text{ sign}(\bbetahat),
+\]</div>
+<p>where again we use <span class="math notranslate nohighlight">\(I'\)</span> rather than <span class="math notranslate nohighlight">\(I\)</span> since the magnitude of the intercept estimate <span class="math notranslate nohighlight">\(\hat{\beta}_0\)</span> is not penalized.</p>
+<p>Unfortunately, we cannot find a closed-form solution for the <span class="math notranslate nohighlight">\(\bbetahat\)</span> that minimize the Lasso loss. Numerous methods exist for estimating the <span class="math notranslate nohighlight">\(\bbetahat\)</span>, though using the gradient calculated above we could easily reach an estimate through <a class="reference internal" href="../../appendix/methods.html"><span class="doc">gradient descent</span></a>. The <a class="reference internal" href="../s2/regularized.html"><span class="doc">construction</span></a> in the next section uses this approach.</p>
+</div>
+</div>
+
+
+              </div>
+              
+        </div>
+    </div>
+    
+    
+    <div class='prev-next-bottom'>
+        
+    <a class='left-prev' id="prev-link" href="../concept.html" title="previous page">Concept</a>
+    <a class='right-next' id="next-link" href="bayesian.html" title="next page">Bayesian Regression</a>
+
+    </div>
+    <footer class="footer mt-5 mt-md-0">
+    <div class="container">
+      <p>
+        
+          By Danny Friedman<br/>
+        
+            &copy; Copyright 2020.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+
+    <script src="../../../_static/js/index.js"></script>
+    
+  </body>
+</html>

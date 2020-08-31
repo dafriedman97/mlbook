@@ -1,0 +1,328 @@
+
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Random Forests &#8212; Machine Learning from Scratch</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
+    <link href="../../../_static/css/index.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../../_static/sphinx-book-theme.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/jupyter-sphinx.css" />
+    <script id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/sphinx-book-theme.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/language_data.js"></script>
+    <script src="../../../_static/togglebutton.js"></script>
+    <script src="../../../_static/clipboard.min.js"></script>
+    <script src="../../../_static/copybutton.js"></script>
+    <script src="../../../_static/mystnb.js"></script>
+    <script src="../../../_static/sphinx-book-theme.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .secondtoggle, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.18.0/dist/embed-amd.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"TeX": {"Macros": {"sumN": "\\sum_{n = 1}^N", "sumn": "\\sum_{n}", "prodN": "\\prod_{n = 1}^N", "bx": "\\mathbf{x}", "by": "\\mathbf{y}", "bX": "\\mathbf{X}", "bY": "\\mathbf{Y}", "bT": "\\mathbf{T}", "bbeta": "\\boldsymbol{\\beta}", "btheta": "\\boldsymbol{\\hat{\\theta}}}", "bmu": "\\boldsymbol{\\mu}", "bSigma": "\\boldsymbol{\\Sigma}", "bbetahat": "\\boldsymbol{\\hat{\\beta}}", "bbR": "\\mathbb{R}", "iid": "\\overset{\\small{\\text{i.i.d.}}}{\\sim}}", "dadb": ["{\\frac{\\partial #1}{\\partial #2}}", 2], "testing": "\\TeX", "R": "\\mathbb{R}"}}})</script>
+    <link rel="shortcut icon" href="../../../_static/logo.png"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Boosting" href="boosting.html" />
+    <link rel="prev" title="Bagging" href="bagging.html" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="docsearch:language" content="en">
+
+
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+<a class="navbar-brand text-wrap" href="../../../index.html">
+  
+  <img src="../../../_static/logo.png" class="logo" alt="logo">
+  
+  
+  <h1 class="site-logo" id="site-title">Machine Learning from Scratch</h1>
+  
+</a>
+</div>
+
+<form class="bd-search d-flex align-items-center" action="../../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form>
+
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  
+  <ul class="nav sidenav_l1">
+  <li class="">
+    <a href="../../table_of_contents.html">Table of Contents</a>
+  </li>
+  <li class="">
+    <a href="../../conventions_notation.html">Conventions and Notation</a>
+  </li>
+<li class="navbar-special">
+<p class="margin-caption">1. Ordinary Linear Regression</p>
+</li>
+  <li class="">
+    <a href="../../c1/concept.html">Concept</a>
+  </li>
+  <li class="">
+    <a href="../../c1/construction.html">Construction</a>
+  </li>
+  <li class="">
+    <a href="../../c1/code.html">Code</a>
+  </li>
+<li class="navbar-special">
+<p class="margin-caption">2. Linear Regression Extensions</p>
+</li>
+  <li class="">
+    <a href="../../c2/concept.html">Concept</a>
+  </li>
+  <li class="">
+    <a href="../../c2/construction.html">Construction</a>
+  </li>
+  <li class="">
+    <a href="../../c2/code.html">Code</a>
+  </li>
+<li class="navbar-special">
+<p class="margin-caption">3. Discriminative Classifiers (Logistic Regression)</p>
+</li>
+  <li class="">
+    <a href="../../c3/concept.html">Concept</a>
+  </li>
+  <li class="">
+    <a href="../../c3/construction.html">Construction</a>
+  </li>
+  <li class="">
+    <a href="../../c3/code.html">Code</a>
+  </li>
+<li class="navbar-special">
+<p class="margin-caption">4. Generative Classifiers (Naive Bayes)</p>
+</li>
+  <li class="">
+    <a href="../../c4/concept.html">Concept</a>
+  </li>
+  <li class="">
+    <a href="../../c4/construction.html">Construction</a>
+  </li>
+  <li class="">
+    <a href="../../c4/code.html">Code</a>
+  </li>
+<li class="navbar-special">
+<p class="margin-caption">5. Decision Trees</p>
+</li>
+  <li class="">
+    <a href="../../c5/concept.html">Concept</a>
+  </li>
+  <li class="">
+    <a href="../../c5/construction.html">Construction</a>
+  </li>
+  <li class="">
+    <a href="../../c5/code.html">Code</a>
+  </li>
+<li class="navbar-special">
+<p class="margin-caption">6. Tree Ensemble Methods</p>
+</li>
+  <li class="active">
+    <a href="../concept.html">Concept</a>
+  <ul class="nav sidenav_l2">
+    <li class="">
+      <a href="bagging.html">Bagging</a>
+    </li>
+    <li class="active">
+      <a href="">Random Forests</a>
+    </li>
+    <li class="">
+      <a href="boosting.html">Boosting</a>
+    </li>
+  </ul>
+  </li>
+  <li class="">
+    <a href="../construction.html">Construction</a>
+  </li>
+  <li class="">
+    <a href="../code.html">Code</a>
+  </li>
+<li class="navbar-special">
+<p class="margin-caption">7. Neural Networks</p>
+</li>
+  <li class="">
+    <a href="../../c7/concept.html">Concept</a>
+  </li>
+  <li class="">
+    <a href="../../c7/construction.html">Construction</a>
+  </li>
+  <li class="">
+    <a href="../../c7/code.html">Code</a>
+  </li>
+<li class="navbar-special">
+<p class="margin-caption">Appendix</p>
+</li>
+  <li class="">
+    <a href="../../appendix/math.html">Math</a>
+  </li>
+  <li class="">
+    <a href="../../appendix/probability.html">Probability</a>
+  </li>
+  <li class="">
+    <a href="../../appendix/methods.html">Common Methods</a>
+  </li>
+  <li class="">
+    <a href="../../appendix/data.html">Datasets</a>
+  </li>
+</ul>
+</nav>
+
+ <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="row topbar fixed-top container-xl">
+    <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show">
+    </div>
+    <div class="col pl-2 topbar-main">
+        
+        <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse" data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu" aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation" title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+            <i class="fas fa-bars"></i>
+            <i class="fas fa-arrow-left"></i>
+            <i class="fas fa-arrow-up"></i>
+        </button>
+        
+        <div class="dropdown-buttons-trigger">
+            <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i class="fas fa-download"></i></button>
+
+            
+            <div class="dropdown-buttons">
+                <!-- ipynb file if we had a myst markdown file -->
+                
+                <!-- Download raw file -->
+                <a class="dropdown-buttons" href="../../../_sources/content/c6/s1/random_forests.md.txt"><button type="button" class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip" data-placement="left">.md</button></a>
+                <!-- Download PDF via print -->
+                <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF" onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+            </div>
+            
+        </div>
+
+        <!-- Edit this page -->
+        <a class="edit-button" href="https://github.com/dafriedman97/book/edit/master/content/c6/s1/random_forests.md"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="bottom" title="Edit this page"><i class="fas fa-pencil-alt"></i></button></a>
+
+        <!-- Full screen (wrap in <a> to have style consistency -->
+        <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="bottom" onclick="toggleFullScreen()" title="Fullscreen mode"><i class="fas fa-expand"></i></button></a>
+
+        <!-- Launch buttons -->
+        
+    </div>
+    <div class="d-none d-md-block col-md-2 bd-toc show">
+
+<nav id="bd-toc-nav">
+    <ul class="nav section-nav flex-column">
+    
+    </ul>
+</nav>
+
+
+
+<div class="tocsection editthispage">
+    <a href="https://github.com/dafriedman97/book/edit/master/content/c6/s1/random_forests.md">
+        <i class="fas fa-pencil-alt"></i> Edit this page
+    </a>
+</div>
+
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="random-forests">
+<h1>Random Forests<a class="headerlink" href="#random-forests" title="Permalink to this headline">¶</a></h1>
+<p>A random forest is a slight extension to the bagging approach for decision trees that can further decrease overfitting and improve out-of-sample precision. Unlike bagging, random forests are exclusively designed for decision trees (hence the name).</p>
+<p>Like bagging, a random forest combines the predictions of several base learners, each trained on a bootstrapped sample of the original training set. Random forests, however, add one additional regulatory step: at each split within each tree, we only consider splitting a randomly-chosen subset of the predictors. In other words, we explicitly prohibit the trees from considering some of the predictors in each split.</p>
+<p>It might seem counter-intuitive to restrict the amount of information available to our model while training. Recall that the advantage of bootstrapping is to provide the model with a greater sense of the training data by “generating” different datasets. If the base learners are too similar, however, we don’t gain anything by averaging them. Randomly choosing eligible predictors at each split <em>de-correlates</em> the trees, serving to further differentiate the trees from one another. We then gain more information by averaging over trees which can result in significant improvements in precision.</p>
+<p>The specific steps to building a random forest are provided below.</p>
+<hr class="docutils" />
+<p><strong>Random Forest Procedure</strong></p>
+<p>Suppose we have dataset <span class="math notranslate nohighlight">\(\mathcal{D} = \{\bx_n, y_n\}_{n = 1}^N\)</span> and test set <span class="math notranslate nohighlight">\(\mathcal{T} = \{\bx_t \}_{t = 1}^T\)</span> where the predictors are <span class="math notranslate nohighlight">\(D\)</span>-dimensional (i.e. <span class="math notranslate nohighlight">\(\bx \in \R^D\)</span>).</p>
+<ol class="simple">
+<li><p>For <span class="math notranslate nohighlight">\(b =  1, 2, \dots, B\)</span>,</p>
+<ol class="simple">
+<li><p>Draw a bootstrapped sample <span class="math notranslate nohighlight">\(\mathcal{D}^*_b\)</span>.</p></li>
+<li><p>Build a decision tree <span class="math notranslate nohighlight">\(T^*_b\)</span> to the bootstrapped sample. At each split, only consider splitting along <span class="math notranslate nohighlight">\(C\)</span> of the <span class="math notranslate nohighlight">\(D\)</span> predictors (with <span class="math notranslate nohighlight">\(C \leq D\)</span>).</p></li>
+</ol>
+</li>
+<li><p>For test observation <span class="math notranslate nohighlight">\(t = 1, 2, \dots, T\)</span>,</p>
+<ol class="simple">
+<li><p>For <span class="math notranslate nohighlight">\(b = 1, 2, \dots, B\)</span>,</p>
+<ol class="simple">
+<li><p>Calculate <span class="math notranslate nohighlight">\(\hat{y}^*_{tb}\)</span>, observation <span class="math notranslate nohighlight">\(t\)</span>’s fitted value according to tree <span class="math notranslate nohighlight">\(T^*_b\)</span>.</p></li>
+</ol>
+</li>
+<li><p>Combine the <span class="math notranslate nohighlight">\(\hat{y}^*_{tb}\)</span>  into a single fitted value, <span class="math notranslate nohighlight">\(\hat{y}_t\)</span>.</p></li>
+</ol>
+</li>
+</ol>
+<hr class="docutils" />
+<p>The only difference between the random forest procedure above and the bagging procedure in the previous section is the restricted use of predictors in the second part of the first step. If <span class="math notranslate nohighlight">\(C = D\)</span>, there is no difference between these two approaches.</p>
+<p>To recap, random forests average the results of several decision trees and add two sources of randomness to ensure differentiation between the base learners: randomness in which observations are sampled via the bootstrapping and randomness in which predictors are considered at each split.</p>
+</div>
+
+
+              </div>
+              
+        </div>
+    </div>
+    
+    
+    <div class='prev-next-bottom'>
+        
+    <a class='left-prev' id="prev-link" href="bagging.html" title="previous page">Bagging</a>
+    <a class='right-next' id="next-link" href="boosting.html" title="next page">Boosting</a>
+
+    </div>
+    <footer class="footer mt-5 mt-md-0">
+    <div class="container">
+      <p>
+        
+          By Danny Friedman<br/>
+        
+            &copy; Copyright 2020.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+
+    <script src="../../../_static/js/index.js"></script>
+    
+  </body>
+</html>
