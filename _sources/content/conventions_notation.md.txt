@@ -57,8 +57,9 @@ Finally, the following mathematical and notational conventions are used.
 - Unless indicated otherwise, all vectors are assumed to be column vectors. Since feature vectors (such as $\bx_n$ and $\bphi_n$ above) are entered into data frames as rows, they will sometimes be treated as row vectors, even outside of data frames.
 
 - Matrix or vector derivatives, covered in the {doc}`math appendix </content/appendix/math>`, will use the numerator [layout convention](https://en.wikipedia.org/wiki/Matrix_calculus#Layout_conventions). Under this convention, the derivative $\partial\by/\partial\bx$ is written as 
-  $$
-\dadb{\by}{\bx} = \begin{pmatrix}
+  
+$$
+  \dadb{\by}{\bx} = \begin{pmatrix}
   \dadb{y_1}{x_1} & ... & \dadb{y_1}{x_b} \\
   \dadb{y_2}{x_1} &  ... & \dadb{y_2}{x_b} \\
   &  ... & \\
