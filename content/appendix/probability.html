@@ -290,16 +290,16 @@
 <h2>1. Random Variables and Distributions<a class="headerlink" href="#random-variables-and-distributions" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="random-variables">
 <h3>Random Variables<a class="headerlink" href="#random-variables" title="Permalink to this headline">¶</a></h3>
-<p>A <strong>random variable</strong> is a variable whose value is randomly determined. The set of possible values a random variable can take on is called the variable’s <strong>support</strong>. An example of a random variable is the value on a die. This variable’s support is <span class="math notranslate nohighlight">\(\{1, 2, 3, 4, 5, 6\}\)</span>. Random variables will be represented with uppercase letters and values in their support with lowercase letters. For instance <span class="math notranslate nohighlight">\(X = x\)</span> implies that a random variable <span class="math notranslate nohighlight">\(X\)</span> happened to take on value <span class="math notranslate nohighlight">\(x\)</span>. Letting <span class="math notranslate nohighlight">\(X\)</span> be the value of a die roll, <span class="math notranslate nohighlight">\(X = 4\)</span> indicates implies that the die landed on 4.</p>
+<p>A <strong>random variable</strong> is a variable whose value is randomly determined. The set of possible values a random variable can take on is called the variable’s <strong>support</strong>. An example of a random variable is the value on a die roll. This variable’s support is <span class="math notranslate nohighlight">\(\{1, 2, 3, 4, 5, 6\}\)</span>. Random variables will be represented with uppercase letters and values in their support with lowercase letters. For instance <span class="math notranslate nohighlight">\(X = x\)</span> implies that a random variable <span class="math notranslate nohighlight">\(X\)</span> happened to take on value <span class="math notranslate nohighlight">\(x\)</span>. Letting <span class="math notranslate nohighlight">\(X\)</span> be the value of a die roll, <span class="math notranslate nohighlight">\(X = 4\)</span> indicates that the die landed on 4.</p>
 </div>
 <div class="section" id="density-functions">
 <h3>Density Functions<a class="headerlink" href="#density-functions" title="Permalink to this headline">¶</a></h3>
-<p>The likelihood that a random variable takes on a given value is determined through its density function. For a discrete random variable (one that can take on a finite set of values), this density function is called the <strong>probability mass function</strong> <strong>(PMF)</strong>. The PMF of a random variable <span class="math notranslate nohighlight">\(X\)</span> gives the probability <span class="math notranslate nohighlight">\(X\)</span> will equal some value <span class="math notranslate nohighlight">\(x\)</span>. We write it as <span class="math notranslate nohighlight">\(f_X(x)\)</span> or just <span class="math notranslate nohighlight">\(f(x)\)</span>, and it is defined as</p>
+<p>The likelihood that a random variable takes on a given value is determined through its density function. For a discrete random variable (one that can take on a finite set of values), this density function is called the <strong>probability mass function</strong> <strong>(PMF)</strong>. The PMF of a random variable <span class="math notranslate nohighlight">\(X\)</span> gives the probability that <span class="math notranslate nohighlight">\(X\)</span> will equal some value <span class="math notranslate nohighlight">\(x\)</span>. We write it as <span class="math notranslate nohighlight">\(f_X(x)\)</span> or just <span class="math notranslate nohighlight">\(f(x)\)</span>, and it is defined as</p>
 <div class="math notranslate nohighlight">
 \[
 f(x) = P(X = x).
 \]</div>
-<p>For a continuous random variable (one that can take on infinitely many values), the density function is called the <strong>probability density function (PDF)</strong>. The PDF <span class="math notranslate nohighlight">\(f(x)\)</span> of a continuous random variable <span class="math notranslate nohighlight">\(X\)</span> does not give <span class="math notranslate nohighlight">\(P(X = x)\)</span> but it does determine the probability that <span class="math notranslate nohighlight">\(X\)</span> is in a certain range. Specifically,</p>
+<p>For a continuous random variable (one that can take on infinitely many values), the density function is called the <strong>probability density function (PDF)</strong>. The PDF <span class="math notranslate nohighlight">\(f_X(x)\)</span> of a continuous random variable <span class="math notranslate nohighlight">\(X\)</span> does not give <span class="math notranslate nohighlight">\(P(X = x)\)</span> but it does determine the probability that <span class="math notranslate nohighlight">\(X\)</span> lands in a certain range. Specifically,</p>
 <div class="math notranslate nohighlight">
 \[
 P(a \leq X \leq b) = \int_{x = a}^b f(x) dx. 
@@ -308,11 +308,11 @@ P(a \leq X \leq b) = \int_{x = a}^b f(x) dx.
 </div>
 <div class="section" id="distributions">
 <h3>Distributions<a class="headerlink" href="#distributions" title="Permalink to this headline">¶</a></h3>
-<p>A random variable’s <strong>distribution</strong> is determined by its density function. Variables with the same density functions come from the same distributions. Certain families of distributions are very common in probability and machine learning. Two examples are given below.</p>
+<p>A random variable’s <strong>distribution</strong> is determined by its density function. Variables with the same density function are said to follow the same distributions. Certain families of distributions are very common in probability and machine learning. Two examples are given below.</p>
 <p>The <strong>Bernoulli</strong> distribution is the most simple probability distribution and it describes the likelihood of the outcomes of a binary event. Let <span class="math notranslate nohighlight">\(X\)</span> be a random variable that equals 1 (representing “success”) with probability <span class="math notranslate nohighlight">\(p\)</span> and 0 (representing “failure”) with probability <span class="math notranslate nohighlight">\(1-p\)</span>. Then, <span class="math notranslate nohighlight">\(X\)</span> is said to follow the Bernoulli distribution with probability parameter <span class="math notranslate nohighlight">\(p\)</span>, written <span class="math notranslate nohighlight">\(X \sim \text{Bern}(p)\)</span>, and its PMF is given by</p>
 <div class="math notranslate nohighlight">
 \[
-f(x) = p^x(1-p)^{(1-x)}.
+f_X(x) = p^x(1-p)^{(1-x)}.
 \]</div>
 <p>We can check to see that for any valid value <span class="math notranslate nohighlight">\(x\)</span> in the support of <span class="math notranslate nohighlight">\(X\)</span>—i.e., 1 or 0—, <span class="math notranslate nohighlight">\(f(x)\)</span> gives <span class="math notranslate nohighlight">\(P(X = x)\)</span>.</p>
 <p>The <strong>Normal</strong> distribution is extremely common and will be used throughout this book. A random variable <span class="math notranslate nohighlight">\(X\)</span> follows the Normal distribution with mean parameter <span class="math notranslate nohighlight">\(\mu \in \R\)</span> and variance parameter <span class="math notranslate nohighlight">\(\sigma^2 &gt; 0\)</span>, written <span class="math notranslate nohighlight">\(X \sim \mathcal{N}(\mu, \sigma^2)\)</span>, if its PDF is defined as</p>
@@ -320,7 +320,7 @@ f(x) = p^x(1-p)^{(1-x)}.
 \[
 f(x) = \frac{1}{\sqrt{2\pi\sigma^2}}e^{-\frac{(x-\mu)^2}{2\sigma^2}}.
 \]</div>
-<p>The density of a Normal random variable gives this distribution the name “the bell curve”, as shown below. Values closest to <span class="math notranslate nohighlight">\(\mu\)</span> are most likely and the density is symmetric around <span class="math notranslate nohighlight">\(\mu\)</span>.</p>
+<p>The shape of the Normal random variable’s density function gives this distribution the name “the bell curve”, as shown below. Values closest to <span class="math notranslate nohighlight">\(\mu\)</span> are most likely and the density is symmetric around <span class="math notranslate nohighlight">\(\mu\)</span>.</p>
 <p><img alt="normal" src="../../_images/normal.jpg" /></p>
 </div>
 <div class="section" id="independence">
@@ -335,7 +335,7 @@ P(X = x, Y =y) = P(X = x)P(Y = y),
 <p>To generalize this definition to continuous random variables, let’s first introduce <em>joint density function</em>. Quite simply, the joint density of two random variables <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span>, written <span class="math notranslate nohighlight">\(f_{X, Y}(x, y)\)</span> gives the probability density of <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span> evaluated simultaneously at <span class="math notranslate nohighlight">\(x\)</span> and <span class="math notranslate nohighlight">\(y\)</span>, respectively. We can then say that <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span> are independent if and only if</p>
 <div class="math notranslate nohighlight">
 \[
-f_{X, Y}(x, y) = f_X(x) f_Y(y)
+f_{X, Y}(x, y) = f_X(x) f_Y(y),
 \]</div>
 <p>for all <span class="math notranslate nohighlight">\(x\)</span> and <span class="math notranslate nohighlight">\(y\)</span>.</p>
 </div>
@@ -350,7 +350,7 @@ f_{X, Y}(x, y) = f_X(x) f_Y(y)
 <li><p>Find the value of the parameter that maximizes the log-likelihood (and therefore the likelihood as well) by setting its derivative equal to 0.</p></li>
 </ol>
 <p>Finding the value of the parameter to maximize the log-likelihood rather than the likelihood makes the math easier and gives us the same solution.</p>
-<p>Let’s go through an example. Suppose we are interested in calculating the average weight of a Chihuahua. We assume the weight of any given Chihuahua is <em>independently</em> distributed Normally with <span class="math notranslate nohighlight">\(\sigma^2 = 1\)</span> but an unknown mean <span class="math notranslate nohighlight">\(\mu\)</span>. So, we gather 10 Chihuahuas and weigh them. Let the <span class="math notranslate nohighlight">\(j^\text{th}\)</span> Chihuahua weight be given by <span class="math notranslate nohighlight">\(W_j \sim \mathcal{N}(\mu, 1)\)</span>.  For step 1, let’s calculate the probability density of our data (i.e., the 10 Chihuahua weights). Since the weights are assumed to be independent, the densities multiply. Letting <span class="math notranslate nohighlight">\(L(\mu)\)</span> be the likelihood of <span class="math notranslate nohighlight">\(\mu\)</span>, we have</p>
+<p>Let’s go through an example. Suppose we are interested in calculating the average weight of a Chihuahua. We assume the weight of any given Chihuahua is <em>independently</em> distributed Normally with <span class="math notranslate nohighlight">\(\sigma^2 = 1\)</span> but an unknown mean <span class="math notranslate nohighlight">\(\mu\)</span>. So, we gather 10 Chihuahuas and weigh them. Denote the <span class="math notranslate nohighlight">\(j^\text{th}\)</span> Chihuahua weight with <span class="math notranslate nohighlight">\(W_j \sim \mathcal{N}(\mu, 1)\)</span>.  For step 1, let’s calculate the probability density of our data (i.e., the 10 Chihuahua weights). Since the weights are assumed to be independent, the densities multiply. Letting <span class="math notranslate nohighlight">\(L(\mu)\)</span> be the likelihood of <span class="math notranslate nohighlight">\(\mu\)</span>, we have</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
 \begin{align}

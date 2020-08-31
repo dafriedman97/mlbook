@@ -36,7 +36,7 @@ $$
 $$
 
 
-where $g()$ is some differentiable function penalizing the difference between $y_n$ and $\hat{y}_n$. 
+where $g()$ is some differentiable function representing an observation's individual loss.
 
 To fit this generic model, we want to find the values of $\bbetahat$ that minimize $\mathcal{L}$. We will likely start with the following derivative:
 
@@ -61,13 +61,13 @@ Ideally, we can set the above derivative equal to 0 and solve for $\bbetahat$, g
 
 
 
-To understand this process intuitively, consider the image above showing a model's loss as a function of one parameter, $\beta$. Presumably we can't directly find the value of $\beta$ to minimize $\mathcal{L}$, so we might start by randomly picking a value of $\beta$. Suppose we start at point $A$. From point $A$ we ask "would the loss function decrease if I increased or decreased $\beta$". To answer this question, we calculate the derivative of $\mathcal{L}$ with respect to $\beta$ evaluated at $\beta = A$. Since this derivative is negative, we know that increasing $\beta$  some small amount will decrease the loss! 
+To understand this process intuitively, consider the image above showing a model's loss as a function of one parameter, $\beta$.  We start our search for the optimal $\beta$ by randomly picking a value. Suppose we start with $\beta$ at point $A$. From point $A$ we ask "would the loss function decrease if I increased or decreased $\beta$". To answer this question, we calculate the derivative of $\mathcal{L}$ with respect to $\beta$ evaluated at $\beta = A$. Since this derivative is negative, we know that increasing $\beta$ some small amount will decrease the loss.
 
-Now we know we want to increase $\beta$, but how much? Intuitively, the more negative the derivative, the more the loss will decrease with an increase in $\beta$. So, let's increase $\beta$ proportionally to the negative of the derivative. Letting $\delta$ be the derivative and $\eta$ be some small constant, we might increase $\beta$ with 
+Now we know we want to increase $\beta$, but how much? Intuitively, the more negative the derivative, the more the loss will decrease with an increase in $\beta$. So, let's increase $\beta$ by an amount proportional to the negative of the derivative. Letting $\delta$ be the derivative and $\eta$ be a small constant learning rate, we might increase $\beta$ with 
 
 
 $$
-\beta \gets \beta - \eta\delta. 
+\beta \gets \beta - \eta\delta.
 $$
 
 
@@ -105,23 +105,23 @@ As a simple example of gradient descent in action, let's derive the ordinary lea
 
 
 $$
-\hat{y}_n = \bphi_n^\top \bbetahat,
+\hat{y}_n = \bx_n^\top \bbetahat,
 $$
 
 
-where $\bphi_n$ is a vector of predictors appended with a leading 1 and $\bbetahat$ is a vector of coefficients. The OLS loss function is defined with 
+where $\bx_n$ is a vector of predictors appended with a leading 1 and $\bbetahat$ is a vector of coefficients. The OLS loss function is defined with 
 
 
 $$
-\mathcal{L}(\bbetahat) = \frac{1}{2}\sumN(y_n - \hat{y}_n)^2 = \frac{1}{2}\sumN (y_n - \bphi^\top_n \bbetahat)^2.
+\mathcal{L}(\bbetahat) = \frac{1}{2}\sumN(y_n - \hat{y}_n)^2 = \frac{1}{2}\sumN (y_n - \bx^\top_n \bbetahat)^2.
 $$
 
 
-Let's review the process of minimizing this loss function with gradient descent. After choosing $\eta$ and randomly instantiating $\bbetahat$, we iteratively calculate the loss function's gradient:
+After choosing $\eta$ and randomly instantiating $\bbetahat$, we iteratively calculate the loss function's gradient:
 
 
 $$
-\boldsymbol{\delta} = \dadb{\mathcal{L}(\bbetahat)}{\bbetahat} =  -\sumN(y_n - \bphi^\top_n \bbetahat)\cdot\bphi_n^\top,
+\boldsymbol{\delta} = \dadb{\mathcal{L}(\bbetahat)}{\bbetahat} =  -\sumN(y_n - \bx^\top_n \bbetahat)\cdot\bphi_n^\top,
 $$
 
 
@@ -133,7 +133,7 @@ $$
 $$
 
 
-This is accomplished with the following code. Note that we can also calculate $\boldsymbol{\delta} = -\bPhi^\top(\by - \hat{\by})$, where $\bPhi$ is the {doc}`feature matrix </content/conventions_notation>`, $\by$ is the vector of targets, and $\hat{\by}$ is the vector of fitted values. 
+This is accomplished with the following code. Note that we can also calculate $\boldsymbol{\delta} = -\bX^\top(\by - \hat{\by})$, where $\bX$ is the {doc}`feature matrix </content/conventions_notation>`, $\by$ is the vector of targets, and $\hat{\by}$ is the vector of fitted values. 
 
 
 
@@ -164,21 +164,21 @@ def OLS_GD(X, y, eta = 1e-3, n_iter = 1e4, add_intercept = True):
 
 ## 2. Cross Validation
 
-Several of the models covered in this book require *hyperparameters* to be chosen exogenously—i.e. before the model is fit. The value of these hyperparameters affects the quality of the fit. So how can we choose these values without fitting a model? The most common answer is cross validation.
+Several of the models covered in this book require *hyperparameters* to be chosen exogenously (i.e. before the model is fit). The value of these hyperparameters affects the quality of the model's fit. So how can we choose these values without fitting a model? The most common answer is cross validation.
 
 Suppose we are deciding between several values of a hyperparameter, resulting in multiple competing models. One way to choose our model would be to split our data into a *training* set and a *validation* set, build each model on the training set, and see which performs better on the validation set. By splitting the data into training and validation, we avoid evaluating a model based on its in-sample performance. 
 
 The obvious problem with this set-up is that we are comparing the performance of models on just *one* dataset. Instead, we might choose between competing models with **K-fold cross validation**, outlined below.
 
 1. Split the original dataset into $K$ *folds* or subsets.
-2. For $k = 1, \dots, K$, treat fold $k$ as the validation set. Train each competing model on the other $K-1$ folds and evaluate it on the $k^\text{th}$.
+2. For $k = 1, \dots, K$, treat fold $k$ as the validation set. Train each competing model on the data from the other $K-1$ folds and evaluate it on the data from the $k^\text{th}$.
 3. Select the model with the best average validation performance. 
 
 
 
 As an example, let's use cross validation to choose a penalty value for a {doc}`Ridge regression </content/c2/s1/regularized>` model, discussed in chapter 2. This model constrains the magnitude of the regression coefficients; the higher the penalty term, the more the coefficients are constrained. 
 
-The example below uses the `Ridge` class from `scikit-learn`, which defines the penalty term with the `alpha` argument. We will use the {doc}`boston housing </content/appendix/data>` dataset. 
+The example below uses the `Ridge` class from `scikit-learn`, which defines the penalty term with the `alpha` argument. We will use the {doc}`Boston housing </content/appendix/data>` dataset. 
 
 ```python
 ## Import packages 
