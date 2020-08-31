@@ -56,7 +56,7 @@ Finally, the following mathematical and notational conventions are used.
 
 - Unless indicated otherwise, all vectors are assumed to be column vectors. Since feature vectors (such as $\bx_n$ and $\bphi_n$ above) are entered into data frames as rows, they will sometimes be treated as row vectors, even outside of data frames.
 
-- Matrix or vector derivatives, covered in the {doc}`math appendix </content/appendix/math>`, will use the numerator [layout convention](https://en.wikipedia.org/wiki/Matrix_calculus#Layout_conventions). Under this convention, the derivative $\partial\by/\partial\bx$ is written as 
+- Matrix or vector derivatives, covered in the {doc}`math appendix </content/appendix/math>`, will use the numerator [layout convention](https://en.wikipedia.org/wiki/Matrix_calculus#Layout_conventions). Let $\by \in \R^a$ and $\bx \in \R^b$; under this convention, the derivative $\partial\by/\partial\bx$ is written as 
   
 $$
   \dadb{\by}{\bx} = \begin{pmatrix}
@@ -64,10 +64,10 @@ $$
   \dadb{y_2}{x_1} &  ... & \dadb{y_2}{x_b} \\
   &  ... & \\
   \dadb{y_a}{x_1} & ... & \dadb{y_a}{x_b} \\
-  \end{pmatrix},
+  \end{pmatrix}.
   $$
-  
-  for $\by \in \R^a$ and $\bx \in \R^b$. 
-  
+
+
+
 - The likelihood of a parameter $\theta$ given data $\{x_n\}_{n = 1}^N$ is represented by $\mathcal{L}\left(\theta; \{x_n\}_{n = 1}^N\right)$. If we are considering the data to be random (i.e. not yet observed), it will be written as $\{X_n\}_{n = 1}^N$. If the data in consideration is obvious, we may write the likelihood as just $\mathcal{L}(\theta)$. 
 

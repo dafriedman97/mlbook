@@ -295,7 +295,7 @@
 <ul class="simple">
 <li><p>Scalar values will be non-boldface and lowercase, random variables will be non-boldface and uppercase, vectors will be bold and lowercase, and matrices will be bold and uppercase. E.g. <span class="math notranslate nohighlight">\(b\)</span> is a scalar, <span class="math notranslate nohighlight">\(B\)</span> a random variable, <span class="math notranslate nohighlight">\(\mathbf{b}\)</span> a vector, and <span class="math notranslate nohighlight">\(\mathbf{B}\)</span> a matrix.</p></li>
 <li><p>Unless indicated otherwise, all vectors are assumed to be column vectors. Since feature vectors (such as <span class="math notranslate nohighlight">\(\bx_n\)</span> and <span class="math notranslate nohighlight">\(\bphi_n\)</span> above) are entered into data frames as rows, they will sometimes be treated as row vectors, even outside of data frames.</p></li>
-<li><p>Matrix or vector derivatives, covered in the <a class="reference internal" href="appendix/math.html"><span class="doc">math appendix</span></a>, will use the numerator <a class="reference external" href="https://en.wikipedia.org/wiki/Matrix_calculus#Layout_conventions">layout convention</a>. Under this convention, the derivative <span class="math notranslate nohighlight">\(\partial\by/\partial\bx\)</span> is written as</p></li>
+<li><p>Matrix or vector derivatives, covered in the <a class="reference internal" href="appendix/math.html"><span class="doc">math appendix</span></a>, will use the numerator <a class="reference external" href="https://en.wikipedia.org/wiki/Matrix_calculus#Layout_conventions">layout convention</a>. Let <span class="math notranslate nohighlight">\(\by \in \R^a\)</span> and <span class="math notranslate nohighlight">\(\bx \in \R^b\)</span>; under this convention, the derivative <span class="math notranslate nohighlight">\(\partial\by/\partial\bx\)</span> is written as</p></li>
 </ul>
 <div class="math notranslate nohighlight">
 \[\begin{split}
@@ -304,9 +304,8 @@
   \dadb{y_2}{x_1} &amp;  ... &amp; \dadb{y_2}{x_b} \\
   &amp;  ... &amp; \\
   \dadb{y_a}{x_1} &amp; ... &amp; \dadb{y_a}{x_b} \\
-  \end{pmatrix},
+  \end{pmatrix}.
   \end{split}\]</div>
-<p>for <span class="math notranslate nohighlight">\(\by \in \R^a\)</span> and <span class="math notranslate nohighlight">\(\bx \in \R^b\)</span>.</p>
 <ul class="simple">
 <li><p>The likelihood of a parameter <span class="math notranslate nohighlight">\(\theta\)</span> given data <span class="math notranslate nohighlight">\(\{x_n\}_{n = 1}^N\)</span> is represented by <span class="math notranslate nohighlight">\(\mathcal{L}\left(\theta; \{x_n\}_{n = 1}^N\right)\)</span>. If we are considering the data to be random (i.e. not yet observed), it will be written as <span class="math notranslate nohighlight">\(\{X_n\}_{n = 1}^N\)</span>. If the data in consideration is obvious, we may write the likelihood as just <span class="math notranslate nohighlight">\(\mathcal{L}(\theta)\)</span>.</p></li>
 </ul>
