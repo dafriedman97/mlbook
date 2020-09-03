@@ -1,7 +1,7 @@
 # Book settings
-title: 
+title: Machine Learning from Scratch
 author: Danny Friedman
-logo: titlelogo.png
+logo: logo.png
 
 latex:
   latex_documents:
@@ -11,17 +11,21 @@ execute:
   execute_notebooks         : 'off'
 
 repository: 
-  url: https://github.com/dafriedman97/book
+  url: https://github.com/dafriedman97/mlbook
+
 
 html:
   favicon: logo.png
   home_page_in_navbar: false
   use_edit_page_button: true
+  use_issues_button: true
+  use_repository_button: true
 
-exclude_patterns: ["FLD_graphs.ipynb"]
+
+exclude_patterns: ["graphs","TODOs.md","temp/treecode.ipynb","content/c6/s2/classification_tree.ipynb","content/c6/s2/regression_tree.ipynb","content/c7/nnmatrix","temp/boosting-Copy2.ipynb", "temp/boosting-Copy1.ipynb"]
 
 sphinx:
-  extra_extensions          : ""
+  extra_extensions          : 
   config                    :
     mathjax_config          :
       TeX                   :
@@ -44,6 +48,5 @@ sphinx:
           "iid"             : "\\overset{\\small{\\text{i.i.d.}}}{\\sim}}"
           "dadb"            : ["{\\frac{\\partial #1}{\\partial #2}}",2]
           "testing"         : "\\TeX"
+          "R"               : "\\mathbb{R}"
 
-
-theme: jekyll-theme-time-machine

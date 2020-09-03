@@ -1,105 +1,89 @@
-- file: content/introduction
-- file: content/table_of_contents
-- file: content/TODOs
+- file: content/introduction.md
 
-###################
-#### Chapter 1 ####
-###################
-- header: 1. Ordinary Linear Regression
-- file: content/c1/concept
-  sections:
-    - file: content/c1/s1/loss_minimization
-    - file: content/c1/s1/likelihood_maximization
-- file: content/c1/construction
-- file: content/c1/code
+- part: Introduction
+  chapters:
+  - file: content/table_of_contents
+  - file: content/conventions_notation
 
-###################
-#### Chapter 2 ####
-###################
-- header: 2. Linear Regression Extensions
-- file: content/c2/concept
-  sections:
-    - file: content/c2/s1/regularized
-    - file: content/c2/s1/bayesian
-    - file: content/c2/s1/GLMs
-- file: content/c2/construction
-  sections:
-    - file: content/c2/s2/regularized
-    - file: content/c2/s2/bayesian
-    - file: content/c2/s2/GLMs
-- file: content/c2/code
+- part: 1. Ordinary Linear Regression
+  chapters: 
+  - file: content/c1/concept
+    sections:
+      - file: content/c1/s1/loss_minimization
+      - file: content/c1/s1/likelihood_maximization
+  - file: content/c1/construction
+  - file: content/c1/code
 
-###################
-#### Chapter 3 ####
-###################
-- header: 3. Discriminative Classifiers (Logistic Regression)
-- file: content/c3/concept
-  sections:
-    - file: content/c3/s1/logistic_regression
-    - file: content/c3/s1/perceptron
-    - file: content/c3/s1/fisher_discriminant
-- file: content/c3/construction
-  sections:
-    - file: content/c3/s2/logistic_regression
-    - file: content/c3/s2/perceptron
-    - file: content/c3/s2/fisher_discriminant
-- file: content/c3/code 
+- part: 2. Linear Regression Extensions
+  chapters:
+  - file: content/c2/concept
+    sections:
+      - file: content/c2/s1/regularized
+      - file: content/c2/s1/bayesian
+      - file: content/c2/s1/GLMs
+  - file: content/c2/construction
+    sections:
+      - file: content/c2/s2/regularized
+      - file: content/c2/s2/bayesian
+      - file: content/c2/s2/GLMs
+  - file: content/c2/code
 
-###################
-#### Chapter 4 ####
-###################
-- header: 4. Generative Classifiers (Naive Bayes)
-- file: content/c4/concept
-- file: content/c4/construction
-- file: content/c4/code 
 
-###################
-#### Chapter 5 ####
-###################
-- header: 5. Decision Trees
-- file: content/c5/concept
-- file: content/c5/construction
-- file: content/c5/code 
+- part: 3. Discriminative Classifiers (Logistic Regression)
+  chapters:
+  - file: content/c3/concept
+    sections:
+      - file: content/c3/s1/logistic_regression
+      - file: content/c3/s1/perceptron
+      - file: content/c3/s1/fisher_discriminant
+  - file: content/c3/construction
+    sections:
+      - file: content/c3/s2/logistic_regression
+      - file: content/c3/s2/perceptron
+      - file: content/c3/s2/fisher_discriminant
+  - file: content/c3/code 
 
-###################
-#### Chapter 6 ####
-###################
-- header: 6. Tree Ensemble Methods
-- file: content/c6/concept
-- file: content/c6/construction
-- file: content/c6/code 
+- part: 4. Generative Classifiers (Naive Bayes)
+  chapters:
+  - file: content/c4/concept
+  - file: content/c4/construction
+  - file: content/c4/code 
 
-###################
-#### Chapter 7 ####
-###################
-- header: 7. Neural Networks
-- file: content/c7/concept
-- file: content/c7/construction
-- file: content/c7/code 
+- part: 5. Decision Trees
+  chapters:
+  - file: content/c5/concept
+    sections:
+      - file: content/c5/s1/regression_tree
+      - file: content/c5/s1/classification_tree
+  - file: content/c5/construction
+    sections:
+      - file: content/c5/s2/regression_tree
+      - file: content/c5/s2/classification_tree
+  - file: content/c5/code 
 
-###################
-#### Chapter 8 ####
-###################
-- header: 8. Unsupervised Learning
-- file: content/c8/concept
-- file: content/c8/construction
-- file: content/c8/code 
+- part: 6. Tree Ensemble Methods
+  chapters:
+  - file: content/c6/concept
+    sections:
+      - file: content/c6/s1/bagging
+      - file: content/c6/s1/random_forests
+      - file: content/c6/s1/boosting
+  - file: content/c6/construction
+    sections:
+      - file: content/c6/s2/bagging
+      - file: content/c6/s2/random_forests
+      - file: content/c6/s2/boosting
+  - file: content/c6/code 
 
-###################
-#### Chapter 9 ####
-###################
-- header: 9. Common ML Methods
-- file: content/c9/concept
-  sections:
-    - file: content/c9/s1/cross_validation
-    - file: content/c9/s1/gradient_descent
-- file: content/c9/construction
-- file: content/c9/code
+- part: 7. Neural Networks
+  chapters:
+  - file: content/c7/concept
+  - file: content/c7/construction
+  - file: content/c7/code 
 
-###################
-#### Appendix ####
-###################
-- header: Appendix
-- file: content/appendix/math
-- file: content/appendix/probability
-- file: content/appendix/data
+- part: Appendix
+  chapters: 
+  - file: content/appendix/math
+  - file: content/appendix/probability
+  - file: content/appendix/methods
+  - file: content/appendix/data
