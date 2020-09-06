@@ -84,7 +84,7 @@ In a feed-forward neural network, each neuron in $\super{\bz}{b}$ is a function 
 $$
 \begin{align*}
 \super{h}{b}_i &= \bw_i^\top\super{\bz}{a} + c_i  \\
-\super{z}{b}_i &= f(h_i),
+\super{z}{b}_i &= f(\super{h}{b}_i),
 \end{align*}
 $$
 
