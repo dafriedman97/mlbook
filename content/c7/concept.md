@@ -249,6 +249,14 @@ $$
 
 
 
+
+
+![](/content/c7/sigmoid derivative4.png)
+
+
+
+
+
 #### The Linear Activation Function 
 
 Another possible activation function is the "linear" activation function, which is the same as skipping the activation function altogether. The linear activation function simply returns its input. It is defined with 
