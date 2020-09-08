@@ -13,7 +13,8 @@
     <link rel="stylesheet" type="text/css" href="../../../_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/jupyter-sphinx.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-dropdown.css" />
     <script id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
     <script src="../../../_static/sphinx-book-theme.js"></script>
     <script src="../../../_static/jquery.js"></script>
@@ -23,13 +24,17 @@
     <script src="../../../_static/togglebutton.js"></script>
     <script src="../../../_static/clipboard.min.js"></script>
     <script src="../../../_static/copybutton.js"></script>
-    <script src="../../../_static/mystnb.js"></script>
     <script src="../../../_static/sphinx-book-theme.js"></script>
-    <script >var togglebuttonSelector = '.toggle, .secondtoggle, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.18.0/dist/embed-amd.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
     <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <script type="text/x-mathjax-config">MathJax.Hub.Config({"TeX": {"Macros": {"sumN": "\\sum_{n = 1}^N", "sumn": "\\sum_{n}", "prodN": "\\prod_{n = 1}^N", "bx": "\\mathbf{x}", "by": "\\mathbf{y}", "bX": "\\mathbf{X}", "bY": "\\mathbf{Y}", "bT": "\\mathbf{T}", "bbeta": "\\boldsymbol{\\beta}", "btheta": "\\boldsymbol{\\hat{\\theta}}}", "bmu": "\\boldsymbol{\\mu}", "bSigma": "\\boldsymbol{\\Sigma}", "bbetahat": "\\boldsymbol{\\hat{\\beta}}", "bbR": "\\mathbb{R}", "iid": "\\overset{\\small{\\text{i.i.d.}}}{\\sim}}", "dadb": ["{\\frac{\\partial #1}{\\partial #2}}", 2], "testing": "\\TeX", "R": "\\mathbb{R}"}}})</script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"TeX": {"Macros": {"sumN": "\\sum_{n = 1}^N", "sumn": "\\sum_{n}", "prodN": "\\prod_{n = 1}^N", "bx": "\\mathbf{x}", "by": "\\mathbf{y}", "bX": "\\mathbf{X}", "bY": "\\mathbf{Y}", "bT": "\\mathbf{T}", "bbeta": "\\boldsymbol{\\beta}", "btheta": "\\boldsymbol{\\hat{\\theta}}}", "bmu": "\\boldsymbol{\\mu}", "bSigma": "\\boldsymbol{\\Sigma}", "bbetahat": "\\boldsymbol{\\hat{\\beta}}", "bbR": "\\mathbb{R}", "iid": "\\overset{\\small{\\text{i.i.d.}}}{\\sim}}", "dadb": ["{\\frac{\\partial #1}{\\partial #2}}", 2], "testing": "\\TeX", "R": "\\mathbb{R}"}}, "tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
+    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="../../../_static/sphinx-thebe.js"></script>
     <link rel="shortcut icon" href="../../../_static/logo.png"/>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
@@ -67,125 +72,222 @@
 </form>
 
 <nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
-  
-  <ul class="nav sidenav_l1">
-  <li class="">
-    <a href="../../table_of_contents.html">Table of Contents</a>
-  </li>
-  <li class="">
-    <a href="../../conventions_notation.html">Conventions and Notation</a>
-  </li>
-<li class="navbar-special">
-<p class="margin-caption">1. Ordinary Linear Regression</p>
-</li>
-  <li class="">
-    <a href="../../c1/concept.html">Concept</a>
-  </li>
-  <li class="">
-    <a href="../../c1/construction.html">Construction</a>
-  </li>
-  <li class="">
-    <a href="../../c1/code.html">Implementation</a>
-  </li>
-<li class="navbar-special">
-<p class="margin-caption">2. Linear Regression Extensions</p>
-</li>
-  <li class="">
-    <a href="../../c2/concept.html">Concept</a>
-  </li>
-  <li class="">
-    <a href="../../c2/construction.html">Construction</a>
-  </li>
-  <li class="">
-    <a href="../../c2/code.html">Implementation</a>
-  </li>
-<li class="navbar-special">
-<p class="margin-caption">3. Discriminative Classifiers (Logistic Regression)</p>
-</li>
-  <li class="">
-    <a href="../../c3/concept.html">Concept</a>
-  </li>
-  <li class="">
-    <a href="../../c3/construction.html">Construction</a>
-  </li>
-  <li class="">
-    <a href="../../c3/code.html">Implementation</a>
-  </li>
-<li class="navbar-special">
-<p class="margin-caption">4. Generative Classifiers (Naive Bayes)</p>
-</li>
-  <li class="">
-    <a href="../../c4/concept.html">Concept</a>
-  </li>
-  <li class="">
-    <a href="../../c4/construction.html">Construction</a>
-  </li>
-  <li class="">
-    <a href="../../c4/code.html">Implementation</a>
-  </li>
-<li class="navbar-special">
-<p class="margin-caption">5. Decision Trees</p>
-</li>
-  <li class="">
-    <a href="../../c5/concept.html">Concept</a>
-  </li>
-  <li class="">
-    <a href="../../c5/construction.html">Construction</a>
-  </li>
-  <li class="">
-    <a href="../../c5/code.html">Implementation</a>
-  </li>
-<li class="navbar-special">
-<p class="margin-caption">6. Tree Ensemble Methods</p>
-</li>
-  <li class="">
-    <a href="../concept.html">Concept</a>
-  </li>
-  <li class="active">
-    <a href="../construction.html">Construction</a>
-  <ul class="nav sidenav_l2">
-    <li class="">
-      <a href="bagging.html">Bagging</a>
-    </li>
-    <li class="">
-      <a href="random_forests.html">Random Forests</a>
-    </li>
-    <li class="active">
-      <a href="">Boosting</a>
-    </li>
-  </ul>
-  </li>
-  <li class="">
-    <a href="../code.html">Implementation</a>
-  </li>
-<li class="navbar-special">
-<p class="margin-caption">7. Neural Networks</p>
-</li>
-  <li class="">
-    <a href="../../c7/concept.html">Concept</a>
-  </li>
-  <li class="">
-    <a href="../../c7/construction.html">Construction</a>
-  </li>
-  <li class="">
-    <a href="../../c7/code.html">Implementation</a>
-  </li>
-<li class="navbar-special">
-<p class="margin-caption">Appendix</p>
-</li>
-  <li class="">
-    <a href="../../appendix/math.html">Math</a>
-  </li>
-  <li class="">
-    <a href="../../appendix/probability.html">Probability</a>
-  </li>
-  <li class="">
-    <a href="../../appendix/methods.html">Common Methods</a>
-  </li>
-  <li class="">
-    <a href="../../appendix/data.html">Datasets</a>
-  </li>
+  <p class="caption">
+ <span class="caption-text">
+  Introduction
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../table_of_contents.html">
+   Table of Contents
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../conventions_notation.html">
+   Conventions and Notation
+  </a>
+ </li>
 </ul>
+<p class="caption">
+ <span class="caption-text">
+  1. Ordinary Linear Regression
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../c1/concept.html">
+   Concept
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../c1/construction.html">
+   Construction
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../c1/code.html">
+   Implementation
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  2. Linear Regression Extensions
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../c2/concept.html">
+   Concept
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../c2/construction.html">
+   Construction
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../c2/code.html">
+   Implementation
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  3. Discriminative Classifiers (Logistic Regression)
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../c3/concept.html">
+   Concept
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../c3/construction.html">
+   Construction
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../c3/code.html">
+   Implementation
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  4. Generative Classifiers (Naive Bayes)
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../c4/concept.html">
+   Concept
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../c4/construction.html">
+   Construction
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../c4/code.html">
+   Implementation
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  5. Decision Trees
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../c5/concept.html">
+   Concept
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../c5/construction.html">
+   Construction
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../c5/code.html">
+   Implementation
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  6. Tree Ensemble Methods
+ </span>
+</p>
+<ul class="current nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../concept.html">
+   Concept
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="reference internal" href="../construction.html">
+   Construction
+  </a>
+  <ul class="current">
+   <li class="toctree-l2">
+    <a class="reference internal" href="bagging.html">
+     Bagging
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="random_forests.html">
+     Random Forests
+    </a>
+   </li>
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
+     Boosting
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../code.html">
+   Implementation
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  7. Neural Networks
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../c7/concept.html">
+   Concept
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../c7/construction.html">
+   Construction
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../c7/code.html">
+   Implementation
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  Appendix
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../appendix/math.html">
+   Math
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../appendix/probability.html">
+   Probability
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../appendix/methods.html">
+   Common Methods
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../appendix/data.html">
+   Datasets
+  </a>
+ </li>
+</ul>
+
 </nav>
 
  <!-- To handle the deprecated key -->
@@ -208,74 +310,105 @@
     </div>
     <div class="col pl-2 topbar-main">
         
-        <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse" data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu" aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation" title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+        <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+            data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+            aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+            title="Toggle navigation" data-toggle="tooltip" data-placement="left">
             <i class="fas fa-bars"></i>
             <i class="fas fa-arrow-left"></i>
             <i class="fas fa-arrow-up"></i>
         </button>
         
         <div class="dropdown-buttons-trigger">
-            <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i class="fas fa-download"></i></button>
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
 
-            
-            <div class="dropdown-buttons">
-                <!-- ipynb file if we had a myst markdown file -->
-                
-                <!-- Download raw file -->
-                <a class="dropdown-buttons" href="../../../_sources/content/c6/s2/boosting.ipynb.txt"><button type="button" class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip" data-placement="left">.ipynb</button></a>
-                <!-- Download PDF via print -->
-                <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF" onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
-            </div>
-            
-        </div>
+    
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../../../_sources/content/c6/s2/boosting.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+    
+</div>
+        <!-- Source interaction buttons -->
 
-        <!-- Edit this page -->
-        <a class="edit-button" href="https://github.com/dafriedman97/mlbook/edit/master/content/c6/s2/boosting.ipynb"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="bottom" title="Edit this page"><i class="fas fa-pencil-alt"></i></button></a>
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/dafriedman97/mlbook"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/dafriedman97/mlbook/issues/new?title=Issue%20on%20page%20%2Fcontent/c6/s2/boosting.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        <a class="edit-button" href="https://github.com/dafriedman97/mlbook/edit/master/content/c6/s2/boosting.ipynb"><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
+    </div>
+</div>
+
 
         <!-- Full screen (wrap in <a> to have style consistency -->
-        <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="bottom" onclick="toggleFullScreen()" title="Fullscreen mode"><i class="fas fa-expand"></i></button></a>
+        <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+                data-placement="bottom" onclick="toggleFullScreen()" title="Fullscreen mode"><i
+                    class="fas fa-expand"></i></button></a>
 
         <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
         
-        <div class="dropdown-buttons-trigger">
-            <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
-            <div class="dropdown-buttons">
-                
-                <a class="binder-button" href="https://mybinder.org/v2/gh/dafriedman97/mlbook/master?urlpath=tree/content/c6/s2/boosting.ipynb"><button type="button" class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip" data-placement="left"><img class="binder-button-logo" src="../../../_static/images/logo_binder.svg" alt="Interact on binder">Binder</button></a>
-                
-                
-                
-            </div>
-        </div>
+        <a class="binder-button" href="https://mybinder.org/v2/gh/dafriedman97/mlbook/master?urlpath=tree/content/c6/s2/boosting.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="../../../_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        <a class="colab-button" href="https://colab.research.google.com/github/dafriedman97/mlbook/blob/master/content/c6/s2/boosting.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
+                title="Launch Colab" data-toggle="tooltip" data-placement="left"><img class="colab-button-logo"
+                    src="../../../_static/images/logo_colab.png"
+                    alt="Interact on Colab">Colab</button></a>
+        
         
     </div>
+</div>
+
+    </div>
+
+    <!-- Table of contents -->
     <div class="d-none d-md-block col-md-2 bd-toc show">
-<div class="tocsection onthispage pt-5 pb-3">
-    <i class="fas fa-list"></i> On this page
-</div>
+        <div class="tocsection onthispage pt-5 pb-3">
+            <i class="fas fa-list"></i> Contents
+        </div>
+        <nav id="bd-toc-nav">
+            <ul class="nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#classification-with-adaboost">
+   1. Classification with AdaBoost
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#regression-with-adaboost-r2">
+   2. Regression with AdaBoost.R2
+  </a>
+ </li>
+</ul>
 
-<nav id="bd-toc-nav">
-    <ul class="nav section-nav flex-column">
-    
-        <li class="nav-item toc-entry toc-h2">
-            <a href="#classification-with-adaboost" class="nav-link">1. Classification with AdaBoost</a>
-        </li>
-    
-        <li class="nav-item toc-entry toc-h2">
-            <a href="#regression-with-adaboost-r2" class="nav-link">2. Regression with AdaBoost.R2</a>
-        </li>
-    
-    </ul>
-</nav>
-
-
-
-<div class="tocsection editthispage">
-    <a href="https://github.com/dafriedman97/mlbook/edit/master/content/c6/s2/boosting.ipynb">
-        <i class="fas fa-pencil-alt"></i> Edit this page
-    </a>
-</div>
-
+        </nav>
     </div>
 </div>
     <div id="main-content" class="row">
@@ -288,7 +421,7 @@
 <p>In this section, we will construct a boosting classifier with the <code class="docutils literal notranslate"><span class="pre">AdaBoost</span></code> algorithm and a boosting regressor with the <code class="docutils literal notranslate"><span class="pre">AdaBoost.R2</span></code> algorithm. These algorithms can use a variety of weak learners but we will use decision tree classifiers and regressors, constructed in <a class="reference internal" href="../../c5/concept.html"><span class="doc">Chapter 5</span></a>.</p>
 <div class="cell tag_remove-output docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">## Import decision trees</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Import decision trees</span>
 <span class="kn">import</span> <span class="nn">import_ipynb</span>
 <span class="kn">import</span> <span class="nn">classification_tree</span> <span class="k">as</span> <span class="nn">ct</span><span class="p">;</span>
 
@@ -306,7 +439,7 @@
 <p>The following is a construction of the binary AdaBoost classifier introduced in the <a class="reference internal" href="../s1/boosting.html"><span class="doc">concept section</span></a>. Let’s again use the <a class="reference internal" href="../../appendix/data.html"><span class="doc">penguins</span></a> dataset from <code class="docutils literal notranslate"><span class="pre">seaborn</span></code>, but rather than predicting the penguin’s species (a multiclass problem), we’ll predict whether the species is <em>Adelie</em> (a binary problem). The data is loaded and split into train vs. test with the hidden code cell below.</p>
 <div class="cell tag_hide-input docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">## Load data</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Load data</span>
 <span class="n">penguins</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">load_dataset</span><span class="p">(</span><span class="s1">&#39;penguins&#39;</span><span class="p">)</span>
 <span class="n">penguins</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">inplace</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
 <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">penguins</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;species&#39;</span><span class="p">,</span> <span class="s1">&#39;island&#39;</span><span class="p">]))</span>
@@ -334,7 +467,7 @@
 <p>for each class <span class="math notranslate nohighlight">\(k\)</span>. The <code class="docutils literal notranslate"><span class="pre">gini_index()</span></code> and <code class="docutils literal notranslate"><span class="pre">cross_entropy()</span></code> functions then call this function and return the appropriate loss.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">## Loss Functions</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Loss Functions</span>
 <span class="k">def</span> <span class="nf">get_weighted_pmk</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">weights</span><span class="p">):</span>
     <span class="n">ks</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
     <span class="n">weighted_pmk</span> <span class="o">=</span> <span class="p">[</span><span class="nb">sum</span><span class="p">(</span><span class="n">weights</span><span class="p">[</span><span class="n">y</span> <span class="o">==</span> <span class="n">k</span><span class="p">])</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">ks</span><span class="p">]</span>      
@@ -357,7 +490,7 @@
 <p>In order to incorporate observation weights, we have to make slight adjustments to the <code class="docutils literal notranslate"><span class="pre">DecisionTreeClassifier</span></code> class. In the class we <a class="reference internal" href="../../c5/s2/classification_tree.html"><span class="doc">previously constructed</span></a>, the data from parent nodes was split and funneled anonymously to one of two child nodes. This alone will not allow us to incorporate weights. Instead, we need to also track the ID of each observation so we can track its weight. This is done with the <code class="docutils literal notranslate"><span class="pre">DecisionTreeClassifier</span></code> class defined in the hidden cell below, which is mostly a reconstruction of the class defined in Chapter 5.</p>
 <div class="cell tag_hide-input docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">## Helper Classes</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Helper Classes</span>
 <span class="k">class</span> <span class="nc">Node</span><span class="p">:</span>
     
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Xsub</span><span class="p">,</span> <span class="n">ysub</span><span class="p">,</span> <span class="n">observations</span><span class="p">,</span> <span class="n">ID</span><span class="p">,</span> <span class="n">depth</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">parent_ID</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">leaf</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
@@ -604,7 +737,7 @@
 <hr class="docutils" />
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">AdaBoost</span><span class="p">:</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">AdaBoost</span><span class="p">:</span>
     
     <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">stub_depth</span> <span class="o">=</span> <span class="mi">1</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">y_train</span> <span class="o">=</span> <span class="n">y_train</span>
@@ -652,7 +785,7 @@
 <p>The <code class="docutils literal notranslate"><span class="pre">AdaBoost</span></code> model is finally fit below. To train the model, we supply the training data as well as <code class="docutils literal notranslate"><span class="pre">T</span></code>—the number of weak learners—and <code class="docutils literal notranslate"><span class="pre">stub_depth</span></code>—the depth for each tree (our weak learner).</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">booster</span> <span class="o">=</span> <span class="n">AdaBoost</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">booster</span> <span class="o">=</span> <span class="n">AdaBoost</span><span class="p">()</span>
 <span class="n">booster</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">T</span> <span class="o">=</span> <span class="mi">30</span><span class="p">,</span> <span class="n">stub_depth</span> <span class="o">=</span> <span class="mi">3</span><span class="p">)</span>
 <span class="n">yhat</span> <span class="o">=</span> <span class="n">booster</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
 <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">yhat</span> <span class="o">==</span> <span class="n">y_test</span><span class="p">)</span>
@@ -660,7 +793,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>0.9759036144578314
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.9759036144578314
 </pre></div>
 </div>
 </div>
@@ -671,7 +804,7 @@
 <p>Next, let’s implement <em>AdaBoost.R2</em>, a common boosting algorithm for regression tasks. We’ll again use the <a class="reference internal" href="../../appendix/data.html"><span class="doc">tips</span></a> dataset from <code class="docutils literal notranslate"><span class="pre">seaborn</span></code>, loaded in the hidden code cell below.</p>
 <div class="cell tag_hide-input docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">## Import packages</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Import packages</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span> 
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
@@ -698,7 +831,7 @@
 <p>Since our boosting class will use regression trees for its weak learners, let’s also import the regression tree we constructed in <a class="reference internal" href="../../c5/s2/regression_tree.html"><span class="doc">Chapter 5</span></a>.</p>
 <div class="cell tag_remove-output docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">## Import decision trees</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Import decision trees</span>
 <span class="kn">import</span> <span class="nn">import_ipynb</span>
 <span class="kn">import</span> <span class="nn">regression_tree</span> <span class="k">as</span> <span class="nn">rt</span><span class="p">;</span>
 </pre></div>
@@ -708,7 +841,7 @@
 <p>Recall that the final fitted values in <em>AdaBoost.R2</em> are based on a weighted median. Let’s first make a helper function to return the weighted median.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">weighted_median</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="n">weights</span><span class="p">):</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">weighted_median</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="n">weights</span><span class="p">):</span>
     
     <span class="n">sorted_indices</span> <span class="o">=</span> <span class="n">values</span><span class="o">.</span><span class="n">argsort</span><span class="p">()</span>
     <span class="n">values</span> <span class="o">=</span> <span class="n">values</span><span class="p">[</span><span class="n">sorted_indices</span><span class="p">]</span>
@@ -761,7 +894,7 @@
 <hr class="docutils" />
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">AdaBoostR2</span><span class="p">:</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">AdaBoostR2</span><span class="p">:</span>
     
     <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">T</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span> <span class="n">stub_depth</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">random_state</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         
@@ -828,7 +961,7 @@
 <p>Again, we fit our booster by providing training data in addition to <code class="docutils literal notranslate"><span class="pre">T</span></code>—the number of weak learners—and <code class="docutils literal notranslate"><span class="pre">stub_depth</span></code>—the depth for our regression tree weak learners.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">booster</span> <span class="o">=</span> <span class="n">AdaBoostR2</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">booster</span> <span class="o">=</span> <span class="n">AdaBoostR2</span><span class="p">()</span>
 <span class="n">booster</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">T</span> <span class="o">=</span> <span class="mi">50</span><span class="p">,</span> <span class="n">stub_depth</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span> <span class="n">random_state</span> <span class="o">=</span> <span class="mi">123</span><span class="p">)</span>
 
 <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">7</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span>
@@ -845,6 +978,25 @@
 </div>
 </div>
 
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./content/c6/s2"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
 
               </div>
               
