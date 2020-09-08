@@ -1,0 +1,577 @@
+
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Math &#8212; Machine Learning from Scratch</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
+    <link href="../../_static/css/index.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../_static/sphinx-book-theme.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-dropdown.css" />
+    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/sphinx-book-theme.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../_static/togglebutton.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/sphinx-book-theme.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"TeX": {"Macros": {"sumN": "\\sum_{n = 1}^N", "sumn": "\\sum_{n}", "prodN": "\\prod_{n = 1}^N", "bx": "\\mathbf{x}", "by": "\\mathbf{y}", "bX": "\\mathbf{X}", "bY": "\\mathbf{Y}", "bT": "\\mathbf{T}", "bbeta": "\\boldsymbol{\\beta}", "btheta": "\\boldsymbol{\\hat{\\theta}}}", "bmu": "\\boldsymbol{\\mu}", "bSigma": "\\boldsymbol{\\Sigma}", "bbetahat": "\\boldsymbol{\\hat{\\beta}}", "bbR": "\\mathbb{R}", "iid": "\\overset{\\small{\\text{i.i.d.}}}{\\sim}}", "dadb": ["{\\frac{\\partial #1}{\\partial #2}}", 2], "testing": "\\TeX", "R": "\\mathbb{R}"}}, "tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
+    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <link rel="shortcut icon" href="../../_static/logo.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Probability" href="probability.html" />
+    <link rel="prev" title="Implementation" href="../c7/code.html" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="docsearch:language" content="en">
+
+
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+<a class="navbar-brand text-wrap" href="../../index.html">
+  
+  <img src="../../_static/logo.png" class="logo" alt="logo">
+  
+  
+  <h1 class="site-logo" id="site-title">Machine Learning from Scratch</h1>
+  
+</a>
+</div>
+
+<form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form>
+
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <p class="caption">
+ <span class="caption-text">
+  Introduction
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../table_of_contents.html">
+   Table of Contents
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../conventions_notation.html">
+   Conventions and Notation
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  1. Ordinary Linear Regression
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../c1/concept.html">
+   Concept
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../c1/construction.html">
+   Construction
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../c1/code.html">
+   Implementation
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  2. Linear Regression Extensions
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../c2/concept.html">
+   Concept
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../c2/construction.html">
+   Construction
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../c2/code.html">
+   Implementation
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  3. Discriminative Classifiers (Logistic Regression)
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../c3/concept.html">
+   Concept
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../c3/construction.html">
+   Construction
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../c3/code.html">
+   Implementation
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  4. Generative Classifiers (Naive Bayes)
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../c4/concept.html">
+   Concept
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../c4/construction.html">
+   Construction
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../c4/code.html">
+   Implementation
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  5. Decision Trees
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../c5/concept.html">
+   Concept
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../c5/construction.html">
+   Construction
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../c5/code.html">
+   Implementation
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  6. Tree Ensemble Methods
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../c6/concept.html">
+   Concept
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../c6/construction.html">
+   Construction
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../c6/code.html">
+   Implementation
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  7. Neural Networks
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../c7/concept.html">
+   Concept
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../c7/construction.html">
+   Construction
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../c7/code.html">
+   Implementation
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  Appendix
+ </span>
+</p>
+<ul class="current nav sidenav_l1">
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Math
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="probability.html">
+   Probability
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="methods.html">
+   Common Methods
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="data.html">
+   Datasets
+  </a>
+ </li>
+</ul>
+
+</nav>
+
+ <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="row topbar fixed-top container-xl">
+    <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show">
+    </div>
+    <div class="col pl-2 topbar-main">
+        
+        <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+            data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+            aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+            title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+            <i class="fas fa-bars"></i>
+            <i class="fas fa-arrow-left"></i>
+            <i class="fas fa-arrow-up"></i>
+        </button>
+        
+        <div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../../_sources/content/appendix/math.md"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.md</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+    
+</div>
+        <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/dafriedman97/mlbook"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/dafriedman97/mlbook/issues/new?title=Issue%20on%20page%20%2Fcontent/appendix/math.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        <a class="edit-button" href="https://github.com/dafriedman97/mlbook/edit/master/content/appendix/math.md"><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
+    </div>
+</div>
+
+
+        <!-- Full screen (wrap in <a> to have style consistency -->
+        <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+                data-placement="bottom" onclick="toggleFullScreen()" title="Fullscreen mode"><i
+                    class="fas fa-expand"></i></button></a>
+
+        <!-- Launch buttons -->
+
+    </div>
+
+    <!-- Table of contents -->
+    <div class="d-none d-md-block col-md-2 bd-toc show">
+        <div class="tocsection onthispage pt-5 pb-3">
+            <i class="fas fa-list"></i> Contents
+        </div>
+        <nav id="bd-toc-nav">
+            <ul class="nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#calculus">
+   Calculus
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#matrices">
+   Matrices
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#matrix-calculus">
+   Matrix Calculus
+  </a>
+ </li>
+</ul>
+
+        </nav>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="math">
+<h1>Math<a class="headerlink" href="#math" title="Permalink to this headline">¶</a></h1>
+<div class="math notranslate nohighlight">
+\[
+\newcommand{\sumN}{\sum_{n = 1}^N}
+\newcommand{\sumn}{\sum_n}
+\newcommand{\prodN}{\prod_{n = 1}^N}
+\newcommand{\by}{\mathbf{y}} \newcommand{\bX}{\mathbf{X}}
+\newcommand{\bx}{\mathbf{x}}
+\newcommand{\bu}{\mathbf{u}}
+\newcommand{\bv}{\mathbf{v}}
+\newcommand{\bbeta}{\boldsymbol{\beta}}
+\newcommand{\btheta}{\boldsymbol{\theta}}
+\newcommand{\bbetahat}{\boldsymbol{\hat{\beta}}}
+\newcommand{\bthetahat}{\boldsymbol{\hat{\theta}}}
+\newcommand{\bSigma}{\boldsymbol{\Sigma}}
+\newcommand{\bphi}{\boldsymbol{\phi}}
+\newcommand{\bPhi}{\boldsymbol{\Phi}}
+\newcommand{\bT}{\mathbf{T}}
+\newcommand{\dadb}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\iid}{\overset{\small{\text{i.i.d.}}}{\sim}}
+\]</div>
+<p>For a book on mathematical derivations, this text assumes knowledge of relatively few mathematical methods. Most of the mathematical background required is summarized in the three following sections on calculus, matrices, and matrix calculus.</p>
+<div class="section" id="calculus">
+<h2>Calculus<a class="headerlink" href="#calculus" title="Permalink to this headline">¶</a></h2>
+<p>The most important mathematical prerequisite for this book is calculus. Almost all of the methods covered involve minimizing a loss function or maximizing a likelihood function, done by taking the function’s derivative with respect to one or more parameters and setting it equal to 0.</p>
+<p>Let’s start by reviewing some of the most common derivatives used in this book:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+f(x) &amp;= x^a \rightarrow f'(x)  = ax^{a-1} \\
+f(x) &amp;= \exp(x) \rightarrow  f'(x)  = \exp(x) \\ 
+f(x) &amp;= \log(x) \rightarrow f'(x) = \frac{1}{x} \\
+f(x) &amp;= |x| \rightarrow f'(x) = \begin{cases} 1, &amp; x &gt; 0 \\ -1, &amp;  x &lt; 0,\end{cases} \\
+\end{align*}
+\end{split}\]</div>
+<p>We will also often use the sum, product, and quotient rules:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+f(x) &amp;= g(x) + h(x) \rightarrow f'(x) = g'(x) + h'(x) \\
+f(x) &amp;= g(x)\cdot h(x) \rightarrow f'(x)= g'(x)h(x) + g(x)h'(x)\\
+f(x) &amp;= g(x)/h(x) \rightarrow f'(x) = \frac{h(x)g'(x) + g(x)h'(x)}{h(x)^2}.
+\end{align*}
+\end{split}\]</div>
+<p>Finally, we will heavily rely on the chain rule:</p>
+<div class="math notranslate nohighlight">
+\[
+f(x) = g(h(x)) \rightarrow f'(x) = g'(h(x))h'(x).
+\]</div>
+</div>
+<div class="section" id="matrices">
+<h2>Matrices<a class="headerlink" href="#matrices" title="Permalink to this headline">¶</a></h2>
+<p>While little linear algebra is used in this book, matrix and vector representations of data are very common. The most important matrix and vector operations are reviewed below.</p>
+<p>Let <span class="math notranslate nohighlight">\(\mathbf{u}\)</span> and <span class="math notranslate nohighlight">\(\mathbf{v}\)</span> be two column vectors of length <span class="math notranslate nohighlight">\(D\)</span>. The <strong>dot product</strong> of <span class="math notranslate nohighlight">\(\mathbf{u}\)</span> and <span class="math notranslate nohighlight">\(\mathbf{v}\)</span> is a scalar value given by</p>
+<div class="math notranslate nohighlight">
+\[
+\mathbf{u} \cdot \mathbf{v} = \mathbf{u}^\top \mathbf{v} = \sum_{d = 1}^D u_d v_d = u_1v_1 + u_2v_2 + \dots + u_Dv_D.
+\]</div>
+<p>If <span class="math notranslate nohighlight">\(\bv\)</span> is a vector of features (with a leading 1 appended for the intercept term) and <span class="math notranslate nohighlight">\(\bu\)</span> is a vector of weights, this dot product is also referred to as a <em>linear combination</em> of the predictors in <span class="math notranslate nohighlight">\(\bv\)</span>.</p>
+<p>The <strong>L1 norm</strong> and <strong>L2 norm</strong> measure a vector’s magnitude. For a vector <span class="math notranslate nohighlight">\(\bu\)</span>, these are given respectively by</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align}
+||\bu||_1 &amp;= \sum_{d = 1}^D |u_d| \\
+||\bu||_2 &amp;= \sqrt{\sum_{d = 1}^D u_d^2}. \\
+\end{align}
+\end{split}\]</div>
+<p>Let <span class="math notranslate nohighlight">\(\mathbf{A}\)</span> be a <span class="math notranslate nohighlight">\((N \times D)\)</span> matrix defined as</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\mathbf{A} = \begin{pmatrix} A_{11} &amp; A_{12} &amp; ... &amp; A_{1D}  \\ 
+A_{21} &amp; A_{22} &amp; ... &amp; A_{2D} \\
+&amp; &amp; ... &amp; \\
+A_{N1} &amp; A_{N2} &amp; ... &amp; A_{ND} \end{pmatrix}
+\end{split}\]</div>
+<p>The transpose of <span class="math notranslate nohighlight">\(\mathbf{A}\)</span> is a <span class="math notranslate nohighlight">\((D \times N)\)</span> matrix given by</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\mathbf{A}^T = \begin{pmatrix} A_{11} &amp; A_{21} &amp; ... &amp; A_{N1} \\
+A_{12} &amp; A_{22} &amp; ... &amp; A_{N2} \\
+&amp; &amp; ... &amp; \\
+A_{1D} &amp; A_{2D} &amp; ... &amp; A_{ND} \end{pmatrix}
+\end{split}\]</div>
+<p>If <span class="math notranslate nohighlight">\(\mathbf{A}\)</span> is a square <span class="math notranslate nohighlight">\((N \times N)\)</span> matrix, its inverse, given by <span class="math notranslate nohighlight">\(\mathbf{A}^{-1}\)</span>, is the matrix such that</p>
+<div class="math notranslate nohighlight">
+\[
+\mathbf{A}\mathbf{A}^{-1} = \mathbf{A}^{-1}\mathbf{A} = I_N.
+\]</div>
+</div>
+<div class="section" id="matrix-calculus">
+<h2>Matrix Calculus<a class="headerlink" href="#matrix-calculus" title="Permalink to this headline">¶</a></h2>
+<p>Dealing with multiple parameters, multiple observations, and sometimes multiple loss functions, we will often have to take multiple derivatives at once in this book. This is done with matrix calculus.</p>
+<p>In this book, we will use the <a class="reference external" href="https://en.wikipedia.org/wiki/Matrix_calculus#Numerator-layout_notation">numerator layout</a> convention for matrix derivatives. This is most easily shown with examples. First, let <span class="math notranslate nohighlight">\(a\)</span> be a scalar and <span class="math notranslate nohighlight">\(\mathbf{u}\)</span> be a vector of length <span class="math notranslate nohighlight">\(I\)</span>. The derivative of <span class="math notranslate nohighlight">\(a\)</span> with respect to <span class="math notranslate nohighlight">\(\bu\)</span> is given by</p>
+<div class="math notranslate nohighlight">
+\[
+\dadb{a}{\mathbf{u}} = \begin{pmatrix} \dadb{a}{u_1} &amp; .. &amp; \dadb{a}{u_I}\end{pmatrix} \in \R^{I},
+\]</div>
+<p>and the derivative of <span class="math notranslate nohighlight">\(\bu\)</span> with respect to <span class="math notranslate nohighlight">\(a\)</span> is given by</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\dadb{\bu}{a} = \begin{pmatrix} \dadb{u_1}{a} \\ ... \\ \dadb{u_I}{a} \end{pmatrix} \R^I.
+\end{split}\]</div>
+<p>Note that in either case, the first dimension of the derivative is determined by what’s in the numerator. Similarly, letting <span class="math notranslate nohighlight">\(\bv\)</span> be a vector of length <span class="math notranslate nohighlight">\(J\)</span>, the derivative of <span class="math notranslate nohighlight">\(\bu\)</span> with respect to <span class="math notranslate nohighlight">\(\bv\)</span> is given with</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\dadb{\bu}{\bv} = \begin{pmatrix} \dadb{u_1}{v_1} &amp; ... &amp; \dadb{u_1}{v_J} \\ &amp; ... &amp; \\ \dadb{u_I}{v_1} &amp; ... &amp; \dadb{u_I}{v_J}\end{pmatrix} \in \R^{I \times J}.
+\end{split}\]</div>
+<p>We will also have to take derivatives of or with respect to matrices. Let <span class="math notranslate nohighlight">\(\bX\)</span> be a <span class="math notranslate nohighlight">\((N \times D)\)</span> matrix. The derivative of <span class="math notranslate nohighlight">\(\bX\)</span> with respect to a constant <span class="math notranslate nohighlight">\(a\)</span> is given by</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\dadb{\bX}{a} = \begin{pmatrix} \dadb{X_{11}}{a} &amp; ... &amp; \dadb{X_{1D}}{a} \\ &amp; ... &amp; \\ \dadb{X_{N1}}{a} &amp; ... &amp; \dadb{X_{ND}}{a}\end{pmatrix}  \in \R^{N \times D},
+\end{split}\]</div>
+<p>and conversely the derivative of <span class="math notranslate nohighlight">\(a\)</span> with respect to <span class="math notranslate nohighlight">\(\bX\)</span> is given by</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\dadb{a}{\bX} =  \begin{pmatrix} \dadb{a}{X_{11}} &amp; ... &amp; \dadb{a}{X_{1D}} \\ &amp; ... &amp; \\ \dadb{a}{X_{N1}} &amp; ... &amp; \dadb{a}{X_{ND}} \end{pmatrix}  \in \R^{N \times D}.
+\end{split}\]</div>
+<p>Finally, we will occasionally need to take derivatives of vectors with respect to matrices or vice versa. This results in a <em>tensor</em> of 3 or more dimensions. Two examples are given below. First, the derivative of <span class="math notranslate nohighlight">\(\bu \in \R^I\)</span> with respect to <span class="math notranslate nohighlight">\(\bX \in \R^{N \times D}\)</span> is given by</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\dadb{\bu}{\bX} = \begin{pmatrix} \begin{pmatrix} \dadb{u_1}{X_{11}} &amp; ... &amp; \dadb{u_1}{X_{1D}} \\ &amp; ... &amp; \\ \dadb{u_1}{X_{N1}} &amp; ... &amp; \dadb{u_1}{X_{ND}} \end{pmatrix}
+&amp; ... &amp;
+\begin{pmatrix} \dadb{u_I}{X_{11}} &amp; ... &amp; \dadb{u_I}{X_{1D}} \\ &amp; ... &amp; \\ \dadb{u_I}{X_{N1}} &amp; ... &amp; \dadb{u_I}{X_{ND}}  \end{pmatrix} \end{pmatrix}  \in \R^{I \times N \times D},
+\end{split}\]</div>
+<p>and the derivative of <span class="math notranslate nohighlight">\(\bX\)</span> with respect to <span class="math notranslate nohighlight">\(\bu\)</span> is given by</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\dadb{\bX}{\bu} = \begin{pmatrix} \begin{pmatrix} \dadb{X_{11}}{u_1} &amp; ... &amp; \dadb{X_{11}}{u_I} \end{pmatrix}
+&amp; ... &amp;
+\begin{pmatrix}  \dadb{X_{1D}}{u_1} &amp; ... &amp; \dadb{X_{1D}}{u_I}\end{pmatrix} \\
+&amp; ... &amp; \\
+ \begin{pmatrix}\dadb{X_{N1}}{u_1} &amp; ... &amp; \dadb{X_{N1}}{u_I} \end{pmatrix}
+&amp; ... &amp;
+\begin{pmatrix}\dadb{X_{ND}}{u_1} &amp; ... &amp; \dadb{X_{ND}}{u_I}\end{pmatrix} \\
+\end{pmatrix}  \in \R^{N \times D \times I}.
+\end{split}\]</div>
+<p>Notice again that what we are taking the derivative <em>of</em> determines the first dimension(s) of the derivative and what we are taking the derivative with respect <em>to</em> determines the last.</p>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./content/appendix"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+        </div>
+    </div>
+    
+    
+    <div class='prev-next-bottom'>
+        
+    <a class='left-prev' id="prev-link" href="../c7/code.html" title="previous page">Implementation</a>
+    <a class='right-next' id="next-link" href="probability.html" title="next page">Probability</a>
+
+    </div>
+    <footer class="footer mt-5 mt-md-0">
+    <div class="container">
+      <p>
+        
+          By Danny Friedman<br/>
+        
+            &copy; Copyright 2020.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+
+    <script src="../../_static/js/index.js"></script>
+    
+  </body>
+</html>
