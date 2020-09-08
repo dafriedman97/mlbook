@@ -558,7 +558,7 @@
 \[\begin{split}
 \begin{align*}
 \super{h}{b}_i &amp;= \bw_i^\top\super{\bz}{a} + c_i  \\
-\super{z}{b}_i &amp;= f(h_i),
+\super{z}{b}_i &amp;= f(\super{h}{b}_i),
 \end{align*}
 \end{split}\]</div>
 <p>where <span class="math notranslate nohighlight">\(\bw_i \in \R^{D_a}\)</span> is a vector of weights, <span class="math notranslate nohighlight">\(c_i\)</span> is a constant intercept term, and <span class="math notranslate nohighlight">\(f()\)</span> is an activation function. Note that <span class="math notranslate nohighlight">\(\bw_i\)</span> and <span class="math notranslate nohighlight">\(c_i\)</span> are specific to the <span class="math notranslate nohighlight">\(i^\text{th}\)</span> neuron in <span class="math notranslate nohighlight">\(\super{\bz}{b}\)</span> while <span class="math notranslate nohighlight">\(f()\)</span> is typically common among all neurons in <span class="math notranslate nohighlight">\(\super{\bz}{b}\)</span>. We can also write the function relating the two layers in matrix form, as below.</p>
@@ -638,6 +638,7 @@ y &amp;= \begin{pmatrix} 1 &amp; 1 \end{pmatrix} \begin{pmatrix} c \\ 0 \end{pma
 </div>
 <div class="section" id="sigmoid">
 <h4>Sigmoid<a class="headerlink" href="#sigmoid" title="Permalink to this headline">¶</a></h4>
+<p><img alt="" src="../../_images/sigmoid.png" /></p>
 <p>A second common activation function is the <em>logistic sigmoid function</em>, often referred to as just <em>the sigmoid function</em>. This function was introduced in <a class="reference internal" href="../c3/s1/logistic_regression.html"><span class="doc">chapter 3</span></a> in the context of the logistic regression. The sigmoid function is defined as</p>
 <div class="math notranslate nohighlight">
 \[
@@ -730,6 +731,10 @@ f(x) = x,
 \[
 \mathcal{L}_{RSS}(\hat{\by}) = (\by - \hat{\by})^2.
 \]</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Note that the loss is a function of both our predictions (<span class="math notranslate nohighlight">\(\hat{\by}\)</span>) and the true targets (<span class="math notranslate nohighlight">\(\by\)</span>). However, since the true targets are fixed, we can only manipulate <span class="math notranslate nohighlight">\(\hat{\by}\)</span>, so we write the loss as only a function of <span class="math notranslate nohighlight">\(\hat{\by}\)</span>.</p>
+</div>
 <p>Note that we have a vector of losses because there are multiple output variables and we consider the loss for each variable independently. Now for the first step in back propagation, we calculate the derivative of this loss with respect to <span class="math notranslate nohighlight">\(\hat{\by}\)</span>, which is simply given by</p>
 <div class="math notranslate nohighlight">
 \[
