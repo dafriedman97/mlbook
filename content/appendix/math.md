@@ -58,7 +58,11 @@ $$
 f(x) = g(h(x)) \rightarrow f'(x) = g'(h(x))h'(x).
 $$
 
+An easy way to understand the chain rule is using the following example:
 
+$$
+f(x) = sin(x^2) \rightarrow f(x) = sin(h), where h = x^2 \rightarrow f'(x) = \frac{dsin(h)}{dh}\frac{dh}{dx} = cos(h)2x = 2xcos(x^2)
+$$
 
 
 ## Matrices 
