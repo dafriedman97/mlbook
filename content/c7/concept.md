@@ -308,6 +308,9 @@ $$
 \dadb{\mathcal{L}(\hat{\by})}{\super{\mathbf{W}}{L}} = \dadb{\mathcal{L}(\hat{\by})}{\hat{\by}}\cdot\dadb{\hat{\by}}{\super{\mathbf{h}}{L}}\cdot \dadb{\super{\mathbf{h}}{L}}{\super{\mathbf{W}}{L}}
 $$
 
+```{note}
+The Loss function $\mathcal{L}$ is essentially dependent on both $\hat{\by}$ and $\by$. But since $\by$, actual value, is fixed; the onus lies on $\hat{\by}$, the predicted value, to ensure that the Loss is minimum, hence we are representing the loss function as $\mathcal{L}(\hat{\by})$.
+```
 
 The gradient of $\super{\mathbf{c}}{L}$ is equivalent. The math behind these calculations is covered in the following section. Next, we want to find the gradient of $\super{\mathbf{W}}{L-1}$, shown below.
 
