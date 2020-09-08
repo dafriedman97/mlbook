@@ -1,0 +1,741 @@
+
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Logistic Regression &#8212; Machine Learning from Scratch</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
+    <link href="../../../_static/css/index.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../../_static/sphinx-book-theme.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-dropdown.css" />
+    <script id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/sphinx-book-theme.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/language_data.js"></script>
+    <script src="../../../_static/togglebutton.js"></script>
+    <script src="../../../_static/clipboard.min.js"></script>
+    <script src="../../../_static/copybutton.js"></script>
+    <script src="../../../_static/sphinx-book-theme.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"TeX": {"Macros": {"sumN": "\\sum_{n = 1}^N", "sumn": "\\sum_{n}", "prodN": "\\prod_{n = 1}^N", "bx": "\\mathbf{x}", "by": "\\mathbf{y}", "bX": "\\mathbf{X}", "bY": "\\mathbf{Y}", "bT": "\\mathbf{T}", "bbeta": "\\boldsymbol{\\beta}", "btheta": "\\boldsymbol{\\hat{\\theta}}}", "bmu": "\\boldsymbol{\\mu}", "bSigma": "\\boldsymbol{\\Sigma}", "bbetahat": "\\boldsymbol{\\hat{\\beta}}", "bbR": "\\mathbb{R}", "iid": "\\overset{\\small{\\text{i.i.d.}}}{\\sim}}", "dadb": ["{\\frac{\\partial #1}{\\partial #2}}", 2], "testing": "\\TeX", "R": "\\mathbb{R}"}}, "tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
+    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="../../../_static/sphinx-thebe.js"></script>
+    <link rel="shortcut icon" href="../../../_static/logo.png"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="The Perceptron Algorithm" href="perceptron.html" />
+    <link rel="prev" title="Concept" href="../concept.html" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="docsearch:language" content="en">
+
+
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+<a class="navbar-brand text-wrap" href="../../../index.html">
+  
+  <img src="../../../_static/logo.png" class="logo" alt="logo">
+  
+  
+  <h1 class="site-logo" id="site-title">Machine Learning from Scratch</h1>
+  
+</a>
+</div>
+
+<form class="bd-search d-flex align-items-center" action="../../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form>
+
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <p class="caption">
+ <span class="caption-text">
+  Introduction
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../table_of_contents.html">
+   Table of Contents
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../conventions_notation.html">
+   Conventions and Notation
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  1. Ordinary Linear Regression
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../c1/concept.html">
+   Concept
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../c1/construction.html">
+   Construction
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../c1/code.html">
+   Implementation
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  2. Linear Regression Extensions
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../c2/concept.html">
+   Concept
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../c2/construction.html">
+   Construction
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../c2/code.html">
+   Implementation
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  3. Discriminative Classifiers (Logistic Regression)
+ </span>
+</p>
+<ul class="current nav sidenav_l1">
+ <li class="toctree-l1 current active">
+  <a class="reference internal" href="../concept.html">
+   Concept
+  </a>
+  <ul class="current">
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
+     Logistic Regression
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="perceptron.html">
+     The Perceptron Algorithm
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="fisher_discriminant.html">
+     Fisher’s Linear Discriminant
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="fisher_discriminant.html#model-structure">
+     Model Structure
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../construction.html">
+   Construction
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../code.html">
+   Implementation
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  4. Generative Classifiers (Naive Bayes)
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../c4/concept.html">
+   Concept
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../c4/construction.html">
+   Construction
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../c4/code.html">
+   Implementation
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  5. Decision Trees
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../c5/concept.html">
+   Concept
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../c5/construction.html">
+   Construction
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../c5/code.html">
+   Implementation
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  6. Tree Ensemble Methods
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../c6/concept.html">
+   Concept
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../c6/construction.html">
+   Construction
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../c6/code.html">
+   Implementation
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  7. Neural Networks
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../c7/concept.html">
+   Concept
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../c7/construction.html">
+   Construction
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../c7/code.html">
+   Implementation
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  Appendix
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../appendix/math.html">
+   Math
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../appendix/probability.html">
+   Probability
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../appendix/methods.html">
+   Common Methods
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../appendix/data.html">
+   Datasets
+  </a>
+ </li>
+</ul>
+
+</nav>
+
+ <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="row topbar fixed-top container-xl">
+    <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show">
+    </div>
+    <div class="col pl-2 topbar-main">
+        
+        <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+            data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+            aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+            title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+            <i class="fas fa-bars"></i>
+            <i class="fas fa-arrow-left"></i>
+            <i class="fas fa-arrow-up"></i>
+        </button>
+        
+        <div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../../../_sources/content/c3/s1/logistic_regression.md"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.md</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+    
+</div>
+        <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/dafriedman97/mlbook"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/dafriedman97/mlbook/issues/new?title=Issue%20on%20page%20%2Fcontent/c3/s1/logistic_regression.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        <a class="edit-button" href="https://github.com/dafriedman97/mlbook/edit/master/content/c3/s1/logistic_regression.md"><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
+    </div>
+</div>
+
+
+        <!-- Full screen (wrap in <a> to have style consistency -->
+        <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+                data-placement="bottom" onclick="toggleFullScreen()" title="Fullscreen mode"><i
+                    class="fas fa-expand"></i></button></a>
+
+        <!-- Launch buttons -->
+
+    </div>
+
+    <!-- Table of contents -->
+    <div class="d-none d-md-block col-md-2 bd-toc show">
+        <div class="tocsection onthispage pt-5 pb-3">
+            <i class="fas fa-list"></i> Contents
+        </div>
+        <nav id="bd-toc-nav">
+            <ul class="nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#binary-logistic-regression">
+   Binary Logistic Regression
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#model-structure">
+     Model Structure
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#parameter-estimation">
+     Parameter Estimation
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#multiclass-logistic-regression">
+   Multiclass Logistic Regression
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#notation">
+     Notation
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id1">
+     Model Structure
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id2">
+     Parameter Estimation
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#the-likelihood-function">
+       The Likelihood Function
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#the-derivative">
+       The Derivative
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#simplifying">
+       Simplifying
+      </a>
+     </li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+        </nav>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="logistic-regression">
+<h1>Logistic Regression<a class="headerlink" href="#logistic-regression" title="Permalink to this headline">¶</a></h1>
+<div class="math notranslate nohighlight">
+\[
+\newcommand{\sumN}{\sum_{n = 1}^N}
+\newcommand{\sumn}{\sum_n}
+\newcommand{\prodN}{\prod_{n = 1}^N}
+\newcommand{\by}{\mathbf{y}} \newcommand{\bX}{\mathbf{X}}
+\newcommand{\bx}{\mathbf{x}}
+\newcommand{\bbeta}{\boldsymbol{\beta}}
+\newcommand{\btheta}{\boldsymbol{\theta}}
+\newcommand{\bbetahat}{\boldsymbol{\hat{\beta}}}
+\newcommand{\bthetahat}{\boldsymbol{\hat{\theta}}}
+\newcommand{\bSigma}{\boldsymbol{\Sigma}}
+\newcommand{\bT}{\mathbf{T}}
+\newcommand{\dadb}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\iid}{\overset{\small{\text{i.i.d.}}}{\sim}}
+\]</div>
+<p>In linear regression, we modeled our target variable as a linear combination of the predictors plus a random error term. This meant that the fitted value could be any real number. Since our target in classification is not any real number, the same approach wouldn’t make sense in this context. Instead, logistic regression models a <em>function</em> of the target variable as a linear combination of the predictors, then converts this function into a fitted value in the desired range.</p>
+<div class="section" id="binary-logistic-regression">
+<h2>Binary Logistic Regression<a class="headerlink" href="#binary-logistic-regression" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="model-structure">
+<h3>Model Structure<a class="headerlink" href="#model-structure" title="Permalink to this headline">¶</a></h3>
+<p>In the binary case, we denote our target variable with <span class="math notranslate nohighlight">\(Y_n \in \{0, 1\}\)</span>. Let <span class="math notranslate nohighlight">\(p_n = P(Y_n = 1)\)</span> be our estimate of the probability that <span class="math notranslate nohighlight">\(Y_n\)</span> is in class 1. We want a way to express <span class="math notranslate nohighlight">\(p_n\)</span> as a function of the predictors (<span class="math notranslate nohighlight">\(\bx_n\)</span>) that is between 0 and 1. Consider the following function, called the <em>log-odds</em> of <span class="math notranslate nohighlight">\(p_n\)</span>.</p>
+<div class="math notranslate nohighlight">
+\[
+f(p_n) = \log\left(\frac{p_n}{1-p_n}\right).
+\]</div>
+<p>Note that its domain is <span class="math notranslate nohighlight">\((0, 1)\)</span> and its range is all real numbers. This suggests that modeling the log-odds as a linear combination of the predictors—resulting in <span class="math notranslate nohighlight">\(f(p_n) \in \R\)</span>—would correspond to modeling <span class="math notranslate nohighlight">\(p_n\)</span> as a value between 0 and 1. This is exactly what logistic regression does. Specifically, it assumes the following structure.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+f(\hat{p}_n) = \log\left(\frac{\hat{p}_n}{1-\hat{p}_n}\right) &amp;= \hat{\beta}_0 + \hat{\beta}_1 x_{n1} + \dots + \hat{\beta}_Dx_{nD} \\
+&amp;= \bbetahat^\top \bx_n.
+\end{align*}
+\end{split}\]</div>
+<div class="admonition-math-note admonition">
+<p class="admonition-title">Math Note</p>
+<p>The <em>logistic function</em> is a common function in statistics and machine learning. The logistic function of <span class="math notranslate nohighlight">\(z\)</span>, written as <span class="math notranslate nohighlight">\(\sigma(z)\)</span>, is given by</p>
+<div class="math notranslate nohighlight">
+\[
+\sigma(z) = \frac{1}{1 + \exp(-z)}.
+\]</div>
+<p>The derivative of the logistic function is quite nice.</p>
+<div class="math notranslate nohighlight">
+\[
+\sigma'(z) = \frac{0 +\exp(-z)}{(1 + \exp(-z))^2} = \frac{1}{1 + \exp(-z)}\cdot\frac{\exp(-z)}{1 + \exp(-z)} = \sigma(z)(1-\sigma(z)).
+\]</div>
+</div>
+<p>Ultimately, we are interested in <span class="math notranslate nohighlight">\(\hat{p}_n\)</span>, not the log-odds <span class="math notranslate nohighlight">\(f(\hat{p}_n)\)</span>. Rearranging the log-odds expression, we find that <span class="math notranslate nohighlight">\(\hat{p}_n\)</span> is the logistic function of <span class="math notranslate nohighlight">\(\bbetahat^\top \bx_n\)</span> (see the <em>Math Note</em> above for information on the logistic function). That is,</p>
+<div class="math notranslate nohighlight">
+\[
+\hat{p}_n = \sigma(\bbetahat^\top \bx_n) = \frac{1}{1 + \exp(-\bbetahat^\top \bx_n)}.
+\]</div>
+<p>By the derivative of the logistic function, this also implies that</p>
+<div class="math notranslate nohighlight">
+\[
+\dadb{\hat{p}_n}{\bbetahat} = \dadb{\sigma(\bbetahat^\top\bx_n)}{\bbetahat} = \sigma(\bbetahat^\top \bx_n)\left(1-\sigma(\bbetahat^\top\bx_n) \right)\cdot \bx_n
+\]</div>
+</div>
+<div class="section" id="parameter-estimation">
+<h3>Parameter Estimation<a class="headerlink" href="#parameter-estimation" title="Permalink to this headline">¶</a></h3>
+<p>We will estimate <span class="math notranslate nohighlight">\(\bbetahat\)</span> with maximum likelihood. The PMF for <span class="math notranslate nohighlight">\(Y_n \sim \text{Bern}(p_n)\)</span> is given by</p>
+<div class="math notranslate nohighlight">
+\[
+p(y_n) = p_n^{y_n}(1-p_n)^{1-y_n} =\sigma(\bbeta^\top \bx_n) ^{y_n} \left(1-\sigma(\bbeta^\top\bx_n) \right)^{1-y_n}.
+\]</div>
+<p>Notice that this gives us the correct probability for <span class="math notranslate nohighlight">\(y_n = 0\)</span> and <span class="math notranslate nohighlight">\(y_n = 1\)</span>.</p>
+<p>Now assume we observe the target variables for our training data, meaning <span class="math notranslate nohighlight">\(Y_1, \dots, Y_n\)</span> crystalize into <span class="math notranslate nohighlight">\(y_1, \dots, y_n\)</span>. We can write the likelihood and log-likelihood.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+L(\bbeta; \{y_n, \bx_n\}_{n = 1}^N) &amp;= \prodN p(y_n) \\
+&amp;= \prodN \sigma(\bbeta^\top\bx_n) ^{y_n} \left(1-\sigma(\bbeta^\top\bx_n)\right)^{1-y_n}
+\\
+\log L(\bbeta; \{y_n, \bx_n\}_{n = 1}^N)  &amp;= \sumN y_n\log \sigma(\bbeta^\top\bx_n) + (1-y_n)\log\left( 1- \sigma(\bbeta^\top\bx_n)\right) 
+\end{align*}
+\end{split}\]</div>
+<p>Next, we want to find the values of <span class="math notranslate nohighlight">\(\bbetahat\)</span> that maximize this log-likelihood. Using the derivative of the logistic function for <span class="math notranslate nohighlight">\(\bbeta^\top \bx_n\)</span> discussed above, we get</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+\dadb{\log L(\bbeta; \{\by_n, \bx_n\}_{n = 1}^N)}{\bbeta} &amp;=\sumN y_n\frac{1}{\sigma(\bbeta^\top \bx_n)}\cdot\dadb{\sigma(\bbeta^\top\bx_n)}{\bbeta} - (1-y_n)\frac{1}{1-\sigma(\bbeta^\top\bx_n)}\cdot\dadb{\sigma(\bbeta^\top\bx_n)}{\bbeta}
+\\
+&amp;= \sumN y_n\left(1-\sigma(\bbeta^\top\bx_n) \right)\cdot \bx_n - (1-y_n)\sigma(\bbeta^\top\bx_n)\cdot \bx_n
+\\
+&amp;= \sumN y_n\bx_n - \sigma(\bbeta^\top\bx_n)\bx_n \\
+&amp;= \sumN (y_n - p_n)\bx_n.
+\end{align*}
+\end{split}\]</div>
+<p>Next, let <span class="math notranslate nohighlight">\(\mathbf{p} = \begin{pmatrix} p_1 &amp; p_2 &amp; \dots &amp; p_N \end{pmatrix}^\top\)</span>be the vector of probabilities. Then we can write this derivative in matrix form as</p>
+<div class="math notranslate nohighlight">
+\[
+\dadb{\log L(\bbeta; \{y_n, \bx_n\}_{n = 1}^N)}{\bbeta} = \bX^T (\by - \mathbf{p}).
+\]</div>
+<p>Ideally, we would find <span class="math notranslate nohighlight">\(\bbetahat\)</span> by setting this gradient equal to 0 and solving for <span class="math notranslate nohighlight">\(\bbeta\)</span>. Unfortunately, there is no closed form solution. Instead, we can estimate <span class="math notranslate nohighlight">\(\bbetahat\)</span> through gradient descent using the derivative above. Note that gradient descent minimizes a loss function, rather than maximizing a likelihood function. To get a loss function, we would simply take the negative log-likelihood. Alternatively, we could do gradient <em>ascent</em> on the log-likelihood.</p>
+</div>
+</div>
+<div class="section" id="multiclass-logistic-regression">
+<h2>Multiclass Logistic Regression<a class="headerlink" href="#multiclass-logistic-regression" title="Permalink to this headline">¶</a></h2>
+<p>Multiclass logistic regression generalizes the binary case into the case where there are three or more possible classes.</p>
+<div class="section" id="notation">
+<h3>Notation<a class="headerlink" href="#notation" title="Permalink to this headline">¶</a></h3>
+<p>First, let’s establish some notation. Suppose there are <span class="math notranslate nohighlight">\(K\)</span> classes total. When <span class="math notranslate nohighlight">\(y_n\)</span> can fall into three or more classes, it is best to write it as a <em>one-hot vector</em>: a vector of all zeros and a single one, with the location of the one indicating the variable’s value. For instance,</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\by_n = \begin{bmatrix} 0 \\ 1 \\ ... \\ 0 \end{bmatrix} \in \mathbb{R}^K
+\end{split}\]</div>
+<p>indicates that the <span class="math notranslate nohighlight">\(n^\text{th}\)</span> observation belongs to the second of <span class="math notranslate nohighlight">\(K\)</span> classes. Similarly, let <span class="math notranslate nohighlight">\(\hat{\mathbf{p}}_n\)</span> be a vector of estimated probabilities for observation <span class="math notranslate nohighlight">\(n\)</span>, where the <span class="math notranslate nohighlight">\(j^\text{th}\)</span> entry indicates the probability that observation <span class="math notranslate nohighlight">\(n\)</span> belongs to class <span class="math notranslate nohighlight">\(j\)</span>. Note that this vector must be non-negative and add to 1. For the example above,</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\hat{\mathbf{p}}_n = \begin{bmatrix} 0.01 \\ 0.98 \\ ... \\ 0.00 \end{bmatrix} \in \mathbb{R}^K
+\end{split}\]</div>
+<p>would be a pretty good estimate.</p>
+<p>Finally, we need to write the coefficients for each class. Suppose we have <span class="math notranslate nohighlight">\(D\)</span> predictor variables, including the intercept (i.e. <span class="math notranslate nohighlight">\(\bx_n \in \mathbb{R}^D\)</span> where the first term in <span class="math notranslate nohighlight">\(\bx_n\)</span> is an appended 1). We can let <span class="math notranslate nohighlight">\(\bbetahat_k\)</span> be the length-<span class="math notranslate nohighlight">\(D\)</span> vector of coefficient estimates for class <span class="math notranslate nohighlight">\(k\)</span>. Alternatively, we can use the matrix</p>
+<div class="math notranslate nohighlight">
+\[
+\hat{\textbf{B}} = \begin{bmatrix} \bbetahat_1 &amp; \dots &amp; \bbetahat_K \end{bmatrix} \in \mathbb{R}^{D \times K},
+\]</div>
+<p>to jointly represent the coefficients of all classes.</p>
+</div>
+<div class="section" id="id1">
+<h3>Model Structure<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<p>Let’s start by defining <span class="math notranslate nohighlight">\(\hat{\mathbf{z}}_n\)</span> as</p>
+<div class="math notranslate nohighlight">
+\[
+\hat{\mathbf{z}}_n = \hat{\mathbf{B}}^\top \mathbf{x}_n \in \mathbb{R}^K.
+\]</div>
+<p>Note that <span class="math notranslate nohighlight">\(\hat{\mathbf{z}}_n\)</span> has one entry per class. It seems we might be able to fit <span class="math notranslate nohighlight">\(\hat{\mathbf{B}}\)</span> such that the <span class="math notranslate nohighlight">\(k^\text{th}\)</span> element of <span class="math notranslate nohighlight">\(\hat{\mathbf{z}}_n\)</span> gives <span class="math notranslate nohighlight">\(P(\by_n = k)\)</span>. However, it would be difficult to at the same time ensure the entries in <span class="math notranslate nohighlight">\(\hat{\mathbf{z}}_n\)</span> sum to 1. Instead, we apply a <em>softmax</em> transformation to <span class="math notranslate nohighlight">\(\hat{\mathbf{z}}_n\)</span> in order to get our estimated probabilities.</p>
+<div class="admonition-math-note admonition">
+<p class="admonition-title">Math Note</p>
+<p>For some length-<span class="math notranslate nohighlight">\(K\)</span> vector <span class="math notranslate nohighlight">\(\mathbf{z}\)</span> and entry <span class="math notranslate nohighlight">\(k\)</span>, the <em>softmax</em> function is given by</p>
+<div class="math notranslate nohighlight">
+\[
+\text{softmax}_k(\mathbf{z}) = \frac{\exp(z_k)}{\sum_{j = 1}^K \exp(z_j)}.
+\]</div>
+<p>Intuitively, if the <span class="math notranslate nohighlight">\(k^\text{th}\)</span> entry of <span class="math notranslate nohighlight">\(\mathbf{z}\)</span> is large relative to the others, <span class="math notranslate nohighlight">\(\text{softmax}_k(\mathbf{z})\)</span> will be as well.</p>
+<p>If we drop the <span class="math notranslate nohighlight">\(k\)</span> from the subscript, the softmax is applied over the entire vector. I.e.,</p>
+<div class="math notranslate nohighlight">
+\[
+\text{softmax}(\mathbf{z}) = \begin{bmatrix} \text{softmax}_1(\mathbf{z}) &amp; \dots &amp; \text{softmax}_K(\mathbf{z}) \end{bmatrix}^\top
+\]</div>
+</div>
+<p>To obtain a valid set of probability estimates for <span class="math notranslate nohighlight">\(\hat{\mathbf{p}}_n\)</span>, we apply the softmax function to <span class="math notranslate nohighlight">\(\hat{\mathbf{z}}_n\)</span>. That is,</p>
+<div class="math notranslate nohighlight">
+\[
+\hat{\mathbf{p}}_n = \text{softmax}(\hat{\mathbf{z}}_n) = \text{softmax}(\hat{\mathbf{B}}^\top \mathbf{x}_n).
+\]</div>
+<p>Let <span class="math notranslate nohighlight">\(\hat{p}_{nk}\)</span>, the <span class="math notranslate nohighlight">\(k^\text{th}\)</span> entry in <span class="math notranslate nohighlight">\(\hat{\mathbf{p}}_n\)</span> give the probability that observation <span class="math notranslate nohighlight">\(n\)</span> is in class <span class="math notranslate nohighlight">\(k\)</span>.</p>
+</div>
+<div class="section" id="id2">
+<h3>Parameter Estimation<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<p>Now let’s see how the estimates in <span class="math notranslate nohighlight">\(\hat{\mathbf{B}}\)</span> are actually fit.</p>
+<div class="section" id="the-likelihood-function">
+<h4>The Likelihood Function<a class="headerlink" href="#the-likelihood-function" title="Permalink to this headline">¶</a></h4>
+<p>As in binary logistic regression, we estimate <span class="math notranslate nohighlight">\(\hat{\mathbf{B}}\)</span> by maximizing the (log) likelihood. Let <span class="math notranslate nohighlight">\(I_{nk}\)</span> be an indicator that equals 1 if observation <span class="math notranslate nohighlight">\(n\)</span> is in class <span class="math notranslate nohighlight">\(k\)</span> and 0 otherwise. The likelihood and log-likelihood are</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+L(\mathbf{B}; \{\by_n, \bx_n\}_{n = 1}^N) &amp;= \prodN \prod_{k = 1}^K p_{nk}^{I_{nk}}
+\\
+\log L(\mathbf{B}; \{\by_n, \bx_n\}_{n = 1}^N) &amp;= \sumN \sum_{k = 1}^K I_{nk} \log p_{nk}  \\
+&amp;= \sumN \sum_{k = 1}^K I_{nk} \log\left(\text{sigmoid}_k(\mathbf{z}_n)\right)\\
+&amp;= \sumN \sum_{k = 1}^K I_{nk}\left(z_{nk} - \log\left(\sum_{i = 1}^K \exp(z_{ni})\right) \right),
+\end{align*}
+\end{split}\]</div>
+<p>where the last equality comes from the fact that</p>
+<div class="math notranslate nohighlight">
+\[
+\log(\text{sigmoid}_k(\mathbf{z}_n)) = \log\left(\frac{\exp(z_{nk})}{\sum_{j = 1}^K \exp(z_{nk})}\right) = z_{nk} - \log\left(\sum_{j = 1}^K \exp(z_{nj})\right).
+\]</div>
+</div>
+<div class="section" id="the-derivative">
+<h4>The Derivative<a class="headerlink" href="#the-derivative" title="Permalink to this headline">¶</a></h4>
+<p>Now let’s look at the derivative. Specifically, let’s look at the derivative of the log-likelihood with respect to the coefficients from the <span class="math notranslate nohighlight">\(j^\text{th}\)</span> class, <span class="math notranslate nohighlight">\(\bbeta_j\)</span>. Note that</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{cases}
+\dadb{z_{nk}}{\bbeta_j} = \bx_n, \hspace{1cm} &amp; j = k  \\
+\dadb{z_{nk}}{\bbeta_j} = 0,\hspace{1cm} &amp;\text{otherwise}.  \\
+\end{cases}
+\end{split}\]</div>
+<p>This implies that</p>
+<div class="math notranslate nohighlight">
+\[
+\dadb{}{\bbeta_j}\sum_{k = 1}^K I_{nk} z_{nk}  = I_{nj}\bx_n,
+\]</div>
+<p>since the derivative is automatically 0 for all terms but the <span class="math notranslate nohighlight">\(j^\text{th}\)</span> and <span class="math notranslate nohighlight">\(\bx_n\)</span> if <span class="math notranslate nohighlight">\(I_{nj} = 1\)</span>. Then,</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+\dadb{}{\bbeta_j}\log L(\mathbf{B}; \{\by_n, \bx_n\}_{n = 1}^N) &amp;= \sumN  \left( I_{nj}\bx_n - \sum_{k = 1}^K I_{nk}\frac{\exp(z_{nj})\bx_n}{\sum_{i = 1}^K \exp(z_{ni})} \right) \\
+&amp;= \sumN \left(I_{nj} - \sum_{k = 1}^KI_{nk}\text{softmax}_j(\mathbf{z}_n) \right)\bx_n \\
+&amp;= \sumN \left(I_{nj} - p_{nj}\sum_{k = 1}^KI_{nk} \right)\bx_n \\
+&amp;= \sum_{n = 1}^N (I_{nj} - p_{nj})\bx_n. 
+\end{align*}
+\end{split}\]</div>
+<p>In the last step, we drop the <span class="math notranslate nohighlight">\(\sum_{k = 1}^K I_{nk}\)</span> since this must equal 1. This gives us the gradient of the loss function with respect to a given class’s coefficients, which is enough to build our model. It is possible, however, to simplify these expressions further, which is useful for gradient descent. These simplifications are given below.</p>
+</div>
+<div class="section" id="simplifying">
+<h4>Simplifying<a class="headerlink" href="#simplifying" title="Permalink to this headline">¶</a></h4>
+<p>This gradient above can also be written more compactly in matrix format. Let</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\mathbf{i}_j = \begin{bmatrix} I_{1j} \\ ... \\ I_{nj} \end{bmatrix}, \hspace{.25cm} \mathbf{p}'_j =  \begin{bmatrix} p_{1j} \\ ... \\ p_{nj} \end{bmatrix}
+\end{split}\]</div>
+<p>identify whether each observation was in class <span class="math notranslate nohighlight">\(j\)</span> and give the probability that the observation is in class <span class="math notranslate nohighlight">\(j\)</span>, respectively.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Note that we use <span class="math notranslate nohighlight">\(\mathbf{p}'\)</span> rather than <span class="math notranslate nohighlight">\(\mathbf{p}\)</span> since <span class="math notranslate nohighlight">\(\mathbf{p}_n\)</span> was used to represent the probability that observation <span class="math notranslate nohighlight">\(n\)</span> belonged to a series of classes while <span class="math notranslate nohighlight">\(\mathbf{p}'_j\)</span> refers to the probability that a series of observations belong to class <span class="math notranslate nohighlight">\(j\)</span>.</p>
+</div>
+<p>Then, we can write</p>
+<div class="math notranslate nohighlight">
+\[
+\dadb{}{\bbeta_j}\log L(\mathbf{B}; \{\by_n, \bx_n\}_{n = 1}^N)  = \bX^\top (\mathbf{i}_j - \mathbf{p}'_j).
+\]</div>
+<p>Further, we can simultaneously represent the derivative of the loss function with respect to <em>each</em> of the class’s coefficients. Let</p>
+<div class="math notranslate nohighlight">
+\[
+\mathbf{I} = \begin{bmatrix} \mathbf{i}_1 &amp; \dots &amp; \mathbf{i}_K \end{bmatrix} \in \mathbb{R}^{N \times K}, \hspace{.25cm} \mathbf{P} = \begin{bmatrix} \mathbf{p}'_1 &amp; \dots &amp; \mathbf{p}'_K \end{bmatrix} \in \mathbb{R}^{N \times K}.
+\]</div>
+<p>We can then write</p>
+<div class="math notranslate nohighlight">
+\[
+\dadb{}{\mathbf{B}}\log L(\mathbf{B}; \{\by_n, \bx_n\}_{n = 1}^N)  = \mathbf{X}^\top \left( \mathbf{I} - \mathbf{P}\right) \in \mathbb{R}^{D \times K}.
+\]</div>
+<p>Finally, we can also write <span class="math notranslate nohighlight">\(\hat{\mathbf{P}}\)</span> (the estimate of <span class="math notranslate nohighlight">\(\mathbf{P}\)</span>) as a matrix product, which will make calculations more efficient. Let</p>
+<div class="math notranslate nohighlight">
+\[
+\hat{\mathbf{Z}} = \bX \hat{\mathbf{B}} \in \mathbb{R}^{N \times K},
+\]</div>
+<p>where the <span class="math notranslate nohighlight">\(n^\text{th}\)</span> row is equal to <span class="math notranslate nohighlight">\(\hat{\mathbf{z}}_n\)</span>. Then,</p>
+<div class="math notranslate nohighlight">
+\[
+\hat{\mathbf{P}} = \text{softmax}(\hat{\mathbf{Z}}) \in \mathbb{R}^{N \times K},
+\]</div>
+<p>where the softmax function is applied to each row.</p>
+</div>
+</div>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./content/c3/s1"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+        </div>
+    </div>
+    
+    
+    <div class='prev-next-bottom'>
+        
+    <a class='left-prev' id="prev-link" href="../concept.html" title="previous page">Concept</a>
+    <a class='right-next' id="next-link" href="perceptron.html" title="next page">The Perceptron Algorithm</a>
+
+    </div>
+    <footer class="footer mt-5 mt-md-0">
+    <div class="container">
+      <p>
+        
+          By Danny Friedman<br/>
+        
+            &copy; Copyright 2020.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+
+    <script src="../../../_static/js/index.js"></script>
+    
+  </body>
+</html>
