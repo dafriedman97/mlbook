@@ -424,6 +424,7 @@
 \newcommand{\dadb}[2]{\frac{\partial #1}{\partial #2}}
 \newcommand{\iid}{\overset{\small{\text{i.i.d.}}}{\sim}}
 \]</div>
+<p>The common sense of boosting was beautifully introduced in the <a href="https://cseweb.ucsd.edu/~yfreund/papers/IntroToBoosting.pdf">A Short Introduction to Boosting</a> paper on AdaBoost. It states that, suppose a horse-racing gambler, hoping to maximize his winnings, decides to create a computer program that will accurately predict the winner of a horse race based on the usual information(number of races recently won by each horse, betting odds for each horse, etc.). To create such a program, he asks a highly successful gambler to explain his betting strategy. Not surprisingly, the expert is unable to articulate a grand set of rules for selecting a horse. On the other hand, when presented with the data for a specific set of races,the expert has no trouble coming up with a rule of thumb for that set of races(such as, bet on the horse that has recently won the most races or bet on the horse with the most favored odds). Although such a rule of thumb, by itself, is obviously very rough and inaccurate, it is not unreasonable to expect it to provide predictions that are atleast a little bit better than random guessing. Further more, by repeatedly asking the expert's opinion on different collections of races, the gambler is able to extract many rules of thumb. In order to use these rules of thumb to maximum advantage, there are two problems faced by the gambler: First, how should he choose the collections of races presented to the expert so as to extract rules of thumb from the expert that will be the most useful? Second, once he has collected many rules of thumb, how can they be combined into a single, highly accurate prediction rule? Boosting refers to a general and provably effective method of producing a very accurate pre-diction rule by combining rough and moderately inaccurate rules of thumb in a manner similar to that suggested above.</p>
 <p>Like bagging and random forests, boosting combines multiple weak learners into one improved model. Unlike bagging and random forests, however, boosting trains these weak learners <em>sequentially</em>, each one learning from the mistakes of the last. Rather than a single model, “boosting” refers to a class of sequential learning methods.</p>
 <p>Here we discuss two specific algorithms for conducting boosting. The first, known as <em>Discrete AdaBoost</em> (or just <em>AdaBoost</em>), is used for binary classification. The second, known as <em>AdaBoost.R2</em>, is used for regression.</p>
 <div class="section" id="adaboost-for-binary-classification">
@@ -470,8 +471,8 @@ w^{t+1}_n = w_n\exp(\alpha^t I^t_n),
 <p><strong>Discrete AdaBoost Algorithm</strong></p>
 <p>Define the target variable to be <span class="math notranslate nohighlight">\(y_n \in \{-1, +1 \}\)</span>.</p>
 <ol>
-<li><p>Initialize the weights with <span class="math notranslate nohighlight">\(w^1_n = \frac{1}{N}\)</span> for <span class="math notranslate nohighlight">\(n = 1, 2, \dots, N\)</span>.</p></li>
-<li><p>For <span class="math notranslate nohighlight">\(t = 1, \dots, T\)</span>,</p>
+<li><p>Initialize the weights with <span class="math notranslate nohighlight">\(w^1_n = \frac{1}{N}\)</span> for <span class="math notranslate nohighlight">\(n = 1, 2, \dots, N\)</span>. Hence if there are 10 datapoints, then each datapoint will have an inital weight of <span class="math notranslate nohighlight">\(\frac{1}{10}\) = 0.10</span>. </p></li>
+<li><p>For <span class="math notranslate nohighlight">\(t = 1, \dots, T\)</span></p>
 <ul>
 <li><p>Build weak learner <span class="math notranslate nohighlight">\(t\)</span> using weights <span class="math notranslate nohighlight">\(\mathbf{w}^t\)</span>.</p></li>
 <li><p>Use weak learner <span class="math notranslate nohighlight">\(t\)</span> to calculate fitted values <span class="math notranslate nohighlight">\(f^t(\bx_n) \in \{-1, +1\}\)</span> for <span class="math notranslate nohighlight">\(n = 1, 2, \dots, N\)</span>. Let <span class="math notranslate nohighlight">\(I^t_n\)</span> equal 1 If <span class="math notranslate nohighlight">\(f^t(\bx_n) \neq y_n\)</span> and 0 otherwise. That is, <span class="math notranslate nohighlight">\(I^t_n\)</span> indicates whether learner <span class="math notranslate nohighlight">\(t\)</span> misclassifies observation <span class="math notranslate nohighlight">\(n\)</span>.</p></li>
@@ -480,20 +481,45 @@ w^{t+1}_n = w_n\exp(\alpha^t I^t_n),
 \[
       \epsilon^t = \frac{\sumN w^t_n I^t_n}{\sumN w^t_n}.
       \]</div>
+<p>Now assume that out of the 10 datapoints our weak learner manages to get 6 correct, using the above formulae:<span class="math notranslate nohighlight">\(t\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+      \epsilon^1 = \frac{6*0*0.1 + 4*1*0.1}{10*0.1} = 0.40
+      \]</div>
 </li>
 <li><p>Calculate the accuracy measure for learner <span class="math notranslate nohighlight">\(t\)</span>:</p>
 <div class="math notranslate nohighlight">
 \[
-      \alpha^t = \log\left(\frac{1-\epsilon^t}{\epsilon^t}\right).
+      \alpha^t = \frac{1}{2}\ln\left(\frac{1-\epsilon^t}{\epsilon^t}\right).
       \]</div>
+<p>Continuing the calculation:<span class="math notranslate nohighlight">\(t\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+      \alpha^t = \frac{1}{2}\ln\left(\frac{1-0.4}{0.4}\right) = 0.20275.
+      \]</div>
+<p>Notice that models with low error rate will have higher values of <span class="math notranslate nohighlight">\alpha^t</span>. Similarly, for a <span class="math notranslate nohighlight">\epsilon^t</span> value of 0.5 <span class="math notranslate nohighlight">\alpha^t</span> will be 0.</p>
 </li>
 <li><p>Update the weighting with</p>
 <div class="math notranslate nohighlight">
 \[
-      w^{t + 1}_n = w^t_n\exp(\alpha^tI^t_n),
+      w^{t + 1}_n = \frac{w^t_n\exp(-\alpha^t f^t(\bx_n)y_n\))}{Z^t},
       \]</div>
-<p>for <span class="math notranslate nohighlight">\(n = 1, 2, \dots, N\)</span>.</p>
-</li>
+<p>for <span class="math notranslate nohighlight">\(n = 1, 2, \dots, N\)</span>,</p>
+<p>where <span class="math notranslate nohighlight">Z^t</span> is a normalization factor, chosen so that <span class="math notranslate nohighlight">w^t</span> is a distribution.</p>
+<p>Now let's take a look at how the weights of 10 datapoints look post update:
+<ul>
+<li>For the datapoints which were correctly classified: <span class="math notranslate nohighlight"> w^{t + 1}_n = \frac{w^t_n\exp(-0.20275*1*1\))}{Z^t} = \frac{w^t_n * 0.82)}{Z_t}</span>
+<p>Notice the weights are decreasing as the multiplicative factor becomes 0.82</p></li>
+<li>For the datapoints which were incorrectly classified: <span class="math notranslate nohighlight"> w^{t + 1}_n = \frac{w^t_n\exp(-0.20275*-1*1\))}{Z^t} = \frac{w^t_n * 1.22)}{Z_t}</span>
+<p>Notice the weights are increasing as the multiplicative factor becomes 1.22</p></li>
+</ul>
+  
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>One must be careful while feeding data to an AdaBoost model, if there are outliers then the model will keep increasing the weight of those observations over and over again.</p>
+</div>
+<hr class="docutils" />
+  
 </ul>
 </li>
 <li><p>Calculate the overall fitted values with <span class="math notranslate nohighlight">\(\hat{y}_n = \text{sign} \left( \sum_{t = 1}^T \alpha^t f^t(\bx_n)\right)\)</span>.</p></li>
