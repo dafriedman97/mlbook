@@ -390,7 +390,7 @@
 <li><p>Variables can be split into two types: the variables we intend to model are referred to as <strong>target</strong> or <strong>output</strong> variables, while the variables we use to model the target variables are referred to as <strong>predictors</strong>, <strong>features</strong>, or <strong>input</strong> variables. These are also known as the <em>dependent</em> and <em>independent</em> variables, respectively.</p></li>
 <li><p>An <strong>observation</strong> is a single collection of predictors and target variables. Multiple observations with the same variables are combined to form a <strong>dataset</strong>.</p></li>
 <li><p>A <strong>training</strong> dataset is one used to build a machine learning model. A <strong>validation</strong> dataset is one used to compare multiple models built on the same training dataset with different parameters. A <strong>testing</strong> dataset is one used to evaluate a final model.</p></li>
-<li><p>Variables, whether predictors or targets, may be <strong>quantitative</strong> or <strong>categorical</strong>. Quantitative variables follow a continuous or near-contih234nuous scale (such as height in inches or income in dollars). Categorical variables fall in one of a discrete set of groups (such as nation of birth or species type). While the values of categorical variables may follow some natural order (such as shirt size), this is not assumed.</p></li>
+<li><p>Variables, whether predictors or targets, may be <strong>quantitative</strong> or <strong>categorical</strong>. Quantitative variables follow a continuous or near-continuous scale (such as height in inches or income in dollars). Categorical variables fall in one of a discrete set of groups (such as nation of birth or species type). While the values of categorical variables may follow some natural order (such as shirt size), this is not assumed.</p></li>
 <li><p>Modeling tasks are referred to as <strong>regression</strong> if the target is quantitative and <strong>classification</strong> if the target is categorical. Note that regression does not necessarily refer to ordinary least squares (OLS) linear regression.</p></li>
 </ul>
 <p>Unless indicated otherwise, the following conventions are used to represent data and datasets.</p>
@@ -420,7 +420,7 @@
   &amp;  ... &amp; \\
   \dadb{y_a}{x_1} &amp; ... &amp; \dadb{y_a}{x_b} \\
   \end{pmatrix}.
-  \end{split}\]</div>
+\end{split}\]</div>
 <ul class="simple">
 <li><p>The likelihood of a parameter <span class="math notranslate nohighlight">\(\theta\)</span> given data <span class="math notranslate nohighlight">\(\{x_n\}_{n = 1}^N\)</span> is represented by <span class="math notranslate nohighlight">\(\mathcal{L}\left(\theta; \{x_n\}_{n = 1}^N\right)\)</span>. If we are considering the data to be random (i.e. not yet observed), it will be written as <span class="math notranslate nohighlight">\(\{X_n\}_{n = 1}^N\)</span>. If the data in consideration is obvious, we may write the likelihood as just <span class="math notranslate nohighlight">\(\mathcal{L}(\theta)\)</span>.</p></li>
 </ul>

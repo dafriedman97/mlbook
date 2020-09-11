@@ -60,6 +60,14 @@ $$
 
 
 
+As an example of the chain rule, suppose $f(x) = \log(x^2)$. Let $h(x) = x^2$, meaning $f(x) = \log(h(x))$. Then
+
+
+$$
+f'(x) = \frac{1}{h(x)}h'(x) = \frac{1}{x^2}\cdot2x = \frac{2}{x}. 
+$$
+
+
 
 ## Matrices 
 

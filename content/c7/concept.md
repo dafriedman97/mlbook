@@ -84,7 +84,7 @@ In a feed-forward neural network, each neuron in $\super{\bz}{b}$ is a function 
 $$
 \begin{align*}
 \super{h}{b}_i &= \bw_i^\top\super{\bz}{a} + c_i  \\
-\super{z}{b}_i &= f(h_i),
+\super{z}{b}_i &= f(\super{h}{b}_i),
 \end{align*}
 $$
 
@@ -229,6 +229,8 @@ Note that this derivative is not technically defined at 0. In practice, it is ve
 
 
 #### Sigmoid
+
+![](/content/c7/sigmoid.png)
 
 A second common activation function is the *logistic sigmoid function*, often referred to as just *the sigmoid function*. This function was introduced in {doc}`chapter 3 </content/c3/s1/logistic_regression>` in the context of the logistic regression. The sigmoid function is defined as 
 
@@ -380,8 +382,14 @@ $$
 $$
 
 
-Note that we have a vector of losses because there are multiple output variables and we consider the loss for each variable independently. Now for the first step in back propagation, we calculate the derivative of this loss with respect to $\hat{\by}$, which is simply given by
 
+```{note}
+Note that the loss is a function of both our predictions ($\hat{\by}$) and the true targets ($\by$). However, since the true targets are fixed, we can only manipulate $\hat{\by}$, so we write the loss as only a function of $\hat{\by}$. 
+```
+
+
+
+Note that we have a vector of losses because there are multiple output variables and we consider the loss for each variable independently. Now for the first step in back propagation, we calculate the derivative of this loss with respect to $\hat{\by}$, which is simply given by
 
 $$
 \dadb{\mathcal{L}_{RSS}(\hat{\by})}{\hat{\by}} = -2(\by - \hat{\by})^\top \in \R^{1 \times D_y}.
