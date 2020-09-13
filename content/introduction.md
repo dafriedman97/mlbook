@@ -40,4 +40,4 @@ The *construction* and *code* sections of this book use some basic Python. The c
 
 ## Where to Ask Questions or Give Feedback
 
-You can raise an issue [here](https://github.com/dafriedman97/mlbook/issues) or email me at dafrdman@gmail.com. 
+You can raise an issue [here](https://github.com/dafriedman97/mlbook/issues) or email me at dafrdman@gmail.com. You can also connect with me on Twitter [here](https://twitter.com/dafrdman) or on LinkedIn [here](https://www.linkedin.com/in/daniel-friedman-36b1b2139/). 

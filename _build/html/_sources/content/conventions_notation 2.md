@@ -25,7 +25,7 @@ The following terminology will be used throughout the book.
 - Variables can be split into two types: the variables we intend to model are referred to as **target** or **output** variables, while the variables we use to model the target variables are referred to as **predictors**, **features**, or **input** variables. These are also known as the *dependent* and *independent* variables, respectively.
 - An **observation** is a single collection of predictors and target variables. Multiple observations with the same variables are combined to form a **dataset**. 
 - A **training** dataset is one used to build a machine learning model. A **validation** dataset is one used to compare multiple models built on the same training dataset with different parameters. A **testing** dataset is one used to evaluate a final model. 
-- Variables, whether predictors or targets, may be **quantitative** or **categorical**. Quantitative variables follow a continuous or near-contih234nuous scale (such as height in inches or income in dollars). Categorical variables fall in one of a discrete set of groups (such as nation of birth or species type). While the values of categorical variables may follow some natural order (such as shirt size), this is not assumed. 
+- Variables, whether predictors or targets, may be **quantitative** or **categorical**. Quantitative variables follow a continuous or near-continuous scale (such as height in inches or income in dollars). Categorical variables fall in one of a discrete set of groups (such as nation of birth or species type). While the values of categorical variables may follow some natural order (such as shirt size), this is not assumed. 
 - Modeling tasks are referred to as **regression** if the target is quantitative and **classification** if the target is categorical. Note that regression does not necessarily refer to ordinary least squares (OLS) linear regression. 
 
 
@@ -65,7 +65,7 @@ $$
   &  ... & \\
   \dadb{y_a}{x_1} & ... & \dadb{y_a}{x_b} \\
   \end{pmatrix}.
-  $$
+$$
 
 
 

@@ -1,0 +1,826 @@
+
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Construction &#8212; Machine Learning from Scratch</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
+    <link href="../../_static/css/index.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../_static/sphinx-book-theme.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-dropdown.css" />
+    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/sphinx-book-theme.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../_static/togglebutton.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/sphinx-book-theme.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"TeX": {"Macros": {"sumN": "\\sum_{n = 1}^N", "sumn": "\\sum_{n}", "prodN": "\\prod_{n = 1}^N", "bx": "\\mathbf{x}", "by": "\\mathbf{y}", "bX": "\\mathbf{X}", "bY": "\\mathbf{Y}", "bT": "\\mathbf{T}", "bbeta": "\\boldsymbol{\\beta}", "btheta": "\\boldsymbol{\\hat{\\theta}}}", "bmu": "\\boldsymbol{\\mu}", "bSigma": "\\boldsymbol{\\Sigma}", "bbetahat": "\\boldsymbol{\\hat{\\beta}}", "bbR": "\\mathbb{R}", "iid": "\\overset{\\small{\\text{i.i.d.}}}{\\sim}}", "dadb": ["{\\frac{\\partial #1}{\\partial #2}}", 2], "testing": "\\TeX", "R": "\\mathbb{R}"}}, "tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
+    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <link rel="shortcut icon" href="../../_static/logo.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Implementation" href="code.html" />
+    <link rel="prev" title="Concept" href="concept.html" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="docsearch:language" content="en">
+
+
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+<a class="navbar-brand text-wrap" href="../../index.html">
+  
+  <img src="../../_static/logo.png" class="logo" alt="logo">
+  
+  
+  <h1 class="site-logo" id="site-title">Machine Learning from Scratch</h1>
+  
+</a>
+</div>
+
+<form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form>
+
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <p class="caption">
+ <span class="caption-text">
+  Introduction
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../table_of_contents.html">
+   Table of Contents
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../conventions_notation.html">
+   Conventions and Notation
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  1. Ordinary Linear Regression
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../c1/concept.html">
+   Concept
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../c1/construction.html">
+   Construction
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../c1/code.html">
+   Implementation
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  2. Linear Regression Extensions
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../c2/concept.html">
+   Concept
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../c2/construction.html">
+   Construction
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../c2/code.html">
+   Implementation
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  3. Discriminative Classifiers (Logistic Regression)
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../c3/concept.html">
+   Concept
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../c3/construction.html">
+   Construction
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../c3/code.html">
+   Implementation
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  4. Generative Classifiers (Naive Bayes)
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../c4/concept.html">
+   Concept
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../c4/construction.html">
+   Construction
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../c4/code.html">
+   Implementation
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  5. Decision Trees
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../c5/concept.html">
+   Concept
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../c5/construction.html">
+   Construction
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../c5/code.html">
+   Implementation
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  6. Tree Ensemble Methods
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../c6/concept.html">
+   Concept
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../c6/construction.html">
+   Construction
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../c6/code.html">
+   Implementation
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  7. Neural Networks
+ </span>
+</p>
+<ul class="current nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="concept.html">
+   Concept
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Construction
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="code.html">
+   Implementation
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  Appendix
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../appendix/math.html">
+   Math
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../appendix/probability.html">
+   Probability
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../appendix/methods.html">
+   Common Methods
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../appendix/data.html">
+   Datasets
+  </a>
+ </li>
+</ul>
+
+</nav>
+
+ <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="row topbar fixed-top container-xl">
+    <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show">
+    </div>
+    <div class="col pl-2 topbar-main">
+        
+        <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+            data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+            aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+            title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+            <i class="fas fa-bars"></i>
+            <i class="fas fa-arrow-left"></i>
+            <i class="fas fa-arrow-up"></i>
+        </button>
+        
+        <div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../../_sources/content/c7/construction.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+    
+</div>
+        <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/dafriedman97/mlbook"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/dafriedman97/mlbook/issues/new?title=Issue%20on%20page%20%2Fcontent/c7/construction.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        <a class="edit-button" href="https://github.com/dafriedman97/mlbook/edit/master/content/c7/construction.ipynb"><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
+    </div>
+</div>
+
+
+        <!-- Full screen (wrap in <a> to have style consistency -->
+        <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+                data-placement="bottom" onclick="toggleFullScreen()" title="Fullscreen mode"><i
+                    class="fas fa-expand"></i></button></a>
+
+        <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/dafriedman97/mlbook/master?urlpath=tree/content/c7/construction.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="../../_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        <a class="colab-button" href="https://colab.research.google.com/github/dafriedman97/mlbook/blob/master/content/c7/construction.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
+                title="Launch Colab" data-toggle="tooltip" data-placement="left"><img class="colab-button-logo"
+                    src="../../_static/images/logo_colab.png"
+                    alt="Interact on Colab">Colab</button></a>
+        
+        
+    </div>
+</div>
+
+    </div>
+
+    <!-- Table of contents -->
+    <div class="d-none d-md-block col-md-2 bd-toc show">
+        <div class="tocsection onthispage pt-5 pb-3">
+            <i class="fas fa-list"></i> Contents
+        </div>
+        <nav id="bd-toc-nav">
+            <ul class="nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#the-loop-approach">
+   1. The Loop Approach
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#the-matrix-approach">
+   2. The Matrix Approach
+  </a>
+ </li>
+</ul>
+
+        </nav>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="construction">
+<h1>Construction<a class="headerlink" href="#construction" title="Permalink to this headline">¶</a></h1>
+<p>In this section, we construct two classes to implement a basic feed-forward neural network. For simplicity, both are limited to one hidden layer, though the number of neurons in the input, hidden, and output layers is flexible. The two differ in how they combine results across observations. The first loops through observations and adds the individual gradients while the second calculates the entire gradient across observatinos in one fell swoop.</p>
+<p>Let’s start by importing <code class="docutils literal notranslate"><span class="pre">numpy</span></code>, some visualization packages, and two datasets: the <a class="reference internal" href="../appendix/data.html"><span class="doc">Boston</span></a> housing and <a class="reference internal" href="../appendix/data.html"><span class="doc">breast cancer</span></a> datasets from <code class="docutils literal notranslate"><span class="pre">scikit-learn</span></code>. We will use the former for regression and the latter for classification. We also split each dataset into a train and test set. This is done with the hidden code cell below</p>
+<div class="cell tag_hide-input docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Import numpy and visualization packages</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span> 
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">datasets</span>
+
+<span class="c1">## Import Boston and standardize</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">123</span><span class="p">)</span>
+<span class="n">boston</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">load_boston</span><span class="p">()</span>
+<span class="n">X_boston</span> <span class="o">=</span> <span class="n">boston</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">]</span>
+<span class="n">X_boston</span> <span class="o">=</span> <span class="p">(</span><span class="n">X_boston</span> <span class="o">-</span> <span class="n">X_boston</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span><span class="o">/</span><span class="p">(</span><span class="n">X_boston</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+<span class="n">y_boston</span> <span class="o">=</span> <span class="n">boston</span><span class="p">[</span><span class="s1">&#39;target&#39;</span><span class="p">]</span>
+
+<span class="c1">## Train-test split</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">123</span><span class="p">)</span>
+<span class="n">test_frac</span> <span class="o">=</span> <span class="mf">0.25</span>
+<span class="n">test_size</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">y_boston</span><span class="p">)</span><span class="o">*</span><span class="n">test_frac</span><span class="p">)</span>
+<span class="n">test_idxs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">y_boston</span><span class="p">)),</span> <span class="n">test_size</span><span class="p">,</span> <span class="n">replace</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
+<span class="n">X_boston_train</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">X_boston</span><span class="p">,</span> <span class="n">test_idxs</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">y_boston_train</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">y_boston</span><span class="p">,</span> <span class="n">test_idxs</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">X_boston_test</span> <span class="o">=</span> <span class="n">X_boston</span><span class="p">[</span><span class="n">test_idxs</span><span class="p">]</span>
+<span class="n">y_boston_test</span> <span class="o">=</span> <span class="n">y_boston</span><span class="p">[</span><span class="n">test_idxs</span><span class="p">]</span>
+
+<span class="c1">## Import cancer and standardize</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">123</span><span class="p">)</span>
+<span class="n">cancer</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">load_breast_cancer</span><span class="p">()</span>
+<span class="n">X_cancer</span> <span class="o">=</span> <span class="n">cancer</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">]</span>
+<span class="n">X_cancer</span> <span class="o">=</span> <span class="p">(</span><span class="n">X_cancer</span> <span class="o">-</span> <span class="n">X_cancer</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span><span class="o">/</span><span class="p">(</span><span class="n">X_cancer</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+<span class="n">y_cancer</span> <span class="o">=</span> <span class="mi">1</span><span class="o">*</span><span class="p">(</span><span class="n">cancer</span><span class="p">[</span><span class="s1">&#39;target&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="c1">## Train-test split</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">123</span><span class="p">)</span>
+<span class="n">test_frac</span> <span class="o">=</span> <span class="mf">0.25</span>
+<span class="n">test_size</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">y_cancer</span><span class="p">)</span><span class="o">*</span><span class="n">test_frac</span><span class="p">)</span>
+<span class="n">test_idxs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">y_cancer</span><span class="p">)),</span> <span class="n">test_size</span><span class="p">,</span> <span class="n">replace</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
+<span class="n">X_cancer_train</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">X_cancer</span><span class="p">,</span> <span class="n">test_idxs</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">y_cancer_train</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">y_cancer</span><span class="p">,</span> <span class="n">test_idxs</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">X_cancer_test</span> <span class="o">=</span> <span class="n">X_cancer</span><span class="p">[</span><span class="n">test_idxs</span><span class="p">]</span>
+<span class="n">y_cancer_test</span> <span class="o">=</span> <span class="n">y_cancer</span><span class="p">[</span><span class="n">test_idxs</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Before constructing classes for our network, let’s build our activation functions. Below we implement the ReLU function, sigmoid function, and the linear function (which simply returns its input). Let’s also combine these functions into a dictionary so we can identify them with a string argument.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Activation Functions </span>
+<span class="k">def</span> <span class="nf">ReLU</span><span class="p">(</span><span class="n">h</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">sigmoid</span><span class="p">(</span><span class="n">h</span><span class="p">):</span>
+    <span class="k">return</span> <span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">h</span><span class="p">))</span>
+    
+<span class="k">def</span> <span class="nf">linear</span><span class="p">(</span><span class="n">h</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">h</span>
+
+<span class="n">activation_function_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;ReLU&#39;</span><span class="p">:</span><span class="n">ReLU</span><span class="p">,</span> <span class="s1">&#39;sigmoid&#39;</span><span class="p">:</span><span class="n">sigmoid</span><span class="p">,</span> <span class="s1">&#39;linear&#39;</span><span class="p">:</span><span class="n">linear</span><span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="the-loop-approach">
+<h2>1. The Loop Approach<a class="headerlink" href="#the-loop-approach" title="Permalink to this headline">¶</a></h2>
+<p>Next, we construct a class for fitting feed-forward networks by looping through observations. This class conducts gradient descent by calculating the gradients based on one observation at a time, looping through all observations, and summing the gradients before adjusting the weights.</p>
+<p>Once instantiated, we fit a network with the <code class="docutils literal notranslate"><span class="pre">fit()</span></code> method. This method requires training data, the number of nodes for the hidden layer, an activation function for the first and second layers’ outputs, a loss function, and some parameters for gradient descent. After storing those values, the method randomly instantiates the network’s weights: <code class="docutils literal notranslate"><span class="pre">W1</span></code>, <code class="docutils literal notranslate"><span class="pre">c1</span></code>, <code class="docutils literal notranslate"><span class="pre">W2</span></code>, and <code class="docutils literal notranslate"><span class="pre">c2</span></code>. It then passes the data through this network to instantiate the output values: <code class="docutils literal notranslate"><span class="pre">h1</span></code>, <code class="docutils literal notranslate"><span class="pre">z1</span></code>, <code class="docutils literal notranslate"><span class="pre">h2</span></code>, and <code class="docutils literal notranslate"><span class="pre">yhat</span></code> (equivalent to <code class="docutils literal notranslate"><span class="pre">z2</span></code>).</p>
+<p>We then begin conducting gradient descent. Within each iteration of the gradient descent process, we also iterate through the observations. For each observation, we calculate the derivative of the loss for that observation with respect to the network’s weights. We then sum these individual derivatives and adjust the weights accordingly, as is typical in gradient descent. The derivatives we calculate are covered in the <a class="reference internal" href="concept.html"><span class="doc">concept section</span></a>.</p>
+<p>Once the network is fit, we can form predictions with the <code class="docutils literal notranslate"><span class="pre">predict()</span></code> method. This simply consists of running test observations through the network and returning their outputs.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">FeedForwardNeuralNetwork</span><span class="p">:</span>
+    
+    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">n_hidden</span><span class="p">,</span> <span class="n">f1</span> <span class="o">=</span> <span class="s1">&#39;ReLU&#39;</span><span class="p">,</span> <span class="n">f2</span> <span class="o">=</span> <span class="s1">&#39;linear&#39;</span><span class="p">,</span> <span class="n">loss</span> <span class="o">=</span> <span class="s1">&#39;RSS&#39;</span><span class="p">,</span> <span class="n">lr</span> <span class="o">=</span> <span class="mf">1e-5</span><span class="p">,</span> <span class="n">n_iter</span> <span class="o">=</span> <span class="mf">1e3</span><span class="p">,</span> <span class="n">seed</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        
+        <span class="c1">## Store Information</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">X</span> <span class="o">=</span> <span class="n">X</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">),</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">N</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">D_X</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">D_y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">D_h</span> <span class="o">=</span> <span class="n">n_hidden</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">f1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">f2</span> <span class="o">=</span> <span class="n">f1</span><span class="p">,</span> <span class="n">f2</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">loss</span> <span class="o">=</span> <span class="n">loss</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lr</span> <span class="o">=</span> <span class="n">lr</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_iter</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">n_iter</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">seed</span> <span class="o">=</span> <span class="n">seed</span>
+        
+        <span class="c1">## Instantiate Weights</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">seed</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">W1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">D_h</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">D_X</span><span class="p">)</span><span class="o">/</span><span class="mi">5</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">c1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">D_h</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="mi">5</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">W2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">D_y</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">D_h</span><span class="p">)</span><span class="o">/</span><span class="mi">5</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">c2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">D_y</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="mi">5</span>
+        
+        <span class="c1">## Instantiate Outputs</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">h1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">W1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="o">.</span><span class="n">T</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">c1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">z1</span> <span class="o">=</span> <span class="n">activation_function_dict</span><span class="p">[</span><span class="n">f1</span><span class="p">](</span><span class="bp">self</span><span class="o">.</span><span class="n">h1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">h2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">W2</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">z1</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">c2</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">yhat</span> <span class="o">=</span> <span class="n">activation_function_dict</span><span class="p">[</span><span class="n">f2</span><span class="p">](</span><span class="bp">self</span><span class="o">.</span><span class="n">h2</span><span class="p">)</span>
+        
+        <span class="c1">## Fit Weights</span>
+        <span class="k">for</span> <span class="n">iteration</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_iter</span><span class="p">):</span>
+            
+            <span class="n">dL_dW2</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">dL_dc2</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">dL_dW1</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">dL_dc1</span> <span class="o">=</span> <span class="mi">0</span>
+            
+            <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">N</span><span class="p">):</span>
+                
+                <span class="c1"># dL_dyhat</span>
+                <span class="k">if</span> <span class="n">loss</span> <span class="o">==</span> <span class="s1">&#39;RSS&#39;</span><span class="p">:</span>
+                    <span class="n">dL_dyhat</span> <span class="o">=</span> <span class="o">-</span><span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">yhat</span><span class="p">[:,</span><span class="n">n</span><span class="p">])</span><span class="o">.</span><span class="n">T</span> <span class="c1"># (1, D_y)</span>
+                <span class="k">elif</span> <span class="n">loss</span> <span class="o">==</span> <span class="s1">&#39;log&#39;</span><span class="p">:</span>
+                    <span class="n">dL_dyhat</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">[</span><span class="n">n</span><span class="p">]</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">yhat</span><span class="p">[:,</span><span class="n">n</span><span class="p">])</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">[</span><span class="n">n</span><span class="p">])</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">yhat</span><span class="p">[:,</span><span class="n">n</span><span class="p">]))</span><span class="o">.</span><span class="n">T</span> <span class="c1"># (1, D_y)</span>
+                
+        
+                <span class="c1">## LAYER 2 ## </span>
+                <span class="c1"># dyhat_dh2 </span>
+                <span class="k">if</span> <span class="n">f2</span> <span class="o">==</span> <span class="s1">&#39;linear&#39;</span><span class="p">:</span>
+                    <span class="n">dyhat_dh2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">D_y</span><span class="p">)</span> <span class="c1"># (D_y, D_y)</span>
+                <span class="k">elif</span> <span class="n">f2</span> <span class="o">==</span> <span class="s1">&#39;sigmoid&#39;</span><span class="p">:</span>
+                    <span class="n">dyhat_dh2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">sigmoid</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">h2</span><span class="p">[:,</span><span class="n">n</span><span class="p">])</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">sigmoid</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">h2</span><span class="p">[:,</span><span class="n">n</span><span class="p">])))</span> <span class="c1"># (D_y, D_y)</span>
+                    
+                <span class="c1"># dh2_dc2</span>
+                <span class="n">dh2_dc2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">D_y</span><span class="p">)</span> <span class="c1"># (D_y, D_y)</span>
+                
+                <span class="c1"># dh2_dW2 </span>
+                <span class="n">dh2_dW2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">D_y</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">D_y</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">D_h</span><span class="p">))</span> <span class="c1"># (D_y, (D_y, D_h)) </span>
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">D_y</span><span class="p">):</span>
+                    <span class="n">dh2_dW2</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">z1</span><span class="p">[:,</span><span class="n">n</span><span class="p">]</span> 
+                
+                <span class="c1"># dh2_dz1</span>
+                <span class="n">dh2_dz1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">W2</span> <span class="c1"># (D_y, D_h)</span>
+                
+                
+                <span class="c1">## LAYER 1 ##</span>
+                <span class="c1"># dz1_dh1</span>
+                <span class="k">if</span> <span class="n">f1</span> <span class="o">==</span> <span class="s1">&#39;ReLU&#39;</span><span class="p">:</span>
+                    <span class="n">dz1_dh1</span> <span class="o">=</span> <span class="mi">1</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">h1</span><span class="p">[:,</span><span class="n">n</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="c1"># (D_h, D_h)                </span>
+                <span class="k">elif</span> <span class="n">f1</span> <span class="o">==</span> <span class="s1">&#39;linear&#39;</span><span class="p">:</span>
+                    <span class="n">dz1_dh1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">D_h</span><span class="p">)</span> <span class="c1"># (D_h, D_h)</span>
+
+                
+                <span class="c1"># dh1_dc1 </span>
+                <span class="n">dh1_dc1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">D_h</span><span class="p">)</span> <span class="c1"># (D_h, D_h)</span>
+                
+                <span class="c1"># dh1_dW1</span>
+                <span class="n">dh1_dW1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">D_h</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">D_h</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">D_X</span><span class="p">))</span> <span class="c1"># (D_h, (D_h, D_X))</span>
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">D_h</span><span class="p">):</span>
+                    <span class="n">dh1_dW1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="p">[</span><span class="n">n</span><span class="p">]</span>
+                
+                
+                <span class="c1">## DERIVATIVES W.R.T. LOSS ## </span>
+                <span class="n">dL_dh2</span> <span class="o">=</span> <span class="n">dL_dyhat</span> <span class="o">@</span> <span class="n">dyhat_dh2</span>
+                <span class="n">dL_dW2</span> <span class="o">+=</span> <span class="n">dL_dh2</span> <span class="o">@</span> <span class="n">dh2_dW2</span>
+                <span class="n">dL_dc2</span> <span class="o">+=</span> <span class="n">dL_dh2</span> <span class="o">@</span> <span class="n">dh2_dc2</span>
+                <span class="n">dL_dh1</span> <span class="o">=</span> <span class="n">dL_dh2</span> <span class="o">@</span> <span class="n">dh2_dz1</span> <span class="o">@</span> <span class="n">dz1_dh1</span>
+                <span class="n">dL_dW1</span> <span class="o">+=</span> <span class="n">dL_dh1</span> <span class="o">@</span> <span class="n">dh1_dW1</span>
+                <span class="n">dL_dc1</span> <span class="o">+=</span> <span class="n">dL_dh1</span> <span class="o">@</span> <span class="n">dh1_dc1</span>
+            
+            <span class="c1">## Update Weights</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">W1</span> <span class="o">-=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lr</span> <span class="o">*</span> <span class="n">dL_dW1</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">c1</span> <span class="o">-=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lr</span> <span class="o">*</span> <span class="n">dL_dc1</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>           
+            <span class="bp">self</span><span class="o">.</span><span class="n">W2</span> <span class="o">-=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lr</span> <span class="o">*</span> <span class="n">dL_dW2</span>            
+            <span class="bp">self</span><span class="o">.</span><span class="n">c2</span> <span class="o">-=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lr</span> <span class="o">*</span> <span class="n">dL_dc2</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>                    
+            
+            <span class="c1">## Update Outputs</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">h1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">W1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="o">.</span><span class="n">T</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">c1</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">z1</span> <span class="o">=</span> <span class="n">activation_function_dict</span><span class="p">[</span><span class="n">f1</span><span class="p">](</span><span class="bp">self</span><span class="o">.</span><span class="n">h1</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">h2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">W2</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">z1</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">c2</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">yhat</span> <span class="o">=</span> <span class="n">activation_function_dict</span><span class="p">[</span><span class="n">f2</span><span class="p">](</span><span class="bp">self</span><span class="o">.</span><span class="n">h2</span><span class="p">)</span>
+            
+    <span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X_test</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">h1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">W1</span><span class="p">,</span> <span class="n">X_test</span><span class="o">.</span><span class="n">T</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">c1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">z1</span> <span class="o">=</span> <span class="n">activation_function_dict</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">f1</span><span class="p">](</span><span class="bp">self</span><span class="o">.</span><span class="n">h1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">h2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">W2</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">z1</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">c2</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">yhat</span> <span class="o">=</span> <span class="n">activation_function_dict</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">f2</span><span class="p">](</span><span class="bp">self</span><span class="o">.</span><span class="n">h2</span><span class="p">)</span>        
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">yhat</span>
+    
+</pre></div>
+</div>
+</div>
+</div>
+<p>Let’s try building a network with this class using the <code class="docutils literal notranslate"><span class="pre">boston</span></code> housing data. This network contains 8 neurons in its hidden layer and uses the ReLU and linear activation functions after the first and second layers, respectively.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ffnn</span> <span class="o">=</span> <span class="n">FeedForwardNeuralNetwork</span><span class="p">()</span>
+<span class="n">ffnn</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_boston_train</span><span class="p">,</span> <span class="n">y_boston_train</span><span class="p">,</span> <span class="n">n_hidden</span> <span class="o">=</span> <span class="mi">8</span><span class="p">)</span>
+<span class="n">y_boston_test_hat</span> <span class="o">=</span> <span class="n">ffnn</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_boston_test</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">scatterplot</span><span class="p">(</span><span class="n">y_boston_test</span><span class="p">,</span> <span class="n">y_boston_test_hat</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xlabel</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;$y$&#39;</span><span class="p">,</span> <span class="n">ylabel</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;$\hat</span><span class="si">{y}</span><span class="s1">$&#39;</span><span class="p">,</span> <span class="n">title</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;$y$ vs. $\hat</span><span class="si">{y}</span><span class="s1">$&#39;</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/construction_9_0.png" src="../../_images/construction_9_0.png" />
+</div>
+</div>
+<p>We can also build a network for binary classification. The model below attempts to predict whether an individual’s cancer is malignant or benign. We use the log loss, the sigmoid activation function after the second layer, and the ReLU function after the first.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ffnn</span> <span class="o">=</span> <span class="n">FeedForwardNeuralNetwork</span><span class="p">()</span>
+<span class="n">ffnn</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_cancer_train</span><span class="p">,</span> <span class="n">y_cancer_train</span><span class="p">,</span> <span class="n">n_hidden</span> <span class="o">=</span> <span class="mi">8</span><span class="p">,</span>
+         <span class="n">loss</span> <span class="o">=</span> <span class="s1">&#39;log&#39;</span><span class="p">,</span> <span class="n">f2</span> <span class="o">=</span> <span class="s1">&#39;sigmoid&#39;</span><span class="p">,</span> <span class="n">seed</span> <span class="o">=</span> <span class="mi">123</span><span class="p">,</span> <span class="n">lr</span> <span class="o">=</span> <span class="mf">1e-4</span><span class="p">)</span>
+<span class="n">y_cancer_test_hat</span> <span class="o">=</span> <span class="n">ffnn</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_cancer_test</span><span class="p">)</span>
+<span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">y_cancer_test_hat</span><span class="o">.</span><span class="n">round</span><span class="p">()</span> <span class="o">==</span> <span class="n">y_cancer_test</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.9929577464788732
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="the-matrix-approach">
+<h2>2. The Matrix Approach<a class="headerlink" href="#the-matrix-approach" title="Permalink to this headline">¶</a></h2>
+<p>Below is a second class for fitting neural networks that runs <em>much</em> faster by simultaneously calculating the gradients across observations. The math behind these calculations is outlined in the <a class="reference internal" href="concept.html"><span class="doc">concept section</span></a>. This class’s fitting algorithm is identical to that of the one above with one big exception: we don’t have to iterate over observations.</p>
+<p>Most of the following gradient calculations are straightforward. A few require a tensor dot product, which is easily done using numpy. Consider the following gradient:</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{\partial \mathcal{L}}{\partial \mathbf{W}^{(L)}_{i, j}} = \sum_{n = 1}^N (\nabla \mathbf{H}^{(L)})_{i, n}\cdot \mathbf{Z}^{(L-1)}_{j, n}.
+\]</div>
+<p>In words, <span class="math notranslate nohighlight">\(\partial\mathcal{L}/\partial \mathbf{W}^{(L)}\)</span> is a matrix whose <span class="math notranslate nohighlight">\((i, j)^\text{th}\)</span> entry equals the sum across the <span class="math notranslate nohighlight">\(i^\text{th}\)</span> row of <span class="math notranslate nohighlight">\(\nabla \mathbf{H}^{(L)}\)</span> multiplied element-wise with the <span class="math notranslate nohighlight">\(j^\text{th}\)</span> row of <span class="math notranslate nohighlight">\(\mathbf{Z}^{(L-1)}\)</span>.</p>
+<p>This calculation can be accomplished with <code class="docutils literal notranslate"><span class="pre">np.tensordot(A,</span> <span class="pre">B,</span> <span class="pre">(1,1))</span></code>, where <code class="docutils literal notranslate"><span class="pre">A</span></code> is <span class="math notranslate nohighlight">\(\nabla \mathbf{H}^{(L)}\)</span> and <code class="docutils literal notranslate"><span class="pre">B</span></code> is <span class="math notranslate nohighlight">\(\mathbf{Z}^{(L-1)}\)</span>. <code class="docutils literal notranslate"><span class="pre">np.tensordot()</span></code> sums the element-wise product of the entries in <code class="docutils literal notranslate"><span class="pre">A</span></code> and the entries in <code class="docutils literal notranslate"><span class="pre">B</span></code> along a specified index. Here we specify the index with <code class="docutils literal notranslate"><span class="pre">(1,1)</span></code>, saying we want to sum across the columns for each.</p>
+<p>Similarly, we will use the following gradient:</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{\partial \mathcal{L}}{\partial \mathbf{Z}^{(L-1)}_{i, n}} = \sum_{d = 1}^{D_y} (\nabla \mathbf{H}^{(L)})_{d, n}\cdot \mathbf{W}^{(L)}_{d, i}.
+\]</div>
+<p>Letting <code class="docutils literal notranslate"><span class="pre">C</span></code> represent <span class="math notranslate nohighlight">\(\mathbf{W}^{(L)}\)</span>, we can calculate this gradient in numpy with <code class="docutils literal notranslate"><span class="pre">np.tensordot(C,</span> <span class="pre">A,</span> <span class="pre">(0,0))</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">FeedForwardNeuralNetwork</span><span class="p">:</span>
+    
+    
+    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">n_hidden</span><span class="p">,</span> <span class="n">f1</span> <span class="o">=</span> <span class="s1">&#39;ReLU&#39;</span><span class="p">,</span> <span class="n">f2</span> <span class="o">=</span> <span class="s1">&#39;linear&#39;</span><span class="p">,</span> <span class="n">loss</span> <span class="o">=</span> <span class="s1">&#39;RSS&#39;</span><span class="p">,</span> <span class="n">lr</span> <span class="o">=</span> <span class="mf">1e-5</span><span class="p">,</span> <span class="n">n_iter</span> <span class="o">=</span> <span class="mf">5e3</span><span class="p">,</span> <span class="n">seed</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        
+        <span class="c1">## Store Information</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">X</span> <span class="o">=</span> <span class="n">X</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Y</span> <span class="o">=</span> <span class="n">Y</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">Y</span><span class="p">),</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">N</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">D_X</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">D_Y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Xt</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="o">.</span><span class="n">T</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Yt</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Y</span><span class="o">.</span><span class="n">T</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">D_h</span> <span class="o">=</span> <span class="n">n_hidden</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">f1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">f2</span> <span class="o">=</span> <span class="n">f1</span><span class="p">,</span> <span class="n">f2</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">loss</span> <span class="o">=</span> <span class="n">loss</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lr</span> <span class="o">=</span> <span class="n">lr</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_iter</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">n_iter</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">seed</span> <span class="o">=</span> <span class="n">seed</span>
+        
+        <span class="c1">## Instantiate Weights</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">seed</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">W1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">D_h</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">D_X</span><span class="p">)</span><span class="o">/</span><span class="mi">5</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">c1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">D_h</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="mi">5</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">W2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">D_Y</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">D_h</span><span class="p">)</span><span class="o">/</span><span class="mi">5</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">c2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">D_Y</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="mi">5</span>
+        
+        <span class="c1">## Instantiate Outputs</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">H1</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">W1</span> <span class="o">@</span> <span class="bp">self</span><span class="o">.</span><span class="n">Xt</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">c1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Z1</span> <span class="o">=</span> <span class="n">activation_function_dict</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">f1</span><span class="p">](</span><span class="bp">self</span><span class="o">.</span><span class="n">H1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">H2</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">W2</span> <span class="o">@</span> <span class="bp">self</span><span class="o">.</span><span class="n">Z1</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">c2</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Yhatt</span> <span class="o">=</span> <span class="n">activation_function_dict</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">f2</span><span class="p">](</span><span class="bp">self</span><span class="o">.</span><span class="n">H2</span><span class="p">)</span>
+        
+        <span class="c1">## Fit Weights</span>
+        <span class="k">for</span> <span class="n">iteration</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_iter</span><span class="p">):</span>
+            
+            <span class="c1"># Yhat #</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">loss</span> <span class="o">==</span> <span class="s1">&#39;RSS&#39;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dL_dYhatt</span> <span class="o">=</span> <span class="o">-</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Yt</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">Yhatt</span><span class="p">)</span> <span class="c1"># (D_Y x N)</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">loss</span> <span class="o">==</span> <span class="s1">&#39;log&#39;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dL_dYhatt</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Yt</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">Yhatt</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">Yt</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">Yhatt</span><span class="p">))</span> <span class="c1"># (D_y x N)</span>
+            
+            <span class="c1"># H2 #</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">f2</span> <span class="o">==</span> <span class="s1">&#39;linear&#39;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dYhatt_dH2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">D_Y</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">N</span><span class="p">))</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">f2</span> <span class="o">==</span> <span class="s1">&#39;sigmoid&#39;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dYhatt_dH2</span> <span class="o">=</span> <span class="n">sigmoid</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">H2</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span> <span class="n">sigmoid</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">H2</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dL_dH2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dL_dYhatt</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">dYhatt_dH2</span> <span class="c1"># (D_Y x N)</span>
+
+            <span class="c1"># c2 # </span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dL_dc2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dL_dH2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="c1"># (D_y)</span>
+            
+            <span class="c1"># W2 # </span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dL_dW2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tensordot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dL_dH2</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Z1</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span> <span class="c1"># (D_Y x D_h)</span>
+            
+            <span class="c1"># Z1 #</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dL_dZ1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tensordot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">W2</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dL_dH2</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span> <span class="c1"># (D_h x N)</span>
+            
+            <span class="c1"># H1 #</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">f1</span> <span class="o">==</span> <span class="s1">&#39;ReLU&#39;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dL_dH1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dL_dZ1</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">H1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="c1"># (D_h x N)</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">f1</span> <span class="o">==</span> <span class="s1">&#39;linear&#39;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dL_dH1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dL_dZ1</span> <span class="c1"># (D_h x N)</span>
+            
+            <span class="c1"># c1 #</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dL_dc1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dL_dH1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="c1"># (D_h)</span>
+            
+            <span class="c1"># W1 # </span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dL_dW1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tensordot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dL_dH1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Xt</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span> <span class="c1"># (D_h, D_X)</span>
+            
+            <span class="c1">## Update Weights</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">W1</span> <span class="o">-=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lr</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">dL_dW1</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">c1</span> <span class="o">-=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lr</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">dL_dc1</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>           
+            <span class="bp">self</span><span class="o">.</span><span class="n">W2</span> <span class="o">-=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lr</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">dL_dW2</span>            
+            <span class="bp">self</span><span class="o">.</span><span class="n">c2</span> <span class="o">-=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lr</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">dL_dc2</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>                    
+            
+            <span class="c1">## Update Outputs</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">H1</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">W1</span> <span class="o">@</span> <span class="bp">self</span><span class="o">.</span><span class="n">Xt</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">c1</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">Z1</span> <span class="o">=</span> <span class="n">activation_function_dict</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">f1</span><span class="p">](</span><span class="bp">self</span><span class="o">.</span><span class="n">H1</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">H2</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">W2</span> <span class="o">@</span> <span class="bp">self</span><span class="o">.</span><span class="n">Z1</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">c2</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">Yhatt</span> <span class="o">=</span> <span class="n">activation_function_dict</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">f2</span><span class="p">](</span><span class="bp">self</span><span class="o">.</span><span class="n">H2</span><span class="p">)</span>  
+            
+    <span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X_test</span><span class="p">):</span>
+        <span class="n">X_testt</span> <span class="o">=</span> <span class="n">X_test</span><span class="o">.</span><span class="n">T</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">h1</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">W1</span> <span class="o">@</span> <span class="n">X_testt</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">c1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">z1</span> <span class="o">=</span> <span class="n">activation_function_dict</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">f1</span><span class="p">](</span><span class="bp">self</span><span class="o">.</span><span class="n">h1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">h2</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">W2</span> <span class="o">@</span> <span class="bp">self</span><span class="o">.</span><span class="n">z1</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">c2</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Yhatt</span> <span class="o">=</span> <span class="n">activation_function_dict</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">f2</span><span class="p">](</span><span class="bp">self</span><span class="o">.</span><span class="n">h2</span><span class="p">)</span>        
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">Yhatt</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We fit networks of this class in the same way as before. Examples of regression with the <code class="docutils literal notranslate"><span class="pre">boston</span></code> housing data and classification with the <code class="docutils literal notranslate"><span class="pre">breast_cancer</span></code> data are shown below.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ffnn</span> <span class="o">=</span> <span class="n">FeedForwardNeuralNetwork</span><span class="p">()</span>
+<span class="n">ffnn</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_boston_train</span><span class="p">,</span> <span class="n">y_boston_train</span><span class="p">,</span> <span class="n">n_hidden</span> <span class="o">=</span> <span class="mi">8</span><span class="p">)</span>
+<span class="n">y_boston_test_hat</span> <span class="o">=</span> <span class="n">ffnn</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_boston_test</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">scatterplot</span><span class="p">(</span><span class="n">y_boston_test</span><span class="p">,</span> <span class="n">y_boston_test_hat</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xlabel</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;$y$&#39;</span><span class="p">,</span> <span class="n">ylabel</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;$\hat</span><span class="si">{y}</span><span class="s1">$&#39;</span><span class="p">,</span> <span class="n">title</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;$y$ vs. $\hat</span><span class="si">{y}</span><span class="s1">$&#39;</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/construction_16_01.png" src="../../_images/construction_16_01.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ffnn</span> <span class="o">=</span> <span class="n">FeedForwardNeuralNetwork</span><span class="p">()</span>
+<span class="n">ffnn</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_cancer_train</span><span class="p">,</span> <span class="n">y_cancer_train</span><span class="p">,</span> <span class="n">n_hidden</span> <span class="o">=</span> <span class="mi">8</span><span class="p">,</span>
+         <span class="n">loss</span> <span class="o">=</span> <span class="s1">&#39;log&#39;</span><span class="p">,</span> <span class="n">f2</span> <span class="o">=</span> <span class="s1">&#39;sigmoid&#39;</span><span class="p">,</span> <span class="n">seed</span> <span class="o">=</span> <span class="mi">123</span><span class="p">,</span> <span class="n">lr</span> <span class="o">=</span> <span class="mf">1e-4</span><span class="p">)</span>
+<span class="n">y_cancer_test_hat</span> <span class="o">=</span> <span class="n">ffnn</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_cancer_test</span><span class="p">)</span>
+<span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">y_cancer_test_hat</span><span class="o">.</span><span class="n">round</span><span class="p">()</span> <span class="o">==</span> <span class="n">y_cancer_test</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.9929577464788732
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./content/c7"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+        </div>
+    </div>
+    
+    
+    <div class='prev-next-bottom'>
+        
+    <a class='left-prev' id="prev-link" href="concept.html" title="previous page">Concept</a>
+    <a class='right-next' id="next-link" href="code.html" title="next page">Implementation</a>
+
+    </div>
+    <footer class="footer mt-5 mt-md-0">
+    <div class="container">
+      <p>
+        
+          By Danny Friedman<br/>
+        
+            &copy; Copyright 2020.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+
+    <script src="../../_static/js/index.js"></script>
+    
+  </body>
+</html>
