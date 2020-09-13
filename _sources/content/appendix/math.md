@@ -48,7 +48,7 @@ $$
 \begin{align*}
 f(x) &= g(x) + h(x) \rightarrow f'(x) = g'(x) + h'(x) \\
 f(x) &= g(x)\cdot h(x) \rightarrow f'(x)= g'(x)h(x) + g(x)h'(x)\\
-f(x) &= g(x)/h(x) \rightarrow f'(x) = \frac{h(x)g'(x) + g(x)h'(x)}{h(x)^2}.
+f(x) &= g(x)/h(x) \rightarrow f'(x) = \frac{h(x)g'(x) - g(x)h'(x)}{h(x)^2}.
 \end{align*}
 $$
 Finally, we will heavily rely on the chain rule:
