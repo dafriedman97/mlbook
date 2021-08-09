@@ -211,8 +211,8 @@ We get our parameter estimates by setting this derivative equal to 0 and solving
 
 $$
 \begin{align}
-(\bX^\top \bPhi)\bbetahat &= \bX^\top \by \\\
-\bbetahat &= (\bX^\top\bX)^\top\bX^\top \by
+(\bX^\top \bX)\bbetahat &= \bX^\top \by \\\
+\bbetahat = (\bX^\top\bX)^{-1}\bX^\top \by
 \end{align}
 $$
 
