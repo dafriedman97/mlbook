@@ -212,9 +212,10 @@ We get our parameter estimates by setting this derivative equal to 0 and solving
 $$
 \begin{align}
 (\bX^\top \bPhi)\bbetahat &= \bX^\top \by \\\
-\bbetahat &= (\bX^\top\bX)^\top\bX^\top \by
+\bbetahat &= (\bX^\top\bX)^{-1} \bX^\top \by,
 \end{align}
 $$
+provided that $\bX$ has linearly independent columns.
 
 
 [^ref1]: A helpful guide for matrix calculus is [The Matrix Cookbook](https://www.math.uwaterloo.ca/~hwolkowi/matrixcookbook.pdf)
