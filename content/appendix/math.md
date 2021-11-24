@@ -136,7 +136,7 @@ and the derivative of $\bu$ with respect to $a$ is given by
 
 
 $$
-\dadb{\bu}{a} = \begin{pmatrix} \dadb{u_1}{a} \\ ... \\ \dadb{u_I}{a} \end{pmatrix} \R^I.
+\dadb{\bu}{a} = \begin{pmatrix} \dadb{u_1}{a} \\ ... \\ \dadb{u_I}{a} \end{pmatrix} \in \R^I.
 $$
 
 
@@ -160,7 +160,7 @@ and conversely the derivative of $a$ with respect to $\bX$ is given by
 
 
 $$
-\dadb{a}{\bX} =  \begin{pmatrix} \dadb{a}{X_{11}} & ... & \dadb{a}{X_{1D}} \\ & ... & \\ \dadb{a}{X_{N1}} & ... & \dadb{a}{X_{ND}} \end{pmatrix}  \in \R^{N \times D}.
+\dadb{a}{\bX} =  \begin{pmatrix} \dadb{a}{X_{11}} & ... & \dadb{a}{X_{N1}} \\ & ... & \\ \dadb{a}{X_{1D}} & ... & \dadb{a}{X_{ND}} \end{pmatrix}  \in \R^{N \times D}.
 $$
 
 
