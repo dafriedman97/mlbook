@@ -10,13 +10,13 @@ Many machine learning methods are rooted in probability theory. Probabilistic me
 
 ### Random Variables
 
-A **random variable** is a variable whose value is randomly determined. The set of possible values a random variable can take on is called the variable's **support**. An example of a random variable is the value on a die roll. This variable's support is $\{1, 2, 3, 4, 5, 6\}$. Random variables will be represented with uppercase letters and values in their support with lowercase letters. For instance $X = x$ implies that a random variable $X$ happened to take on value $x$. Letting $X$ be the value of a die roll, $X = 4$ indicates that the die landed on 4. 
+A **random variable** is a variable whose value is randomly determined. The set of possible values a random variable can take on is called the variable's **support**. An example of a random variable is the value on a die roll. This variable's support is \{1, 2, 3, 4, 5, 6\}\{1, 2, 3, 4, 5, 6\}. Random variables will be represented with uppercase letters and values in their support with lowercase letters. For instance X = xX = x implies that a random variable XX happened to take on value xx. Letting XX be the value of a die roll, X = 4X = 4 indicates that the die landed on 4. 
 
 
 
 ### Density Functions
 
-The likelihood that a random variable takes on a given value is determined through its density function. For a discrete random variable (one that can take on a finite set of values), this density function is called the **probability mass function** **(PMF)**. The PMF of a random variable $X$ gives the probability that $X$ will equal some value $x$. We write it as $f_X(x)$ or just $f(x)$, and it is defined as 
+The likelihood that a random variable takes on a given value is determined through its density function. For a discrete random variable (one that can take on a finite set of values), this density function is called the **probability mass function** **(PMF)**. The PMF of a random variable XX gives the probability that XX will equal some value xx. We write it as f_X(x)f_X(x) or just f(x)f(x), and it is defined as 
 
 
 $$
@@ -24,7 +24,7 @@ f(x) = P(X = x).
 $$
 
 
-For a continuous random variable (one that can take on infinitely many values), the density function is called the **probability density function (PDF)**. The PDF $f_X(x)$ of a continuous random variable $X$ does not give $P(X = x)$ but it does determine the probability that $X$ lands in a certain range. Specifically,
+For a continuous random variable (one that can take on infinitely many values), the density function is called the **probability density function (PDF)**. The PDF f_X(x)f_X(x) of a continuous random variable XX does not give P(X = x)P(X = x) but it does determine the probability that XX lands in a certain range. Specifically,
 
 
 $$
@@ -32,7 +32,7 @@ P(a \leq X \leq b) = \int_{x = a}^b f(x) dx.
 $$
 
 
-That is, integrating $f(x)$ over a certain range gives the probability of $X$ being in that range. While $f(x)$ does not give the probability that $X$ will equal a certain value, it does indicate the relative likelihood that it will be *around* that value. E.g. if $f(a) > f(b)$, we can say $X$ is more likely to be in an arbitrarily small area around the value $a$ than around the value $b$.  
+That is, integrating f(x)f(x) over a certain range gives the probability of XX being in that range. While f(x)f(x) does not give the probability that XX will equal a certain value, it does indicate the relative likelihood that it will be *around* that value. E.g. if f(a) > f(b)f(a) > f(b), we can say XX is more likely to be in an arbitrarily small area around the value aa than around the value bb.  
 
 
 
@@ -40,11 +40,11 @@ That is, integrating $f(x)$ over a certain range gives the probability of $X$ be
 
 A random variable's **distribution** is determined by its density function. Variables with the same density function are said to follow the same distributions. Certain families of distributions are very common in probability and machine learning. Two examples are given below.
 
-The **Bernoulli** distribution is the most simple probability distribution and it describes the likelihood of the outcomes of a binary event. Let $X$ be a random variable that equals 1 (representing "success") with probability $p$ and 0 (representing "failure") with probability $1-p$. Then, $X$ is said to follow the Bernoulli distribution with probability parameter $p$, written $X \sim \text{Bern}(p)$, and its PMF is given by
+The **Bernoulli** distribution is the most simple probability distribution and it describes the likelihood of the outcomes of a binary event. Let XX be a random variable that equals 1 (representing "success") with probability pp and 0 (representing "failure") with probability 1-p1-p. Then, XX is said to follow the Bernoulli distribution with probability parameter pp, written X \sim \text{Bern}(p)X \sim \text{Bern}(p), and its PMF is given by
 
 
 $$
-f_X(x) = p^x(1-p)^{(1-x)}.
+f_X(x) = $\binom{n}{k}$ p^x(1-p)^{(1-x)}.
 $$
 
 
